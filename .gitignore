@@ -31,3 +31,8 @@ logs/
 # Operating system files
 .DS_Store
 Thumbs.db
+
+
+# Local source archive and duplicate extracted copy
+/HANFIS_Python_7Input/
+/HANFIS_Python_7Input.zip
