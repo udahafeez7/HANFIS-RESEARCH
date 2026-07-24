@@ -1,0 +1,25 @@
+{
+  "experiment_id": "EXP-2026-001",
+  "scenario_id": "SCENARIO-NORMAL-001",
+  "asset_id": "jetson-orin-nano-01",
+  "timestamp_start": "2026-07-23T06:00:00Z",
+  "timestamp_end": "2026-07-23T06:01:00Z",
+  "vulnerability_layer": {
+    "cvss": 0.88,
+    "exploitability": 0.72,
+    "patch_risk": 0.75
+  },
+  "environmental_layer": {
+    "mfa_risk": 0.2,
+    "kubernetes_exposure": 0.45,
+    "asset_criticality": 0.75
+  },
+  "integration_layer": {
+    "threat_intelligence": 0.68
+  },
+  "targets": {
+    "vulnerability_target": 0.79,
+    "environment_target": 0.48,
+    "dynamic_risk_target": 0.73
+  }
+}

@@ -1,0 +1,167 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hanfis.local/schemas/hanfis-telemetry-v1.schema.json",
+  "title": "HANFIS Telemetry Record Version 1",
+  "description": "Schema untuk memvalidasi satu record telemetri keamanan HANFIS dalam jendela observasi 60 detik.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "experiment_id",
+    "scenario_id",
+    "asset_id",
+    "timestamp_start",
+    "timestamp_end",
+    "vulnerability_layer",
+    "environmental_layer",
+    "integration_layer"
+  ],
+  "properties": {
+    "experiment_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 100,
+      "description": "Identitas unik eksperimen."
+    },
+    "scenario_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 100,
+      "description": "Identitas skenario normal atau serangan."
+    },
+    "asset_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 150,
+      "description": "Identitas host, server, Jetson, container, pod, atau layanan."
+    },
+    "timestamp_start": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "Z$",
+      "description": "Waktu awal observasi dalam format ISO 8601 UTC."
+    },
+    "timestamp_end": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "Z$",
+      "description": "Waktu akhir observasi dalam format ISO 8601 UTC."
+    },
+    "vulnerability_layer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "cvss",
+        "exploitability",
+        "patch_risk"
+      ],
+      "properties": {
+        "cvss": {
+          "$ref": "#/$defs/normalizedRiskValue",
+          "description": "CVSS Base Score yang telah dinormalisasi dari rentang 0–10 menjadi 0–1."
+        },
+        "exploitability": {
+          "$ref": "#/$defs/normalizedRiskValue",
+          "description": "Probabilitas kerentanan dieksploitasi, terutama berdasarkan EPSS."
+        },
+        "patch_risk": {
+          "$ref": "#/$defs/normalizedRiskValue",
+          "description": "Risiko akibat patch yang tidak tersedia, belum diterapkan, atau terlambat diterapkan."
+        }
+      }
+    },
+    "environmental_layer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "mfa_risk",
+        "kubernetes_exposure",
+        "asset_criticality"
+      ],
+      "properties": {
+        "mfa_risk": {
+          "$ref": "#/$defs/normalizedRiskValue",
+          "description": "Risiko autentikasi berdasarkan penerapan Multi-Factor Authentication."
+        },
+        "kubernetes_exposure": {
+          "$ref": "#/$defs/normalizedRiskValue",
+          "description": "Tingkat paparan workload Kubernetes berdasarkan konfigurasi keamanan."
+        },
+        "asset_criticality": {
+          "$ref": "#/$defs/normalizedRiskValue",
+          "description": "Tingkat kepentingan aset terhadap layanan dan operasi organisasi."
+        }
+      }
+    },
+    "integration_layer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "threat_intelligence"
+      ],
+      "properties": {
+        "threat_intelligence": {
+          "$ref": "#/$defs/normalizedRiskValue",
+          "description": "Tingkat ancaman berdasarkan threat intelligence eksternal dan aktivitas ancaman lokal."
+        }
+      }
+    },
+    "targets": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "vulnerability_target",
+        "environment_target",
+        "dynamic_risk_target"
+      ],
+      "properties": {
+        "vulnerability_target": {
+          "$ref": "#/$defs/normalizedRiskValue",
+          "description": "Target pembelajaran untuk Vulnerability Layer."
+        },
+        "environment_target": {
+          "$ref": "#/$defs/normalizedRiskValue",
+          "description": "Target pembelajaran untuk Environmental Layer."
+        },
+        "dynamic_risk_target": {
+          "$ref": "#/$defs/normalizedRiskValue",
+          "description": "Target akhir Dynamic Risk Score HANFIS."
+        }
+      },
+      "description": "Target wajib untuk data pelatihan, tetapi dapat dihilangkan dari record inferensi."
+    }
+  },
+  "$defs": {
+    "normalizedRiskValue": {
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 1.0
+    }
+  },
+  "examples": [
+    {
+      "experiment_id": "EXP-2026-001",
+      "scenario_id": "SCENARIO-NORMAL-001",
+      "asset_id": "jetson-orin-nano-01",
+      "timestamp_start": "2026-07-23T06:00:00Z",
+      "timestamp_end": "2026-07-23T06:01:00Z",
+      "vulnerability_layer": {
+        "cvss": 0.88,
+        "exploitability": 0.72,
+        "patch_risk": 0.75
+      },
+      "environmental_layer": {
+        "mfa_risk": 0.2,
+        "kubernetes_exposure": 0.45,
+        "asset_criticality": 0.75
+      },
+      "integration_layer": {
+        "threat_intelligence": 0.68
+      },
+      "targets": {
+        "vulnerability_target": 0.79,
+        "environment_target": 0.48,
+        "dynamic_risk_target": 0.73
+      }
+    }
+  ]
+}
