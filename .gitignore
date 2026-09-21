@@ -36,3 +36,26 @@ Thumbs.db
 # Local source archive and duplicate extracted copy
 /HANFIS_Python_7Input/
 /HANFIS_Python_7Input.zip
+# HANFIS generated evidence, private data, and archives
+/Archive/
+/data/
+/results_python/
+/Jetson Orin/Telemetry/Archive/
+/Jetson Orin/Telemetry/Archives/
+/Jetson Orin/Telemetry/Raw/
+/Jetson Orin/Telemetry/RunsV3/
+/Jetson Orin/Telemetry/RunsV4/
+/Jetson Orin/Telemetry/Gateway/
+/Jetson Orin/Telemetry/hanfis_protocol_v3/**/independent_review_packets/
+/Jetson Orin/Telemetry/hanfis_protocol_v3/**/frozen_applicability_evidence/
+/Jetson Orin/Telemetry/hanfis_protocol_v3/**/backup_before_*/
+/Jetson Orin/Telemetry/hanfis_protocol_v3/**/*_live_dry_*/
+/Jetson Orin/Telemetry/hanfis_protocol_v3/**/*_freeze_*/
+/Jetson Orin/Telemetry/hanfis_protocol_v3/**/source_gate_v*/p0_*/
+**/raw_cve_records/
+**/pods/
+*.tar.gz
+*.tar.gz.sha256
+
+# Generated Kubernetes/Prometheus manifests
+/Kubernetes/Observability/*-rendered.yaml

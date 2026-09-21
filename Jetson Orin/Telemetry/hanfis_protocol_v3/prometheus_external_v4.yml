@@ -1,0 +1,31 @@
+global:
+  scrape_interval: 5s
+  scrape_timeout: 4s
+  evaluation_interval: 5s
+
+scrape_configs:
+  - job_name: external-cadvisor-worker
+    scheme: https
+    metrics_path: /metrics/cadvisor
+    authorization:
+      type: Bearer
+      credentials_file: /etc/prometheus/token
+    tls_config:
+      insecure_skip_verify: true
+    static_configs:
+      - targets: [desktop-worker:10250]
+        labels:
+          scrape_node: desktop-worker
+
+  - job_name: external-cadvisor-control-plane
+    scheme: https
+    metrics_path: /metrics/cadvisor
+    authorization:
+      type: Bearer
+      credentials_file: /etc/prometheus/token
+    tls_config:
+      insecure_skip_verify: true
+    static_configs:
+      - targets: [desktop-control-plane:10250]
+        labels:
+          scrape_node: desktop-control-plane

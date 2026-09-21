@@ -1,0 +1,66 @@
+{
+  "schema_version": "1.0",
+  "project": "ANFIS Cybersecurity Dynamic Risk Assessment",
+  "inputs": {
+    "cvss": {
+      "type": "float",
+      "minimum": 0.0,
+      "maximum": 10.0,
+      "risk_direction": "higher_is_riskier"
+    },
+    "exploitability": {
+      "type": "float",
+      "minimum": 0.0,
+      "maximum": 10.0,
+      "risk_direction": "higher_is_riskier"
+    },
+    "asset_criticality": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 5,
+      "risk_direction": "higher_is_riskier"
+    },
+    "mfa_risk": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 2,
+      "categories": {
+        "0": "Strong MFA or FIDO2",
+        "1": "Weak or limited MFA",
+        "2": "No MFA"
+      },
+      "risk_direction": "higher_is_riskier"
+    },
+    "kubernetes_exposure": {
+      "type": "float",
+      "minimum": 0.0,
+      "maximum": 10.0,
+      "risk_direction": "higher_is_riskier"
+    },
+    "patch_risk": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 2,
+      "categories": {
+        "0": "Patched",
+        "1": "Patch available but not applied",
+        "2": "No patch or critically overdue"
+      },
+      "risk_direction": "higher_is_riskier"
+    },
+    "threat_intelligence": {
+      "type": "float",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "risk_direction": "higher_is_riskier"
+    }
+  },
+  "output": {
+    "dynamic_risk_score": {
+      "type": "float",
+      "minimum": 0.0,
+      "maximum": 100.0,
+      "risk_direction": "higher_is_riskier"
+    }
+  }
+}

@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.0",
+  "project": "HANFIS Cybersecurity Dynamic Risk Assessment",
+  "data_stage": "expert_labeling",
+  "description": "Schema for expert-generated HANFIS training labels. Labels must be assigned independently from Jetson telemetry collection.",
+  "join_key": "event_id",
+  "row_identity": [
+    "event_id",
+    "labeler_id",
+    "label_timestamp_utc"
+  ],
+  "fields": {
+    "event_id": {
+      "type": "string",
+      "required": true,
+      "description": "Unique event identifier matching hanfis_source_data.csv"
+    },
+    "labeler_id": {
+      "type": "string",
+      "required": true,
+      "description": "Pseudonymous identifier of the cybersecurity expert"
+    },
+    "label_timestamp_utc": {
+      "type": "string",
+      "format": "date-time",
+      "required": true,
+      "description": "Labeling timestamp in UTC using ISO 8601 format"
+    },
+    "vulnerability_target": {
+      "type": "float",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "required": true,
+      "risk_direction": "higher_is_riskier",
+      "description": "Expert assessment of vulnerability-related risk"
+    },
+    "environment_target": {
+      "type": "float",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "required": true,
+      "risk_direction": "higher_is_riskier",
+      "description": "Expert assessment of environmental and operational risk"
+    },
+    "dynamic_risk_target": {
+      "type": "float",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "required": true,
+      "risk_direction": "higher_is_riskier",
+      "description": "Overall dynamic cybersecurity risk assigned by the expert"
+    },
+    "label_confidence": {
+      "type": "float",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "required": true,
+      "description": "Expert confidence in the assigned labels"
+    }
+  },
+  "target_interpretation": {
+    "0.00": "Very low risk",
+    "0.25": "Low risk",
+    "0.50": "Moderate risk",
+    "0.75": "High risk",
+    "1.00": "Critical risk"
+  },
+  "quality_rules": {
+    "event_id_must_exist_in": "data/real/hanfis_source_data.csv",
+    "minimum_labelers_per_event": 3,
+    "labelers_must_work_independently": true,
+    "recommended_aggregation_method": "median",
+    "missing_target_values_allowed": false,
+    "target_values_must_be_normalized": true,
+    "timestamp_timezone": "UTC"
+  }
+}

@@ -1,0 +1,55 @@
+{
+  "schema_version": "1.2",
+  "capture_timestamp_utc": "2026-09-14T06:32:52Z",
+  "evidence_directory": "/mnt/c/Research/ANFIS/data/evidence/primary_environment_20260914T063252Z",
+  "evidence_files": {
+    "capture_timestamp_utc.txt": "035747c3c9dfee6a8b94d52cc967fba042d69573d048aa4233e1bb755229f1d0",
+    "kubernetes_context.txt": "97f6930ef8968c1e4338463e7df8b3a5c2ec626bdbab2936e392fe5fed5f476f",
+    "kubernetes_nodes.csv": "5743f890b348d1a7f82316068a03610df9aa5aa5a51129be79f394993cd018e3",
+    "kubernetes_services.csv": "2f9feef82dde4982ad43f813825ea9277515a99b9cf2cc2a07addb2c2c98e20f",
+    "kubernetes_deployments.csv": "9c8590209c51fa15d0d09761370301dc74b23039cf2bf42bc8199aa97803354b",
+    "kubernetes_statefulsets.csv": "f573f1807583cb4bff240ec5204ab3fea3f8256e919f37f8762fad1e4a906cc1",
+    "kubernetes_pods.csv": "fd658eac0302c7495f1fd93e6bc11d5e83e74480e3e8311cb23306a5f096a849",
+    "kubernetes_networkpolicies.csv": "a64796e62c873e16e5d01c402cf863bbd094fe2547132a6ac03dfb4086854843",
+    "docker_running_containers.txt": "7494565e7aea5fb9c5a6a9a51727432f210db4ec065be59b526ba3832093a6f3",
+    "python_version.txt": "5b3e43dc38ca01e3f5a7854ba50d4330864b0c1e0f646650b2c78cf072acc366"
+  },
+  "counts": {
+    "nodes": 2,
+    "services": 12,
+    "nodeport_services": 1,
+    "deployments": 6,
+    "statefulsets": 1,
+    "pods": 20,
+    "network_policies": 0,
+    "unique_images": 16
+  },
+  "nodeport_service_records": [
+    "hanfis-research   p0-baseline-nodeport-v4                      NodePort    10.96.165.125   <none>        80                 30080"
+  ],
+  "container_images": [
+    "curlimages/curl:8.11.1",
+    "docker.io/kindest/kindnetd:v20260528-9350166c",
+    "docker.io/kindest/local-path-provisioner:v20260521-9fb22683",
+    "nginxinc/nginx-unprivileged:1.27-alpine",
+    "quay.io/prometheus-operator/prometheus-config-reloader:v0.93.0",
+    "quay.io/prometheus-operator/prometheus-operator:v0.93.0",
+    "quay.io/prometheus/node-exporter:v1.12.1-distroless",
+    "quay.io/prometheus/prometheus:v3.13.2-distroless",
+    "registry.k8s.io/coredns/coredns:v1.14.2",
+    "registry.k8s.io/etcd:3.6.8-0",
+    "registry.k8s.io/kube-apiserver:v1.36.1",
+    "registry.k8s.io/kube-controller-manager:v1.36.1",
+    "registry.k8s.io/kube-proxy:v1.36.1",
+    "registry.k8s.io/kube-scheduler:v1.36.1",
+    "registry.k8s.io/kube-state-metrics/kube-state-metrics:v2.19.1",
+    "registry.k8s.io/metrics-server/metrics-server:v0.9.0"
+  ],
+  "research_status": {
+    "environment_evidence": "PASS",
+    "asset_candidates": "DISCOVERED",
+    "cve_mapping": "PENDING",
+    "risk_labels": "PENDING",
+    "eligible_for_training": false
+  }
+}

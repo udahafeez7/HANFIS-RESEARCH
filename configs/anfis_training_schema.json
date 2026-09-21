@@ -1,0 +1,70 @@
+{
+  "schema_version": "1.0",
+  "project": "HANFIS Cybersecurity Dynamic Risk Assessment",
+  "data_stage": "normalized_training_data",
+  "scale": {
+    "minimum": 0.0,
+    "maximum": 1.0
+  },
+  "inputs": {
+    "cvss": {
+      "type": "float",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "risk_direction": "higher_is_riskier"
+    },
+    "exploitability": {
+      "type": "float",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "risk_direction": "higher_is_riskier"
+    },
+    "patch_risk": {
+      "type": "float",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "risk_direction": "higher_is_riskier"
+    },
+    "mfa_risk": {
+      "type": "float",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "risk_direction": "higher_is_riskier"
+    },
+    "kubernetes_exposure": {
+      "type": "float",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "risk_direction": "higher_is_riskier"
+    },
+    "asset_criticality": {
+      "type": "float",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "risk_direction": "higher_is_riskier"
+    },
+    "threat_intelligence": {
+      "type": "float",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "risk_direction": "higher_is_riskier"
+    }
+  },
+  "targets": {
+    "vulnerability_target": {
+      "type": "float",
+      "minimum": 0.0,
+      "maximum": 1.0
+    },
+    "environment_target": {
+      "type": "float",
+      "minimum": 0.0,
+      "maximum": 1.0
+    },
+    "dynamic_risk_target": {
+      "type": "float",
+      "minimum": 0.0,
+      "maximum": 1.0
+    }
+  }
+}

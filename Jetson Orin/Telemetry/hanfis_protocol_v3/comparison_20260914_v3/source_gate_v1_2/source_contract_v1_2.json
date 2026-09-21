@@ -1,0 +1,39 @@
+{
+  "contract_version": "1.2",
+  "required_fields": [
+    "event_id",
+    "timestamp_utc",
+    "asset_id",
+    "evidence_id",
+    "evidence_source",
+    "attack_technique",
+    "cvss",
+    "exploitability",
+    "patch_risk",
+    "mfa_risk",
+    "kubernetes_exposure",
+    "asset_criticality",
+    "threat_intelligence",
+    "complexity_resilience_index",
+    "impact",
+    "base_score"
+  ],
+  "numeric_ranges": {
+    "cvss": [0.0, 10.0],
+    "exploitability": [0.0, 10.0],
+    "patch_risk": [0.0, 1.0],
+    "mfa_risk": [0.0, 1.0],
+    "kubernetes_exposure": [0.0, 1.0],
+    "asset_criticality": [0.0, 1.0],
+    "threat_intelligence": [0.0, 1.0],
+    "complexity_resilience_index": [0.0, 100.0],
+    "impact": [0.0, 10.0],
+    "base_score": [0.0, 10.0]
+  },
+  "rules": {
+    "event_id_unique": true,
+    "timestamp_must_be_utc": true,
+    "primary_evidence_required": true,
+    "external_reference_only_not_trainable": true
+  }
+}

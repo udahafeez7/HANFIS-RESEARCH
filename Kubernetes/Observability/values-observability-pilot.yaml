@@ -1,0 +1,57 @@
+# HANFIS Kubernetes Observability Pilot
+# Raw scrape interval: 5 seconds
+# Research aggregation window: 30 seconds
+
+defaultRules:
+  create: false
+
+alertmanager:
+  enabled: false
+
+grafana:
+  enabled: false
+
+kubeEtcd:
+  enabled: false
+
+kubeControllerManager:
+  enabled: false
+
+kubeScheduler:
+  enabled: false
+
+kubeProxy:
+  enabled: false
+
+prometheus:
+  enabled: true
+  prometheusSpec:
+    scrapeInterval: 5s
+    scrapeTimeout: 4s
+    evaluationInterval: 30s
+    retention: 48h
+    retentionSize: 2GB
+    walCompression: true
+    enableAdminAPI: false
+
+    resources:
+      requests:
+        cpu: 200m
+        memory: 512Mi
+      limits:
+        cpu: "2"
+        memory: 2Gi
+
+prometheusOperator:
+  enabled: true
+
+kubeStateMetrics:
+  enabled: true
+
+nodeExporter:
+  enabled: true
+
+kubelet:
+  serviceMonitor:
+    interval: 5s
+  enabled: true
