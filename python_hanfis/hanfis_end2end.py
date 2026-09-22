@@ -177,9 +177,18 @@ class SugenoPanel(nn.Module):
         gram = phi.T @ phi + ridge * torch.eye(phi.shape[1], device=x.device, dtype=x.dtype)
         beta = torch.linalg.solve(gram, phi.T @ y).reshape(self.rule_count, -1)
         if self.monotone:
-            # projected least squares: clamp slopes to >= 0, then store the softplus pre-image
+            # Projected least squares is a crude projection: clamping slopes to >= 0 and then
+            # refitting nothing leaves the intercepts stale, which is why E1 showed a large
+            # penalty for monotone + gauss. Refit the intercepts with the slopes held fixed
+            # (a second, well-posed least-squares problem), so the projection stays consistent.
             slopes = beta[:, 1:].clamp_min(1e-4)
-            beta = torch.cat([beta[:, :1], torch.log(torch.expm1(slopes))], dim=1)
+            n_in = self.n_inputs
+            phi_slope = (w[:, :, None] * x[:, None, :]).reshape(x.shape[0], -1)          # (N, R*n_in)
+            residual = y - phi_slope @ slopes.reshape(-1)
+            phi_int = w                                                                   # (N, R)
+            gram_i = phi_int.T @ phi_int + ridge * torch.eye(self.rule_count, device=x.device, dtype=x.dtype)
+            intercepts = torch.linalg.solve(gram_i, phi_int.T @ residual)
+            beta = torch.cat([intercepts[:, None], torch.log(torch.expm1(slopes))], dim=1)
         self.consequents.copy_(beta)
 
 

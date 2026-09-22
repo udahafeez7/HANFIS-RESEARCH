@@ -132,6 +132,19 @@ class TestHanfisEndToEnd(unittest.TestCase):
         panel.solve_consequents(x, y)
         self.assertTrue(bool((panel.effective_consequents()[:, 1:] >= 0).all()))
 
+    def test_monotone_lse_refits_intercepts(self):
+        """Patch 0009: after projecting slopes to >= 0 the intercepts are refitted, so the
+        projected solution stays close to the unconstrained one on monotone data."""
+        torch.manual_seed(0)
+        x = torch.rand(400, 3)
+        y = 0.4 * x[:, 0] + 0.3 * x[:, 1] + 0.2 * x[:, 2]       # monotone target
+        free = SugenoPanel([2, 2, 2]); free.solve_consequents(x, y)
+        mono = SugenoPanel([2, 2, 2], monotone=True); mono.solve_consequents(x, y)
+        mse_free = torch.mean((free(x) - y) ** 2).item()
+        mse_mono = torch.mean((mono(x) - y) ** 2).item()
+        self.assertTrue(bool((mono.effective_consequents()[:, 1:] >= 0).all()))
+        self.assertLess(mse_mono, mse_free + 1e-3)
+
     def test_rule_trace_shapes(self):
         model = HANFIS(m_raw=2, m_intermediate=3)
         trace = model.rule_trace(torch.rand(10, 7))

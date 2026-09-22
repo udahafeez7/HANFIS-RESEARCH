@@ -26,3 +26,22 @@ C24 vs C34 vs C54 hybrid are statistically indistinguishable on synthetic data (
 S2 0.117/0.117/0.126). A non-zero restart index was selected in 18 of 30 HANFIS runs, confirming that
 initialisation basins, not capacity, caused the earlier failures. Frozen for E4: hybrid LSE + Adam,
 3 restarts, patience 100, min_epochs 200, lr 1e-2, ridge 1e-3 (A-09).
+
+## 2026-09-22 (night): E1 ablation and the monotone-consequent fix
+
+E1 (C34, hybrid, 3 restarts, 5 seeds) on WSL/PyTorch:
+
+| mf_family | monotone | params | S1 median | S2 median | monotonicity violations |
+|---|---|---|---|---|---|
+| gauss   | off | 176 | 0.099 | 0.137 | 0.4% |
+| gauss   | on  | 176 | 0.353 | 5.677 | 0.3% |
+| ruspini | off | 147 | 0.020 | 0.631 | 0.6% |
+| ruspini | on  | 147 | 0.052 | 1.907 | 0.9% |
+
+The monotone penalty was an artefact of the crude projection in solve_consequents: slopes were
+clamped to >= 0 while the intercepts kept their unconstrained values. Patch 0009 refits the
+intercepts with the slopes held fixed (a second well-posed least-squares problem). JAX check
+(3 seeds): S1 0.103 / 0.567 / 0.157 and S2 0.186 / 5.473 / 0.282 for mono=off / projection only /
+projection + intercept refit. Ruspini wins on S1 (fewer parameters, lower error) but loses on S2,
+where sharp sigmoid gates favour the smoother Gaussian overlap; the E1 decision is therefore
+re-run after patch 0009 before E4 is configured.
