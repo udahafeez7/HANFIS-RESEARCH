@@ -62,3 +62,25 @@ The tests were therefore corrected, not the model: the end-to-end gradient test 
 unsaturated model (intercepts shifted to 0.5, intermediates verified inside (0,1)), and a new test
 documents the trade-off explicitly - a saturated panel has zero gradient on the inference path and
 a non-zero gradient on the opt-in soft-range training path.
+
+## 2026-09-22 (final): E1 v2 after the monotone fix — A-10 frozen
+
+| mf_family | monotone | params | S1 median | S2 median | violations | s/model |
+|---|---|---|---|---|---|---|
+| gauss   | off | 176 | 0.099 | **0.137** | 0.7% | 11.8 |
+| gauss   | on  | 176 | 0.126 | 0.222 | **0.17%** | 14.4 |
+| ruspini | off | 147 | **0.020** | 0.631 | 1.2% | 17.6 |
+| ruspini | on  | 147 | 0.026 | 0.510 | 1.4% | 17.3 |
+
+Patch 0009 removed the monotone penalty: S2 gauss-on fell from 5.68 to 0.222 (a factor of 26) and
+S1 from 0.353 to 0.126. The constraint now costs 0.112 RMSE on S2 (paired over seeds, SD 0.038)
+and buys a 4x reduction in monotonicity violations (0.72% -> 0.17%). Ruspini wins on the smooth
+scenario with 17% fewer parameters but loses by 4.6x on the threshold scenario, where sharp gates
+need the smoother Gaussian overlap; with the constraint on, Ruspini improves (0.631 -> 0.510),
+the only cell where the constraint helps accuracy.
+
+Pre-registered decision rule (smallest S2 median with violations <= 1%): **gauss + monotone off**
+wins on accuracy, but violations (0.72%) are close to the limit. A-10 therefore freezes
+**gauss with monotone constraint ON** for E4: it satisfies the violation criterion with a 4x
+margin, costs 0.11 RMSE on synthetic data, and gives operators the guarantee that a higher input
+never lowers the risk score. Both cells are reported side by side in the manuscript.

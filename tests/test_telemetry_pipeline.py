@@ -90,6 +90,23 @@ class TestTelemetryPipeline(unittest.TestCase):
         v3 = df[df["pair_id"] == "v3pair"]
         self.assertTrue((v3["gate_status"] == "PASS").all())
 
+    def test_v3_collector_csv_parsing(self):
+        import tempfile
+        d = Path(tempfile.mkdtemp())
+        pd.DataFrame({"seq": [1, 1, 2, 2], "timestamp_utc": ["t"] * 4, "node": ["a", "b", "a", "b"],
+                      "cpu_cores": ["40m", "60m", "44m", "56m"], "cpu_pct": ["1%", "2%", "1%", "2%"],
+                      "memory_bytes": ["1Gi", "1Gi", "1Gi", "1Gi"], "memory_pct": ["10%"] * 4}).to_csv(d / "nodes.csv", index=False)
+        pd.DataFrame({"seq": [1, 1, 2, 2], "timestamp_utc": ["t"] * 4, "pod": ["p1", "p2", "p1", "p2"],
+                      "container": ["c"] * 4, "cpu": ["1m", "2m", "1m", "1m"],
+                      "memory": ["15Mi", "15Mi", "14Mi", "16Mi"]}).to_csv(d / "p0_containers.csv", index=False)
+        pd.DataFrame(columns=["seq", "timestamp_utc", "pod", "container", "cpu", "memory"]).to_csv(d / "monitoring_containers.csv", index=False)
+        out = tidy_pairs.v3_resource_stats(d)
+        self.assertAlmostEqual(out["node_cpu_mcores_mean"], 100.0)   # per-sample sum over nodes, then mean
+        self.assertAlmostEqual(out["mem_p0_mean_mib"], 30.0)
+        self.assertAlmostEqual(out["cpu_monitoring_mcores_mean"], 0.0)
+        self.assertAlmostEqual(tidy_pairs._cpu_to_mcores("250000n"), 0.25)
+        self.assertAlmostEqual(tidy_pairs._memory_to_mib("512Ki"), 0.5)
+
     def test_sign_flip_floor_small_n(self):
         d = np.array([0.3, 0.4, 0.2, 0.5])
         self.assertAlmostEqual(analyze_pairs.exact_sign_flip_p(d), 2 / 16)

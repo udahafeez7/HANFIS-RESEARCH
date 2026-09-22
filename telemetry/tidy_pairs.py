@@ -81,6 +81,77 @@ def latency_stats(http_csv: Path) -> dict:
     return out
 
 
+def _cpu_to_mcores(value) -> float:
+    """kubectl top strings: '12m' -> 12 mCPU, '1' -> 1000 mCPU, '250000n' -> 0.25 mCPU."""
+    text = str(value).strip()
+    if not text or text in ("<none>", "nan"):
+        return float("nan")
+    if text.endswith("m"):
+        return float(text[:-1])
+    if text.endswith("n"):
+        return float(text[:-1]) / 1e6
+    if text.endswith("u"):
+        return float(text[:-1]) / 1e3
+    return float(text) * 1000.0
+
+
+def _memory_to_mib(value) -> float:
+    """'200Mi' -> 200, '1Gi' -> 1024, '512Ki' -> 0.5, plain bytes -> MiB."""
+    text = str(value).strip()
+    if not text or text in ("<none>", "nan"):
+        return float("nan")
+    for suffix, factor in (("Ki", 1 / 1024), ("Mi", 1.0), ("Gi", 1024.0), ("Ti", 1024.0 * 1024)):
+        if text.endswith(suffix):
+            return float(text[: -len(suffix)]) * factor
+    return float(text) / 2**20
+
+
+def _percent(value) -> float:
+    text = str(value).strip().rstrip("%")
+    try:
+        return float(text)
+    except ValueError:
+        return float("nan")
+
+
+def v3_resource_stats(server: Path) -> dict:
+    """Protocol v3 collector output: nodes.csv, p0_containers.csv, monitoring_containers.csv.
+
+    Per-sample sums are taken first (a pod may have several containers), then averaged, so the
+    numbers are directly comparable with the v4 utilisation summaries.
+    """
+    out: dict[str, float] = {}
+    nodes = server / "nodes.csv"
+    if nodes.exists():
+        df = pd.read_csv(nodes)
+        if len(df):
+            df["cpu_mcores"] = df["cpu_cores"].map(_cpu_to_mcores)
+            df["memory_mib"] = df["memory_bytes"].map(_memory_to_mib)
+            df["cpu_pct_value"] = df["cpu_pct"].map(_percent)
+            per_sample = df.groupby("seq")[["cpu_mcores", "memory_mib"]].sum()
+            out["node_cpu_mcores_mean"] = float(per_sample["cpu_mcores"].mean())
+            out["node_memory_mib_mean"] = float(per_sample["memory_mib"].mean())
+            out["cpu_utilization_percent_mean"] = float(df.groupby("seq")["cpu_pct_value"].mean().mean())
+            out["node_mean_cores"] = out["node_cpu_mcores_mean"] / 1000.0
+            out["v3_node_samples"] = int(per_sample.shape[0])
+    for name, label in (("p0_containers.csv", "p0"), ("monitoring_containers.csv", "monitoring")):
+        path = server / name
+        if not path.exists():
+            continue
+        df = pd.read_csv(path)
+        if df.empty:
+            out[f"cpu_{label}_mcores_mean"] = 0.0
+            out[f"mem_{label}_mean_mib"] = 0.0
+            continue
+        df["cpu_mcores"] = df["cpu"].map(_cpu_to_mcores)
+        df["memory_mib"] = df["memory"].map(_memory_to_mib)
+        per_sample = df.groupby("seq")[["cpu_mcores", "memory_mib"]].sum()
+        out[f"cpu_{label}_mcores_mean"] = float(per_sample["cpu_mcores"].mean())
+        out[f"mem_{label}_mean_mib"] = float(per_sample["memory_mib"].mean())
+        out[f"mem_{label}_p95_mib"] = float(per_sample["memory_mib"].quantile(0.95))
+    return out
+
+
 def utilization_stats(server: Path) -> dict:
     out = {}
     summ = server / "utilization_summary.csv"
@@ -196,6 +267,7 @@ def tidy(root: Path, source_label: str = "") -> pd.DataFrame:
             row.update(utilization_stats(server))
             row.update(memory_stats(server))
             row.update(cpu_stats(server))
+            row.update(v3_resource_stats(server))   # protocol v3 collector layout (patch 0011)
             gates = []
             if not (ok_s and ok_c):
                 gates.append("SHA256")

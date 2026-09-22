@@ -28,6 +28,8 @@ METRICS = [
     "cpu_utilization_percent_mean", "cpu_utilization_percent_p95_nearest_rank",
     "memory_utilization_percent_mean", "node_mean_cores",
     "mem_p0_mean_mib", "mem_monitoring_mean_mib", "tegra_cpu_pct_mean",
+    # protocol v3 collector metrics (patch 0011)
+    "node_cpu_mcores_mean", "node_memory_mib_mean", "cpu_p0_mcores_mean", "cpu_monitoring_mcores_mean",
 ]
 
 
