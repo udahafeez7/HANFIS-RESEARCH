@@ -84,3 +84,16 @@ wins on accuracy, but violations (0.72%) are close to the limit. A-10 therefore 
 **gauss with monotone constraint ON** for E4: it satisfies the violation criterion with a 4x
 margin, costs 0.11 RMSE on synthetic data, and gives operators the guarantee that a higher input
 never lowers the risk score. Both cells are reported side by side in the manuscript.
+
+## 2026-09-22 (final, telemetry): ten v3 pairs analysed — F3 closed, overhead quantified
+
+With the v3 collector CSVs parsed (patch 0011), all ten complete pairs of Runs 7-16 pass and the
+paired analysis reaches significance where it should:
+
+- node CPU +99.36 mCPU (CI [96.29, 103.35], p = 0.002, d_z = 16.5); monitoring namespace only
+  +39.79 mCPU -> pod-level accounting understates node cost by ~2.5x;
+- node memory +280.76 MiB (CI [250.99, 303.54]); monitoring namespace +204.19 MiB;
+- latency median/P95/P99: fail to reject (p = 0.86 / 0.61 / 0.27), CI for P95 [-0.13, +0.27] ms.
+
+Manuscript section drafted at manuscript/results_efficiency.tex with the numbers in
+manuscript/results_efficiency_numbers.csv.
