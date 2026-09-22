@@ -28,7 +28,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "python_hanfis"))
 
 from hanfis_7input_experiment import FEATURES, split_indices, synthetic_dataset  # noqa: E402
-from hanfis_end2end import HANFIS, SugenoPanel, fit_adam, fit_hybrid, predict  # noqa: E402
+from hanfis_end2end import HANFIS, SugenoPanel, fit_adam, fit_hybrid, fit_hybrid_restarts, predict  # noqa: E402
 
 
 def synthetic_threshold(n: int, seed: int) -> pd.DataFrame:
@@ -60,11 +60,17 @@ class FlatWrapper(torch.nn.Module):
         self.panel = SugenoPanel([m] * 7)
         self.integration = self.panel  # so fit_hybrid can solve consequents on the single panel
 
-    def integration_input(self, x: torch.Tensor) -> torch.Tensor:
+    def integration_input(self, x: torch.Tensor, clamp: bool = True) -> torch.Tensor:
         return x
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         return torch.clamp(self.panel(x), 0.0, 1.0)
+
+    def training_forward(self, x: torch.Tensor):
+        return self.panel(x), torch.zeros((), dtype=x.dtype)
+
+    def init_from_data(self, x: np.ndarray) -> None:
+        self.panel.init_centers_from_quantiles(np.asarray(x, dtype=np.float32))
 
     @property
     def rule_count(self) -> int:
@@ -93,6 +99,7 @@ def main() -> None:
     ap.add_argument("--seeds", type=int, default=5)
     ap.add_argument("--samples", type=int, default=900)
     ap.add_argument("--epochs", type=int, default=600)
+    ap.add_argument("--restarts", type=int, default=3, help="pre-registered restarts for hybrid (patch 0003)")
     args = ap.parse_args()
     args.output.mkdir(parents=True, exist_ok=True)
 
@@ -110,10 +117,14 @@ def main() -> None:
                     torch.manual_seed(seed)
                     model = build(config)
                     t0 = time.time()
-                    fit = fit_hybrid if opt == "hybrid" else fit_adam
-                    hist = fit(model, x[tr], y[tr], x[va], y[va], epochs=args.epochs)
+                    if opt == "hybrid":
+                        # patch 0003: best of 3 pre-registered initialisations (validation loss only)
+                        model, hist = fit_hybrid_restarts(lambda c=config: build(c), x[tr], y[tr], x[va], y[va],
+                                                          n_restarts=args.restarts, seed=seed, epochs=args.epochs)
+                    else:
+                        hist = fit_adam(model, x[tr], y[tr], x[va], y[va], epochs=args.epochs)
                     m = metrics(y[te], predict(model, x[te]))
-                    rows.append({"scenario": sname, "seed": seed, "config": config, "optimizer": opt,
+                    rows.append({"scenario": sname, "seed": seed, "config": config, "optimizer": opt, "restart": hist.get("restart", 0),
                                  "rules": model.rule_count, "params": model.parameter_count, **m,
                                  "best_epoch": hist["best_epoch"], "train_s": round(time.time() - t0, 2)})
                     print(rows[-1], flush=True)

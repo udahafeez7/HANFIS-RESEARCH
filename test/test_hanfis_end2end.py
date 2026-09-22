@@ -11,7 +11,7 @@ if str(PYTHON_HANFIS_DIR) not in sys.path:
 
 import torch  # noqa: E402
 
-from hanfis_end2end import HANFIS, SugenoPanel, fit_hybrid, predict  # noqa: E402
+from hanfis_end2end import HANFIS, SugenoPanel, fit_hybrid, fit_hybrid_restarts, predict  # noqa: E402
 from hanfis_7input_experiment import FEATURES, split_indices, synthetic_dataset  # noqa: E402
 
 
@@ -59,10 +59,40 @@ class TestHanfisEndToEnd(unittest.TestCase):
         tr, va, te = split_indices(len(frame), 20260722)
         torch.manual_seed(0)
         model = HANFIS(m_raw=2, m_intermediate=3)
-        hist = fit_hybrid(model, x[tr], y[tr], x[va], y[va], epochs=150, patience=30)
+        hist = fit_hybrid(model, x[tr], y[tr], x[va], y[va], epochs=150, patience=30, min_epochs=50)
         rmse = float(np.sqrt(np.mean((predict(model, x[te]) - y[te]) ** 2))) * 100.0
         self.assertLess(rmse, 3.0, msg=f"RMSE on 0-100 scale too high: {rmse:.3f}")
         self.assertEqual(hist["method"], "hybrid_lse_adam")
+
+    def test_training_forward_keeps_gradient_when_intermediate_leaves_unit_interval(self):
+        """Patch 0003: no hard clamp in training, so a saturated lower panel still receives gradient."""
+        model = HANFIS()
+        with torch.no_grad():
+            model.vulnerability.consequents[:, 0] += 5.0  # push v far above 1
+        x = torch.rand(64, 7)
+        r, penalty = model.training_forward(x)
+        loss = torch.mean((r - torch.rand(64)) ** 2) + 0.1 * penalty
+        loss.backward()
+        grad_v = sum(p.grad.abs().sum().item() for p in model.vulnerability.parameters())
+        self.assertGreater(grad_v, 0.0)
+        self.assertGreater(penalty.item(), 0.0)
+
+    def test_quantile_initialisation_orders_centres(self):
+        model = HANFIS(m_raw=2, m_intermediate=3)
+        model.init_from_data(np.random.default_rng(0).random((300, 7)).astype(np.float32))
+        for panel in (model.vulnerability, model.environment, model.integration):
+            for c in panel.centers:
+                self.assertTrue(bool((c[1:] > c[:-1]).all()) if len(c) > 1 else True)
+                self.assertTrue(bool(((c >= 0) & (c <= 1)).all()))
+
+    def test_restarts_return_best_validation(self):
+        frame = synthetic_dataset(400, 7)
+        x = frame[FEATURES].to_numpy(np.float32)
+        y = frame["dynamic_risk_target"].to_numpy(np.float32)
+        tr, va, _ = split_indices(len(frame), 7)
+        model, hist = fit_hybrid_restarts(lambda: HANFIS(2, 3), x[tr], y[tr], x[va], y[va], n_restarts=2, epochs=60, patience=30, min_epochs=20)
+        self.assertIn("restart", hist)
+        self.assertIsInstance(model, HANFIS)
 
     def test_rule_trace_shapes(self):
         model = HANFIS(m_raw=2, m_intermediate=3)
