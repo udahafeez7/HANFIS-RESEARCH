@@ -115,6 +115,10 @@ def main() -> None:
     rows = []
     for proto, grp in pairs.groupby("protocol"):
         rows += effects(grp, f"protocol={proto}")
+    if "order" in pairs.columns:  # order-balance sensitivity within the largest stratum
+        big = pairs.groupby("protocol").size().idxmax()
+        for order, grp in pairs[pairs["protocol"] == big].groupby("order"):
+            rows += effects(grp, f"protocol={big}|order={order}")
     rows += effects(pairs, "ALL_protocols_pooled_(sensitivity_only)")
     res = pd.DataFrame(rows)
     res.to_csv(args.output, index=False)

@@ -78,6 +78,18 @@ class TestTelemetryPipeline(unittest.TestCase):
         self.assertAlmostEqual(row["p_floor"], 2 / 64)
         self.assertLessEqual(row["sign_flip_p"], 0.05)
 
+    def test_v3_protocol_not_gated_on_utilization_samples(self):
+        pair = self.tmp / "v3pair"
+        make_condition(pair / "on", 30, "on", 2.3, samples=0)
+        make_condition(pair / "off", 30, "off", 2.0, samples=0)
+        for c in ("on", "off"):
+            meta = pair / c / "server" / "metadata.txt"
+            meta.write_text(meta.read_text().replace("PROTOCOL=external-prometheus-v4.2", "PROTOCOL=external-v3.0"), encoding="utf-8")
+            _manifest(pair / c / "server", ["metadata.txt", "utilization_samples.csv", "utilization_summary.csv", "memory_summary.csv", "node_cpu_counter_delta.csv"])
+        df = tidy_pairs.tidy(self.tmp)
+        v3 = df[df["pair_id"] == "v3pair"]
+        self.assertTrue((v3["gate_status"] == "PASS").all())
+
     def test_sign_flip_floor_small_n(self):
         d = np.array([0.3, 0.4, 0.2, 0.5])
         self.assertAlmostEqual(analyze_pairs.exact_sign_flip_p(d), 2 / 16)

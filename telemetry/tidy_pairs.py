@@ -206,8 +206,11 @@ def tidy(root: Path, source_label: str = "") -> pd.DataFrame:
                 gates.append("META")
             if not row["run"]:
                 gates.append("META")
-            if row.get("utilization_samples", 0) < 64:
+            # utilisation gate (64 samples) exists only from protocol v4.2 onward; v3.x collectors never wrote it
+            utilization_gated = "v4" in str(row["protocol"]).lower() and "utilization" in str(row["protocol"]).lower() or "v4.2" in str(row["protocol"])
+            if utilization_gated and row.get("utilization_samples", 0) < 64:
                 gates.append("SAMPLES")
+            row["protocol_family"] = "v4" if "v4" in str(row["protocol"]) else ("v3" if "v3" in str(row["protocol"]) else "unknown")
             row["gate_status"] = "PASS" if not gates else "HOLD:" + "+".join(gates)
             rows.append(row)
     return pd.DataFrame(rows)
