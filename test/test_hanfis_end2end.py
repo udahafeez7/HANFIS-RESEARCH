@@ -77,6 +77,15 @@ class TestHanfisEndToEnd(unittest.TestCase):
         self.assertGreater(grad_v, 0.0)
         self.assertGreater(penalty.item(), 0.0)
 
+    def test_every_registered_parameter_receives_gradient(self):
+        """Patch 0008: no dead parameters for either MF family (they would break the gradient test and Adam groups)."""
+        for mf in ("gauss", "ruspini"):
+            model = HANFIS(2, 3, mf_family=mf)
+            loss = torch.mean((model(torch.rand(32, 7)) - torch.rand(32)) ** 2)
+            loss.backward()
+            for name, p in model.named_parameters():
+                self.assertIsNotNone(p.grad, msg=f"{mf}: {name} has no gradient")
+
     def test_quantile_initialisation_orders_centres(self):
         model = HANFIS(m_raw=2, m_intermediate=3)
         model.init_from_data(np.random.default_rng(0).random((300, 7)).astype(np.float32))
@@ -106,6 +115,7 @@ class TestHanfisEndToEnd(unittest.TestCase):
             self.assertTrue(bool((mu >= 0).all()))
             c = panel.ruspini_centers(i)
             self.assertTrue(bool((c[1:] > c[:-1]).all()))
+            c = c.detach()
             self.assertAlmostEqual(float(c[0]), 0.0); self.assertAlmostEqual(float(c[-1]), 1.0, places=5)
 
     def test_ruspini_parameter_count(self):

@@ -64,16 +64,23 @@ class SugenoPanel(nn.Module):
         self.monotone = monotone
         self.m_per_input = list(int(m) for m in m_per_input)
         self.n_inputs = len(self.m_per_input)
-        self.centers = nn.ParameterList(
-            [nn.Parameter(torch.linspace(0.25, 0.75, m) if m > 1 else torch.tensor([0.5])) for m in self.m_per_input]
-        )
-        self.log_sigmas = nn.ParameterList(
-            [nn.Parameter(torch.full((m,), float(np.log(0.25)))) for m in self.m_per_input]
-        )
-        # ruspini: raw widths (m-1 per input) -> normalised knots in [0,1]
-        self.raw_widths = nn.ParameterList(
-            [nn.Parameter(torch.zeros(max(m - 1, 1))) for m in self.m_per_input]
-        )
+        # Only the parameters of the active MF family are registered, so every registered
+        # parameter takes part in the forward pass and receives a gradient (patch 0008).
+        if mf_family == "gauss":
+            self.centers = nn.ParameterList(
+                [nn.Parameter(torch.linspace(0.25, 0.75, m) if m > 1 else torch.tensor([0.5])) for m in self.m_per_input]
+            )
+            self.log_sigmas = nn.ParameterList(
+                [nn.Parameter(torch.full((m,), float(np.log(0.25)))) for m in self.m_per_input]
+            )
+            self.raw_widths = None
+        else:
+            self.centers = None
+            self.log_sigmas = None
+            # ruspini: raw widths (m-1 per input) -> normalised knots in [0,1]
+            self.raw_widths = nn.ParameterList(
+                [nn.Parameter(torch.zeros(max(m - 1, 1))) for m in self.m_per_input]
+            )
         rules = list(itertools.product(*[range(m) for m in self.m_per_input]))
         self.register_buffer("rule_indices", torch.tensor(rules, dtype=torch.long))
         self.consequents = nn.Parameter(torch.zeros(len(rules), self.n_inputs + 1))
@@ -135,16 +142,24 @@ class SugenoPanel(nn.Module):
 
     @torch.no_grad()
     def init_centers_from_quantiles(self, x: np.ndarray) -> None:
-        """Place MF centres on data quantiles; sigma ~ 0.6 x spacing (patch 0003)."""
+        """Place MF centres on data quantiles (patch 0003). Gauss: sigma ~ 0.6 x spacing.
+        Ruspini: interior knots on quantiles, encoded back into positive widths."""
         for i, m in enumerate(self.m_per_input):
             col = np.asarray(x[:, i], dtype=np.float32)
-            if m > 1:
-                q = np.quantile(col, np.linspace(0, 1, m + 2)[1:-1])
-                spacing = float(q[1] - q[0])
-            else:
-                q, spacing = np.array([np.median(col)]), 0.5
-            self.centers[i].copy_(torch.as_tensor(q, dtype=torch.float32))
-            self.log_sigmas[i].fill_(float(np.log(max(spacing * 0.6, 0.05))))
+            if self.mf_family == "gauss":
+                if m > 1:
+                    q = np.quantile(col, np.linspace(0, 1, m + 2)[1:-1])
+                    spacing = float(q[1] - q[0])
+                else:
+                    q, spacing = np.array([np.median(col)]), 0.5
+                self.centers[i].copy_(torch.as_tensor(q, dtype=torch.float32))
+                self.log_sigmas[i].fill_(float(np.log(max(spacing * 0.6, 0.05))))
+            elif m > 1:
+                knots = np.concatenate([np.quantile(np.clip(col, 0, 1), np.linspace(0, 1, m)[1:-1]), [1.0]])
+                widths = np.clip(np.diff(np.concatenate([[0.0], knots])), 1e-3, None)
+                # inverse of softplus(w) + 1e-3 = width  ->  raw = log(exp(width - 1e-3) - 1)
+                raw = np.log(np.expm1(np.clip(widths - 1e-3, 1e-4, None)))
+                self.raw_widths[i].copy_(torch.as_tensor(raw, dtype=torch.float32))
 
     @torch.no_grad()
     def solve_consequents(self, x: torch.Tensor, y: torch.Tensor, ridge: float | None = 1e-3) -> None:
