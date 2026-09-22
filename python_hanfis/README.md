@@ -51,3 +51,20 @@ Required normalized columns are `cvss`, `exploitability`, `patch_risk`,
 
 The synthetic labels validate the computation pipeline only. Publication-level
 claims require real telemetry and independently justified/annotated targets.
+
+## End-to-end HANFIS (amendments A-02, A-06) — `hanfis_end2end.py`
+
+`HANFIS(m_raw=2, m_intermediate=3)` composes three `SugenoPanel`s and is
+trained end-to-end on the final risk score only (no intermediate targets):
+
+- `m_intermediate=2` → 24 rules / 132 parameters (historical configuration C24)
+- `m_intermediate=3` → 34 rules / 176 parameters (configuration C34, A-02)
+
+Use `fit_hybrid` (closed-form ridge LSE for the Integration consequents +
+Adam for premises and lower panels). `fit_adam` is kept only for the E2
+comparison; pure gradient training was unstable end-to-end in E-INT
+(`reference/eint_results/eint_summary.csv`).
+
+```bash
+python experiments/exp_integration_mf.py --output results_python/eint --seeds 5
+```
