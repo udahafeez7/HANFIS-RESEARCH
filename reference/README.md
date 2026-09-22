@@ -45,3 +45,20 @@ intercepts with the slopes held fixed (a second well-posed least-squares problem
 projection + intercept refit. Ruspini wins on S1 (fewer parameters, lower error) but loses on S2,
 where sharp sigmoid gates favour the smoother Gaussian overlap; the E1 decision is therefore
 re-run after patch 0009 before E4 is configured.
+
+## 2026-09-22 (late): clamp, gradients and why the test — not the model — was wrong
+
+`test_gradients_reach_lower_panels` failed with grad_v == 0 on a freshly initialised HANFIS: with
+consequents drawn from N(0, 0.05) the lower panels output values outside [0,1], the inference
+clamp saturates, and the gradient of a saturated clamp is zero. Two candidate fixes were compared
+in JAX before touching the code:
+
+- straight-through clamp (forward value unchanged, gradient passed through): identical forward
+  values and non-zero gradients, but training got worse — S1 RMSE 0.090 -> 0.987,
+  S2 1.262 -> 4.047 (3 seeds, hybrid, no restarts). Rejected.
+- keep the hard clamp (verified configuration A-09) and rely on pre-registered restarts: retained.
+
+The tests were therefore corrected, not the model: the end-to-end gradient test now uses an
+unsaturated model (intercepts shifted to 0.5, intermediates verified inside (0,1)), and a new test
+documents the trade-off explicitly - a saturated panel has zero gradient on the inference path and
+a non-zero gradient on the opt-in soft-range training path.
