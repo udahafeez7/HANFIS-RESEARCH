@@ -17,3 +17,12 @@ Run (requires `pip install jax jaxlib`): `python reference/exp_integration_mf_ja
 - Ablation on the failing seed (C34, S2, seed 4; baseline RMSE 3.53 @ epoch 152):
   restart with a fresh initialisation 0.12 / 0.27; soft range only 1.83; premise lr only 1.99;
   quantile init only 3.48. Remedy adopted: pre-registered restarts (best of 3 on validation loss).
+
+## 2026-09-22 (evening): patch 0003 verified on WSL/PyTorch — training configuration frozen (A-09)
+
+`eint_results/eint_p3_*`: with best-of-3 pre-registered restarts and patience 100 / min 200 epochs,
+every hybrid seed converged (max RMSE 0.116 S1, 0.169 S2 on the 0-100 scale; criterion "< 1.0" met).
+C24 vs C34 vs C54 hybrid are statistically indistinguishable on synthetic data (S1 0.090/0.093/0.077;
+S2 0.117/0.117/0.126). A non-zero restart index was selected in 18 of 30 HANFIS runs, confirming that
+initialisation basins, not capacity, caused the earlier failures. Frozen for E4: hybrid LSE + Adam,
+3 restarts, patience 100, min_epochs 200, lr 1e-2, ridge 1e-3 (A-09).

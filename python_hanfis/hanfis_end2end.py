@@ -42,10 +42,26 @@ from torch import nn
 
 
 class SugenoPanel(nn.Module):
-    """First-order Sugeno ANFIS with Gaussian MFs and a per-input MF count."""
+    """First-order Sugeno ANFIS with a per-input MF count.
 
-    def __init__(self, m_per_input: Sequence[int]) -> None:
+    mf_family:
+      "gauss"   - free Gaussian MFs (centre, log-sigma per MF): 2m premise parameters per input.
+      "ruspini" - connected triangular partition of unity on [0,1] (A-03, after Juston et al. 2024):
+                  the m centres are ordered, the two outer ones are pinned to 0 and 1, and the
+                  m-2 interior centres are learned through normalised positive widths, so the
+                  memberships of every input sum to one at every point. m-1 premise parameters
+                  per input; no sigma.
+    monotone: if True (A-04) the consequent slopes are constrained non-negative through
+              softplus so each rule output is non-decreasing in every input (higher_is_riskier).
+              The intercepts stay free.
+    """
+
+    def __init__(self, m_per_input: Sequence[int], mf_family: str = "gauss", monotone: bool = False) -> None:
         super().__init__()
+        if mf_family not in ("gauss", "ruspini"):
+            raise ValueError(f"unknown mf_family {mf_family!r}")
+        self.mf_family = mf_family
+        self.monotone = monotone
         self.m_per_input = list(int(m) for m in m_per_input)
         self.n_inputs = len(self.m_per_input)
         self.centers = nn.ParameterList(
@@ -53,6 +69,10 @@ class SugenoPanel(nn.Module):
         )
         self.log_sigmas = nn.ParameterList(
             [nn.Parameter(torch.full((m,), float(np.log(0.25)))) for m in self.m_per_input]
+        )
+        # ruspini: raw widths (m-1 per input) -> normalised knots in [0,1]
+        self.raw_widths = nn.ParameterList(
+            [nn.Parameter(torch.zeros(max(m - 1, 1))) for m in self.m_per_input]
         )
         rules = list(itertools.product(*[range(m) for m in self.m_per_input]))
         self.register_buffer("rule_indices", torch.tensor(rules, dtype=torch.long))
@@ -63,20 +83,55 @@ class SugenoPanel(nn.Module):
     def rule_count(self) -> int:
         return int(self.rule_indices.shape[0])
 
+    @property
+    def premise_parameter_count(self) -> int:
+        if self.mf_family == "gauss":
+            return sum(2 * m for m in self.m_per_input)
+        return sum(max(m - 1, 0) for m in self.m_per_input)
+
+    def effective_consequents(self) -> torch.Tensor:
+        """Consequent matrix actually used (A-04 applies softplus to the slopes)."""
+        if not self.monotone:
+            return self.consequents
+        return torch.cat([self.consequents[:, :1], torch.nn.functional.softplus(self.consequents[:, 1:])], dim=1)
+
+    def ruspini_centers(self, i: int) -> torch.Tensor:
+        m = self.m_per_input[i]
+        if m == 1:
+            return torch.tensor([0.5], device=self.raw_widths[i].device)
+        widths = torch.nn.functional.softplus(self.raw_widths[i]) + 1e-3     # m-1 positive widths
+        knots = torch.cumsum(widths, dim=0) / widths.sum()                   # (m-1,) in (0,1], last == 1
+        return torch.cat([torch.zeros(1, device=knots.device), knots])       # (m,): 0 < c1 < ... < 1
+
+    def memberships(self, x: torch.Tensor, i: int) -> torch.Tensor:
+        """Membership of input i, shape (N, m_i)."""
+        xi = x[:, i : i + 1]
+        if self.mf_family == "gauss":
+            sigma = torch.exp(self.log_sigmas[i]).clamp_min(1e-3)
+            return torch.exp(-0.5 * ((xi - self.centers[i][None, :]) / sigma[None, :]) ** 2)
+        c = self.ruspini_centers(i)
+        m = c.shape[0]
+        if m == 1:
+            return torch.ones_like(xi)
+        left = torch.cat([c[:1] - 1.0, c[:-1]])           # c_{j-1}, with a virtual point left of 0
+        right = torch.cat([c[1:], c[-1:] + 1.0])          # c_{j+1}, with a virtual point right of 1
+        up = torch.clamp((xi - left[None, :]) / (c - left)[None, :], 0.0, 1.0)
+        down = 1.0 - torch.clamp((xi - c[None, :]) / (right - c)[None, :], 0.0, 1.0)
+        mu = up * down
+        mu[:, 0] = torch.where(xi[:, 0] <= c[0], torch.ones_like(mu[:, 0]), mu[:, 0])
+        mu[:, -1] = torch.where(xi[:, 0] >= c[-1], torch.ones_like(mu[:, -1]), mu[:, -1])
+        return mu
+
     def firing(self, x: torch.Tensor) -> torch.Tensor:
         """Normalised firing strengths, shape (N, R)."""
-        selected = []
-        for i in range(self.n_inputs):
-            sigma = torch.exp(self.log_sigmas[i]).clamp_min(1e-3)
-            mu = torch.exp(-0.5 * ((x[:, i : i + 1] - self.centers[i][None, :]) / sigma[None, :]) ** 2)
-            selected.append(mu[:, self.rule_indices[:, i]])
+        selected = [self.memberships(x, i)[:, self.rule_indices[:, i]] for i in range(self.n_inputs)]
         w = torch.stack(selected, dim=-1).prod(dim=-1)
         return w / w.sum(dim=1, keepdim=True).clamp_min(1e-12)
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         w = self.firing(x)
         xa = torch.cat([torch.ones((x.shape[0], 1), device=x.device, dtype=x.dtype), x], dim=1)
-        return (w * (xa @ self.consequents.T)).sum(dim=1)
+        return (w * (xa @ self.effective_consequents().T)).sum(dim=1)
 
     @torch.no_grad()
     def init_centers_from_quantiles(self, x: np.ndarray) -> None:
@@ -105,19 +160,25 @@ class SugenoPanel(nn.Module):
         if ridge is None:
             ridge = max(1e-3, 0.01 * phi.shape[1] / phi.shape[0])
         gram = phi.T @ phi + ridge * torch.eye(phi.shape[1], device=x.device, dtype=x.dtype)
-        beta = torch.linalg.solve(gram, phi.T @ y)
-        self.consequents.copy_(beta.reshape(self.rule_count, -1))
+        beta = torch.linalg.solve(gram, phi.T @ y).reshape(self.rule_count, -1)
+        if self.monotone:
+            # projected least squares: clamp slopes to >= 0, then store the softplus pre-image
+            slopes = beta[:, 1:].clamp_min(1e-4)
+            beta = torch.cat([beta[:, :1], torch.log(torch.expm1(slopes))], dim=1)
+        self.consequents.copy_(beta)
 
 
 class HANFIS(nn.Module):
     """Three-panel hierarchical Sugeno ANFIS: V(x1..x3) -> v, E(x4..x6) -> e, I(v, e, x7) -> r."""
 
-    def __init__(self, m_raw: int = 2, m_intermediate: int = 3, m_threat: int | None = None) -> None:
+    def __init__(self, m_raw: int = 2, m_intermediate: int = 3, m_threat: int | None = None,
+                 mf_family: str = "gauss", monotone: bool = False) -> None:
         super().__init__()
         m_threat = m_raw if m_threat is None else m_threat
-        self.vulnerability = SugenoPanel([m_raw, m_raw, m_raw])
-        self.environment = SugenoPanel([m_raw, m_raw, m_raw])
-        self.integration = SugenoPanel([m_intermediate, m_intermediate, m_threat])
+        self.mf_family, self.monotone = mf_family, monotone
+        self.vulnerability = SugenoPanel([m_raw, m_raw, m_raw], mf_family, monotone)
+        self.environment = SugenoPanel([m_raw, m_raw, m_raw], mf_family, monotone)
+        self.integration = SugenoPanel([m_intermediate, m_intermediate, m_threat], mf_family, monotone)
 
     @property
     def rule_count(self) -> int:
@@ -125,7 +186,8 @@ class HANFIS(nn.Module):
 
     @property
     def parameter_count(self) -> int:
-        return sum(p.numel() for p in self.parameters())
+        """Effective parameters: premise parameters of the active MF family + consequents."""
+        return sum(p.premise_parameter_count + p.consequents.numel() for p in (self.vulnerability, self.environment, self.integration))
 
     def intermediates(self, x7: torch.Tensor, clamp: bool = True) -> tuple[torch.Tensor, torch.Tensor]:
         v = self.vulnerability(x7[:, 0:3])
@@ -197,7 +259,7 @@ def fit_hybrid(
     ``premise_learning_rate`` gives premises their own rate, ``ridge=None`` adapts lambda.
     """
     xtr, ytr, xva, yva = map(_to_tensor, (x_train, y_train, x_validation, y_validation))
-    premise = [p for n, p in model.named_parameters() if ".centers." in n or ".log_sigmas." in n]
+    premise = [p for n, p in model.named_parameters() if ".centers." in n or ".log_sigmas." in n or ".raw_widths." in n]
     lower_cons = [p for n, p in model.named_parameters() if n.endswith("consequents") and not n.startswith("integration.")]
     optimizer = torch.optim.Adam([{"params": premise, "lr": premise_learning_rate or learning_rate}, {"params": lower_cons, "lr": learning_rate}])
     soft = range_penalty is not None

@@ -94,6 +94,34 @@ class TestHanfisEndToEnd(unittest.TestCase):
         self.assertIn("restart", hist)
         self.assertIsInstance(model, HANFIS)
 
+    def test_ruspini_memberships_form_partition_of_unity(self):
+        panel = SugenoPanel([3, 2, 4], mf_family="ruspini")
+        with torch.no_grad():
+            for w in panel.raw_widths:
+                w.copy_(torch.randn_like(w))
+        x = torch.rand(200, 3)
+        for i in range(3):
+            mu = panel.memberships(x, i)
+            self.assertTrue(torch.allclose(mu.sum(dim=1), torch.ones(200), atol=1e-5))
+            self.assertTrue(bool((mu >= 0).all()))
+            c = panel.ruspini_centers(i)
+            self.assertTrue(bool((c[1:] > c[:-1]).all()))
+            self.assertAlmostEqual(float(c[0]), 0.0); self.assertAlmostEqual(float(c[-1]), 1.0, places=5)
+
+    def test_ruspini_parameter_count(self):
+        m = HANFIS(2, 3, mf_family="ruspini")   # premises: V,E: 3*(2-1)=3 each; I: 2+2+1=5 -> 11; consequents 96
+        self.assertEqual(m.parameter_count, 11 + 32 + 32 + 18 * 4)
+
+    def test_monotone_consequents_have_nonnegative_slopes(self):
+        panel = SugenoPanel([2, 2, 2], monotone=True)
+        with torch.no_grad():
+            panel.consequents.copy_(torch.randn_like(panel.consequents) * 3)
+        eff = panel.effective_consequents()
+        self.assertTrue(bool((eff[:, 1:] >= 0).all()))
+        x = torch.rand(100, 3); y = torch.rand(100)
+        panel.solve_consequents(x, y)
+        self.assertTrue(bool((panel.effective_consequents()[:, 1:] >= 0).all()))
+
     def test_rule_trace_shapes(self):
         model = HANFIS(m_raw=2, m_intermediate=3)
         trace = model.rule_trace(torch.rand(10, 7))
