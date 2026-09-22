@@ -153,7 +153,14 @@ def tegrastats_stats(log: Path) -> dict:
     return out
 
 
-def tidy(root: Path) -> pd.DataFrame:
+def infer_order(pair_id: str, meta: dict) -> str:
+    if meta.get("ORDER"):
+        return meta["ORDER"]
+    m = re.search(r"(on-off|off-on)", pair_id, re.IGNORECASE)
+    return m.group(1).upper() if m else ""
+
+
+def tidy(root: Path, source_label: str = "") -> pd.DataFrame:
     rows = []
     for pair_dir in sorted(p for p in root.iterdir() if p.is_dir()):
         for condition in ("on", "off"):
@@ -161,15 +168,18 @@ def tidy(root: Path) -> pd.DataFrame:
             if not cdir.exists():
                 continue
             server, client = cdir / "server", cdir / "client"
+            if not server.exists() and (cdir / "metadata.txt").exists():   # older layout: files directly in the condition dir
+                server = client = cdir
             meta_s, meta_c = read_metadata(server / "metadata.txt"), read_metadata(client / "metadata.txt")
             ok_s, why_s = verify_sha256(server)
             ok_c, why_c = verify_sha256(client)
             row = {
+                "source_root": source_label or root.name,
                 "pair_id": pair_dir.name,
                 "run": meta_s.get("RUN") or meta_c.get("RUN"),
                 "attempt": meta_s.get("RUN_ATTEMPT", ""),
                 "condition": condition.upper(),
-                "order": meta_s.get("ORDER", ""),
+                "order": infer_order(pair_dir.name, meta_s),
                 "protocol": meta_s.get("PROTOCOL") or meta_c.get("PROTOCOL", ""),
                 "environment": meta_s.get("ENVIRONMENT_NAME", ""),
                 "start_epoch_utc": meta_s.get("START_EPOCH_UTC") or meta_c.get("START_EPOCH_UTC"),
@@ -205,17 +215,17 @@ def tidy(root: Path) -> pd.DataFrame:
 
 def main() -> None:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--root", type=Path, required=True)
+    ap.add_argument("--root", type=Path, action="append", required=True, help="RunsV3/RunsV4 root; repeat for several roots")
     ap.add_argument("--output", type=Path, default=Path("results_python/telemetry/tidy_conditions.csv"))
     args = ap.parse_args()
-    df = tidy(args.root)
+    df = pd.concat([tidy(r, r.name) for r in args.root], ignore_index=True) if len(args.root) > 1 else tidy(args.root[0])
     args.output.parent.mkdir(parents=True, exist_ok=True)
     df.to_csv(args.output, index=False)
     digest = hashlib.sha256(args.output.read_bytes()).hexdigest()
     (args.output.with_suffix(".csv.sha256")).write_text(f"{digest}  {args.output.name}\n", encoding="utf-8")
     n_pass = int((df["gate_status"] == "PASS").sum()) if len(df) else 0
     print(f"conditions={len(df)} pass={n_pass} hold={len(df) - n_pass}")
-    print(df[["pair_id", "run", "condition", "order", "protocol", "lat_p95_ms", "gate_status"]].to_string(index=False) if len(df) else "no conditions found")
+    print(df[["source_root", "pair_id", "run", "condition", "order", "protocol", "lat_p95_ms", "gate_status"]].to_string(index=False) if len(df) else "no conditions found")
     print(f"STATUS={'PASS_TIDY' if len(df) and n_pass == len(df) else 'HOLD_TIDY'}")
 
 

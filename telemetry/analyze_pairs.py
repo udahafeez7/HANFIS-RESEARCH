@@ -60,7 +60,9 @@ def bootstrap_ci(d: np.ndarray, n_boot: int = 10000, seed: int = 20260721) -> tu
 
 
 def pair_table(tidy: pd.DataFrame) -> pd.DataFrame:
-    ok = tidy[tidy["gate_status"] == "PASS"]
+    ok = tidy[tidy["gate_status"] == "PASS"].copy()
+    if "source_root" in ok.columns:
+        ok["pair_id"] = ok["source_root"].astype(str) + "/" + ok["pair_id"].astype(str)
     on = ok[ok["condition"] == "ON"].set_index("pair_id")
     off = ok[ok["condition"] == "OFF"].set_index("pair_id")
     common = on.index.intersection(off.index)
