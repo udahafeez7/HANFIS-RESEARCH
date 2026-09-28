@@ -1,0 +1,2 @@
+asset_id,image_id,scan_json,mfa_risk,kubernetes_exposure,asset_criticality,default_rho,package_rho_json,protocol
+p0-baseline,docker.io/nginxinc/nginx-unprivileged@sha256:65e3e85dbaed8ba248841d9d58a899b6197106c23cb0ff1a132b7bfe0547e4c0,data/evidence/p0_trivy_scan_r9NceXFV/p0_vulnerabilities.json,0.5,0.5,3,0.1,"{}",reachability-evidence-v1
