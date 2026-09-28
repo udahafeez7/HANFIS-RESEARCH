@@ -8,7 +8,7 @@ import pandas as pd
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(PROJECT_ROOT / "python_hanfis"))
 
-from splits import GroupTimeSplit, LeakageError, summarise_folds  # noqa: E402
+from splits import GroupTimeSplit, LeakageError, embargo_timedelta, summarise_folds  # noqa: E402
 
 
 def asset_weeks(n_images: int = 12, n_weeks: int = 16, seed: int = 0) -> pd.DataFrame:
@@ -50,7 +50,7 @@ class TestGroupTimeSplit(unittest.TestCase):
             train, test = frame.iloc[fold.train_index], frame.iloc[fold.test_index]
             self.assertEqual(set(train["image_id"]) & set(test["image_id"]), set())
             gap = test["week_start_utc"].min() - train["week_start_utc"].max()
-            self.assertGreaterEqual(gap, pd.Timedelta(days=30))
+            self.assertGreaterEqual(gap, embargo_timedelta(30))
 
     def test_assert_no_leakage_detects_a_shared_image(self):
         frame = self.frame
@@ -82,6 +82,25 @@ class TestGroupTimeSplit(unittest.TestCase):
             GroupTimeSplit(embargo_days=30).assert_no_leakage(frame, [fold])
         # with a 3-day embargo the same fold is acceptable
         GroupTimeSplit(embargo_days=3).assert_no_leakage(frame, [fold])
+
+    def test_no_deprecation_warnings_from_split_or_leakage_check(self):
+        """Patch 0020: the embargo must not go through a generic-unit NumPy timedelta."""
+        import warnings
+
+        late = self.frame["image_id"].isin([f"img{i:02d}" for i in range(8, 12)])
+        early = self.frame["week_start_utc"] < pd.Timestamp("2026-03-01", tz="UTC")
+        frame = self.frame[~(late & early)].reset_index(drop=True)
+        with warnings.catch_warnings(record=True) as caught:
+            warnings.simplefilter("always")
+            folds = self.splitter.split(frame)
+            self.splitter.assert_no_leakage(frame, folds)
+            summarise_folds(frame, folds)
+        offenders = [str(w.message) for w in caught if issubclass(w.category, (DeprecationWarning, FutureWarning))]
+        self.assertEqual(offenders, [], msg=f"unexpected warnings: {offenders}")
+
+    def test_embargo_timedelta_is_explicit_and_equal_to_days(self):
+        self.assertEqual(embargo_timedelta(30), pd.Timedelta("30D"))
+        self.assertEqual(embargo_timedelta(0), pd.Timedelta("0D"))
 
     def test_too_few_weeks_is_refused(self):
         short = self.frame[self.frame["week_start_utc"] < pd.Timestamp("2026-02-01", tz="UTC")]

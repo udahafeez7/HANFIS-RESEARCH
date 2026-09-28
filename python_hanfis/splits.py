@@ -26,6 +26,17 @@ GROUP_COLUMN = "image_id"
 TIME_COLUMN = "week_start_utc"
 
 
+def embargo_timedelta(days: int) -> pd.Timedelta:
+    """Build the embargo as an explicitly-united Timedelta.
+
+    ``pd.Timedelta(days=n)`` goes through a NumPy timedelta64 whose unit is inferred; on
+    numpy >= 2 with recent pandas this raises a DeprecationWarning about the 'generic' unit.
+    The string form carries the unit explicitly and behaves identically on every version
+    (patch 0020).
+    """
+    return pd.Timedelta(f"{int(days)}D")
+
+
 class LeakageError(AssertionError):
     """Raised when a split violates the grouping or the temporal embargo."""
 
@@ -77,7 +88,7 @@ class GroupTimeSplit:
             raise ValueError(
                 f"need at least {self.min_train_weeks + 2} distinct weeks, found {len(weeks)}"
             )
-        embargo = pd.Timedelta(days=self.embargo_days)
+        embargo = embargo_timedelta(self.embargo_days)
         usable = weeks[self.min_train_weeks:]
         blocks = np.array_split(usable, self.n_splits)
         folds: list[Fold] = []
@@ -114,7 +125,7 @@ class GroupTimeSplit:
     def assert_no_leakage(self, frame: pd.DataFrame, folds: list[Fold]) -> None:
         """Raise LeakageError if any fold shares a group or violates the embargo."""
         prepared = self._prepare(frame)
-        embargo = pd.Timedelta(days=self.embargo_days)
+        embargo = embargo_timedelta(self.embargo_days)
         for fold in folds:
             train = prepared.iloc[fold.train_index]
             test = prepared.iloc[fold.test_index]
