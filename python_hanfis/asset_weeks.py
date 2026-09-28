@@ -74,10 +74,31 @@ class ScanBundle:
     path: Path
     sha256: str
     artifact_name: str
+    pinned_identity: str        # "sha256:<64 hex>": repo digest if the image came from a registry, else the local image ID
+    pinned_kind: str            # "repo_digest" | "image_id"
     created_at: dt.datetime
     os_family: str
     os_version: str
     cves: tuple[Cve, ...]
+
+
+_HEX64 = re.compile(r"sha256:[0-9a-f]{64}$")
+
+
+def pinned_identity(doc: dict) -> tuple[str, str]:
+    """Immutable identity of the scanned image. Registry digest wins; a locally built image
+    (never pushed, e.g. hanfis/p0if:1.0) is pinned by its content-addressed image ID."""
+    name = doc.get("ArtifactName", "")
+    if "@sha256:" in name and _HEX64.search(name):
+        return "sha256:" + name.rsplit("@sha256:", 1)[1], "repo_digest"
+    md = doc.get("Metadata", {}) or {}
+    for rd in md.get("RepoDigests") or []:
+        if "@sha256:" in rd and _HEX64.search(rd):
+            return "sha256:" + rd.rsplit("@sha256:", 1)[1], "repo_digest"
+    iid = md.get("ImageID", "")
+    if _HEX64.fullmatch(iid):
+        return iid, "image_id"
+    raise AssetWeekError(f"{name!r}: no repo digest and no ImageID; image identity cannot be pinned (fail-closed)")
 
 
 def _pick_cvss(cvss: dict) -> tuple[float | None, str | None]:
@@ -94,8 +115,7 @@ def load_trivy_scan(path: Path) -> ScanBundle:
     doc = json.loads(raw.decode("utf-8"))
     if "Results" not in doc or "ArtifactName" not in doc:
         raise AssetWeekError(f"{path}: not a Trivy JSON report")
-    if "@sha256:" not in doc["ArtifactName"]:
-        raise AssetWeekError(f"{path}: ArtifactName is not digest-pinned: {doc['ArtifactName']}")
+    ident, kind = pinned_identity(doc)
     cves: list[Cve] = []
     seen: set[tuple[str, str]] = set()
     for res in doc["Results"]:
@@ -115,7 +135,7 @@ def load_trivy_scan(path: Path) -> ScanBundle:
                             str(v.get("Status", "unknown")).lower(), dt.date.fromisoformat(pub[:10]),
                             score, src, (v.get("DataSource") or {}).get("ID")))
     md = doc.get("Metadata", {}).get("OS", {}) or {}
-    return ScanBundle(path, hashlib.sha256(raw).hexdigest(), doc["ArtifactName"],
+    return ScanBundle(path, hashlib.sha256(raw).hexdigest(), doc["ArtifactName"], ident, kind,
                       dt.datetime.fromisoformat(doc["CreatedAt"][:19]).replace(tzinfo=dt.timezone.utc),
                       md.get("Family", ""), md.get("Name", ""), tuple(cves))
 
@@ -304,6 +324,9 @@ def build_rows(assets: Iterable[Asset], store: SnapshotStore, weeks: Iterable[dt
         if not asset.scan_path.exists():
             raise AssetWeekError(f"{asset.asset_id}: scan bundle missing {asset.scan_path} (scan it first)")
         scan = load_trivy_scan(asset.scan_path)
+        if scan.pinned_identity.split(":", 1)[1] not in asset.image_id:
+            raise AssetWeekError(f"{asset.asset_id}: inventory image_id {asset.image_id!r} does not carry the scanned "
+                                 f"image's {scan.pinned_kind} {scan.pinned_identity} (inventory/evidence mismatch)")
         for w in weeks:
             rows.append(build_row(asset, scan, store, w, spec))
             if with_diagnostics:

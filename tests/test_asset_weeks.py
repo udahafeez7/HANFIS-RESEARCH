@@ -76,12 +76,31 @@ class TestEvidence(unittest.TestCase):
             self.assertEqual((by["CVE-2025-00002"].cvss, by["CVE-2025-00002"].cvss_source), (5.5, "redhat.V3Score"))
             self.assertIsNone(by["CVE-2025-00003"].cvss)
 
-    def test_fail_closed_on_unpinned_or_undated(self):
+    def test_pinning_repo_digest_or_local_image_id(self):
         with TemporaryDirectory() as td:
             p = Path(td) / "s.json"
-            r = trivy_report(); r["ArtifactName"] = "docker.io/example/app:latest"; p.write_text(json.dumps(r))
+            r = trivy_report(); p.write_text(json.dumps(r))
+            self.assertEqual(AW.load_trivy_scan(p).pinned_kind, "repo_digest")
+            # locally built image: tag only, identity from Metadata.ImageID
+            r = trivy_report(); r["ArtifactName"] = "hanfis/p0if:1.0"
+            r["Metadata"]["ImageID"] = "sha256:" + "79" * 32; r["Metadata"]["RepoDigests"] = []
+            p.write_text(json.dumps(r)); b = AW.load_trivy_scan(p)
+            self.assertEqual((b.pinned_kind, b.pinned_identity), ("image_id", "sha256:" + "79" * 32))
+            # tag only, no ImageID -> refuse
+            del r["Metadata"]["ImageID"]; p.write_text(json.dumps(r))
             with self.assertRaises(AW.AssetWeekError):
                 AW.load_trivy_scan(p)
+
+    def test_inventory_must_match_evidence_identity(self):
+        with TemporaryDirectory() as td:
+            root = Path(td); store = make_store(root / "snap")
+            wrong = make_asset(root, image_id="docker.io/example/app@sha256:" + "cd" * 32)
+            with self.assertRaises(AW.AssetWeekError):
+                AW.build_rows([wrong], store, MONDAYS[:2], AW.LabelSpec())
+
+    def test_fail_closed_on_undated(self):
+        with TemporaryDirectory() as td:
+            p = Path(td) / "s.json"
             r = trivy_report(); del r["Results"][0]["Vulnerabilities"][0]["PublishedDate"]; p.write_text(json.dumps(r))
             with self.assertRaises(AW.AssetWeekError):
                 AW.load_trivy_scan(p)
