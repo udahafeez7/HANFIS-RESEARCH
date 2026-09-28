@@ -1,4 +1,4 @@
 asset_id,image_id,scan_json,mfa_risk,kubernetes_exposure,asset_criticality,default_rho,package_rho_json,protocol
 p0-baseline,docker.io/nginxinc/nginx-unprivileged@sha256:65e3e85dbaed8ba248841d9d58a899b6197106c23cb0ff1a132b7bfe0547e4c0,data/evidence/p0_trivy_scan_r9NceXFV/p0_vulnerabilities.json,0.5,0.5,3,0.1,"{}",reachability-evidence-v1
-p0if-on,hanfis/p0if:1.1@sha256:795470a2adc37e39c848c9581c39b56dfbb80fa96c095c0d78b5f774a86e105b,data/evidence/p0if_trivy_scan_oIB3UEcn/p0if_vulnerabilities.json,0.5,0.5,3,0.1,"{""libgd"": 1.0, ""libexpat"": 1.0}",reachability-evidence-v1
-p0if-off,hanfis/p0if:1.1@sha256:795470a2adc37e39c848c9581c39b56dfbb80fa96c095c0d78b5f774a86e105b,data/evidence/p0if_trivy_scan_oIB3UEcn/p0if_vulnerabilities.json,0.5,0.5,3,0.1,"{""libgd"": 0.25, ""libexpat"": 0.25}",reachability-evidence-v1
+p0if-on,hanfis/p0if:1.2@sha256:4b3e7080b453f4549a3a8e31dea91d3d009c0de9fa61cb5efbfdaeb44f0dc3d5,data/evidence/p0if_trivy_scan_y1J0WBRb/p0if_vulnerabilities.json,0.5,0.5,3,0.1,"{""libgd"": 1.0, ""libexpat"": 1.0}",reachability-evidence-v1
+p0if-off,hanfis/p0if:1.2@sha256:4b3e7080b453f4549a3a8e31dea91d3d009c0de9fa61cb5efbfdaeb44f0dc3d5,data/evidence/p0if_trivy_scan_y1J0WBRb/p0if_vulnerabilities.json,0.5,0.5,3,0.1,"{""libgd"": 0.25, ""libexpat"": 0.25}",reachability-evidence-v1

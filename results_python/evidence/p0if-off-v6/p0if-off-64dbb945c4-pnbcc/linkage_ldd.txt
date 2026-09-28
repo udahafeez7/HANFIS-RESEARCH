@@ -1,0 +1,1227 @@
+== /usr/sbin/nginx
+	/lib/ld-musl-x86_64.so.1 (0x790fa9bea000)
+	libpcre2-8.so.0 => /usr/lib/libpcre2-8.so.0 (0x790fa9938000)
+	libssl.so.3 => /usr/lib/libssl.so.3 (0x790fa9875000)
+	libcrypto.so.3 => /usr/lib/libcrypto.so.3 (0x790fa9429000)
+	libz.so.1 => /usr/lib/libz.so.1 (0x790fa940e000)
+	libc.musl-x86_64.so.1 => /lib/ld-musl-x86_64.so.1 (0x790fa9bea000)
+== /usr/lib/nginx/modules/ngx_http_geoip_module-debug.so
+	/lib/ld-musl-x86_64.so.1 (0x72b9d4822000)
+	libGeoIP.so.1 => /usr/lib/libGeoIP.so.1 (0x72b9d47e4000)
+	libc.musl-x86_64.so.1 => /lib/ld-musl-x86_64.so.1 (0x72b9d4822000)
+Error relocating /usr/lib/nginx/modules/ngx_http_geoip_module-debug.so: ngx_array_push: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_geoip_module-debug.so: ngx_pnalloc: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_geoip_module-debug.so: ngx_ptocidr: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_geoip_module-debug.so: ngx_http_add_variable: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_geoip_module-debug.so: ngx_sprintf: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_geoip_module-debug.so: ngx_pool_cleanup_add: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_geoip_module-debug.so: ngx_conf_log_error: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_geoip_module-debug.so: ngx_array_create: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_geoip_module-debug.so: ngx_pcalloc: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_geoip_module-debug.so: ngx_http_get_forwarded_addr: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_geoip_module-debug.so: ngx_conf_set_flag_slot: symbol not found
+== /usr/lib/nginx/modules/ngx_http_geoip_module.so
+	/lib/ld-musl-x86_64.so.1 (0x750b3028a000)
+	libGeoIP.so.1 => /usr/lib/libGeoIP.so.1 (0x750b3024c000)
+	libc.musl-x86_64.so.1 => /lib/ld-musl-x86_64.so.1 (0x750b3028a000)
+Error relocating /usr/lib/nginx/modules/ngx_http_geoip_module.so: ngx_array_push: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_geoip_module.so: ngx_pnalloc: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_geoip_module.so: ngx_ptocidr: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_geoip_module.so: ngx_http_add_variable: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_geoip_module.so: ngx_sprintf: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_geoip_module.so: ngx_pool_cleanup_add: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_geoip_module.so: ngx_conf_log_error: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_geoip_module.so: ngx_array_create: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_geoip_module.so: ngx_pcalloc: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_geoip_module.so: ngx_http_get_forwarded_addr: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_geoip_module.so: ngx_conf_set_flag_slot: symbol not found
+== /usr/lib/nginx/modules/ngx_http_image_filter_module-debug.so
+	/lib/ld-musl-x86_64.so.1 (0x7f949b505000)
+	libgd.so.3 => /usr/lib/libgd.so.3 (0x7f949b4a0000)
+	libc.musl-x86_64.so.1 => /lib/ld-musl-x86_64.so.1 (0x7f949b505000)
+	libpng16.so.16 => /usr/lib/libpng16.so.16 (0x7f949b471000)
+	libfontconfig.so.1 => /usr/lib/libfontconfig.so.1 (0x7f949b432000)
+	libfreetype.so.6 => /usr/lib/libfreetype.so.6 (0x7f949b38f000)
+	libjpeg.so.8 => /usr/lib/libjpeg.so.8 (0x7f949b2f1000)
+	libXpm.so.4 => /usr/lib/libXpm.so.4 (0x7f949b2e2000)
+	libtiff.so.6 => /usr/lib/libtiff.so.6 (0x7f949b26f000)
+	libwebp.so.7 => /usr/lib/libwebp.so.7 (0x7f949b1f5000)
+	libavif.so.16 => /usr/lib/libavif.so.16 (0x7f949b1cd000)
+	libz.so.1 => /usr/lib/libz.so.1 (0x7f949b1b2000)
+	libexpat.so.1 => /usr/lib/libexpat.so.1 (0x7f949b191000)
+	libbz2.so.1 => /usr/lib/libbz2.so.1 (0x7f949b17e000)
+	libbrotlidec.so.1 => /usr/lib/libbrotlidec.so.1 (0x7f949b16f000)
+	libX11.so.6 => /usr/lib/libX11.so.6 (0x7f949b053000)
+	libzstd.so.1 => /usr/lib/libzstd.so.1 (0x7f949afa3000)
+	libsharpyuv.so.0 => /usr/lib/libsharpyuv.so.0 (0x7f949af9a000)
+	libdav1d.so.7 => /usr/lib/libdav1d.so.7 (0x7f949adbe000)
+	libaom.so.3 => /usr/lib/libaom.so.3 (0x7f949a606000)
+	libbrotlicommon.so.1 => /usr/lib/libbrotlicommon.so.1 (0x7f949a5e3000)
+	libxcb.so.1 => /usr/lib/libxcb.so.1 (0x7f949a5bc000)
+	libXau.so.6 => /usr/lib/libXau.so.6 (0x7f949a5b7000)
+	libXdmcp.so.6 => /usr/lib/libXdmcp.so.6 (0x7f949a5af000)
+	libbsd.so.0 => /usr/lib/libbsd.so.0 (0x7f949a59d000)
+	libmd.so.0 => /usr/lib/libmd.so.0 (0x7f949a58f000)
+Error relocating /usr/lib/nginx/modules/ngx_http_image_filter_module-debug.so: ngx_http_weak_etag: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_image_filter_module-debug.so: ngx_http_top_body_filter: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_image_filter_module-debug.so: ngx_http_clean_header: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_image_filter_module-debug.so: ngx_http_compile_complex_value: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_image_filter_module-debug.so: ngx_atoi: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_image_filter_module-debug.so: ngx_log_error_core: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_image_filter_module-debug.so: ngx_pnalloc: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_image_filter_module-debug.so: ngx_strncasecmp: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_image_filter_module-debug.so: ngx_sprintf: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_image_filter_module-debug.so: ngx_palloc: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_image_filter_module-debug.so: ngx_pool_cleanup_add: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_image_filter_module-debug.so: ngx_conf_log_error: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_image_filter_module-debug.so: ngx_http_filter_finalize_request: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_image_filter_module-debug.so: ngx_pfree: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_image_filter_module-debug.so: ngx_http_top_header_filter: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_image_filter_module-debug.so: ngx_pcalloc: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_image_filter_module-debug.so: ngx_http_complex_value: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_image_filter_module-debug.so: ngx_conf_set_flag_slot: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_image_filter_module-debug.so: ngx_conf_set_flag_slot: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_image_filter_module-debug.so: ngx_conf_set_size_slot: symbol not found
+== /usr/lib/nginx/modules/ngx_http_image_filter_module.so
+	/lib/ld-musl-x86_64.so.1 (0x79286ed65000)
+	libgd.so.3 => /usr/lib/libgd.so.3 (0x79286ed00000)
+	libc.musl-x86_64.so.1 => /lib/ld-musl-x86_64.so.1 (0x79286ed65000)
+	libpng16.so.16 => /usr/lib/libpng16.so.16 (0x79286ecd1000)
+	libfontconfig.so.1 => /usr/lib/libfontconfig.so.1 (0x79286ec92000)
+	libfreetype.so.6 => /usr/lib/libfreetype.so.6 (0x79286ebef000)
+	libjpeg.so.8 => /usr/lib/libjpeg.so.8 (0x79286eb51000)
+	libXpm.so.4 => /usr/lib/libXpm.so.4 (0x79286eb42000)
+	libtiff.so.6 => /usr/lib/libtiff.so.6 (0x79286eacf000)
+	libwebp.so.7 => /usr/lib/libwebp.so.7 (0x79286ea55000)
+	libavif.so.16 => /usr/lib/libavif.so.16 (0x79286ea2d000)
+	libz.so.1 => /usr/lib/libz.so.1 (0x79286ea12000)
+	libexpat.so.1 => /usr/lib/libexpat.so.1 (0x79286e9f1000)
+	libbz2.so.1 => /usr/lib/libbz2.so.1 (0x79286e9de000)
+	libbrotlidec.so.1 => /usr/lib/libbrotlidec.so.1 (0x79286e9cf000)
+	libX11.so.6 => /usr/lib/libX11.so.6 (0x79286e8b3000)
+	libzstd.so.1 => /usr/lib/libzstd.so.1 (0x79286e803000)
+	libsharpyuv.so.0 => /usr/lib/libsharpyuv.so.0 (0x79286e7fa000)
+	libdav1d.so.7 => /usr/lib/libdav1d.so.7 (0x79286e61e000)
+	libaom.so.3 => /usr/lib/libaom.so.3 (0x79286de66000)
+	libbrotlicommon.so.1 => /usr/lib/libbrotlicommon.so.1 (0x79286de43000)
+	libxcb.so.1 => /usr/lib/libxcb.so.1 (0x79286de1c000)
+	libXau.so.6 => /usr/lib/libXau.so.6 (0x79286de17000)
+	libXdmcp.so.6 => /usr/lib/libXdmcp.so.6 (0x79286de0f000)
+	libbsd.so.0 => /usr/lib/libbsd.so.0 (0x79286ddfd000)
+	libmd.so.0 => /usr/lib/libmd.so.0 (0x79286ddef000)
+Error relocating /usr/lib/nginx/modules/ngx_http_image_filter_module.so: ngx_http_weak_etag: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_image_filter_module.so: ngx_http_top_body_filter: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_image_filter_module.so: ngx_http_clean_header: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_image_filter_module.so: ngx_http_compile_complex_value: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_image_filter_module.so: ngx_atoi: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_image_filter_module.so: ngx_log_error_core: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_image_filter_module.so: ngx_pnalloc: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_image_filter_module.so: ngx_strncasecmp: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_image_filter_module.so: ngx_sprintf: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_image_filter_module.so: ngx_palloc: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_image_filter_module.so: ngx_pool_cleanup_add: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_image_filter_module.so: ngx_conf_log_error: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_image_filter_module.so: ngx_http_filter_finalize_request: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_image_filter_module.so: ngx_pfree: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_image_filter_module.so: ngx_http_top_header_filter: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_image_filter_module.so: ngx_pcalloc: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_image_filter_module.so: ngx_http_complex_value: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_image_filter_module.so: ngx_conf_set_flag_slot: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_image_filter_module.so: ngx_conf_set_flag_slot: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_image_filter_module.so: ngx_conf_set_size_slot: symbol not found
+== /usr/lib/nginx/modules/ngx_http_js_module-debug.so
+	/lib/ld-musl-x86_64.so.1 (0x7700b7e2a000)
+	libxml2.so.2 => /usr/lib/libxml2.so.2 (0x7700b7b43000)
+	libc.musl-x86_64.so.1 => /lib/ld-musl-x86_64.so.1 (0x7700b7e2a000)
+	libz.so.1 => /usr/lib/libz.so.1 (0x7700b7b28000)
+	liblzma.so.5 => /usr/lib/liblzma.so.5 (0x7700b7af0000)
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: ngx_process: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: ngx_terminate: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: RSA_get0_crt_params: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: ngx_rbtree_insert: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: ngx_array_create: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: EVP_PKEY_CTX_new: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: ngx_parse_url: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: EVP_PKEY_encrypt_init: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: ngx_resolver_strerror: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: OBJ_txt2nid: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: ngx_shared_memory_add: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: EVP_PKEY_CTX_add1_hkdf_info: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: ngx_get_connection: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: ngx_http_create_request: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: EC_KEY_set_public_key: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: BN_value_one: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: ngx_sprintf: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: EVP_PKEY_keygen: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: EVP_MD_CTX_free: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: ngx_sock_ntop: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: ngx_pnalloc: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: BN_set_word: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: ngx_http_complex_value: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: ngx_inet_addr: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: ngx_http_core_get_method: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: EVP_aes_128_gcm: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: ECDSA_SIG_set0: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: ngx_ssl_handshake: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: ngx_create_temp_buf: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: ERR_peek_error: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: EVP_PKEY_CTX_set_ec_paramgen_curve_nid: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: EVP_PKEY_CTX_set_signature_md: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: EVP_DigestFinal_ex: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: ngx_http_named_location: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: BN_new: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: EVP_PKEY_CTX_set1_hkdf_key: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: ngx_ssl_trusted_certificate: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: EVP_aes_256_cbc: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: PKCS5_PBKDF2_HMAC: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: RSA_set0_crt_params: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: BN_get_word: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: EVP_sha512: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: ERR_peek_error_data: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: EVP_CIPHER_CTX_get_block_size: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: EVP_aes_192_cbc: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: EC_KEY_set_public_key_affine_coordinates: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: ngx_http_top_body_filter: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: ngx_alloc_chain_link: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: ngx_http_send_header: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: EC_KEY_get0_public_key: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: i2d_ECDSA_SIG: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: ngx_core_module: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: BN_num_bits: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: ngx_slab_free_locked: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: ngx_list_push: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: OBJ_nid2sn: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: EVP_sha1: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: ngx_ssl_shutdown: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: ngx_http_module: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: ngx_sort: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: BN_bin2bn: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: RAND_bytes: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: RSA_free: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: BN_sub: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: ngx_rbtree_next: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: EC_KEY_get0_private_key: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: EC_POINT_get_affine_coordinates: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: ngx_connection_error: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: EVP_PKEY_free: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: EC_POINT_oct2point: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: ngx_rwlock_wlock: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: EVP_PKEY_decrypt: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: ngx_resolve_start: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: ngx_argv: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: ngx_cycle: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: ngx_rwlock_unlock: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: EVP_PKEY_get_id: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: ngx_atoof: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: d2i_PUBKEY: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: pcre2_set_compile_extra_options_8: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: ngx_ssl_create_connection: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: ngx_http_set_content_type: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: ngx_read_file: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: ngx_http_add_variable: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: ECDSA_SIG_free: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: i2d_PKCS8_PRIV_KEY_INFO_bio: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: pcre2_general_context_create_8: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: EVP_PKEY_CTX_set1_hkdf_salt: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: ngx_http_read_client_request_body: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: ngx_strcasecmp: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: EVP_PKEY_get0_EC_KEY: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: X509_verify_cert_error_string: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: EVP_DigestInit_ex: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: EVP_aes_192_ctr: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: ERR_error_string_n: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: EVP_aes_192_gcm: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: ngx_chain_update_chains: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: EVP_PKEY_derive_init: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: EVP_aes_128_ctr: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: BN_free: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: ngx_http_free_request: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: EVP_CIPHER_CTX_free: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: ngx_http_get_variable: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: ECDSA_SIG_new: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: ngx_http_compile_complex_value: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: EVP_aes_256_ctr: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: ngx_ssl_error: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: ngx_parse_time: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: EC_KEY_set_private_key: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: BN_bn2binpad: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: EVP_PKEY_CTX_set_rsa_keygen_bits: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: EVP_PKEY_get_size: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: ngx_http_top_header_filter: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: EVP_PKEY_CTX_set_hkdf_md: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: EVP_PKEY_is_a: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: pcre2_get_ovector_pointer_8: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: EVP_PKEY_verify: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: EVP_PKEY_CTX_new_id: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: EC_GROUP_order_bits: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: EVP_PKEY_derive: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: EVP_CipherFinal_ex: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: ngx_http_finalize_request: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: ngx_event_timer_rbtree: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: BIO_new_mem_buf: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: EVP_DigestUpdate: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: ngx_handle_read_event: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: ngx_rbtree_delete: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: EC_KEY_get0_group: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: pcre2_match_data_create_8: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: ngx_worker: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: HMAC: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: ngx_http_core_module: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: ngx_http_get_variable_index: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: ngx_slab_alloc_locked: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: ECDSA_SIG_get0: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: ngx_palloc: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: ngx_ssl_check_host: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: BIO_new: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: ngx_slab_alloc: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: BIO_ctrl: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: EVP_PKEY_get_group_name: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: BIO_free: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: ngx_ssl_create: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: ngx_hash_strlow: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: SSL_ctrl: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: ngx_free_connection: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: ngx_str_rbtree_lookup: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: ngx_http_output_filter: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: EVP_PKEY_up_ref: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: pcre2_get_error_message_8: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: ngx_resolve_name_done: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: EVP_PKEY_sign_init: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: RSA_get0_key: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: ngx_set_environment: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: EVP_PKEY_CTX_set_rsa_mgf1_md: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: EVP_Digest: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: BN_bn2bin: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: RSA_new: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: EVP_PKEY_new: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: EVP_PKEY_sign: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: EC_POINT_point2oct: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: EVP_CIPHER_CTX_ctrl: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: ngx_str_rbtree_insert_value: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: EVP_MD_CTX_new: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: RSA_get0_factors: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: EC_GROUP_get_curve_name: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: EVP_aes_256_gcm: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: ngx_resolve_name: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: ngx_pool_cleanup_add: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: ngx_array_push: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: ngx_pcalloc: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: ngx_pagesize: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: ngx_current_msec: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: ngx_hash_find: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: d2i_PKCS8_PRIV_KEY_INFO_bio: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: EVP_aes_128_cbc: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: i2d_PUBKEY_bio: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: ngx_atoi: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: ngx_rbtree_insert_timer_value: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: EVP_CIPHER_CTX_new: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: EC_KEY_free: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: EVP_PKCS82PKEY: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: ngx_log_error_core: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: BN_cmp: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: ngx_event_get_peer: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: pcre2_match_8: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: EVP_PKEY_verify_init: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: ngx_parse_size: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: ngx_ssl_cleanup_ctx: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: ngx_conf_full_name: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: pcre2_compile_context_create_8: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: EVP_sha384: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: ngx_slab_calloc: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: ngx_http_internal_redirect: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: ngx_crc32_table256: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: EVP_PKEY_get0_RSA: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: BN_lshift: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: EVP_PKEY_encrypt: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: ngx_event_connect_peer: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: RSA_set0_factors: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: ngx_exiting: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: EVP_MD_get_size: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: ngx_cpystrn: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: ngx_http_parse_unsafe_uri: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: EVP_PKEY_keygen_init: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: EVP_PKEY_CTX_set_rsa_padding: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: ngx_strncasecmp: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: ERR_get_error: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: EC_GROUP_get_degree: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: EVP_PKEY_decrypt_init: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: ngx_handle_write_event: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: PKCS8_PRIV_KEY_INFO_free: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: ngx_close_connection: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: ngx_http_subrequest: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: ngx_ssl_ciphers: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: EVP_PKEY2PKCS8: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: EVP_PKEY_set1_EC_KEY: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: pcre2_match_data_create_from_pattern_8: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: pcre2_match_data_free_8: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: ngx_inet_set_port: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: ngx_http_send_response: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: EVP_PKEY_CTX_set_rsa_pss_saltlen: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: ngx_conf_log_error: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: ngx_cached_time: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: EVP_CipherInit_ex: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: EVP_sha256: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: SSL_get_verify_result: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: EC_POINT_free: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: EC_POINT_new: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: ngx_http_send_special: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: pcre2_pattern_info_8: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: pcre2_compile_8: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: ngx_posted_events: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: BIO_s_mem: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: ngx_argc: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: EC_KEY_new_by_curve_name: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: RSA_set0_key: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: d2i_ECDSA_SIG: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: EVP_PKEY_CTX_free: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: ngx_chain_get_free_buf: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: ngx_rwlock_rlock: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: EVP_CipherUpdate: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: EVP_PKEY_set1_RSA: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: ngx_conf_set_size_slot: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: ngx_conf_set_size_slot: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: ngx_conf_set_size_slot: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: ngx_conf_set_str_array_slot: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: ngx_conf_set_str_slot: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: ngx_conf_set_str_slot: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: ngx_conf_set_str_slot: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: ngx_conf_set_msec_slot: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: ngx_conf_set_bitmask_slot: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: ngx_conf_set_flag_slot: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module-debug.so: ngx_conf_set_num_slot: symbol not found
+== /usr/lib/nginx/modules/ngx_http_js_module.so
+	/lib/ld-musl-x86_64.so.1 (0x7181b4a32000)
+	libxml2.so.2 => /usr/lib/libxml2.so.2 (0x7181b474c000)
+	libc.musl-x86_64.so.1 => /lib/ld-musl-x86_64.so.1 (0x7181b4a32000)
+	libz.so.1 => /usr/lib/libz.so.1 (0x7181b4731000)
+	liblzma.so.5 => /usr/lib/liblzma.so.5 (0x7181b46f9000)
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: ngx_process: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: ngx_terminate: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: RSA_get0_crt_params: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: ngx_rbtree_insert: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: ngx_array_create: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: EVP_PKEY_CTX_new: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: ngx_parse_url: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: EVP_PKEY_encrypt_init: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: ngx_resolver_strerror: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: OBJ_txt2nid: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: ngx_shared_memory_add: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: EVP_PKEY_CTX_add1_hkdf_info: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: ngx_get_connection: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: ngx_http_create_request: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: EC_KEY_set_public_key: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: BN_value_one: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: ngx_sprintf: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: EVP_PKEY_keygen: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: EVP_MD_CTX_free: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: ngx_sock_ntop: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: ngx_pnalloc: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: BN_set_word: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: ngx_http_complex_value: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: ngx_inet_addr: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: ngx_http_core_get_method: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: EVP_aes_128_gcm: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: ECDSA_SIG_set0: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: ngx_ssl_handshake: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: ngx_create_temp_buf: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: ERR_peek_error: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: EVP_PKEY_CTX_set_ec_paramgen_curve_nid: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: EVP_PKEY_CTX_set_signature_md: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: EVP_DigestFinal_ex: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: ngx_http_named_location: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: BN_new: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: EVP_PKEY_CTX_set1_hkdf_key: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: ngx_ssl_trusted_certificate: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: EVP_aes_256_cbc: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: PKCS5_PBKDF2_HMAC: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: RSA_set0_crt_params: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: BN_get_word: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: EVP_sha512: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: ERR_peek_error_data: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: EVP_CIPHER_CTX_get_block_size: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: EVP_aes_192_cbc: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: EC_KEY_set_public_key_affine_coordinates: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: ngx_http_top_body_filter: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: ngx_alloc_chain_link: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: ngx_http_send_header: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: EC_KEY_get0_public_key: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: i2d_ECDSA_SIG: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: ngx_core_module: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: BN_num_bits: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: ngx_slab_free_locked: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: ngx_list_push: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: OBJ_nid2sn: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: EVP_sha1: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: ngx_ssl_shutdown: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: ngx_http_module: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: ngx_sort: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: BN_bin2bn: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: RAND_bytes: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: RSA_free: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: BN_sub: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: ngx_rbtree_next: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: EC_KEY_get0_private_key: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: EC_POINT_get_affine_coordinates: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: ngx_connection_error: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: EVP_PKEY_free: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: EC_POINT_oct2point: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: ngx_rwlock_wlock: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: EVP_PKEY_decrypt: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: ngx_resolve_start: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: ngx_argv: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: ngx_cycle: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: ngx_rwlock_unlock: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: EVP_PKEY_get_id: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: ngx_atoof: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: d2i_PUBKEY: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: pcre2_set_compile_extra_options_8: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: ngx_ssl_create_connection: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: ngx_http_set_content_type: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: ngx_read_file: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: ngx_http_add_variable: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: ECDSA_SIG_free: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: i2d_PKCS8_PRIV_KEY_INFO_bio: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: pcre2_general_context_create_8: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: EVP_PKEY_CTX_set1_hkdf_salt: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: ngx_http_read_client_request_body: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: ngx_strcasecmp: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: EVP_PKEY_get0_EC_KEY: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: X509_verify_cert_error_string: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: EVP_DigestInit_ex: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: EVP_aes_192_ctr: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: ERR_error_string_n: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: EVP_aes_192_gcm: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: ngx_chain_update_chains: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: EVP_PKEY_derive_init: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: EVP_aes_128_ctr: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: BN_free: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: ngx_http_free_request: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: EVP_CIPHER_CTX_free: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: ngx_http_get_variable: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: ECDSA_SIG_new: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: ngx_http_compile_complex_value: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: EVP_aes_256_ctr: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: ngx_ssl_error: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: ngx_parse_time: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: EC_KEY_set_private_key: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: BN_bn2binpad: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: EVP_PKEY_CTX_set_rsa_keygen_bits: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: EVP_PKEY_get_size: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: ngx_http_top_header_filter: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: EVP_PKEY_CTX_set_hkdf_md: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: EVP_PKEY_is_a: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: pcre2_get_ovector_pointer_8: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: EVP_PKEY_verify: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: EVP_PKEY_CTX_new_id: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: EC_GROUP_order_bits: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: EVP_PKEY_derive: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: EVP_CipherFinal_ex: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: ngx_http_finalize_request: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: ngx_event_timer_rbtree: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: BIO_new_mem_buf: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: EVP_DigestUpdate: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: ngx_handle_read_event: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: ngx_rbtree_delete: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: EC_KEY_get0_group: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: pcre2_match_data_create_8: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: ngx_worker: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: HMAC: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: ngx_http_core_module: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: ngx_http_get_variable_index: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: ngx_slab_alloc_locked: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: ECDSA_SIG_get0: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: ngx_palloc: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: ngx_ssl_check_host: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: BIO_new: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: ngx_slab_alloc: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: BIO_ctrl: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: EVP_PKEY_get_group_name: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: BIO_free: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: ngx_ssl_create: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: ngx_hash_strlow: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: SSL_ctrl: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: ngx_free_connection: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: ngx_str_rbtree_lookup: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: ngx_http_output_filter: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: EVP_PKEY_up_ref: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: pcre2_get_error_message_8: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: ngx_resolve_name_done: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: EVP_PKEY_sign_init: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: RSA_get0_key: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: ngx_set_environment: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: EVP_PKEY_CTX_set_rsa_mgf1_md: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: EVP_Digest: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: BN_bn2bin: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: RSA_new: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: EVP_PKEY_new: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: EVP_PKEY_sign: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: EC_POINT_point2oct: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: EVP_CIPHER_CTX_ctrl: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: ngx_str_rbtree_insert_value: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: EVP_MD_CTX_new: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: RSA_get0_factors: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: EC_GROUP_get_curve_name: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: EVP_aes_256_gcm: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: ngx_resolve_name: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: ngx_pool_cleanup_add: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: ngx_array_push: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: ngx_pcalloc: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: ngx_pagesize: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: ngx_current_msec: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: ngx_hash_find: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: d2i_PKCS8_PRIV_KEY_INFO_bio: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: EVP_aes_128_cbc: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: i2d_PUBKEY_bio: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: ngx_atoi: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: ngx_rbtree_insert_timer_value: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: EVP_CIPHER_CTX_new: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: EC_KEY_free: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: EVP_PKCS82PKEY: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: ngx_log_error_core: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: BN_cmp: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: ngx_event_get_peer: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: pcre2_match_8: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: EVP_PKEY_verify_init: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: ngx_parse_size: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: ngx_ssl_cleanup_ctx: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: ngx_conf_full_name: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: pcre2_compile_context_create_8: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: EVP_sha384: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: ngx_slab_calloc: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: ngx_http_internal_redirect: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: ngx_crc32_table256: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: EVP_PKEY_get0_RSA: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: BN_lshift: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: EVP_PKEY_encrypt: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: ngx_event_connect_peer: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: RSA_set0_factors: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: ngx_exiting: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: EVP_MD_get_size: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: ngx_cpystrn: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: ngx_http_parse_unsafe_uri: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: EVP_PKEY_keygen_init: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: EVP_PKEY_CTX_set_rsa_padding: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: ngx_strncasecmp: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: ERR_get_error: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: EC_GROUP_get_degree: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: EVP_PKEY_decrypt_init: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: ngx_handle_write_event: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: PKCS8_PRIV_KEY_INFO_free: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: ngx_close_connection: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: ngx_http_subrequest: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: ngx_ssl_ciphers: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: EVP_PKEY2PKCS8: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: EVP_PKEY_set1_EC_KEY: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: pcre2_match_data_create_from_pattern_8: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: pcre2_match_data_free_8: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: ngx_inet_set_port: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: ngx_http_send_response: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: EVP_PKEY_CTX_set_rsa_pss_saltlen: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: ngx_conf_log_error: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: ngx_cached_time: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: EVP_CipherInit_ex: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: EVP_sha256: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: SSL_get_verify_result: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: EC_POINT_free: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: EC_POINT_new: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: ngx_http_send_special: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: pcre2_pattern_info_8: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: pcre2_compile_8: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: ngx_posted_events: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: BIO_s_mem: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: ngx_argc: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: EC_KEY_new_by_curve_name: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: RSA_set0_key: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: d2i_ECDSA_SIG: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: EVP_PKEY_CTX_free: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: ngx_chain_get_free_buf: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: ngx_rwlock_rlock: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: EVP_CipherUpdate: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: EVP_PKEY_set1_RSA: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: ngx_conf_set_size_slot: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: ngx_conf_set_size_slot: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: ngx_conf_set_size_slot: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: ngx_conf_set_str_array_slot: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: ngx_conf_set_str_slot: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: ngx_conf_set_str_slot: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: ngx_conf_set_str_slot: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: ngx_conf_set_msec_slot: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: ngx_conf_set_bitmask_slot: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: ngx_conf_set_flag_slot: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_js_module.so: ngx_conf_set_num_slot: symbol not found
+== /usr/lib/nginx/modules/ngx_http_xslt_filter_module-debug.so
+	/lib/ld-musl-x86_64.so.1 (0x7f0dd8542000)
+	libxml2.so.2 => /usr/lib/libxml2.so.2 (0x7f0dd842a000)
+	libxslt.so.1 => /usr/lib/libxslt.so.1 (0x7f0dd83f1000)
+	libexslt.so.0 => /usr/lib/libexslt.so.0 (0x7f0dd83dc000)
+	libc.musl-x86_64.so.1 => /lib/ld-musl-x86_64.so.1 (0x7f0dd8542000)
+	libz.so.1 => /usr/lib/libz.so.1 (0x7f0dd83c1000)
+	liblzma.so.5 => /usr/lib/liblzma.so.5 (0x7f0dd8389000)
+	libgcrypt.so.20 => /usr/lib/libgcrypt.so.20 (0x7f0dd8267000)
+	libgpg-error.so.0 => /usr/lib/libgpg-error.so.0 (0x7f0dd8246000)
+Error relocating /usr/lib/nginx/modules/ngx_http_xslt_filter_module-debug.so: ngx_unescape_uri: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_xslt_filter_module-debug.so: ngx_array_create: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_xslt_filter_module-debug.so: ngx_pnalloc: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_xslt_filter_module-debug.so: ngx_http_complex_value: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_xslt_filter_module-debug.so: ngx_http_top_body_filter: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_xslt_filter_module-debug.so: ngx_http_filter_finalize_request: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_xslt_filter_module-debug.so: ngx_http_compile_complex_value: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_xslt_filter_module-debug.so: ngx_http_top_header_filter: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_xslt_filter_module-debug.so: ngx_http_merge_types: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_xslt_filter_module-debug.so: ngx_http_test_content_type: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_xslt_filter_module-debug.so: ngx_palloc: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_xslt_filter_module-debug.so: ngx_pool_cleanup_add: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_xslt_filter_module-debug.so: ngx_array_push: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_xslt_filter_module-debug.so: ngx_pcalloc: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_xslt_filter_module-debug.so: ngx_log_error_core: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_xslt_filter_module-debug.so: ngx_conf_full_name: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_xslt_filter_module-debug.so: ngx_http_weak_etag: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_xslt_filter_module-debug.so: ngx_conf_log_error: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_xslt_filter_module-debug.so: ngx_http_types_slot: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_xslt_filter_module-debug.so: ngx_conf_set_flag_slot: symbol not found
+== /usr/lib/nginx/modules/ngx_http_xslt_filter_module.so
+	/lib/ld-musl-x86_64.so.1 (0x7e5d21f62000)
+	libxml2.so.2 => /usr/lib/libxml2.so.2 (0x7e5d21e4a000)
+	libxslt.so.1 => /usr/lib/libxslt.so.1 (0x7e5d21e11000)
+	libexslt.so.0 => /usr/lib/libexslt.so.0 (0x7e5d21dfc000)
+	libc.musl-x86_64.so.1 => /lib/ld-musl-x86_64.so.1 (0x7e5d21f62000)
+	libz.so.1 => /usr/lib/libz.so.1 (0x7e5d21de1000)
+	liblzma.so.5 => /usr/lib/liblzma.so.5 (0x7e5d21da9000)
+	libgcrypt.so.20 => /usr/lib/libgcrypt.so.20 (0x7e5d21c87000)
+	libgpg-error.so.0 => /usr/lib/libgpg-error.so.0 (0x7e5d21c66000)
+Error relocating /usr/lib/nginx/modules/ngx_http_xslt_filter_module.so: ngx_unescape_uri: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_xslt_filter_module.so: ngx_array_create: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_xslt_filter_module.so: ngx_pnalloc: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_xslt_filter_module.so: ngx_http_complex_value: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_xslt_filter_module.so: ngx_http_top_body_filter: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_xslt_filter_module.so: ngx_http_filter_finalize_request: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_xslt_filter_module.so: ngx_http_compile_complex_value: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_xslt_filter_module.so: ngx_http_top_header_filter: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_xslt_filter_module.so: ngx_http_merge_types: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_xslt_filter_module.so: ngx_http_test_content_type: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_xslt_filter_module.so: ngx_palloc: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_xslt_filter_module.so: ngx_pool_cleanup_add: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_xslt_filter_module.so: ngx_array_push: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_xslt_filter_module.so: ngx_pcalloc: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_xslt_filter_module.so: ngx_log_error_core: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_xslt_filter_module.so: ngx_conf_full_name: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_xslt_filter_module.so: ngx_http_weak_etag: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_xslt_filter_module.so: ngx_conf_log_error: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_xslt_filter_module.so: ngx_http_types_slot: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_xslt_filter_module.so: ngx_conf_set_flag_slot: symbol not found
+== /usr/lib/nginx/modules/ngx_stream_geoip_module-debug.so
+	/lib/ld-musl-x86_64.so.1 (0x7aa852066000)
+	libGeoIP.so.1 => /usr/lib/libGeoIP.so.1 (0x7aa852028000)
+	libc.musl-x86_64.so.1 => /lib/ld-musl-x86_64.so.1 (0x7aa852066000)
+Error relocating /usr/lib/nginx/modules/ngx_stream_geoip_module-debug.so: ngx_stream_add_variable: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_geoip_module-debug.so: ngx_pnalloc: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_geoip_module-debug.so: ngx_sprintf: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_geoip_module-debug.so: ngx_pool_cleanup_add: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_geoip_module-debug.so: ngx_conf_log_error: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_geoip_module-debug.so: ngx_pcalloc: symbol not found
+== /usr/lib/nginx/modules/ngx_stream_geoip_module.so
+	/lib/ld-musl-x86_64.so.1 (0x71aa47640000)
+	libGeoIP.so.1 => /usr/lib/libGeoIP.so.1 (0x71aa47602000)
+	libc.musl-x86_64.so.1 => /lib/ld-musl-x86_64.so.1 (0x71aa47640000)
+Error relocating /usr/lib/nginx/modules/ngx_stream_geoip_module.so: ngx_stream_add_variable: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_geoip_module.so: ngx_pnalloc: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_geoip_module.so: ngx_sprintf: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_geoip_module.so: ngx_pool_cleanup_add: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_geoip_module.so: ngx_conf_log_error: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_geoip_module.so: ngx_pcalloc: symbol not found
+== /usr/lib/nginx/modules/ngx_stream_js_module-debug.so
+	/lib/ld-musl-x86_64.so.1 (0x7270e0b5a000)
+	libxml2.so.2 => /usr/lib/libxml2.so.2 (0x7270e087b000)
+	libc.musl-x86_64.so.1 => /lib/ld-musl-x86_64.so.1 (0x7270e0b5a000)
+	libz.so.1 => /usr/lib/libz.so.1 (0x7270e0860000)
+	liblzma.so.5 => /usr/lib/liblzma.so.5 (0x7270e0828000)
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: ngx_process: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: ngx_terminate: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: RSA_get0_crt_params: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: ngx_rbtree_insert: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: ngx_array_create: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: EVP_PKEY_CTX_new: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: ngx_parse_url: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: EVP_PKEY_encrypt_init: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: ngx_resolver_strerror: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: OBJ_txt2nid: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: ngx_shared_memory_add: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: EVP_PKEY_CTX_add1_hkdf_info: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: ngx_get_connection: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: EC_KEY_set_public_key: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: BN_value_one: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: ngx_sprintf: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: EVP_PKEY_keygen: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: EVP_MD_CTX_free: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: ngx_sock_ntop: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: ngx_pnalloc: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: BN_set_word: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: ngx_inet_addr: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: EVP_aes_128_gcm: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: ECDSA_SIG_set0: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: ngx_ssl_handshake: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: ngx_create_temp_buf: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: ERR_peek_error: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: EVP_PKEY_CTX_set_ec_paramgen_curve_nid: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: EVP_PKEY_CTX_set_signature_md: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: EVP_DigestFinal_ex: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: BN_new: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: EVP_PKEY_CTX_set1_hkdf_key: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: ngx_ssl_trusted_certificate: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: EVP_aes_256_cbc: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: PKCS5_PBKDF2_HMAC: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: RSA_set0_crt_params: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: BN_get_word: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: EVP_sha512: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: ERR_peek_error_data: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: EVP_CIPHER_CTX_get_block_size: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: EVP_aes_192_cbc: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: EC_KEY_set_public_key_affine_coordinates: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: ngx_alloc_chain_link: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: EC_KEY_get0_public_key: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: i2d_ECDSA_SIG: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: ngx_core_module: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: BN_num_bits: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: ngx_slab_free_locked: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: ngx_list_push: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: OBJ_nid2sn: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: EVP_sha1: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: ngx_ssl_shutdown: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: ngx_sort: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: BN_bin2bn: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: RAND_bytes: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: RSA_free: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: ngx_stream_compile_complex_value: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: BN_sub: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: ngx_rbtree_next: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: EC_KEY_get0_private_key: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: EC_POINT_get_affine_coordinates: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: ngx_stream_add_variable: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: EVP_PKEY_free: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: EC_POINT_oct2point: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: ngx_rwlock_wlock: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: EVP_PKEY_decrypt: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: ngx_resolve_start: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: ngx_argv: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: ngx_cycle: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: ngx_rwlock_unlock: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: EVP_PKEY_get_id: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: ngx_atoof: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: d2i_PUBKEY: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: pcre2_set_compile_extra_options_8: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: ngx_ssl_create_connection: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: ECDSA_SIG_free: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: i2d_PKCS8_PRIV_KEY_INFO_bio: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: pcre2_general_context_create_8: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: EVP_PKEY_CTX_set1_hkdf_salt: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: ngx_strcasecmp: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: EVP_PKEY_get0_EC_KEY: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: X509_verify_cert_error_string: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: EVP_DigestInit_ex: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: EVP_aes_192_ctr: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: ERR_error_string_n: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: EVP_aes_192_gcm: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: ngx_chain_update_chains: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: ngx_stream_top_filter: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: EVP_PKEY_derive_init: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: EVP_aes_128_ctr: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: BN_free: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: EVP_CIPHER_CTX_free: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: ECDSA_SIG_new: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: EVP_aes_256_ctr: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: ngx_ssl_error: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: ngx_parse_time: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: EC_KEY_set_private_key: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: BN_bn2binpad: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: EVP_PKEY_CTX_set_rsa_keygen_bits: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: EVP_PKEY_get_size: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: EVP_PKEY_CTX_set_hkdf_md: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: EVP_PKEY_is_a: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: pcre2_get_ovector_pointer_8: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: ngx_stream_get_variable_index: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: EVP_PKEY_verify: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: ngx_stream_max_module: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: EVP_PKEY_CTX_new_id: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: EC_GROUP_order_bits: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: EVP_PKEY_derive: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: EVP_CipherFinal_ex: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: ngx_event_timer_rbtree: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: BIO_new_mem_buf: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: EVP_DigestUpdate: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: ngx_handle_read_event: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: ngx_rbtree_delete: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: EC_KEY_get0_group: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: pcre2_match_data_create_8: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: ngx_worker: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: HMAC: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: ngx_stream_get_variable: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: ngx_slab_alloc_locked: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: ECDSA_SIG_get0: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: ngx_palloc: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: ngx_ssl_check_host: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: BIO_new: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: ngx_slab_alloc: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: BIO_ctrl: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: EVP_PKEY_get_group_name: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: BIO_free: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: ngx_ssl_create: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: ngx_hash_strlow: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: SSL_ctrl: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: ngx_free_connection: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: ngx_destroy_pool: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: ngx_str_rbtree_lookup: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: EVP_PKEY_up_ref: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: pcre2_get_error_message_8: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: ngx_resolve_name_done: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: EVP_PKEY_sign_init: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: RSA_get0_key: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: ngx_set_environment: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: EVP_PKEY_CTX_set_rsa_mgf1_md: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: EVP_Digest: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: BN_bn2bin: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: RSA_new: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: ngx_stream_core_module: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: EVP_PKEY_new: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: EVP_PKEY_sign: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: EC_POINT_point2oct: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: EVP_CIPHER_CTX_ctrl: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: ngx_str_rbtree_insert_value: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: EVP_MD_CTX_new: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: RSA_get0_factors: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: EC_GROUP_get_curve_name: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: EVP_aes_256_gcm: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: ngx_resolve_name: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: ngx_pool_cleanup_add: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: ngx_array_push: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: ngx_pcalloc: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: ngx_pagesize: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: ngx_current_msec: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: ngx_hash_find: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: d2i_PKCS8_PRIV_KEY_INFO_bio: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: EVP_aes_128_cbc: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: i2d_PUBKEY_bio: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: ngx_rbtree_insert_timer_value: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: EVP_CIPHER_CTX_new: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: EC_KEY_free: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: EVP_PKCS82PKEY: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: ngx_stream_module: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: ngx_log_error_core: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: ngx_stream_complex_value: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: BN_cmp: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: ngx_event_get_peer: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: pcre2_match_8: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: EVP_PKEY_verify_init: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: ngx_parse_size: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: ngx_ssl_cleanup_ctx: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: ngx_conf_full_name: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: pcre2_compile_context_create_8: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: EVP_sha384: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: ngx_slab_calloc: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: ngx_crc32_table256: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: EVP_PKEY_get0_RSA: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: BN_lshift: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: EVP_PKEY_encrypt: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: ngx_stream_finalize_session: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: ngx_event_connect_peer: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: RSA_set0_factors: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: ngx_exiting: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: EVP_MD_get_size: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: ngx_cpystrn: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: ngx_create_pool: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: EVP_PKEY_keygen_init: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: EVP_PKEY_CTX_set_rsa_padding: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: ngx_strncasecmp: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: ERR_get_error: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: EC_GROUP_get_degree: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: EVP_PKEY_decrypt_init: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: ngx_handle_write_event: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: PKCS8_PRIV_KEY_INFO_free: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: ngx_close_connection: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: ngx_ssl_ciphers: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: EVP_PKEY2PKCS8: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: EVP_PKEY_set1_EC_KEY: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: pcre2_match_data_create_from_pattern_8: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: pcre2_match_data_free_8: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: ngx_inet_set_port: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: EVP_PKEY_CTX_set_rsa_pss_saltlen: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: ngx_conf_log_error: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: ngx_cached_time: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: EVP_CipherInit_ex: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: EVP_sha256: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: SSL_get_verify_result: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: EC_POINT_free: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: EC_POINT_new: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: pcre2_pattern_info_8: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: pcre2_compile_8: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: ngx_posted_events: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: BIO_s_mem: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: ngx_argc: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: EC_KEY_new_by_curve_name: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: RSA_set0_key: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: d2i_ECDSA_SIG: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: EVP_PKEY_CTX_free: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: ngx_chain_get_free_buf: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: ngx_rwlock_rlock: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: EVP_CipherUpdate: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: EVP_PKEY_set1_RSA: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: ngx_conf_set_size_slot: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: ngx_conf_set_size_slot: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: ngx_conf_set_size_slot: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: ngx_conf_set_str_array_slot: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: ngx_conf_set_str_slot: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: ngx_conf_set_str_slot: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: ngx_conf_set_str_slot: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: ngx_conf_set_str_slot: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: ngx_conf_set_str_slot: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: ngx_conf_set_msec_slot: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: ngx_conf_set_bitmask_slot: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: ngx_conf_set_flag_slot: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module-debug.so: ngx_conf_set_num_slot: symbol not found
+== /usr/lib/nginx/modules/ngx_stream_js_module.so
+	/lib/ld-musl-x86_64.so.1 (0x7dd8f60d8000)
+	libxml2.so.2 => /usr/lib/libxml2.so.2 (0x7dd8f5df9000)
+	libc.musl-x86_64.so.1 => /lib/ld-musl-x86_64.so.1 (0x7dd8f60d8000)
+	libz.so.1 => /usr/lib/libz.so.1 (0x7dd8f5dde000)
+	liblzma.so.5 => /usr/lib/liblzma.so.5 (0x7dd8f5da6000)
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: ngx_process: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: ngx_terminate: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: RSA_get0_crt_params: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: ngx_rbtree_insert: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: ngx_array_create: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: EVP_PKEY_CTX_new: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: ngx_parse_url: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: EVP_PKEY_encrypt_init: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: ngx_resolver_strerror: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: OBJ_txt2nid: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: ngx_shared_memory_add: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: EVP_PKEY_CTX_add1_hkdf_info: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: ngx_get_connection: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: EC_KEY_set_public_key: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: BN_value_one: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: ngx_sprintf: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: EVP_PKEY_keygen: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: EVP_MD_CTX_free: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: ngx_sock_ntop: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: ngx_pnalloc: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: BN_set_word: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: ngx_inet_addr: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: EVP_aes_128_gcm: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: ECDSA_SIG_set0: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: ngx_ssl_handshake: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: ngx_create_temp_buf: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: ERR_peek_error: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: EVP_PKEY_CTX_set_ec_paramgen_curve_nid: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: EVP_PKEY_CTX_set_signature_md: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: EVP_DigestFinal_ex: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: BN_new: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: EVP_PKEY_CTX_set1_hkdf_key: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: ngx_ssl_trusted_certificate: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: EVP_aes_256_cbc: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: PKCS5_PBKDF2_HMAC: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: RSA_set0_crt_params: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: BN_get_word: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: EVP_sha512: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: ERR_peek_error_data: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: EVP_CIPHER_CTX_get_block_size: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: EVP_aes_192_cbc: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: EC_KEY_set_public_key_affine_coordinates: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: ngx_alloc_chain_link: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: EC_KEY_get0_public_key: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: i2d_ECDSA_SIG: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: ngx_core_module: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: BN_num_bits: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: ngx_slab_free_locked: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: ngx_list_push: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: OBJ_nid2sn: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: EVP_sha1: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: ngx_ssl_shutdown: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: ngx_sort: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: BN_bin2bn: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: RAND_bytes: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: RSA_free: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: ngx_stream_compile_complex_value: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: BN_sub: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: ngx_rbtree_next: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: EC_KEY_get0_private_key: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: EC_POINT_get_affine_coordinates: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: ngx_stream_add_variable: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: EVP_PKEY_free: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: EC_POINT_oct2point: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: ngx_rwlock_wlock: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: EVP_PKEY_decrypt: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: ngx_resolve_start: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: ngx_argv: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: ngx_cycle: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: ngx_rwlock_unlock: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: EVP_PKEY_get_id: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: ngx_atoof: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: d2i_PUBKEY: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: pcre2_set_compile_extra_options_8: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: ngx_ssl_create_connection: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: ECDSA_SIG_free: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: i2d_PKCS8_PRIV_KEY_INFO_bio: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: pcre2_general_context_create_8: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: EVP_PKEY_CTX_set1_hkdf_salt: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: ngx_strcasecmp: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: EVP_PKEY_get0_EC_KEY: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: X509_verify_cert_error_string: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: EVP_DigestInit_ex: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: EVP_aes_192_ctr: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: ERR_error_string_n: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: EVP_aes_192_gcm: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: ngx_chain_update_chains: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: ngx_stream_top_filter: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: EVP_PKEY_derive_init: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: EVP_aes_128_ctr: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: BN_free: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: EVP_CIPHER_CTX_free: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: ECDSA_SIG_new: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: EVP_aes_256_ctr: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: ngx_ssl_error: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: ngx_parse_time: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: EC_KEY_set_private_key: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: BN_bn2binpad: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: EVP_PKEY_CTX_set_rsa_keygen_bits: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: EVP_PKEY_get_size: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: EVP_PKEY_CTX_set_hkdf_md: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: EVP_PKEY_is_a: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: pcre2_get_ovector_pointer_8: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: ngx_stream_get_variable_index: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: EVP_PKEY_verify: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: ngx_stream_max_module: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: EVP_PKEY_CTX_new_id: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: EC_GROUP_order_bits: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: EVP_PKEY_derive: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: EVP_CipherFinal_ex: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: ngx_event_timer_rbtree: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: BIO_new_mem_buf: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: EVP_DigestUpdate: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: ngx_handle_read_event: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: ngx_rbtree_delete: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: EC_KEY_get0_group: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: pcre2_match_data_create_8: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: ngx_worker: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: HMAC: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: ngx_stream_get_variable: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: ngx_slab_alloc_locked: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: ECDSA_SIG_get0: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: ngx_palloc: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: ngx_ssl_check_host: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: BIO_new: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: ngx_slab_alloc: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: BIO_ctrl: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: EVP_PKEY_get_group_name: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: BIO_free: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: ngx_ssl_create: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: ngx_hash_strlow: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: SSL_ctrl: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: ngx_free_connection: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: ngx_destroy_pool: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: ngx_str_rbtree_lookup: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: EVP_PKEY_up_ref: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: pcre2_get_error_message_8: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: ngx_resolve_name_done: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: EVP_PKEY_sign_init: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: RSA_get0_key: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: ngx_set_environment: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: EVP_PKEY_CTX_set_rsa_mgf1_md: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: EVP_Digest: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: BN_bn2bin: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: RSA_new: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: ngx_stream_core_module: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: EVP_PKEY_new: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: EVP_PKEY_sign: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: EC_POINT_point2oct: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: EVP_CIPHER_CTX_ctrl: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: ngx_str_rbtree_insert_value: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: EVP_MD_CTX_new: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: RSA_get0_factors: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: EC_GROUP_get_curve_name: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: EVP_aes_256_gcm: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: ngx_resolve_name: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: ngx_pool_cleanup_add: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: ngx_array_push: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: ngx_pcalloc: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: ngx_pagesize: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: ngx_current_msec: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: ngx_hash_find: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: d2i_PKCS8_PRIV_KEY_INFO_bio: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: EVP_aes_128_cbc: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: i2d_PUBKEY_bio: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: ngx_rbtree_insert_timer_value: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: EVP_CIPHER_CTX_new: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: EC_KEY_free: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: EVP_PKCS82PKEY: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: ngx_stream_module: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: ngx_log_error_core: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: ngx_stream_complex_value: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: BN_cmp: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: ngx_event_get_peer: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: pcre2_match_8: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: EVP_PKEY_verify_init: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: ngx_parse_size: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: ngx_ssl_cleanup_ctx: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: ngx_conf_full_name: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: pcre2_compile_context_create_8: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: EVP_sha384: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: ngx_slab_calloc: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: ngx_crc32_table256: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: EVP_PKEY_get0_RSA: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: BN_lshift: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: EVP_PKEY_encrypt: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: ngx_stream_finalize_session: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: ngx_event_connect_peer: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: RSA_set0_factors: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: ngx_exiting: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: EVP_MD_get_size: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: ngx_cpystrn: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: ngx_create_pool: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: EVP_PKEY_keygen_init: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: EVP_PKEY_CTX_set_rsa_padding: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: ngx_strncasecmp: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: ERR_get_error: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: EC_GROUP_get_degree: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: EVP_PKEY_decrypt_init: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: ngx_handle_write_event: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: PKCS8_PRIV_KEY_INFO_free: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: ngx_close_connection: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: ngx_ssl_ciphers: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: EVP_PKEY2PKCS8: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: EVP_PKEY_set1_EC_KEY: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: pcre2_match_data_create_from_pattern_8: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: pcre2_match_data_free_8: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: ngx_inet_set_port: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: EVP_PKEY_CTX_set_rsa_pss_saltlen: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: ngx_conf_log_error: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: ngx_cached_time: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: EVP_CipherInit_ex: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: EVP_sha256: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: SSL_get_verify_result: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: EC_POINT_free: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: EC_POINT_new: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: pcre2_pattern_info_8: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: pcre2_compile_8: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: ngx_posted_events: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: BIO_s_mem: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: ngx_argc: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: EC_KEY_new_by_curve_name: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: RSA_set0_key: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: d2i_ECDSA_SIG: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: EVP_PKEY_CTX_free: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: ngx_chain_get_free_buf: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: ngx_rwlock_rlock: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: EVP_CipherUpdate: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: EVP_PKEY_set1_RSA: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: ngx_conf_set_size_slot: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: ngx_conf_set_size_slot: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: ngx_conf_set_size_slot: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: ngx_conf_set_str_array_slot: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: ngx_conf_set_str_slot: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: ngx_conf_set_str_slot: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: ngx_conf_set_str_slot: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: ngx_conf_set_str_slot: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: ngx_conf_set_str_slot: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: ngx_conf_set_msec_slot: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: ngx_conf_set_bitmask_slot: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: ngx_conf_set_flag_slot: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_stream_js_module.so: ngx_conf_set_num_slot: symbol not found

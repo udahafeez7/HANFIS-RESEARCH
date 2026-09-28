@@ -1,0 +1,106 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    deployment.kubernetes.io/revision: "11"
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"labels":{"app":"p0if-off","hanfis.condition":"off","hanfis.role":"positive-control"},"name":"p0if-off","namespace":"hanfis-research"},"spec":{"replicas":2,"selector":{"matchLabels":{"app":"p0if-off"}},"template":{"metadata":{"labels":{"app":"p0if-off","hanfis.condition":"off","hanfis.role":"positive-control"}},"spec":{"containers":[{"image":"hanfis/p0if:1.2","imagePullPolicy":"IfNotPresent","name":"nginx-p0if","ports":[{"containerPort":8080}],"readinessProbe":{"httpGet":{"path":"/health","port":8080},"initialDelaySeconds":2,"periodSeconds":5},"resources":{"limits":{"cpu":"500m","memory":"256Mi"},"requests":{"cpu":"10m","memory":"32Mi"}},"securityContext":{"allowPrivilegeEscalation":false,"capabilities":{"drop":["ALL"]},"runAsNonRoot":true,"runAsUser":101},"volumeMounts":[{"mountPath":"/etc/nginx/nginx.conf","name":"conf","readOnly":true,"subPath":"nginx.conf"}]}],"volumes":[{"configMap":{"name":"p0if-off-conf"},"name":"conf"}]}}}}
+  creationTimestamp: "2026-09-28T03:16:58Z"
+  generation: 11
+  labels:
+    app: p0if-off
+    hanfis.condition: "off"
+    hanfis.role: positive-control
+  name: p0if-off
+  namespace: hanfis-research
+  resourceVersion: "6487768"
+  uid: 826d196b-df39-4153-820e-f65a313157d4
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 2
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: p0if-off
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      annotations:
+        kubectl.kubernetes.io/restartedAt: "2026-09-28T13:06:49+07:00"
+      labels:
+        app: p0if-off
+        hanfis.condition: "off"
+        hanfis.role: positive-control
+    spec:
+      containers:
+      - image: hanfis/p0if:1.2
+        imagePullPolicy: IfNotPresent
+        name: nginx-p0if
+        ports:
+        - containerPort: 8080
+          protocol: TCP
+        readinessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /health
+            port: 8080
+            scheme: HTTP
+          initialDelaySeconds: 2
+          periodSeconds: 5
+          successThreshold: 1
+          timeoutSeconds: 1
+        resources:
+          limits:
+            cpu: 500m
+            memory: 256Mi
+          requests:
+            cpu: 10m
+            memory: 32Mi
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+            - ALL
+          runAsNonRoot: true
+          runAsUser: 101
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /etc/nginx/nginx.conf
+          name: conf
+          readOnly: true
+          subPath: nginx.conf
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+      volumes:
+      - configMap:
+          defaultMode: 420
+          name: p0if-off-conf
+        name: conf
+status:
+  availableReplicas: 2
+  conditions:
+  - lastTransitionTime: "2026-09-28T03:17:05Z"
+    lastUpdateTime: "2026-09-28T03:17:05Z"
+    message: Deployment has minimum availability.
+    reason: MinimumReplicasAvailable
+    status: "True"
+    type: Available
+  - lastTransitionTime: "2026-09-28T05:35:58Z"
+    lastUpdateTime: "2026-09-28T06:07:01Z"
+    message: ReplicaSet "p0if-off-64dbb945c4" has successfully progressed.
+    reason: NewReplicaSetAvailable
+    status: "True"
+    type: Progressing
+  observedGeneration: 11
+  readyReplicas: 2
+  replicas: 2
+  terminatingReplicas: 0
+  updatedReplicas: 2

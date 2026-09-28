@@ -1,0 +1,33 @@
+== tooling
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+readelf=missing
+objdump=missing
+scanelf=/usr/bin/scanelf
+binutils_files=0
+TOOL_USED=scanelf
+== /usr/sbin/nginx
+libpcre2-8.so.0,libssl.so.3,libcrypto.so.3,libz.so.1,libc.musl-x86_64.so.1  /usr/sbin/nginx
+== /usr/lib/nginx/modules/ngx_http_geoip_module-debug.so
+libGeoIP.so.1,libc.musl-x86_64.so.1  /usr/lib/nginx/modules/ngx_http_geoip_module-debug.so
+== /usr/lib/nginx/modules/ngx_http_geoip_module.so
+libGeoIP.so.1,libc.musl-x86_64.so.1  /usr/lib/nginx/modules/ngx_http_geoip_module.so
+== /usr/lib/nginx/modules/ngx_http_image_filter_module-debug.so
+libgd.so.3,libc.musl-x86_64.so.1  /usr/lib/nginx/modules/ngx_http_image_filter_module-debug.so
+== /usr/lib/nginx/modules/ngx_http_image_filter_module.so
+libgd.so.3,libc.musl-x86_64.so.1  /usr/lib/nginx/modules/ngx_http_image_filter_module.so
+== /usr/lib/nginx/modules/ngx_http_js_module-debug.so
+libxml2.so.2,libc.musl-x86_64.so.1  /usr/lib/nginx/modules/ngx_http_js_module-debug.so
+== /usr/lib/nginx/modules/ngx_http_js_module.so
+libxml2.so.2,libc.musl-x86_64.so.1  /usr/lib/nginx/modules/ngx_http_js_module.so
+== /usr/lib/nginx/modules/ngx_http_xslt_filter_module-debug.so
+libxml2.so.2,libxslt.so.1,libexslt.so.0,libc.musl-x86_64.so.1  /usr/lib/nginx/modules/ngx_http_xslt_filter_module-debug.so
+== /usr/lib/nginx/modules/ngx_http_xslt_filter_module.so
+libxml2.so.2,libxslt.so.1,libexslt.so.0,libc.musl-x86_64.so.1  /usr/lib/nginx/modules/ngx_http_xslt_filter_module.so
+== /usr/lib/nginx/modules/ngx_stream_geoip_module-debug.so
+libGeoIP.so.1,libc.musl-x86_64.so.1  /usr/lib/nginx/modules/ngx_stream_geoip_module-debug.so
+== /usr/lib/nginx/modules/ngx_stream_geoip_module.so
+libGeoIP.so.1,libc.musl-x86_64.so.1  /usr/lib/nginx/modules/ngx_stream_geoip_module.so
+== /usr/lib/nginx/modules/ngx_stream_js_module-debug.so
+libxml2.so.2,libc.musl-x86_64.so.1  /usr/lib/nginx/modules/ngx_stream_js_module-debug.so
+== /usr/lib/nginx/modules/ngx_stream_js_module.so
+libxml2.so.2,libc.musl-x86_64.so.1  /usr/lib/nginx/modules/ngx_stream_js_module.so

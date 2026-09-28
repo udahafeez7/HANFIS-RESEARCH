@@ -1,0 +1,13 @@
+DEPLOYMENT=p0if-on
+NAMESPACE=hanfis-research
+CAPTURE_UTC=2026-09-28T06:07:07Z
+PROTOCOL=reachability-evidence-v1
+RUNTIME_EXPLOIT_EXECUTED=false
+REPLICAS=2
+PODS=p0if-on-5fc87bddb-6drmn p0if-on-5fc87bddb-nq2dd
+IMAGE=hanfis/p0if:1.2
+IMAGE_ID=docker.io/hanfis/p0if@sha256:4b3e7080b453f4549a3a8e31dea91d3d009c0de9fa61cb5efbfdaeb44f0dc3d5
+TRIGGER_PATH=/resize/sample.jpg
+TRIGGER_HTTP_CODE=200
+TRIGGER_PATH_EXERCISED=true
+STATUS=PASS_REACHABILITY_EVIDENCE_p0if-on

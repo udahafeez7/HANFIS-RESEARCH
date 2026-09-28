@@ -1,8 +1,9 @@
 {
   "n_rows_event_id": 171,
-  "n_assets": 2,
+  "n_asset_ids": 3,
+  "n_image_groups": 2,
   "share_non_na": 0.9298,
-  "share_positive": 0.3333,
+  "share_positive": 1.0,
   "n_insufficient": 0,
   "checks": {
     "rows>=1320": false,
@@ -11,7 +12,7 @@
     "no_INSUFFICIENT_EVIDENCE": true
   },
   "TRAINING_AUTHORIZED": false,
-  "built_at": "2026-09-28T05:49:03+00:00",
+  "built_at": "2026-09-28T06:07:37+00:00",
   "weeks": 57,
   "start": "2025-08-25",
   "end": "2026-09-21",
