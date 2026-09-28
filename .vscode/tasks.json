@@ -1,0 +1,22 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "HANFIS: capture P0-IF evidence",
+      "type": "shell",
+      "command": "./scripts/run_p0if_capture.sh ${input:label}",
+      "options": { "cwd": "/mnt/c/Research/ANFIS" },
+      "problemMatcher": []
+    },
+    {
+      "label": "HANFIS: run tests",
+      "type": "shell",
+      "command": "python -m pytest -q test tests",
+      "options": { "cwd": "/mnt/c/Research/ANFIS" },
+      "problemMatcher": []
+    }
+  ],
+  "inputs": [
+    { "id": "label", "type": "promptString", "description": "Output label, e.g. v4", "default": "v4" }
+  ]
+}

@@ -42,10 +42,13 @@ kubectl -n "$NAMESPACE" rollout status "deploy/$DEPLOY" --timeout=120s >/dev/nul
 # label selector still returns terminating pods for a few seconds; execing into one of them
 # fails with "pods ... not found" (patch 0016).
 list_ready_pods() {
+  # kubectl jsonpath has no negation operator, so the filter is done with custom-columns + awk:
+  # a pod qualifies when it is Running, its container reports ready=true, and it has no
+  # deletionTimestamp (printed as <none> when absent).  (patch 0017)
   kubectl -n "$NAMESPACE" get pods -l "app=$DEPLOY" \
-    --field-selector=status.phase=Running \
-    -o jsonpath='{range .items[?(!@.metadata.deletionTimestamp)]}{.metadata.name}{" "}{range .status.conditions[?(@.type=="Ready")]}{.status}{end}{"\n"}{end}' \
-    | awk '$2=="True"{print $1}'
+    --field-selector=status.phase=Running --no-headers \
+    -o custom-columns='NAME:.metadata.name,READY:.status.containerStatuses[0].ready,DEL:.metadata.deletionTimestamp' \
+    2>/dev/null | awk '$2=="true" && $3=="<none>" {print $1}'
 }
 PODS=()
 for attempt in 1 2 3 4 5 6 7 8 9 10; do
