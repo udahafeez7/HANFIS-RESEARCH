@@ -34,7 +34,7 @@ def embargo_timedelta(days: int) -> pd.Timedelta:
     The string form carries the unit explicitly and behaves identically on every version
     (patch 0020).
     """
-    return pd.Timedelta(f"{int(days)}D")
+    return pd.Timedelta(int(days), unit="D")
 
 
 class LeakageError(AssertionError):

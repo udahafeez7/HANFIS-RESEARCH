@@ -99,8 +99,8 @@ class TestGroupTimeSplit(unittest.TestCase):
         self.assertEqual(offenders, [], msg=f"unexpected warnings: {offenders}")
 
     def test_embargo_timedelta_is_explicit_and_equal_to_days(self):
-        self.assertEqual(embargo_timedelta(30), pd.Timedelta("30D"))
-        self.assertEqual(embargo_timedelta(0), pd.Timedelta("0D"))
+        self.assertEqual(embargo_timedelta(30), pd.Timedelta(30, unit="D"))
+        self.assertEqual(embargo_timedelta(0), pd.Timedelta(0, unit="D"))
 
     def test_too_few_weeks_is_refused(self):
         short = self.frame[self.frame["week_start_utc"] < pd.Timestamp("2026-02-01", tz="UTC")]
