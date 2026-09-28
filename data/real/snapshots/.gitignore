@@ -1,0 +1,3 @@
+# raw snapshots are large (~4 MB/week); only the seal (manifest.json) is versioned
+epss/
+kev/
