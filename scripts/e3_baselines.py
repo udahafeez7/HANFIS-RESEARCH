@@ -93,17 +93,31 @@ def main(argv=None) -> int:
     res = pd.DataFrame(rows)
     summary = (res.groupby(["scale", "baseline"])[["rmse", "mae", "r2", "ss_clim", "ss_pers"]]
                .agg(["mean", "std"]).round(4))
+    # Pooled skill scores: MSE summed over all test rows of all folds, then one ratio. A mean of
+    # per-fold ratios explodes when a fold's reference MSE is near zero (seen on the 27-asset pilot).
+    pooled_rows = []
+    for scale in SCALES:
+        sub = res[res.scale == scale]
+        mse = sub.assign(sse=lambda d: d.rmse ** 2 * d.n_test).groupby("baseline")["sse"].sum()
+        n = sub.groupby("baseline")["n_test"].sum()
+        pooled_mse = (mse / n)
+        for b in pooled_mse.index:
+            pooled_rows.append({"scale": scale, "baseline": b, "rmse_pooled": float(pooled_mse[b] ** 0.5),
+                                "ss_clim_pooled": float(1 - pooled_mse[b] / pooled_mse["climatology"]),
+                                "ss_pers_pooled": float(1 - pooled_mse[b] / pooled_mse["persistence"])})
+    pooled = pd.DataFrame(pooled_rows).set_index(["scale", "baseline"]).round(4)
     out = Path(a.out_dir); out.mkdir(parents=True, exist_ok=True)
     stamp = dt.datetime.now(dt.timezone.utc).strftime("%Y%m%dT%H%M%SZ")
     res.to_csv(out / f"baselines_{stamp}.csv", index=False)
     summary.to_csv(out / f"baselines_{stamp}_summary.csv")
+    pooled.to_csv(out / f"baselines_{stamp}_pooled.csv")
     fold_table.to_csv(out / f"baselines_{stamp}_folds.csv", index=False)
     (out / f"baselines_{stamp}_meta.json").write_text(json.dumps({
         "table": a.table, "rows_supervised": int(len(sup)), "assets": int(sup["asset_id"].nunique()),
         "image_groups": int(sup["image_id"].nunique()), "n_splits_used": n_groups, "embargo_days": a.embargo_days,
         "lag_weeks": a.lag_weeks, "group_assignment": sp.group_assignment(sup), "generated_utc": stamp}, indent=2))
     print(fold_table[["fold", "train_rows", "test_rows", "train_images", "test_images", "test_target_nonzero_share"]].to_string(index=False))
-    print(); print(summary.to_string())
+    print(); print(summary.to_string()); print(); print("pooled over all test rows:"); print(pooled.to_string())
     print(f"\nwrote {out}/baselines_{stamp}*.csv  |  rows={len(sup)} assets={sup['asset_id'].nunique()} folds={len(folds)}")
     print("STATUS=E3_BASELINES_DONE")
     return 0
