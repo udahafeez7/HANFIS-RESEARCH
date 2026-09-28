@@ -1,0 +1,9 @@
+scale,baseline,rmse_pooled,ss_clim_pooled,ss_pers_pooled
+raw,climatology,2.4714,0.0,-23.3453
+raw,cvss_only,2.4704,0.0008,-23.3257
+raw,persistence,0.5009,0.9589,0.0
+raw,ridge_7inputs,0.4186,0.9713,0.3014
+log1p,climatology,0.7003,0.0,-14.471
+log1p,cvss_only,0.6667,0.0937,-13.0206
+log1p,persistence,0.178,0.9354,0.0
+log1p,ridge_7inputs,0.2262,0.8957,-0.6144
