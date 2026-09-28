@@ -1,0 +1,19 @@
+[
+  {
+    "event_id": "p0if-on__2026-W40",
+    "image_id": "hanfis/p0if:1.0",
+    "week_start_utc": "2026-09-28T00:00:00Z",
+    "cvss": 7.5,
+    "exploitability": 0.42,
+    "patch_risk": 1,
+    "mfa_risk": 0.5,
+    "kubernetes_exposure": 0.5,
+    "asset_criticality": 3,
+    "threat_intelligence": 7.4,
+    "reachability_level": 0.5,
+    "version_range_status": "AFFECTED_VERSION_RANGE",
+    "y": 12.5,
+    "evidence_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "protocol": "reachability-evidence-v1"
+  }
+]

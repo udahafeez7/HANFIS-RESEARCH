@@ -1,0 +1,149 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "HANFIS source record v2 (asset-week)",
+  "description": "One row per image (asset) per ISO week. Supersedes anfis_source_schema.json: adds image_id, week_start_utc, reachability_level and version_range_status, puts threat_intelligence on the 0-1 scale, and records unknown as null rather than 0.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "event_id",
+    "image_id",
+    "week_start_utc",
+    "cvss",
+    "exploitability",
+    "patch_risk",
+    "mfa_risk",
+    "kubernetes_exposure",
+    "asset_criticality",
+    "threat_intelligence",
+    "reachability_level",
+    "version_range_status"
+  ],
+  "properties": {
+    "event_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "unique id of the asset-week row"
+    },
+    "image_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "grouping key for GroupTimeSplit"
+    },
+    "week_start_utc": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Monday 00:00 UTC of the observation week"
+    },
+    "cvss": {
+      "type": [
+        "number",
+        "null"
+      ],
+      "minimum": 0,
+      "maximum": 10,
+      "description": "x1, max CVSS base over affected and reachable CVEs; null = unknown"
+    },
+    "exploitability": {
+      "type": [
+        "number",
+        "null"
+      ],
+      "minimum": 0,
+      "maximum": 1,
+      "description": "x2, max EPSS(t) x rho over the same CVEs"
+    },
+    "patch_risk": {
+      "type": [
+        "number",
+        "null"
+      ],
+      "minimum": 0,
+      "maximum": 2,
+      "description": "x3, 0 not in range, 1 fix available not applied, 2 affected without fix"
+    },
+    "mfa_risk": {
+      "type": [
+        "number",
+        "null"
+      ],
+      "minimum": 0,
+      "maximum": 1,
+      "description": "x4"
+    },
+    "kubernetes_exposure": {
+      "type": [
+        "number",
+        "null"
+      ],
+      "minimum": 0,
+      "maximum": 1,
+      "description": "x5, cluster_only 0, nodeport 0.5, ingress_public 1"
+    },
+    "asset_criticality": {
+      "type": [
+        "number",
+        "null"
+      ],
+      "minimum": 1,
+      "maximum": 5,
+      "description": "x6, business criticality 1-5"
+    },
+    "threat_intelligence": {
+      "type": [
+        "number",
+        "null"
+      ],
+      "minimum": 0,
+      "maximum": 1,
+      "description": "x7, external feed on 0-1 (v1 used 0-10; converted on ingest)"
+    },
+    "reachability_level": {
+      "type": [
+        "number",
+        "null"
+      ],
+      "enum": [
+        0,
+        0.1,
+        0.25,
+        0.6,
+        1,
+        null
+      ],
+      "description": "rho (A-01): 0 not installed or out of range, 0.1 installed no dependency, 0.25 transitive not activated, 0.6 loaded trigger unproven, 1 loaded and trigger available"
+    },
+    "version_range_status": {
+      "type": "string",
+      "enum": [
+        "AFFECTED_VERSION_RANGE",
+        "NOT_IN_AFFECTED_VERSION_RANGE",
+        "INSUFFICIENT_EVIDENCE"
+      ],
+      "description": "deterministic comparison against Alpine secdb (primary) and CNA/NVD ranges (secondary)"
+    },
+    "y": {
+      "type": [
+        "number",
+        "null"
+      ],
+      "minimum": 0,
+      "maximum": 100,
+      "description": "temporal target y(a,t) from EPSS/KEV over a 30-day window; absent in feature-only rows"
+    },
+    "evidence_sha256": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "pattern": "^[0-9a-f]{64}$",
+      "description": "hash of the frozen evidence bundle for this row"
+    },
+    "protocol": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "capture protocol version, e.g. reachability-evidence-v1"
+    }
+  }
+}

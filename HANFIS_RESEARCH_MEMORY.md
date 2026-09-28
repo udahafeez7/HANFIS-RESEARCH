@@ -2,7 +2,7 @@
 
 > Memori proyek HANFIS. Dibaca ulang pada awal setiap sesi kerja (manusia maupun asisten AI).
 > Diperbarui hanya melalui amendemen bernomor (A-xx) atau penutupan blocker (F-xx).
-> Versi: 2.1 · Tanggal: 2026-09-22 · Pemilik: tim HANFIS (Universitas Andalas)
+> Versi: 2.2 · Tanggal: 2026-09-28 · Pemilik: tim HANFIS (Universitas Andalas)
 
 ## 0. Identitas dan target akhir
 
@@ -52,10 +52,14 @@ Setiap usulan perubahan harus menyebut lapisan dan dokumen yang diubah. Usulan t
 | A-06 | 2026-09-22 | Skema §5, kode | LSE tertutup β = (ΦᵀΦ+λI)⁻¹Φᵀy, λ ≥ 1e−3; LSE bergantian panel bawah di E2 |
 | A-07 | 2026-09-22 | Naskah | Kutip HANFIS terdahulu; nyatakan pembeda; pertimbangkan penanda HANFIS-DRS |
 | A-08 | 2026-09-22 | Kode explain | Jejak firing + masking kelompok aturan + surface view; uji kesetiaan P0→P0-IF |
+| A-09 | 2026-09-22 | Kode training | Konfigurasi pelatihan beku: hibrida LSE+Adam, 3 restart pra-registrasi, patience 100, min_epochs 200, lr 1e-2, ridge 1e-3 |
+| A-10 | 2026-09-22 | Skema §2–3 | Keluarga MF Gauss dengan konstrain monotonik AKTIF untuk E4 (pelanggaran 0,17% vs 0,72%; harga 0,11 RMSE) |
+| A-11 | 2026-09-28 | Testbed | Kontrol positif P0-IF diterima: OFF ρ=0,25, ON ρ=1,0 (libgd dan libexpat terpetakan 2/2 pod, pemicu HTTP 200) |
+| A-12 | 2026-09-28 | Pipeline data | Kontrak data v2 (aset-minggu): image_id, week_start_utc, reachability_level, version_range_status, TI 0–1, unknown = null |
 
 ## 5. Blocker manuskrip F1–F9 (status 2026-09-22)
 
-F1 target sintetis → sebagian ditangani (label temporal; skala belum) · F2 H3 terbantah → dinyatakan ulang sebagai hipotesis mekanisme · F3 kontradiksi telemetri → direkonsiliasi · F4 B4.10 → **terbuka** · F5 held-out → direncanakan (GroupTimeSplit) · F6 headline m=3 → **terbuka** · F7 Fuzzyfortify → direncanakan (A-05, E4) · F8 threat model → ditutup · F9 template → **terbuka**.
+F1 target sintetis → sebagian ditangani (label temporal; skala belum) · F2 H3 terbantah → dinyatakan ulang sebagai hipotesis mekanisme · F3 kontradiksi telemetri → **ditutup** (10 pasangan v3.0, node CPU +99,4 mCPU p=0,002; latensi P95 gagal tolak H0, CI [−0,13;+0,27] ms) · F4 B4.10 → **terbuka** · F5 held-out → direncanakan (GroupTimeSplit) · F6 headline m=3 → **terbuka** · F7 Fuzzyfortify → direncanakan (A-05, E4) · F8 threat model → ditutup · F9 template → **terbuka**.
 
 ## 6. Nomenklatur
 
@@ -85,3 +89,12 @@ Protokol beku bertanggal · ≥10 obs/parameter (≥1.320 baris) · non-NA ≥25
 1. Tambahkan baris amendemen atau ubah status blocker; jangan menimpa entri lama.
 2. Perbarui tanggal dan versi di kepala berkas.
 3. Commit dengan pesan `memory: A-xx ...` atau `memory: close F-x ...`.
+
+## 11. Status eksperimen (2026-09-28)
+
+- E0 pipeline, E-INT (m_I), E1 (keluarga MF × monotonik) selesai; A-09 dan A-10 beku.
+- Telemetri: 10 pasangan protokol v3.0 dianalisis; F3 ditutup; §4.1 naskah tersedia di
+  `manuscript/results_efficiency.tex`.
+- Kontrol positif P0-IF diterima (A-11): sumber varians label pertama tersedia.
+- Berikutnya: E3 (gerbang go/no-go pada data nyata P0 dan P0-IF) memakai `GroupTimeSplit`
+  (embargo 30 hari) dan kontrak data v2.
