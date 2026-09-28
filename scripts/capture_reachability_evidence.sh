@@ -37,9 +37,27 @@ mkdir -p "$OUTDIR"
 } >> "$OUTDIR/metadata.txt"
 
 kubectl -n "$NAMESPACE" rollout status "deploy/$DEPLOY" --timeout=120s >/dev/null || fail ROLLOUT
-mapfile -t PODS < <(kubectl -n "$NAMESPACE" get pods -l "app=$DEPLOY" -o jsonpath='{range .items[*]}{.metadata.name}{"\n"}{end}')
-[ "${#PODS[@]}" -ge 2 ] || fail FEWER_THAN_TWO_REPLICAS
+
+# Select only pods that are Running, Ready and NOT being deleted. After a rollout restart the
+# label selector still returns terminating pods for a few seconds; execing into one of them
+# fails with "pods ... not found" (patch 0016).
+list_ready_pods() {
+  kubectl -n "$NAMESPACE" get pods -l "app=$DEPLOY" \
+    --field-selector=status.phase=Running \
+    -o jsonpath='{range .items[?(!@.metadata.deletionTimestamp)]}{.metadata.name}{" "}{range .status.conditions[?(@.type=="Ready")]}{.status}{end}{"\n"}{end}' \
+    | awk '$2=="True"{print $1}'
+}
+PODS=()
+for attempt in 1 2 3 4 5 6 7 8 9 10; do
+  mapfile -t PODS < <(list_ready_pods)
+  [ "${#PODS[@]}" -ge 2 ] && break
+  sleep 3
+done
+[ "${#PODS[@]}" -ge 2 ] || fail FEWER_THAN_TWO_READY_REPLICAS
 echo "REPLICAS=${#PODS[@]}" >> "$OUTDIR/metadata.txt"
+echo "PODS=${PODS[*]}" >> "$OUTDIR/metadata.txt"
+echo "IMAGE=$(kubectl -n "$NAMESPACE" get pod "${PODS[0]}" -o jsonpath='{.spec.containers[0].image}')" >> "$OUTDIR/metadata.txt"
+echo "IMAGE_ID=$(kubectl -n "$NAMESPACE" get pod "${PODS[0]}" -o jsonpath='{.status.containerStatuses[0].imageID}')" >> "$OUTDIR/metadata.txt"
 
 # Optional trigger: a plain GET that forces the module's code path to run.
 if [ -n "$TRIGGER_PATH" ]; then
@@ -56,7 +74,26 @@ fi
 for POD in "${PODS[@]}"; do
   D="$OUTDIR/$POD"; mkdir -p "$D"
   kubectl -n "$NAMESPACE" exec "$POD" -- sh -c 'apk list --installed 2>/dev/null | sort' > "$D/identity_apk.txt" || fail IDENTITY
-  kubectl -n "$NAMESPACE" exec "$POD" -- sh -c 'command -v readelf >/dev/null || { echo "READELF_MISSING"; exit 3; }; for f in /usr/sbin/nginx /usr/lib/nginx/modules/*.so; do echo "== $f"; readelf -d "$f" | grep NEEDED; done' > "$D/linkage_dt_needed.txt" || fail READELF_MISSING_IN_IMAGE
+  # Direct dependencies (DT_NEEDED). Three tools are tried in order so a missing binutils does
+  # not silently empty this evidence dimension; diagnostics are recorded in the same file and the
+  # step only fails when none of the tools exists (patch 0016).
+  kubectl -n "$NAMESPACE" exec "$POD" -- sh -c '
+      echo "== tooling"; echo "PATH=$PATH"
+      for t in readelf objdump scanelf; do printf "%s=%s\n" "$t" "$(command -v $t || echo missing)"; done
+      apk info -L binutils 2>/dev/null | grep -c . | sed "s/^/binutils_files=/"
+      if command -v readelf >/dev/null; then TOOL=readelf
+      elif command -v objdump >/dev/null; then TOOL=objdump
+      elif command -v scanelf >/dev/null; then TOOL=scanelf
+      else echo "NO_ELF_TOOL"; exit 3; fi
+      echo "TOOL_USED=$TOOL"
+      for f in /usr/sbin/nginx /usr/lib/nginx/modules/*.so; do
+        echo "== $f"
+        case "$TOOL" in
+          readelf) readelf -d "$f" | grep NEEDED ;;
+          objdump) objdump -p "$f" | grep NEEDED ;;
+          scanelf) scanelf -qn "$f" ;;
+        esac
+      done' > "$D/linkage_dt_needed.txt" || fail NO_ELF_TOOL_IN_IMAGE
   kubectl -n "$NAMESPACE" exec "$POD" -- sh -c 'for f in /usr/sbin/nginx /usr/lib/nginx/modules/*.so; do echo "== $f"; ldd "$f" 2>&1; done' > "$D/linkage_ldd.txt" || true
   kubectl -n "$NAMESPACE" exec "$POD" -- sh -c 'nginx -T 2>&1' > "$D/activation_nginx_T.txt" || fail ACTIVATION
   kubectl -n "$NAMESPACE" exec "$POD" -- sh -c 'for p in $(pgrep nginx); do echo "== pid $p"; cat /proc/$p/maps; done' > "$D/runtime_maps.txt" || fail RUNTIME_MAPS

@@ -29,6 +29,9 @@ docker build -t hanfis/p0if:1.0 /mnt/c/Research/ANFIS/kubernetes/p0if
 docker run --rm hanfis/p0if:1.0 sh -c \
   'ls -l /usr/lib/nginx/modules/ngx_http_image_filter_module.so && ldd /usr/lib/nginx/modules/ngx_http_image_filter_module.so | grep -E "libgd|libexpat"'
 
+# 2b. Confirm the ELF tooling is inside the image (evidence dimension 2)
+docker run --rm hanfis/p0if:1.0 sh -c 'command -v readelf; command -v objdump; command -v scanelf'
+
 # 3. Deploy both conditions
 kubectl apply -f /mnt/c/Research/ANFIS/kubernetes/p0if/p0if.yaml
 kubectl -n hanfis-research rollout status deploy/p0if-off --timeout=120s
@@ -58,3 +61,16 @@ cat /mnt/c/Research/ANFIS/results_python/evidence/p0if-on/*/summary.txt
 
 If `libexpat_mapped` is 0 on p0if-on, the chain libgd -> libexpat does not hold in this Alpine
 build; report the `linkage_ldd.txt` of the module and stop. Do not adjust the expected value.
+
+
+## Re-running after an image rebuild
+
+`rollout restart` leaves terminating pods behind for a few seconds. The capture script now waits
+until at least two pods are Running **and** Ready **and** not being deleted before it execs into
+them, and records the image and imageID it actually measured in `metadata.txt`. If a capture still
+reports `HOLD_FEWER_THAN_TWO_READY_REPLICAS`, inspect:
+
+```bash
+kubectl -n hanfis-research get pods -l app=p0if-on -o wide
+kubectl -n hanfis-research describe deploy/p0if-on | tail -20
+```

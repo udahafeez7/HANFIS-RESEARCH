@@ -20,12 +20,14 @@ RUN apk add --no-cache \
       expat \
       curl \
       binutils \
+      pax-utils \
  && mkdir -p /var/lib/nginx/tmp /var/log/nginx /usr/share/nginx/html \
  && chown -R 101:101 /var/lib/nginx /var/log/nginx /usr/share/nginx/html
 
-# binutils provides readelf, required by scripts/capture_reachability_evidence.sh to record
-# the direct DT_NEEDED dependencies (evidence dimension 2). Without it that dimension is
-# silently missing, which is why the script now fails closed if readelf is absent (patch 0015).
+# binutils (readelf, objdump) and pax-utils (scanelf) are required by
+# scripts/capture_reachability_evidence.sh to record the direct DT_NEEDED dependencies
+# (evidence dimension 2). The script tries the three tools in order and fails closed only when
+# none is present, so this dimension can never be silently empty (patches 0015, 0016).
 
 # A tiny JPEG so the image_filter location has something to process.
 COPY sample.jpg /usr/share/nginx/html/sample.jpg
