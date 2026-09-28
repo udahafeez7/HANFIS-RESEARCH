@@ -59,3 +59,6 @@ Thumbs.db
 
 # Generated Kubernetes/Prometheus manifests
 /Kubernetes/Observability/*-rendered.yaml
+
+# patch inbox: keep the folder and its README, ignore the archives
+Patch/*.zip

@@ -16,6 +16,7 @@ and the frozen evidence for the existing 22 adjudications are preserved.
 ```bash
 cd /mnt/c/Research/ANFIS
 source /home/hafiz/.venvs/anfis/bin/activate
+# Patch archives are downloaded to C:\Research\ANFIS\Patch (WSL: /mnt/c/Research/ANFIS/Patch)
 
 # 0. Verify the Alpine module package exists before building (fail-closed)
 docker run --rm alpine:3.21 sh -c \

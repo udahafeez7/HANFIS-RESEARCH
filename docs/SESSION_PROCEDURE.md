@@ -21,8 +21,8 @@
 | Referensi dan arsip hasil | `/mnt/c/Research/ANFIS/reference/eint_results/` | — |
 | Potongan naskah | `/mnt/c/Research/ANFIS/manuscript/` | — |
 | Memori proyek | `/mnt/c/Research/ANFIS/HANFIS_RESEARCH_MEMORY.md` | — |
-| Patch masuk (sementara) | `/tmp/pNNNN/` | — |
-| Unduhan dari chat | `/mnt/c/Users/<user>/Downloads/` | `C:\Users\<user>\Downloads\` |
+| **Folder patch (unduhan dari chat)** | `/mnt/c/Research/ANFIS/Patch/` | `C:\Research\ANFIS\Patch\` |
+| Patch terbuka (sementara) | `/tmp/pNNNN/` | — |
 
 ## 1. Buka sesi (selalu empat langkah ini)
 
@@ -47,13 +47,23 @@ Diharapkan: prompt `(anfis) ... :/mnt/c/Research/ANFIS$`, cabang `research/amend
 
 ## 2. Menerapkan patch dari chat
 
+Simpan zip dari chat langsung ke `C:\Research\ANFIS\Patch\` (tidak perlu disalin lagi), lalu:
+
 ```bash
 cd /mnt/c/Research/ANFIS
-cp /mnt/c/Users/$USER/Downloads/HANFIS_patch_NNNN_*.zip /mnt/c/Research/ANFIS/   # bila belum di sini
-sha256sum HANFIS_patch_NNNN_*.zip                 # cocokkan dengan HANFIS_patches_SHA256SUMS.txt
-unzip -o HANFIS_patch_NNNN_*.zip -d /tmp/pNNNN
+ls -la /mnt/c/Research/ANFIS/Patch/
+sha256sum /mnt/c/Research/ANFIS/Patch/HANFIS_patch_NNNN_*.zip
+grep NNNN /mnt/c/Research/ANFIS/HANFIS_patches_SHA256SUMS.txt
+unzip -o /mnt/c/Research/ANFIS/Patch/HANFIS_patch_NNNN_*.zip -d /tmp/pNNNN
 git am -3 /tmp/pNNNN/*.patch
 python -m pytest -q test tests
+```
+
+Atau cukup satu perintah (mencari zip terbaru di folder Patch, memverifikasi checksum bila
+tercantum, membuka, dan menerapkannya):
+
+```bash
+cd /mnt/c/Research/ANFIS && ./scripts/apply_latest_patch.sh
 ```
 
 Bila `git am` berhenti: `git am --abort` mengembalikan keadaan semula, lalu laporkan pesannya.
