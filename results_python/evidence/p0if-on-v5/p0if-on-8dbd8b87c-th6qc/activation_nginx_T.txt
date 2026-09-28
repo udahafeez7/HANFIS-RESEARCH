@@ -1,0 +1,48 @@
+nginx: the configuration file /etc/nginx/nginx.conf syntax is ok
+nginx: configuration file /etc/nginx/nginx.conf test is successful
+# configuration file /etc/nginx/nginx.conf:
+# P0-IF ON: image_filter module loaded and a location configured to use it.
+# Expected evidence: identity PASS, transitive dependency present, activation 2/2,
+# runtime mapping of libgd and libexpat 2/2 -> reachability_level 1.0 when the
+# trigger path (/resize/sample.jpg) has been exercised.
+load_module /usr/lib/nginx/modules/ngx_http_image_filter_module.so;
+
+worker_processes 1;
+error_log /dev/stderr warn;
+pid /tmp/nginx.pid;
+
+events { worker_connections 256; }
+
+http {
+    access_log off;
+    client_body_temp_path /tmp/client_body;
+    proxy_temp_path /tmp/proxy;
+    fastcgi_temp_path /tmp/fastcgi;
+    uwsgi_temp_path /tmp/uwsgi;
+    scgi_temp_path /tmp/scgi;
+    default_type application/octet-stream;
+
+    server {
+        listen 8080;
+        server_name _;
+        root /usr/share/nginx/html;
+
+        location / {
+            return 200 "p0if-on\n";
+            add_header Content-Type text/plain;
+        }
+
+        location /health {
+            return 200 "ok\n";
+            add_header Content-Type text/plain;
+        }
+
+        # Trigger path: forces libgd (and through it libexpat) to be loaded and used.
+        location /resize/ {
+            alias /usr/share/nginx/html/;
+            image_filter resize 64 64;
+            image_filter_buffer 2M;
+        }
+    }
+}
+

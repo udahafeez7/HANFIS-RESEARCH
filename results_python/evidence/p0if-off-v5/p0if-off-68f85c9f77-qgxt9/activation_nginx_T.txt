@@ -1,0 +1,38 @@
+nginx: the configuration file /etc/nginx/nginx.conf syntax is ok
+nginx: configuration file /etc/nginx/nginx.conf test is successful
+# configuration file /etc/nginx/nginx.conf:
+# P0-IF OFF: image_filter module present in the image but NOT loaded.
+# Expected evidence: identity PASS, transitive dependency present, activation 0/2,
+# runtime mapping 0/2 -> reachability_level 0.25 (module present, not activated).
+worker_processes 1;
+error_log /dev/stderr warn;
+pid /tmp/nginx.pid;
+
+events { worker_connections 256; }
+
+http {
+    access_log off;
+    client_body_temp_path /tmp/client_body;
+    proxy_temp_path /tmp/proxy;
+    fastcgi_temp_path /tmp/fastcgi;
+    uwsgi_temp_path /tmp/uwsgi;
+    scgi_temp_path /tmp/scgi;
+    default_type application/octet-stream;
+
+    server {
+        listen 8080;
+        server_name _;
+        root /usr/share/nginx/html;
+
+        location / {
+            return 200 "p0if-off\n";
+            add_header Content-Type text/plain;
+        }
+
+        location /health {
+            return 200 "ok\n";
+            add_header Content-Type text/plain;
+        }
+    }
+}
+

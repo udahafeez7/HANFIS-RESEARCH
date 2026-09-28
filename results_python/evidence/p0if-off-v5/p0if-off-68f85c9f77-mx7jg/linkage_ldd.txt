@@ -1,0 +1,54 @@
+== /usr/sbin/nginx
+	/lib/ld-musl-x86_64.so.1 (0x7d8830a4b000)
+	libpcre.so.1 => /usr/lib/libpcre.so.1 (0x7d88308cf000)
+	libssl.so.3 => /usr/lib/libssl.so.3 (0x7d883080c000)
+	libcrypto.so.3 => /usr/lib/libcrypto.so.3 (0x7d88303be000)
+	libz.so.1 => /usr/lib/libz.so.1 (0x7d88303a4000)
+	libc.musl-x86_64.so.1 => /lib/ld-musl-x86_64.so.1 (0x7d8830a4b000)
+== /usr/lib/nginx/modules/ngx_http_image_filter_module.so
+	/lib/ld-musl-x86_64.so.1 (0x747fd93c6000)
+	libgd.so.3 => /usr/lib/libgd.so.3 (0x747fd9361000)
+	libc.musl-x86_64.so.1 => /lib/ld-musl-x86_64.so.1 (0x747fd93c6000)
+	libpng16.so.16 => /usr/lib/libpng16.so.16 (0x747fd9332000)
+	libfontconfig.so.1 => /usr/lib/libfontconfig.so.1 (0x747fd92f3000)
+	libfreetype.so.6 => /usr/lib/libfreetype.so.6 (0x747fd9250000)
+	libjpeg.so.8 => /usr/lib/libjpeg.so.8 (0x747fd91b2000)
+	libXpm.so.4 => /usr/lib/libXpm.so.4 (0x747fd91a3000)
+	libtiff.so.6 => /usr/lib/libtiff.so.6 (0x747fd9130000)
+	libwebp.so.7 => /usr/lib/libwebp.so.7 (0x747fd90b6000)
+	libavif.so.16 => /usr/lib/libavif.so.16 (0x747fd908e000)
+	libz.so.1 => /usr/lib/libz.so.1 (0x747fd9074000)
+	libexpat.so.1 => /usr/lib/libexpat.so.1 (0x747fd9051000)
+	libbz2.so.1 => /usr/lib/libbz2.so.1 (0x747fd903e000)
+	libbrotlidec.so.1 => /usr/lib/libbrotlidec.so.1 (0x747fd902f000)
+	libX11.so.6 => /usr/lib/libX11.so.6 (0x747fd8f13000)
+	libzstd.so.1 => /usr/lib/libzstd.so.1 (0x747fd8e63000)
+	libsharpyuv.so.0 => /usr/lib/libsharpyuv.so.0 (0x747fd8e5a000)
+	libdav1d.so.7 => /usr/lib/libdav1d.so.7 (0x747fd8c7e000)
+	libaom.so.3 => /usr/lib/libaom.so.3 (0x747fd84c6000)
+	libbrotlicommon.so.1 => /usr/lib/libbrotlicommon.so.1 (0x747fd84a3000)
+	libxcb.so.1 => /usr/lib/libxcb.so.1 (0x747fd847c000)
+	libXau.so.6 => /usr/lib/libXau.so.6 (0x747fd8477000)
+	libXdmcp.so.6 => /usr/lib/libXdmcp.so.6 (0x747fd846f000)
+	libbsd.so.0 => /usr/lib/libbsd.so.0 (0x747fd845d000)
+	libmd.so.0 => /usr/lib/libmd.so.0 (0x747fd844f000)
+Error relocating /usr/lib/nginx/modules/ngx_http_image_filter_module.so: ngx_http_weak_etag: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_image_filter_module.so: ngx_http_top_body_filter: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_image_filter_module.so: ngx_http_clean_header: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_image_filter_module.so: ngx_http_compile_complex_value: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_image_filter_module.so: ngx_atoi: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_image_filter_module.so: ngx_log_error_core: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_image_filter_module.so: ngx_pnalloc: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_image_filter_module.so: ngx_strncasecmp: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_image_filter_module.so: ngx_sprintf: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_image_filter_module.so: ngx_palloc: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_image_filter_module.so: ngx_pool_cleanup_add: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_image_filter_module.so: ngx_conf_log_error: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_image_filter_module.so: ngx_http_filter_finalize_request: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_image_filter_module.so: ngx_pfree: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_image_filter_module.so: ngx_http_top_header_filter: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_image_filter_module.so: ngx_pcalloc: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_image_filter_module.so: ngx_http_complex_value: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_image_filter_module.so: ngx_conf_set_flag_slot: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_image_filter_module.so: ngx_conf_set_flag_slot: symbol not found
+Error relocating /usr/lib/nginx/modules/ngx_http_image_filter_module.so: ngx_conf_set_size_slot: symbol not found

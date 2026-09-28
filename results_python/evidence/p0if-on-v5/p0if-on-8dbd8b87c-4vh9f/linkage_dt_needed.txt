@@ -1,0 +1,16 @@
+== tooling
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+readelf=/usr/bin/readelf
+objdump=/usr/bin/objdump
+scanelf=/usr/bin/scanelf
+binutils_files=178
+TOOL_USED=readelf
+== /usr/sbin/nginx
+ 0x0000000000000001 (NEEDED)             Shared library: [libpcre.so.1]
+ 0x0000000000000001 (NEEDED)             Shared library: [libssl.so.3]
+ 0x0000000000000001 (NEEDED)             Shared library: [libcrypto.so.3]
+ 0x0000000000000001 (NEEDED)             Shared library: [libz.so.1]
+ 0x0000000000000001 (NEEDED)             Shared library: [libc.musl-x86_64.so.1]
+== /usr/lib/nginx/modules/ngx_http_image_filter_module.so
+ 0x0000000000000001 (NEEDED)             Shared library: [libgd.so.3]
+ 0x0000000000000001 (NEEDED)             Shared library: [libc.musl-x86_64.so.1]

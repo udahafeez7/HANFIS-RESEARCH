@@ -1,0 +1,91 @@
+== pid 1
+612be2a43000-612be2a66000 r--p 00000000 00:1e8 47552                     /usr/sbin/nginx
+612be2a66000-612be2af3000 r-xp 00023000 00:1e8 47552                     /usr/sbin/nginx
+612be2af3000-612be2b22000 r--p 000b0000 00:1e8 47552                     /usr/sbin/nginx
+612be2b22000-612be2b24000 r--p 000de000 00:1e8 47552                     /usr/sbin/nginx
+612be2b24000-612be2b3c000 rw-p 000e0000 00:1e8 47552                     /usr/sbin/nginx
+612be2b3c000-612be2b5b000 rw-p 00000000 00:00 0 
+612c10d51000-612c10d52000 ---p 00000000 00:00 0                          [heap]
+612c10d52000-612c10d54000 rw-p 00000000 00:00 0                          [heap]
+7a0cb286e000-7a0cb288c000 rw-p 00000000 00:00 0 
+7a0cb2895000-7a0cb28b1000 rw-p 00000000 00:00 0 
+7a0cb28b2000-7a0cb28b3000 rw-s 00000000 00:01 8206                       /dev/zero (deleted)
+7a0cb28b3000-7a0cb28c5000 rw-p 00000000 00:00 0 
+7a0cb28c5000-7a0cb28c8000 r--p 00000000 00:1e8 46000                     /usr/lib/libz.so.1.3.2
+7a0cb28c8000-7a0cb28d7000 r-xp 00003000 00:1e8 46000                     /usr/lib/libz.so.1.3.2
+7a0cb28d7000-7a0cb28dd000 r--p 00012000 00:1e8 46000                     /usr/lib/libz.so.1.3.2
+7a0cb28dd000-7a0cb28de000 r--p 00018000 00:1e8 46000                     /usr/lib/libz.so.1.3.2
+7a0cb28de000-7a0cb28df000 rw-p 00019000 00:1e8 46000                     /usr/lib/libz.so.1.3.2
+7a0cb28df000-7a0cb292a000 r--p 00000000 00:1e8 45997                     /usr/lib/libcrypto.so.3
+7a0cb292a000-7a0cb2bf1000 r-xp 0004b000 00:1e8 45997                     /usr/lib/libcrypto.so.3
+7a0cb2bf1000-7a0cb2cca000 r--p 00312000 00:1e8 45997                     /usr/lib/libcrypto.so.3
+7a0cb2cca000-7a0cb2d27000 r--p 003ea000 00:1e8 45997                     /usr/lib/libcrypto.so.3
+7a0cb2d27000-7a0cb2d2a000 rw-p 00447000 00:1e8 45997                     /usr/lib/libcrypto.so.3
+7a0cb2d2a000-7a0cb2d2d000 rw-p 00000000 00:00 0 
+7a0cb2d2d000-7a0cb2d40000 r--p 00000000 00:1e8 45998                     /usr/lib/libssl.so.3
+7a0cb2d40000-7a0cb2db3000 r-xp 00013000 00:1e8 45998                     /usr/lib/libssl.so.3
+7a0cb2db3000-7a0cb2de1000 r--p 00086000 00:1e8 45998                     /usr/lib/libssl.so.3
+7a0cb2de1000-7a0cb2dec000 r--p 000b4000 00:1e8 45998                     /usr/lib/libssl.so.3
+7a0cb2dec000-7a0cb2df0000 rw-p 000bf000 00:1e8 45998                     /usr/lib/libssl.so.3
+7a0cb2df0000-7a0cb2df2000 r--p 00000000 00:1e8 45412                     /usr/lib/libpcre.so.1.2.13
+7a0cb2df2000-7a0cb2e2f000 r-xp 00002000 00:1e8 45412                     /usr/lib/libpcre.so.1.2.13
+7a0cb2e2f000-7a0cb2e4a000 r--p 0003f000 00:1e8 45412                     /usr/lib/libpcre.so.1.2.13
+7a0cb2e4a000-7a0cb2e4b000 r--p 0005a000 00:1e8 45412                     /usr/lib/libpcre.so.1.2.13
+7a0cb2e4b000-7a0cb2e4c000 rw-p 0005b000 00:1e8 45412                     /usr/lib/libpcre.so.1.2.13
+7a0cb2e4c000-7a0cb2e50000 r--p 00000000 00:00 0                          [vvar]
+7a0cb2e50000-7a0cb2e52000 r--p 00000000 00:00 0                          [vvar_vclock]
+7a0cb2e52000-7a0cb2e54000 r-xp 00000000 00:00 0                          [vdso]
+7a0cb2e54000-7a0cb2e68000 r--p 00000000 00:1e8 45766                     /lib/ld-musl-x86_64.so.1
+7a0cb2e68000-7a0cb2ebf000 r-xp 00014000 00:1e8 45766                     /lib/ld-musl-x86_64.so.1
+7a0cb2ebf000-7a0cb2ef5000 r--p 0006b000 00:1e8 45766                     /lib/ld-musl-x86_64.so.1
+7a0cb2ef5000-7a0cb2ef6000 r--p 000a0000 00:1e8 45766                     /lib/ld-musl-x86_64.so.1
+7a0cb2ef6000-7a0cb2ef7000 rw-p 000a1000 00:1e8 45766                     /lib/ld-musl-x86_64.so.1
+7a0cb2ef7000-7a0cb2efa000 rw-p 00000000 00:00 0 
+7ffe420cf000-7ffe420f0000 rw-p 00000000 00:00 0                          [stack]
+== pid 11
+612be2a43000-612be2a66000 r--p 00000000 00:1e8 47552                     /usr/sbin/nginx
+612be2a66000-612be2af3000 r-xp 00023000 00:1e8 47552                     /usr/sbin/nginx
+612be2af3000-612be2b22000 r--p 000b0000 00:1e8 47552                     /usr/sbin/nginx
+612be2b22000-612be2b24000 r--p 000de000 00:1e8 47552                     /usr/sbin/nginx
+612be2b24000-612be2b3c000 rw-p 000e0000 00:1e8 47552                     /usr/sbin/nginx
+612be2b3c000-612be2b5b000 rw-p 00000000 00:00 0 
+612c10d51000-612c10d52000 ---p 00000000 00:00 0                          [heap]
+612c10d52000-612c10d54000 rw-p 00000000 00:00 0                          [heap]
+7a0cb2850000-7a0cb286e000 rw-p 00000000 00:00 0 
+7a0cb286e000-7a0cb288c000 rw-p 00000000 00:00 0 
+7a0cb2891000-7a0cb2893000 rw-p 00000000 00:00 0 
+7a0cb2893000-7a0cb2895000 rw-s 00000000 00:13 1470878                    /[aio] (deleted)
+7a0cb2895000-7a0cb28b1000 rw-p 00000000 00:00 0 
+7a0cb28b2000-7a0cb28b3000 rw-s 00000000 00:01 8206                       /dev/zero (deleted)
+7a0cb28b3000-7a0cb28c5000 rw-p 00000000 00:00 0 
+7a0cb28c5000-7a0cb28c8000 r--p 00000000 00:1e8 46000                     /usr/lib/libz.so.1.3.2
+7a0cb28c8000-7a0cb28d7000 r-xp 00003000 00:1e8 46000                     /usr/lib/libz.so.1.3.2
+7a0cb28d7000-7a0cb28dd000 r--p 00012000 00:1e8 46000                     /usr/lib/libz.so.1.3.2
+7a0cb28dd000-7a0cb28de000 r--p 00018000 00:1e8 46000                     /usr/lib/libz.so.1.3.2
+7a0cb28de000-7a0cb28df000 rw-p 00019000 00:1e8 46000                     /usr/lib/libz.so.1.3.2
+7a0cb28df000-7a0cb292a000 r--p 00000000 00:1e8 45997                     /usr/lib/libcrypto.so.3
+7a0cb292a000-7a0cb2bf1000 r-xp 0004b000 00:1e8 45997                     /usr/lib/libcrypto.so.3
+7a0cb2bf1000-7a0cb2cca000 r--p 00312000 00:1e8 45997                     /usr/lib/libcrypto.so.3
+7a0cb2cca000-7a0cb2d27000 r--p 003ea000 00:1e8 45997                     /usr/lib/libcrypto.so.3
+7a0cb2d27000-7a0cb2d2a000 rw-p 00447000 00:1e8 45997                     /usr/lib/libcrypto.so.3
+7a0cb2d2a000-7a0cb2d2d000 rw-p 00000000 00:00 0 
+7a0cb2d2d000-7a0cb2d40000 r--p 00000000 00:1e8 45998                     /usr/lib/libssl.so.3
+7a0cb2d40000-7a0cb2db3000 r-xp 00013000 00:1e8 45998                     /usr/lib/libssl.so.3
+7a0cb2db3000-7a0cb2de1000 r--p 00086000 00:1e8 45998                     /usr/lib/libssl.so.3
+7a0cb2de1000-7a0cb2dec000 r--p 000b4000 00:1e8 45998                     /usr/lib/libssl.so.3
+7a0cb2dec000-7a0cb2df0000 rw-p 000bf000 00:1e8 45998                     /usr/lib/libssl.so.3
+7a0cb2df0000-7a0cb2df2000 r--p 00000000 00:1e8 45412                     /usr/lib/libpcre.so.1.2.13
+7a0cb2df2000-7a0cb2e2f000 r-xp 00002000 00:1e8 45412                     /usr/lib/libpcre.so.1.2.13
+7a0cb2e2f000-7a0cb2e4a000 r--p 0003f000 00:1e8 45412                     /usr/lib/libpcre.so.1.2.13
+7a0cb2e4a000-7a0cb2e4b000 r--p 0005a000 00:1e8 45412                     /usr/lib/libpcre.so.1.2.13
+7a0cb2e4b000-7a0cb2e4c000 rw-p 0005b000 00:1e8 45412                     /usr/lib/libpcre.so.1.2.13
+7a0cb2e4c000-7a0cb2e50000 r--p 00000000 00:00 0                          [vvar]
+7a0cb2e50000-7a0cb2e52000 r--p 00000000 00:00 0                          [vvar_vclock]
+7a0cb2e52000-7a0cb2e54000 r-xp 00000000 00:00 0                          [vdso]
+7a0cb2e54000-7a0cb2e68000 r--p 00000000 00:1e8 45766                     /lib/ld-musl-x86_64.so.1
+7a0cb2e68000-7a0cb2ebf000 r-xp 00014000 00:1e8 45766                     /lib/ld-musl-x86_64.so.1
+7a0cb2ebf000-7a0cb2ef5000 r--p 0006b000 00:1e8 45766                     /lib/ld-musl-x86_64.so.1
+7a0cb2ef5000-7a0cb2ef6000 r--p 000a0000 00:1e8 45766                     /lib/ld-musl-x86_64.so.1
+7a0cb2ef6000-7a0cb2ef7000 rw-p 000a1000 00:1e8 45766                     /lib/ld-musl-x86_64.so.1
+7a0cb2ef7000-7a0cb2efa000 rw-p 00000000 00:00 0 
+7ffe420cf000-7ffe420f0000 rw-p 00000000 00:00 0                          [stack]
