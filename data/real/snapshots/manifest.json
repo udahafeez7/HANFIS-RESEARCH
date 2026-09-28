@@ -1,0 +1,538 @@
+{
+  "epss": {
+    "2025-08-25": {
+      "bytes": 1944808,
+      "fetched_at": "2026-09-28T04:47:25+00:00",
+      "file": "epss/epss_scores-2025-08-25.csv.gz",
+      "model_version": "v2025.03.14",
+      "n_rows": 291024,
+      "sha256": "30f0d09293099483da37648b6ff5b72e9b6ae3e62cdc5b7e045bd906b568778e",
+      "url": "https://epss.cyentia.com/epss_scores-2025-08-25.csv.gz"
+    },
+    "2025-09-01": {
+      "bytes": 1947223,
+      "fetched_at": "2026-09-28T04:47:29+00:00",
+      "file": "epss/epss_scores-2025-09-01.csv.gz",
+      "model_version": "v2025.03.14",
+      "n_rows": 291870,
+      "sha256": "3f2cae4fdd8f7609dc4795fa0fdbc31ab915ffad7329cce4127b534068153b38",
+      "url": "https://epss.cyentia.com/epss_scores-2025-09-01.csv.gz"
+    },
+    "2025-09-08": {
+      "bytes": 1955516,
+      "fetched_at": "2026-09-28T04:47:33+00:00",
+      "file": "epss/epss_scores-2025-09-08.csv.gz",
+      "model_version": "v2025.03.14",
+      "n_rows": 292844,
+      "sha256": "e0181be149d73bec2123486d4f61d7750bc6c8c0dc354e8b36cb3aacbce1152f",
+      "url": "https://epss.cyentia.com/epss_scores-2025-09-08.csv.gz"
+    },
+    "2025-09-15": {
+      "bytes": 1960659,
+      "fetched_at": "2026-09-28T04:47:37+00:00",
+      "file": "epss/epss_scores-2025-09-15.csv.gz",
+      "model_version": "v2025.03.14",
+      "n_rows": 293695,
+      "sha256": "ae8b22b80720ec93ce5c09e8122492c91a152b95a11ae4e98ce61e01f8c3c76b",
+      "url": "https://epss.cyentia.com/epss_scores-2025-09-15.csv.gz"
+    },
+    "2025-09-22": {
+      "bytes": 1967929,
+      "fetched_at": "2026-09-28T04:47:41+00:00",
+      "file": "epss/epss_scores-2025-09-22.csv.gz",
+      "model_version": "v2025.03.14",
+      "n_rows": 294908,
+      "sha256": "1e74e65bce3c65f561f051974f7f751b920fe6c73719d6812e08b8e59e6c6025",
+      "url": "https://epss.cyentia.com/epss_scores-2025-09-22.csv.gz"
+    },
+    "2025-09-29": {
+      "bytes": 1974544,
+      "fetched_at": "2026-09-28T04:47:45+00:00",
+      "file": "epss/epss_scores-2025-09-29.csv.gz",
+      "model_version": "v2025.03.14",
+      "n_rows": 295958,
+      "sha256": "22777178c727be33d4ab5f7c0214d1d6cd949e0556aeda0e82dc52c537b5385d",
+      "url": "https://epss.cyentia.com/epss_scores-2025-09-29.csv.gz"
+    },
+    "2025-10-06": {
+      "bytes": 1982404,
+      "fetched_at": "2026-09-28T04:47:49+00:00",
+      "file": "epss/epss_scores-2025-10-06.csv.gz",
+      "model_version": "v2025.03.14",
+      "n_rows": 296927,
+      "sha256": "fb1c9ca895c548bb3cd36df7da8927fc4ec27e78376001fdcdff7aed8a65bb09",
+      "url": "https://epss.cyentia.com/epss_scores-2025-10-06.csv.gz"
+    },
+    "2025-10-13": {
+      "bytes": 1987318,
+      "fetched_at": "2026-09-28T04:47:53+00:00",
+      "file": "epss/epss_scores-2025-10-13.csv.gz",
+      "model_version": "v2025.03.14",
+      "n_rows": 297768,
+      "sha256": "a6ba8c2740bf662399e3a59e8f41b7e011b45b5f889d5280415ef9549e2116d9",
+      "url": "https://epss.cyentia.com/epss_scores-2025-10-13.csv.gz"
+    },
+    "2025-10-20": {
+      "bytes": 1993982,
+      "fetched_at": "2026-09-28T04:47:57+00:00",
+      "file": "epss/epss_scores-2025-10-20.csv.gz",
+      "model_version": "v2025.03.14",
+      "n_rows": 298649,
+      "sha256": "5cc7e8da4a0225d3b771c26fe09371231254e06bf4f831a2aa7338352185e5d8",
+      "url": "https://epss.cyentia.com/epss_scores-2025-10-20.csv.gz"
+    },
+    "2025-10-27": {
+      "bytes": 1996822,
+      "fetched_at": "2026-09-28T04:48:02+00:00",
+      "file": "epss/epss_scores-2025-10-27.csv.gz",
+      "model_version": "v2025.03.14",
+      "n_rows": 299683,
+      "sha256": "6b0c8588c319bde67d4c9e97e5c5790ded2a2f31de7daebe699f28511769ee41",
+      "url": "https://epss.cyentia.com/epss_scores-2025-10-27.csv.gz"
+    },
+    "2025-11-03": {
+      "bytes": 2002136,
+      "fetched_at": "2026-09-28T04:48:06+00:00",
+      "file": "epss/epss_scores-2025-11-03.csv.gz",
+      "model_version": "v2025.03.14",
+      "n_rows": 300488,
+      "sha256": "44c296c9729134ff20109755157ef34ac9e69e6ad7c204983bc5a5e240f1aeef",
+      "url": "https://epss.cyentia.com/epss_scores-2025-11-03.csv.gz"
+    },
+    "2025-11-10": {
+      "bytes": 2011218,
+      "fetched_at": "2026-09-28T04:48:10+00:00",
+      "file": "epss/epss_scores-2025-11-10.csv.gz",
+      "model_version": "v2025.03.14",
+      "n_rows": 301320,
+      "sha256": "7adc5e01e86abeca999f07ef0a2c804a3629fdbed5fb0be778ed2844388b7380",
+      "url": "https://epss.cyentia.com/epss_scores-2025-11-10.csv.gz"
+    },
+    "2025-11-17": {
+      "bytes": 2017140,
+      "fetched_at": "2026-09-28T04:48:14+00:00",
+      "file": "epss/epss_scores-2025-11-17.csv.gz",
+      "model_version": "v2025.03.14",
+      "n_rows": 302285,
+      "sha256": "654c6c52280fd78dee6793640ac2271d2393d6d4beb6652c147fe90da5f07093",
+      "url": "https://epss.cyentia.com/epss_scores-2025-11-17.csv.gz"
+    },
+    "2025-11-24": {
+      "bytes": 2022935,
+      "fetched_at": "2026-09-28T04:48:18+00:00",
+      "file": "epss/epss_scores-2025-11-24.csv.gz",
+      "model_version": "v2025.03.14",
+      "n_rows": 303003,
+      "sha256": "755bb622760cb72fa67fdb225cfd71d73a212af667713d3599f193299b874966",
+      "url": "https://epss.cyentia.com/epss_scores-2025-11-24.csv.gz"
+    },
+    "2025-12-01": {
+      "bytes": 2023296,
+      "fetched_at": "2026-09-28T04:48:22+00:00",
+      "file": "epss/epss_scores-2025-12-01.csv.gz",
+      "model_version": "v2025.03.14",
+      "n_rows": 303485,
+      "sha256": "186a873eb896a48c47c6a6c663b2d75867f461b87939efb3009d610c4dc2888a",
+      "url": "https://epss.cyentia.com/epss_scores-2025-12-01.csv.gz"
+    },
+    "2025-12-08": {
+      "bytes": 2032607,
+      "fetched_at": "2026-09-28T04:48:27+00:00",
+      "file": "epss/epss_scores-2025-12-08.csv.gz",
+      "model_version": "v2025.03.14",
+      "n_rows": 304383,
+      "sha256": "eff73ebedd32383519673bcdd4a0c57d3fa4e0514cefdc9f8f135364e5c8fa78",
+      "url": "https://epss.cyentia.com/epss_scores-2025-12-08.csv.gz"
+    },
+    "2025-12-15": {
+      "bytes": 2041158,
+      "fetched_at": "2026-09-28T04:48:31+00:00",
+      "file": "epss/epss_scores-2025-12-15.csv.gz",
+      "model_version": "v2025.03.14",
+      "n_rows": 306022,
+      "sha256": "d9c4772f1be3fdae64b88b3f2db7c35aa612eacb901b5b86a846c08b9a9b7dee",
+      "url": "https://epss.cyentia.com/epss_scores-2025-12-15.csv.gz"
+    },
+    "2025-12-22": {
+      "bytes": 2049854,
+      "fetched_at": "2026-09-28T04:48:35+00:00",
+      "file": "epss/epss_scores-2025-12-22.csv.gz",
+      "model_version": "v2025.03.14",
+      "n_rows": 307289,
+      "sha256": "d1e95f524fa64f3b039b7c7ed235c3d224e927547b671de5fa525368984f9848",
+      "url": "https://epss.cyentia.com/epss_scores-2025-12-22.csv.gz"
+    },
+    "2025-12-29": {
+      "bytes": 2054385,
+      "fetched_at": "2026-09-28T04:48:39+00:00",
+      "file": "epss/epss_scores-2025-12-29.csv.gz",
+      "model_version": "v2025.03.14",
+      "n_rows": 308204,
+      "sha256": "a42421c54fb81441a857a417a37b1e707eed98a698f0d4f89ee9fbd3c13ddf8d",
+      "url": "https://epss.cyentia.com/epss_scores-2025-12-29.csv.gz"
+    },
+    "2026-01-05": {
+      "bytes": 2060440,
+      "fetched_at": "2026-09-28T04:48:43+00:00",
+      "file": "epss/epss_scores-2026-01-05.csv.gz",
+      "model_version": "v2025.03.14",
+      "n_rows": 309146,
+      "sha256": "11cef26a0b3a442396458f50348acc17b2669d3ecc1ec8dbb034cc9d485fd340",
+      "url": "https://epss.cyentia.com/epss_scores-2026-01-05.csv.gz"
+    },
+    "2026-01-12": {
+      "bytes": 2066311,
+      "fetched_at": "2026-09-28T04:48:47+00:00",
+      "file": "epss/epss_scores-2026-01-12.csv.gz",
+      "model_version": "v2025.03.14",
+      "n_rows": 310061,
+      "sha256": "2fa63a1deeb731f26a657ccfd8acb59fba5625de63ff061df5c6246520e2381a",
+      "url": "https://epss.cyentia.com/epss_scores-2026-01-12.csv.gz"
+    },
+    "2026-01-19": {
+      "bytes": 2075084,
+      "fetched_at": "2026-09-28T04:48:51+00:00",
+      "file": "epss/epss_scores-2026-01-19.csv.gz",
+      "model_version": "v2025.03.14",
+      "n_rows": 311201,
+      "sha256": "2f9904ed1f97cdfdc1503a7bb516401ca60a8e33ba060db9f019ad2806024ef2",
+      "url": "https://epss.cyentia.com/epss_scores-2026-01-19.csv.gz"
+    },
+    "2026-01-26": {
+      "bytes": 2083884,
+      "fetched_at": "2026-09-28T04:48:56+00:00",
+      "file": "epss/epss_scores-2026-01-26.csv.gz",
+      "model_version": "v2025.03.14",
+      "n_rows": 312477,
+      "sha256": "b00273eb9af1d5adc3242667f68ffed8606beecab446a3d5b50f9539827706da",
+      "url": "https://epss.cyentia.com/epss_scores-2026-01-26.csv.gz"
+    },
+    "2026-02-02": {
+      "bytes": 2087006,
+      "fetched_at": "2026-09-28T04:49:00+00:00",
+      "file": "epss/epss_scores-2026-02-02.csv.gz",
+      "model_version": "v2025.03.14",
+      "n_rows": 313322,
+      "sha256": "25b601047fe735773ac194fddba461891c6cd47f02de11b818ac6648f9b53c1a",
+      "url": "https://epss.cyentia.com/epss_scores-2026-02-02.csv.gz"
+    },
+    "2026-02-09": {
+      "bytes": 2097029,
+      "fetched_at": "2026-09-28T04:49:04+00:00",
+      "file": "epss/epss_scores-2026-02-09.csv.gz",
+      "model_version": "v2025.03.14",
+      "n_rows": 314521,
+      "sha256": "c7ef6c0d6dffb73c7f96806fd3fdfe39aa4ef09f6bec92b201da1c9221d6994b",
+      "url": "https://epss.cyentia.com/epss_scores-2026-02-09.csv.gz"
+    },
+    "2026-02-16": {
+      "bytes": 2105747,
+      "fetched_at": "2026-09-28T04:49:08+00:00",
+      "file": "epss/epss_scores-2026-02-16.csv.gz",
+      "model_version": "v2025.03.14",
+      "n_rows": 315645,
+      "sha256": "c01abcd6cc242a3ceeff22e935e9ec82bcf72124be2b8abdb9e3ffb76b16d0b3",
+      "url": "https://epss.cyentia.com/epss_scores-2026-02-16.csv.gz"
+    },
+    "2026-02-23": {
+      "bytes": 2115039,
+      "fetched_at": "2026-09-28T04:49:12+00:00",
+      "file": "epss/epss_scores-2026-02-23.csv.gz",
+      "model_version": "v2025.03.14",
+      "n_rows": 316955,
+      "sha256": "fab834f2c45d51053b319ac049e22e6dfeb2b837eaa6db141d3d06e719f47f6c",
+      "url": "https://epss.cyentia.com/epss_scores-2026-02-23.csv.gz"
+    },
+    "2026-03-02": {
+      "bytes": 2119444,
+      "fetched_at": "2026-09-28T04:49:16+00:00",
+      "file": "epss/epss_scores-2026-03-02.csv.gz",
+      "model_version": "v2025.03.14",
+      "n_rows": 317911,
+      "sha256": "b6fbb0d689f26d1909deb807f7bcb54f3d09a2d80fa11c8561eaa4a1f6212b7e",
+      "url": "https://epss.cyentia.com/epss_scores-2026-03-02.csv.gz"
+    },
+    "2026-03-09": {
+      "bytes": 2131999,
+      "fetched_at": "2026-09-28T04:49:21+00:00",
+      "file": "epss/epss_scores-2026-03-09.csv.gz",
+      "model_version": "v2025.03.14",
+      "n_rows": 319355,
+      "sha256": "0ee7cd06695a541a2546b9374e268ebbd6743376f272fe87d36eced26e7207f4",
+      "url": "https://epss.cyentia.com/epss_scores-2026-03-09.csv.gz"
+    },
+    "2026-03-16": {
+      "bytes": 2140302,
+      "fetched_at": "2026-09-28T04:49:25+00:00",
+      "file": "epss/epss_scores-2026-03-16.csv.gz",
+      "model_version": "v2025.03.14",
+      "n_rows": 320789,
+      "sha256": "2880e40818c8421d72740b025dbf79222d76b5c58036b4a5ca919a1899e528bb",
+      "url": "https://epss.cyentia.com/epss_scores-2026-03-16.csv.gz"
+    },
+    "2026-03-23": {
+      "bytes": 2148514,
+      "fetched_at": "2026-09-28T04:49:29+00:00",
+      "file": "epss/epss_scores-2026-03-23.csv.gz",
+      "model_version": "v2025.03.14",
+      "n_rows": 322014,
+      "sha256": "5afcc51aabe56bfc260f8488cc4948c7189b3608f04c9b4278c65e4958cee5d1",
+      "url": "https://epss.cyentia.com/epss_scores-2026-03-23.csv.gz"
+    },
+    "2026-03-30": {
+      "bytes": 2158443,
+      "fetched_at": "2026-09-28T04:49:33+00:00",
+      "file": "epss/epss_scores-2026-03-30.csv.gz",
+      "model_version": "v2025.03.14",
+      "n_rows": 323709,
+      "sha256": "99bd5c5b82aa891f54e504c355a9df0902699a01a0a876774aca776b8ba31699",
+      "url": "https://epss.cyentia.com/epss_scores-2026-03-30.csv.gz"
+    },
+    "2026-04-06": {
+      "bytes": 2165231,
+      "fetched_at": "2026-09-28T04:49:37+00:00",
+      "file": "epss/epss_scores-2026-04-06.csv.gz",
+      "model_version": "v2025.03.14",
+      "n_rows": 325019,
+      "sha256": "9cf47e9f736d0e8426a89a9d4081d73da341e0c962a9bdb44edfb76ad711ed29",
+      "url": "https://epss.cyentia.com/epss_scores-2026-04-06.csv.gz"
+    },
+    "2026-04-13": {
+      "bytes": 2176289,
+      "fetched_at": "2026-09-28T04:49:41+00:00",
+      "file": "epss/epss_scores-2026-04-13.csv.gz",
+      "model_version": "v2025.03.14",
+      "n_rows": 326651,
+      "sha256": "7de78964e9c6e62b868add0cee8044a195bdfe744504f46df6d317c1bfbefd11",
+      "url": "https://epss.cyentia.com/epss_scores-2026-04-13.csv.gz"
+    },
+    "2026-04-20": {
+      "bytes": 2184613,
+      "fetched_at": "2026-09-28T04:49:45+00:00",
+      "file": "epss/epss_scores-2026-04-20.csv.gz",
+      "model_version": "v2025.03.14",
+      "n_rows": 327809,
+      "sha256": "56b8fba7a3465ef4c5ecb39343649fcb3495b13f1a97a56b89525c04bb11e2ab",
+      "url": "https://epss.cyentia.com/epss_scores-2026-04-20.csv.gz"
+    },
+    "2026-04-27": {
+      "bytes": 2196926,
+      "fetched_at": "2026-09-28T04:49:50+00:00",
+      "file": "epss/epss_scores-2026-04-27.csv.gz",
+      "model_version": "v2025.03.14",
+      "n_rows": 329261,
+      "sha256": "8ff54b72dc0ff73d3387a667bab7f942eeb97c98acce36bec77c7390886d4194",
+      "url": "https://epss.cyentia.com/epss_scores-2026-04-27.csv.gz"
+    },
+    "2026-05-04": {
+      "bytes": 2202870,
+      "fetched_at": "2026-09-28T04:49:54+00:00",
+      "file": "epss/epss_scores-2026-05-04.csv.gz",
+      "model_version": "v2025.03.14",
+      "n_rows": 330338,
+      "sha256": "91c0dc1a67dd94e41d1e3fc50727386d5b3405fc5d030f0a94caa667a1fe6cf1",
+      "url": "https://epss.cyentia.com/epss_scores-2026-05-04.csv.gz"
+    },
+    "2026-05-11": {
+      "bytes": 2213559,
+      "fetched_at": "2026-09-28T04:49:58+00:00",
+      "file": "epss/epss_scores-2026-05-11.csv.gz",
+      "model_version": "v2025.03.14",
+      "n_rows": 331982,
+      "sha256": "6580ff0aa201143924fef55b5673699ea889a07030e57671ea2b3fcddd0e8a02",
+      "url": "https://epss.cyentia.com/epss_scores-2026-05-11.csv.gz"
+    },
+    "2026-05-18": {
+      "bytes": 2227012,
+      "fetched_at": "2026-09-28T04:50:02+00:00",
+      "file": "epss/epss_scores-2026-05-18.csv.gz",
+      "model_version": "v2025.03.14",
+      "n_rows": 333848,
+      "sha256": "f21267002dbd60548a931ba65511966cfa9f1a0a9407c7b9eb0befec5d49a7c3",
+      "url": "https://epss.cyentia.com/epss_scores-2026-05-18.csv.gz"
+    },
+    "2026-05-25": {
+      "bytes": 2235932,
+      "fetched_at": "2026-09-28T04:50:06+00:00",
+      "file": "epss/epss_scores-2026-05-25.csv.gz",
+      "model_version": "v2025.03.14",
+      "n_rows": 334835,
+      "sha256": "ba7592a23dca0505c7589cb6f62d410db2789799e5449c3b4fa75ec73f17990c",
+      "url": "https://epss.cyentia.com/epss_scores-2026-05-25.csv.gz"
+    },
+    "2026-06-01": {
+      "bytes": 2247901,
+      "fetched_at": "2026-09-28T04:50:10+00:00",
+      "file": "epss/epss_scores-2026-06-01.csv.gz",
+      "model_version": "v2025.03.14",
+      "n_rows": 336946,
+      "sha256": "02faddfe00053bba47b50c6e7c4045dc66e6b998566716e21ede85e4b8cf01ba",
+      "url": "https://epss.cyentia.com/epss_scores-2026-06-01.csv.gz"
+    },
+    "2026-06-08": {
+      "bytes": 2257308,
+      "fetched_at": "2026-09-28T04:50:14+00:00",
+      "file": "epss/epss_scores-2026-06-08.csv.gz",
+      "model_version": "v2025.03.14",
+      "n_rows": 338513,
+      "sha256": "87591c93a549e93525ea6719dd9aa782eafe0d88e21bafd8969455e4b921b235",
+      "url": "https://epss.cyentia.com/epss_scores-2026-06-08.csv.gz"
+    },
+    "2026-06-15": {
+      "bytes": 2412604,
+      "fetched_at": "2026-09-28T04:50:19+00:00",
+      "file": "epss/epss_scores-2026-06-15.csv.gz",
+      "model_version": "v2026.06.15",
+      "n_rows": 340247,
+      "sha256": "8ebaa5e6d27210baf2f6b04ffaa0fb449a7d4a8e8e47451f84abba0fad1ea21a",
+      "url": "https://epss.cyentia.com/epss_scores-2026-06-15.csv.gz"
+    },
+    "2026-06-22": {
+      "bytes": 2420901,
+      "fetched_at": "2026-09-28T04:50:23+00:00",
+      "file": "epss/epss_scores-2026-06-22.csv.gz",
+      "model_version": "v2026.06.15",
+      "n_rows": 341601,
+      "sha256": "737689c2188d8eac3a0dc89f6fd1513dfe894f428b2c1495539cd0e69929ff46",
+      "url": "https://epss.cyentia.com/epss_scores-2026-06-22.csv.gz"
+    },
+    "2026-06-29": {
+      "bytes": 2436762,
+      "fetched_at": "2026-09-28T04:50:28+00:00",
+      "file": "epss/epss_scores-2026-06-29.csv.gz",
+      "model_version": "v2026.06.15",
+      "n_rows": 343948,
+      "sha256": "ea11172b498da5b53aae14281770bb74c257845cb9951a95b296856d1c43d021",
+      "url": "https://epss.cyentia.com/epss_scores-2026-06-29.csv.gz"
+    },
+    "2026-07-06": {
+      "bytes": 2449968,
+      "fetched_at": "2026-09-28T04:50:32+00:00",
+      "file": "epss/epss_scores-2026-07-06.csv.gz",
+      "model_version": "v2026.06.15",
+      "n_rows": 345812,
+      "sha256": "37c66d65bf9bd0e5ba9bcd8a9798266d09828fdf2073269fd166b50e610ab974",
+      "url": "https://epss.cyentia.com/epss_scores-2026-07-06.csv.gz"
+    },
+    "2026-07-13": {
+      "bytes": 2459585,
+      "fetched_at": "2026-09-28T04:50:36+00:00",
+      "file": "epss/epss_scores-2026-07-13.csv.gz",
+      "model_version": "v2026.06.15",
+      "n_rows": 347460,
+      "sha256": "d4a0ce75c78805c5590907dae67221713d13283f4cf040d9ec9a70f04fb2ba84",
+      "url": "https://epss.cyentia.com/epss_scores-2026-07-13.csv.gz"
+    },
+    "2026-07-20": {
+      "bytes": 2476223,
+      "fetched_at": "2026-09-28T04:50:40+00:00",
+      "file": "epss/epss_scores-2026-07-20.csv.gz",
+      "model_version": "v2026.06.15",
+      "n_rows": 349944,
+      "sha256": "45049dff48398eecd5ded28d282119f506e64010c0e3630b8f060ff63571eb8c",
+      "url": "https://epss.cyentia.com/epss_scores-2026-07-20.csv.gz"
+    },
+    "2026-07-27": {
+      "bytes": 2496025,
+      "fetched_at": "2026-09-28T04:50:44+00:00",
+      "file": "epss/epss_scores-2026-07-27.csv.gz",
+      "model_version": "v2026.06.15",
+      "n_rows": 352721,
+      "sha256": "360f4559bb3db136501515ce29f045553300b9dd1acdad49fd81b0f805b79b12",
+      "url": "https://epss.cyentia.com/epss_scores-2026-07-27.csv.gz"
+    },
+    "2026-08-03": {
+      "bytes": 2508985,
+      "fetched_at": "2026-09-28T04:50:48+00:00",
+      "file": "epss/epss_scores-2026-08-03.csv.gz",
+      "model_version": "v2026.06.15",
+      "n_rows": 354846,
+      "sha256": "1e04813559991e0f9e9f11422912a9eca3c3be2b46741b74c92e72cbed2dfac5",
+      "url": "https://epss.cyentia.com/epss_scores-2026-08-03.csv.gz"
+    },
+    "2026-08-10": {
+      "bytes": 2523333,
+      "fetched_at": "2026-09-28T04:50:52+00:00",
+      "file": "epss/epss_scores-2026-08-10.csv.gz",
+      "model_version": "v2026.06.15",
+      "n_rows": 356665,
+      "sha256": "daf682ec68bea44cc1b7a5e2a46fe03a743b35ef347cb2d6d8d5674f1d3bbb63",
+      "url": "https://epss.cyentia.com/epss_scores-2026-08-10.csv.gz"
+    },
+    "2026-08-17": {
+      "bytes": 2546842,
+      "fetched_at": "2026-09-28T04:50:57+00:00",
+      "file": "epss/epss_scores-2026-08-17.csv.gz",
+      "model_version": "v2026.06.15",
+      "n_rows": 360482,
+      "sha256": "ed52fec780a8bc30737740cf6f8453ca7b154117a5f36e71987b3ad4b321c33d",
+      "url": "https://epss.cyentia.com/epss_scores-2026-08-17.csv.gz"
+    },
+    "2026-08-24": {
+      "bytes": 2570898,
+      "fetched_at": "2026-09-28T04:51:01+00:00",
+      "file": "epss/epss_scores-2026-08-24.csv.gz",
+      "model_version": "v2026.06.15",
+      "n_rows": 363908,
+      "sha256": "8cae68542b78435cce77baa1a2f1ad2e766d897c6e0b10942eb4f0ab1e54f741",
+      "url": "https://epss.cyentia.com/epss_scores-2026-08-24.csv.gz"
+    },
+    "2026-08-31": {
+      "bytes": 2586394,
+      "fetched_at": "2026-09-28T04:51:06+00:00",
+      "file": "epss/epss_scores-2026-08-31.csv.gz",
+      "model_version": "v2026.06.15",
+      "n_rows": 366526,
+      "sha256": "4d7785dc303ed6ccbeadd779943dd541b32aa62eac01ffc80465bf96d87dcbe0",
+      "url": "https://epss.cyentia.com/epss_scores-2026-08-31.csv.gz"
+    },
+    "2026-09-07": {
+      "bytes": 2601232,
+      "fetched_at": "2026-09-28T04:51:10+00:00",
+      "file": "epss/epss_scores-2026-09-07.csv.gz",
+      "model_version": "v2026.06.15",
+      "n_rows": 368770,
+      "sha256": "7737a9874fa1afa9651f33ace717ec7f216856af4b098dcb349ae6899631feb8",
+      "url": "https://epss.cyentia.com/epss_scores-2026-09-07.csv.gz"
+    },
+    "2026-09-14": {
+      "bytes": 2625903,
+      "fetched_at": "2026-09-28T04:47:16+00:00",
+      "file": "epss/epss_scores-2026-09-14.csv.gz",
+      "model_version": "v2026.06.15",
+      "n_rows": 372613,
+      "sha256": "485f9ede6a4637429f00785bcf8a1f894074f6d1b2d146e47b28c0fe1c34a56d",
+      "url": "https://epss.cyentia.com/epss_scores-2026-09-14.csv.gz"
+    },
+    "2026-09-21": {
+      "bytes": 2653502,
+      "fetched_at": "2026-09-28T04:47:20+00:00",
+      "file": "epss/epss_scores-2026-09-21.csv.gz",
+      "model_version": "v2026.06.15",
+      "n_rows": 377333,
+      "sha256": "d092050f0ac111c2a2dbd2eddd8c7e3d4d1be1bdea1d8f3b33d91b42a96b066a",
+      "url": "https://epss.cyentia.com/epss_scores-2026-09-21.csv.gz"
+    }
+  },
+  "kev": {
+    "20260928T044721Z": {
+      "bytes": 1757262,
+      "catalog_version": "2026.09.27",
+      "fetched_at": "2026-09-28T04:47:21+00:00",
+      "file": "kev/kev-20260928T044721Z.json",
+      "n_entries": 1728,
+      "sha256": "164f2f100c3a2a810745500f49a8dd9041d59f9542c0ac1316d71578f25cb80b",
+      "url": "https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json"
+    },
+    "20260928T045111Z": {
+      "bytes": 1757262,
+      "catalog_version": "2026.09.27",
+      "fetched_at": "2026-09-28T04:51:11+00:00",
+      "file": "kev/kev-20260928T045111Z.json",
+      "n_entries": 1728,
+      "sha256": "164f2f100c3a2a810745500f49a8dd9041d59f9542c0ac1316d71578f25cb80b",
+      "url": "https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json"
+    }
+  },
+  "schema": 1
+}
