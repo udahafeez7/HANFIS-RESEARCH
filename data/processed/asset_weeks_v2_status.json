@@ -1,0 +1,30 @@
+{
+  "n_rows_event_id": 171,
+  "n_assets": 2,
+  "share_non_na": 0.9298,
+  "share_positive": 0.3333,
+  "n_insufficient": 0,
+  "checks": {
+    "rows>=1320": false,
+    "non_na>=0.25": true,
+    "positive>=0.25": true,
+    "no_INSUFFICIENT_EVIDENCE": true
+  },
+  "TRAINING_AUTHORIZED": false,
+  "built_at": "2026-09-28T05:49:03+00:00",
+  "weeks": 57,
+  "start": "2025-08-25",
+  "end": "2026-09-21",
+  "kev_catalog": "2026.09.27",
+  "epss_model_versions": [
+    "v2025.03.14",
+    "v2026.06.15"
+  ],
+  "label_spec": {
+    "horizon_days": 30,
+    "stride_days": 7,
+    "kev_weight": 1.0,
+    "s_uses_rho": true,
+    "ti_mode": "kev_any"
+  }
+}
