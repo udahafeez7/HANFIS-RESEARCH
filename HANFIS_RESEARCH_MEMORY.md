@@ -2,7 +2,7 @@
 
 > Memori proyek HANFIS. Dibaca ulang pada awal setiap sesi kerja (manusia maupun asisten AI).
 > Diperbarui hanya melalui amendemen bernomor (A-xx) atau penutupan blocker (F-xx).
-> Versi: 2.4 · Tanggal: 2026-09-28 · Pemilik: tim HANFIS (Universitas Andalas)
+> Versi: 2.5 · Tanggal: 2026-09-28 · Pemilik: tim HANFIS (Universitas Andalas)
 
 ## 0. Identitas dan target akhir
 
@@ -56,10 +56,12 @@ Setiap usulan perubahan harus menyebut lapisan dan dokumen yang diubah. Usulan t
 | A-10 | 2026-09-22 | Skema §2–3 | Keluarga MF Gauss dengan konstrain monotonik AKTIF untuk E4 (pelanggaran 0,17% vs 0,72%; harga 0,11 RMSE) |
 | A-11 | 2026-09-28 | Testbed | Kontrol positif P0-IF diterima: OFF ρ=0,25, ON ρ=1,0 (libgd dan libexpat terpetakan 2/2 pod, pemicu HTTP 200) |
 | A-12 | 2026-09-28 | Pipeline data | Kontrak data v2 (aset-minggu): image_id, week_start_utc, reachability_level, version_range_status, TI 0–1, unknown = null |
+| A-13 | 2026-09-28 | Pipeline data | Label §3.3 diimplementasikan (patch 0024–0025): CVE aktif iff `PublishedDate` ≤ t; y = 100·mean_{τ∈{t+7,…,t+28}} maxᵥ Xᵥ(τ)·Sᵥₐ(τ), Xᵥ = max(EPSS, 1[KEV per τ]), **S = ρᵥ** (tanpa ρ label jenuh di 100 dan P0-IF ON/OFF tak berbeda); x₇ = indikator KEV per t; x₃ per kontrak v2 {0,1,2} (§2 rumus proporsi/usia **harus diselaraskan**); y = null bila jendela 30 hari melewati snapshot terakhir. Status: sementara, disahkan setelah dicek terhadap `hanfis_sec33_target_definition.tex` |
+| A-14 | 2026-09-28 | Testbed | A-11 dipindahkan ke image `hanfis/p0if:1.1` = `sha256:795470a2adc37e39c848c9581c39b56dfbb80fa96c095c0d78b5f774a86e105b`; capture **v5 PASS** dengan kontras identik v4 (OFF 0/0/0, ON 2/2/1, pemicu 200). Image A-11 lama (`e9c0780b…`) tidak lagi ada di store Docker. **Pagar P13:** deployment penelitian memakai tag unik yang tidak pernah ditulis ulang (`1.0`, `1.1`, …); identitas dicatat dari `imageID` pod dan `trivy_image_id.txt`; digest lokal tidak dapat ditarik kubelet Docker Desktop (`NotFound`), jangan `set image` dengan `@sha256` |
 
 ## 5. Blocker manuskrip F1–F9 (status 2026-09-22)
 
-F1 target sintetis → sebagian ditangani (label temporal; skala belum) · F2 H3 terbantah → dinyatakan ulang sebagai hipotesis mekanisme · F3 kontradiksi telemetri → **ditutup** (10 pasangan v3.0, node CPU +99,4 mCPU p=0,002; latensi P95 gagal tolak H0, CI [−0,13;+0,27] ms) · F4 B4.10 → **terbuka** · F5 held-out → direncanakan (GroupTimeSplit) · F6 headline m=3 → **terbuka** · F7 Fuzzyfortify → direncanakan (A-05, E4) · F8 threat model → ditutup · F9 template → **terbuka**.
+F1 target sintetis → **bahan baku ditutup**: snapshot EPSS/KEV bersegel 57 minggu (2025-08-25…2026-09-21; KEV 2026.09.27, 1.728 entri; `data/real/snapshots/manifest.json`), tabel aset-minggu kontrak v2 berjalan (`scripts/build_asset_weeks.py`; P0 57 baris, P0-IF ON/OFF 114 baris); **skala 120 image belum** (butuh ≥ 24 aset untuk 1.320 baris). Catatan: model EPSS berganti `v2025.03.14` → `v2026.06.15` pada 2026-06-15 (ancaman validitas; kolom `epss_model_version` di diagnostik, batas fold jangan memotong di situ); pada EPSS nyata y P0 ≈ 0,02 pada skala 0–100 → transformasi skala label dan ambang "positif" harus ditetapkan di E3 · F2 H3 terbantah → dinyatakan ulang sebagai hipotesis mekanisme · F3 kontradiksi telemetri → **ditutup** (10 pasangan v3.0, node CPU +99,4 mCPU p=0,002; latensi P95 gagal tolak H0, CI [−0,13;+0,27] ms) · F4 B4.10 → **terbuka** · F5 held-out → direncanakan (GroupTimeSplit) · F6 headline m=3 → **terbuka** · F7 Fuzzyfortify → direncanakan (A-05, E4) · F8 threat model → ditutup · F9 template → **terbuka**.
 
 ## 6. Nomenklatur
 
@@ -84,13 +86,6 @@ E0 selesai/perbaiki case · E1–E2 Sep minggu 4–Okt minggu 1 · E3 Okt minggu
 
 Protokol beku bertanggal · ≥10 obs/parameter (≥1.320 baris) · non-NA ≥25% · assert_no_leakage lolos · snapshot EPSS/KEV lengkap · semua baseline berjalan pada pilot · tidak ada INSUFFICIENT_EVIDENCE di data latih · semua pengujian lulus di Linux ext4 dan WSL.
 
-## 11. Protokol verifikasi patch (wajib, ditetapkan 2026-09-28)
-
-- Lingkup uji resmi (identik dengan `scripts/apply_latest_patch.sh` baris 56): `python -m pytest -q test tests` dari `/mnt/c/Research/ANFIS`. Ada **dua** direktori uji: `test/` (test_environment, test_hanfis_dataset_validation, test_hanfis_end2end, test_hanfis_feature_contract, test_hanfis_target_contract, test_telemetry_validation) dan `tests/` (test_splits, test_telemetry_pipeline); total 70 tes per 2026-09-28. `pytest tests` saja hanya mengumpulkan 36. **Jangan** `pytest` tanpa argumen dari akar repo: folder `Jetson Orin/Telemetry/hanfis_protocol_v3/` berisi salinan cadangan modul uji bernama sama (`test_server_collector_v4_mock.py`) → 9 error koleksi, bukan kegagalan kode.
-- Urutan verifikasi setiap patch: (1) verifikasi numerik pada referensi JAX bila menyentuh model, (2) `ast.parse`, (3) `python -m pytest -q test tests`, (4) terapkan ke snapshot bersih dengan `git am -3`, (5) `git format-patch` ke `Patch/NNNN/`.
-- Pengiriman: zip ke `C:\Research\ANFIS\Patch` (WSL `/mnt/c/Research/ANFIS/Patch`), diekstrak ke `/tmp/pNNNN`, diterapkan `./scripts/apply_latest_patch.sh` atau `git am -3 /tmp/pNNNN/*.patch`. Skrip penerap hanya bila konteks diff tidak tersedia; skrip harus gagal-tertutup (assert tepat 1 kemunculan) dan idempoten.
-- Lingkungan: venv `/home/hafiz/.venvs/anfis` (aktivasi: `source /home/hafiz/.venvs/anfis/bin/activate`), Python 3.12.3, numpy 2.5.1, pandas 2.3.3 (numpy ≥ 2.5 memicu DeprecationWarning `generic unit` untuk `pd.Timedelta("30D")` maupun `pd.Timedelta(days=30)`; pakai `pd.Timedelta(n, unit="D")`). Nomor patch terakhir: 0022.
-
 ## 10. Cara memperbarui berkas ini
 
 1. Tambahkan baris amendemen atau ubah status blocker; jangan menimpa entri lama.
@@ -103,5 +98,14 @@ Protokol beku bertanggal · ≥10 obs/parameter (≥1.320 baris) · non-NA ≥25
 - Telemetri: 10 pasangan protokol v3.0 dianalisis; F3 ditutup; §4.1 naskah tersedia di
   `manuscript/results_efficiency.tex`.
 - Kontrol positif P0-IF diterima (A-11): sumber varians label pertama tersedia.
+- 2026-09-28: snapshot EPSS/KEV bersegel (patch 0023); tabel aset-minggu kontrak v2 (patch 0024–0025); P0-IF dipindah ke image 1.1, capture v5 PASS (A-14); inventaris `configs/assets.csv` = p0-baseline, p0if-on, p0if-off (patch 0026). Berikutnya: transformasi skala label + inventaris 120 image (E3).
 - Berikutnya: E3 (gerbang go/no-go pada data nyata P0 dan P0-IF) memakai `GroupTimeSplit`
   (embargo 30 hari) dan kontrak data v2.
+
+## 12. Protokol verifikasi patch (wajib, ditetapkan 2026-09-28)
+
+- Lingkup uji resmi (identik dengan `scripts/apply_latest_patch.sh` baris 56): `python -m pytest -q test tests` dari `/mnt/c/Research/ANFIS`. Ada **dua** direktori uji: `test/` (test_environment, test_hanfis_dataset_validation, test_hanfis_end2end, test_hanfis_feature_contract, test_hanfis_target_contract, test_telemetry_validation) dan `tests/` (test_splits, test_telemetry_pipeline); total 70 tes per 2026-09-28. `pytest tests` saja hanya mengumpulkan 36. **Jangan** `pytest` tanpa argumen dari akar repo: folder `Jetson Orin/Telemetry/hanfis_protocol_v3/` berisi salinan cadangan modul uji bernama sama (`test_server_collector_v4_mock.py`) → 9 error koleksi, bukan kegagalan kode.
+- Urutan verifikasi setiap patch: (1) verifikasi numerik pada referensi JAX bila menyentuh model, (2) `ast.parse`, (3) `python -m pytest -q test tests`, (4) terapkan ke snapshot bersih dengan `git am -3`, (5) `git format-patch` ke `Patch/NNNN/`.
+- Pengiriman: zip ke `C:\Research\ANFIS\Patch` (WSL `/mnt/c/Research/ANFIS/Patch`), diekstrak ke `/tmp/pNNNN`, diterapkan `./scripts/apply_latest_patch.sh` atau `git am -3 /tmp/pNNNN/*.patch`. Skrip penerap hanya bila konteks diff tidak tersedia; skrip harus gagal-tertutup (assert tepat 1 kemunculan) dan idempoten.
+- Lingkungan: venv `/home/hafiz/.venvs/anfis` (aktivasi: `source /home/hafiz/.venvs/anfis/bin/activate`), Python 3.12.3, numpy 2.5.1, pandas 2.3.3 (numpy ≥ 2.5 memicu DeprecationWarning `generic unit` untuk `pd.Timedelta("30D")` maupun `pd.Timedelta(days=30)`; pakai `pd.Timedelta(n, unit="D")`). Nomor patch terakhir: 0026. Patch baru (berkas baru saja) dikirim sebagai `git format-patch`; patch yang menyentuh berkas lama hanya bila isi berkas itu ada di sesi (unggah dulu).
+- Bukti Trivy: `scripts/scan_image_evidence.sh <slug> <image@sha256|name:tag>` → `data/evidence/<slug>_trivy_scan_<rand>/` (layout = bundel P0; `cache/` tidak di-commit; `git add -f` karena `data/` diabaikan). Trivy 0.74.0 di `/home/hafiz/.local/bin`. Bundel: P0 `p0_trivy_scan_r9NceXFV` (DB 2026-09-14), P0-IF `p0if_trivy_scan_oIB3UEcn` (DB 2026-09-28, Alpine 3.21.8, 60 paket).
