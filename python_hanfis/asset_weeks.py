@@ -55,10 +55,11 @@ class Cve:
     installed: str
     fixed: str | None
     status: str                 # trivy status, lower-case
-    published: dt.date
+    published: dt.date | None   # None = no PublishedDate in the scan and not yet resolved (see resolve_published)
     cvss: float | None
     cvss_source: str | None
     data_source: str | None
+    published_source: str = "trivy"   # "trivy" | "epss_first_seen" | "unknown"
 
     @property
     def version_range_status(self) -> str:
@@ -128,12 +129,12 @@ def load_trivy_scan(path: Path) -> ScanBundle:
                 continue
             seen.add(key)
             pub = v.get("PublishedDate")
-            if not pub:
-                raise AssetWeekError(f"{path}: {vid} lacks PublishedDate; temporal gating impossible (fail-closed)")
             score, src = _pick_cvss(v.get("CVSS") or {})
             cves.append(Cve(vid, v.get("PkgName", ""), v.get("InstalledVersion", ""), v.get("FixedVersion") or None,
-                            str(v.get("Status", "unknown")).lower(), dt.date.fromisoformat(pub[:10]),
-                            score, src, (v.get("DataSource") or {}).get("ID")))
+                            str(v.get("Status", "unknown")).lower(),
+                            dt.date.fromisoformat(pub[:10]) if pub else None,
+                            score, src, (v.get("DataSource") or {}).get("ID"),
+                            "trivy" if pub else "unknown"))
     md = doc.get("Metadata", {}).get("OS", {}) or {}
     return ScanBundle(path, hashlib.sha256(raw).hexdigest(), doc["ArtifactName"], ident, kind,
                       dt.datetime.fromisoformat(doc["CreatedAt"][:19]).replace(tzinfo=dt.timezone.utc),
@@ -219,6 +220,39 @@ class SnapshotStore:
     def epss_model_version(self, d: dt.date) -> str:
         return self.manifest["epss"][d.isoformat()]["model_version"]
 
+    def first_seen(self, ids: set[str]) -> dict[str, dt.date]:
+        """First Monday snapshot in which each CVE id is scored by EPSS = upper bound of its publication
+        date (FIRST scores only published CVEs). One streaming pass over the sealed files; results are
+        cached in first_seen_cache.json (keyed by the manifest's EPSS file set, so a re-seal invalidates it)."""
+        ids = {i for i in ids}
+        if not ids:
+            return {}
+        cache_path = self.root / "first_seen_cache.json"
+        key = hashlib.sha256(json.dumps(sorted(self.manifest["epss"].items()), sort_keys=True).encode()).hexdigest()[:16]
+        cache: dict = {}
+        if cache_path.exists():
+            try:
+                doc = json.loads(cache_path.read_text(encoding="utf-8"))
+                if doc.get("key") == key:
+                    cache = doc.get("first_seen", {})
+            except (OSError, json.JSONDecodeError):
+                cache = {}
+        todo = {i for i in ids if i not in cache}
+        if todo:
+            for d in self.epss_dates:
+                rec = self.manifest["epss"][d.isoformat()]
+                with gzip.open(self.root / rec["file"], "rt", encoding="utf-8") as fh:
+                    for line in fh:
+                        cid = line.split(",", 1)[0]
+                        if cid in todo:
+                            cache[cid] = d.isoformat(); todo.discard(cid)
+                if not todo:
+                    break
+            for cid in todo:
+                cache[cid] = None            # never scored inside the sealed range
+            cache_path.write_text(json.dumps({"key": key, "first_seen": cache}, indent=0, sort_keys=True), encoding="utf-8")
+        return {i: dt.date.fromisoformat(cache[i]) for i in ids if cache.get(i)}
+
     def kev_as_of(self, d: dt.date) -> set[str]:
         if d not in self._kev_cache:
             self._kev_cache[d] = S.kev_as_of(self._kev_entries, d)
@@ -238,8 +272,28 @@ class LabelSpec:
         return [t + dt.timedelta(days=k) for k in range(self.stride_days, self.horizon_days + 1, self.stride_days)]
 
 
+def resolve_published(scan: ScanBundle, store: SnapshotStore) -> tuple[ScanBundle, int]:
+    """Fill missing PublishedDate from the EPSS first-seen proxy. Returns (scan, n_excluded) where
+    n_excluded counts CVEs with neither a scan date nor any EPSS appearance: never treated as active."""
+    missing = {c.id for c in scan.cves if c.published is None}
+    if not missing:
+        return scan, 0
+    seen = store.first_seen(missing)
+    cves, excluded = [], 0
+    for c in scan.cves:
+        if c.published is not None:
+            cves.append(c)
+        elif c.id in seen:
+            cves.append(Cve(c.id, c.pkg, c.installed, c.fixed, c.status, seen[c.id], c.cvss, c.cvss_source,
+                            c.data_source, "epss_first_seen"))
+        else:
+            excluded += 1
+    return ScanBundle(scan.path, scan.sha256, scan.artifact_name, scan.pinned_identity, scan.pinned_kind,
+                      scan.created_at, scan.os_family, scan.os_version, tuple(cves)), excluded
+
+
 def active_cves(scan: ScanBundle, d: dt.date) -> list[Cve]:
-    return [c for c in scan.cves if c.published <= d]
+    return [c for c in scan.cves if c.published is not None and c.published <= d]
 
 
 def _enum_rho(x: float) -> float:
@@ -314,7 +368,8 @@ def build_row(asset: Asset, scan: ScanBundle, store: SnapshotStore, week: dt.dat
     }
 
 
-DIAG_COLUMNS = ("n_cves_active", "n_cves_reachable", "n_kev_active", "epss_model_version")
+DIAG_COLUMNS = ("n_cves_active", "n_cves_reachable", "n_kev_active", "epss_model_version",
+                "n_cves_scan", "n_cves_dated_by_epss", "n_cves_undated_excluded")
 
 
 def build_rows(assets: Iterable[Asset], store: SnapshotStore, weeks: Iterable[dt.date], spec: LabelSpec,
@@ -323,7 +378,8 @@ def build_rows(assets: Iterable[Asset], store: SnapshotStore, weeks: Iterable[dt
     for asset in assets:
         if not asset.scan_path.exists():
             raise AssetWeekError(f"{asset.asset_id}: scan bundle missing {asset.scan_path} (scan it first)")
-        scan = load_trivy_scan(asset.scan_path)
+        scan, n_excluded = resolve_published(load_trivy_scan(asset.scan_path), store)
+        n_by_epss = sum(c.published_source == "epss_first_seen" for c in scan.cves)
         if scan.pinned_identity.split(":", 1)[1] not in asset.image_id:
             raise AssetWeekError(f"{asset.asset_id}: inventory image_id {asset.image_id!r} does not carry the scanned "
                                  f"image's {scan.pinned_kind} {scan.pinned_identity} (inventory/evidence mismatch)")
@@ -335,7 +391,10 @@ def build_rows(assets: Iterable[Asset], store: SnapshotStore, weeks: Iterable[dt
                               "n_cves_active": len(act),
                               "n_cves_reachable": sum(asset.rho_for(c) > 0 for c in act),
                               "n_kev_active": sum(c.id in store.kev_as_of(w) for c in act),
-                              "epss_model_version": store.epss_model_version(w)})
+                              "epss_model_version": store.epss_model_version(w),
+                              "n_cves_scan": len(scan.cves) + n_excluded,
+                              "n_cves_dated_by_epss": n_by_epss,
+                              "n_cves_undated_excluded": n_excluded})
     return rows, diags
 
 

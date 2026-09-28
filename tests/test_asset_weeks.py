@@ -98,12 +98,25 @@ class TestEvidence(unittest.TestCase):
             with self.assertRaises(AW.AssetWeekError):
                 AW.build_rows([wrong], store, MONDAYS[:2], AW.LabelSpec())
 
-    def test_fail_closed_on_undated(self):
+    def test_undated_cve_is_dated_by_epss_first_seen_or_excluded(self):
         with TemporaryDirectory() as td:
-            p = Path(td) / "s.json"
-            r = trivy_report(); del r["Results"][0]["Vulnerabilities"][0]["PublishedDate"]; p.write_text(json.dumps(r))
-            with self.assertRaises(AW.AssetWeekError):
-                AW.load_trivy_scan(p)
+            root = Path(td); store = make_store(root / "snap")
+            r = trivy_report()
+            del r["Results"][0]["Vulnerabilities"][0]["PublishedDate"]          # CVE-1: undated, but scored by EPSS
+            r["Results"][0]["Vulnerabilities"].append({"VulnerabilityID": "CVE-2025-00009", "PkgName": "zlib", "PkgID": "zlib@1",
+                "InstalledVersion": "1", "Status": "affected", "DataSource": {"ID": "debian"}, "CVSS": {}})  # never in EPSS
+            p = root / "s.json"; p.write_text(json.dumps(r))
+            scan = AW.load_trivy_scan(p)
+            self.assertIsNone(next(c for c in scan.cves if c.id == "CVE-2025-00001").published)
+            scan, excluded = AW.resolve_published(scan, store)
+            self.assertEqual(excluded, 1)
+            c1 = next(c for c in scan.cves if c.id == "CVE-2025-00001")
+            self.assertEqual((c1.published, c1.published_source), (MONDAYS[0], "epss_first_seen"))
+            self.assertNotIn("CVE-2025-00009", {c.id for c in scan.cves})
+            self.assertTrue((root / "snap" / "first_seen_cache.json").exists())
+            # cache hit path returns the same answer
+            scan2, excluded2 = AW.resolve_published(AW.load_trivy_scan(p), store)
+            self.assertEqual(excluded2, 1)
 
 
 class TestRows(unittest.TestCase):
@@ -155,6 +168,7 @@ class TestRows(unittest.TestCase):
             rows, diags = AW.build_rows([asset], store, MONDAYS, AW.LabelSpec())
             self.assertEqual(len(rows), 9); self.assertEqual(AW.validate_contract(rows, SCHEMA), [])
             self.assertEqual(diags[0]["epss_model_version"], "v2025.03.14")
+            self.assertEqual((diags[0]["n_cves_scan"], diags[0]["n_cves_dated_by_epss"], diags[0]["n_cves_undated_excluded"]), (4, 0, 0))
             bad = dict(rows[0]); bad["reachability_level"] = 0.5; bad["threat_intelligence"] = 7.4
             self.assertEqual(len(AW.validate_contract([bad], SCHEMA)), 2)
             st = AW.gate_status(rows)
