@@ -19,8 +19,13 @@ RUN apk add --no-cache \
       gd \
       expat \
       curl \
+      binutils \
  && mkdir -p /var/lib/nginx/tmp /var/log/nginx /usr/share/nginx/html \
  && chown -R 101:101 /var/lib/nginx /var/log/nginx /usr/share/nginx/html
+
+# binutils provides readelf, required by scripts/capture_reachability_evidence.sh to record
+# the direct DT_NEEDED dependencies (evidence dimension 2). Without it that dimension is
+# silently missing, which is why the script now fails closed if readelf is absent (patch 0015).
 
 # A tiny JPEG so the image_filter location has something to process.
 COPY sample.jpg /usr/share/nginx/html/sample.jpg

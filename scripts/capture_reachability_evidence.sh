@@ -56,17 +56,25 @@ fi
 for POD in "${PODS[@]}"; do
   D="$OUTDIR/$POD"; mkdir -p "$D"
   kubectl -n "$NAMESPACE" exec "$POD" -- sh -c 'apk list --installed 2>/dev/null | sort' > "$D/identity_apk.txt" || fail IDENTITY
-  kubectl -n "$NAMESPACE" exec "$POD" -- sh -c 'for f in /usr/sbin/nginx /usr/lib/nginx/modules/*.so; do echo "== $f"; readelf -d "$f" 2>/dev/null | grep NEEDED || echo "(no readelf)"; done' > "$D/linkage_dt_needed.txt" || true
+  kubectl -n "$NAMESPACE" exec "$POD" -- sh -c 'command -v readelf >/dev/null || { echo "READELF_MISSING"; exit 3; }; for f in /usr/sbin/nginx /usr/lib/nginx/modules/*.so; do echo "== $f"; readelf -d "$f" | grep NEEDED; done' > "$D/linkage_dt_needed.txt" || fail READELF_MISSING_IN_IMAGE
   kubectl -n "$NAMESPACE" exec "$POD" -- sh -c 'for f in /usr/sbin/nginx /usr/lib/nginx/modules/*.so; do echo "== $f"; ldd "$f" 2>&1; done' > "$D/linkage_ldd.txt" || true
   kubectl -n "$NAMESPACE" exec "$POD" -- sh -c 'nginx -T 2>&1' > "$D/activation_nginx_T.txt" || fail ACTIVATION
   kubectl -n "$NAMESPACE" exec "$POD" -- sh -c 'for p in $(pgrep nginx); do echo "== pid $p"; cat /proc/$p/maps; done' > "$D/runtime_maps.txt" || fail RUNTIME_MAPS
-  # Machine-readable summary of the two libraries of interest.
+  # Machine-readable summary (patch 0015).
+  #  - mapping is counted as the number of distinct nginx PIDs whose memory map contains the
+  #    library, not the number of map lines (one library occupies several regions);
+  #  - configuration counters ignore comment lines, otherwise a comment mentioning the module
+  #    is counted as if the directive were configured.
+  CONF_NOCOMMENT="$D/activation_nginx_T.nocomment.txt"
+  grep -v '^[[:space:]]*#' "$D/activation_nginx_T.txt" > "$CONF_NOCOMMENT" || true
+  pids_with() { awk -v lib="$1" '/^== pid /{pid=$3} $0 ~ lib {seen[pid]=1} END{n=0; for (p in seen) n++; print n}' "$D/runtime_maps.txt"; }
   {
     echo "pod=$POD"
-    echo "libgd_mapped=$(grep -c 'libgd' "$D/runtime_maps.txt" || true)"
-    echo "libexpat_mapped=$(grep -c 'libexpat' "$D/runtime_maps.txt" || true)"
-    echo "module_loaded=$(grep -c '^load_module' "$D/activation_nginx_T.txt" || true)"
-    echo "image_filter_directive=$(grep -c 'image_filter' "$D/activation_nginx_T.txt" || true)"
+    echo "nginx_pids=$(grep -c '^== pid ' "$D/runtime_maps.txt" || true)"
+    echo "libgd_mapped_pids=$(pids_with libgd)"
+    echo "libexpat_mapped_pids=$(pids_with libexpat)"
+    echo "module_loaded=$(grep -c '^[[:space:]]*load_module' "$CONF_NOCOMMENT" || true)"
+    echo "image_filter_directive=$(grep -cE '^[[:space:]]*image_filter([[:space:]_]|;)' "$CONF_NOCOMMENT" || true)"
   } > "$D/summary.txt"
 done
 

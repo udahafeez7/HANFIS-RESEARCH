@@ -51,8 +51,8 @@ cat /mnt/c/Research/ANFIS/results_python/evidence/p0if-on/*/summary.txt
 | Package identity (libexpat, libgd, module) | present 2/2 | present 2/2 |
 | `load_module` in `nginx -T` | 0 | 2/2 |
 | `image_filter` directive | 0 | 2/2 |
-| libgd mapped in `/proc/<pid>/maps` | 0/2 | 2/2 |
-| libexpat mapped in `/proc/<pid>/maps` | 0/2 | 2/2 |
+| `libgd_mapped_pids` (distinct nginx PIDs) | 0 | all PIDs |
+| `libexpat_mapped_pids` | 0 | all PIDs |
 | Trigger path HTTP code | not exercised | 200 |
 | Resulting reachability_level (A-01) | 0.25 | 1.0 |
 
