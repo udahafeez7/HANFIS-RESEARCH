@@ -13,6 +13,13 @@ The observation unit is an asset-week: one row per image (``image_id``) per week
 ``GroupTimeSplit`` yields folds in expanding-window form: fold k trains on everything up to a
 cut-off, waits out the embargo, and evaluates on the following block of weeks, with the
 image groups disjoint between the two sides.
+
+Group assignment (patch 0030, amendment A-16). Images are assigned deterministically to
+``n_splits`` held-out groups (seeded permutation of the sorted ``image_id`` values, round
+robin). Fold k trains on the images *not* in group k up to the cut-off and evaluates the
+images *of* group k inside test block k. On a complete panel (every image observed every
+week) the earlier rule -- drop test rows whose image already has training history -- emptied
+every test block; this rule keeps both leakage paths closed and tests every image exactly once.
 """
 
 from __future__ import annotations
@@ -64,6 +71,7 @@ class GroupTimeSplit:
         group_column: str = GROUP_COLUMN,
         time_column: str = TIME_COLUMN,
         min_train_weeks: int = 4,
+        group_seed: int = 20260928,
     ) -> None:
         if n_splits < 1:
             raise ValueError("n_splits must be >= 1")
@@ -72,6 +80,13 @@ class GroupTimeSplit:
         self.group_column = group_column
         self.time_column = time_column
         self.min_train_weeks = int(min_train_weeks)
+        self.group_seed = int(group_seed)
+
+    def group_assignment(self, frame: pd.DataFrame) -> dict[str, int]:
+        """Deterministic image -> held-out fold index (0..n_splits-1); stable across runs and seeds of the model."""
+        images = sorted(frame[self.group_column].astype(str).unique())
+        order = np.random.default_rng(self.group_seed).permutation(len(images))
+        return {images[j]: int(rank % self.n_splits) for rank, j in enumerate(order)}
 
     def _prepare(self, frame: pd.DataFrame) -> pd.DataFrame:
         for column in (self.group_column, self.time_column):
@@ -89,20 +104,29 @@ class GroupTimeSplit:
                 f"need at least {self.min_train_weeks + 2} distinct weeks, found {len(weeks)}"
             )
         embargo = embargo_timedelta(self.embargo_days)
-        usable = weeks[self.min_train_weeks:]
+        # The first test week must leave >= min_train_weeks training weeks *before* the embargo,
+        # otherwise the first block has an empty training side and its held-out group is never
+        # evaluated (patch 0030).
+        earliest_cutoff = pd.Timestamp(weeks[self.min_train_weeks - 1])
+        usable = np.array([w for w in weeks if pd.Timestamp(w) - embargo >= earliest_cutoff])
+        if len(usable) < self.n_splits:
+            raise ValueError(
+                f"only {len(usable)} weeks remain after {self.min_train_weeks} training weeks and a "
+                f"{self.embargo_days}-day embargo; need at least n_splits={self.n_splits}"
+            )
         blocks = np.array_split(usable, self.n_splits)
+        held_out = prepared[self.group_column].astype(str).map(self.group_assignment(prepared))
         folds: list[Fold] = []
         for k, block in enumerate(blocks):
             if len(block) == 0:
                 continue
             test_start, test_end = pd.Timestamp(block[0]), pd.Timestamp(block[-1])
             cutoff = test_start - embargo
-            train_mask = prepared[self.time_column] <= cutoff
-            test_mask = (prepared[self.time_column] >= test_start) & (prepared[self.time_column] <= test_end)
-            # Group disjointness: an image present on the training side is removed from the test
-            # side (it keeps the larger, earlier training history intact).
-            train_groups = set(prepared.loc[train_mask, self.group_column])
-            test_mask &= ~prepared[self.group_column].isin(train_groups)
+            in_group = (held_out == k).to_numpy()
+            # Group disjointness: fold k's images are held out of training entirely and are the
+            # only images evaluated in block k (A-16).
+            train_mask = (prepared[self.time_column] <= cutoff) & ~in_group
+            test_mask = (prepared[self.time_column] >= test_start) & (prepared[self.time_column] <= test_end) & in_group
             if not train_mask.any() or not test_mask.any():
                 continue
             folds.append(
@@ -117,8 +141,8 @@ class GroupTimeSplit:
             )
         if not folds:
             raise ValueError(
-                "no usable fold: every candidate test block shares its images with the training "
-                "history, or the embargo consumes the available weeks"
+                "no usable fold: a held-out group has no rows inside its test block, or the embargo "
+                "consumes the available weeks"
             )
         return folds
 
