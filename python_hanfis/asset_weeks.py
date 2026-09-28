@@ -114,12 +114,14 @@ def _pick_cvss(cvss: dict) -> tuple[float | None, str | None]:
 def load_trivy_scan(path: Path) -> ScanBundle:
     raw = path.read_bytes()
     doc = json.loads(raw.decode("utf-8"))
-    if "Results" not in doc or "ArtifactName" not in doc:
+    if "ArtifactName" not in doc or "SchemaVersion" not in doc:
         raise AssetWeekError(f"{path}: not a Trivy JSON report")
     ident, kind = pinned_identity(doc)
     cves: list[Cve] = []
     seen: set[tuple[str, str]] = set()
-    for res in doc["Results"]:
+    # Trivy omits "Results" entirely when it detects no OS / package database (e.g. busybox):
+    # a legitimate zero-CVE image, not a malformed report.
+    for res in doc.get("Results") or []:
         for v in res.get("Vulnerabilities") or []:
             vid = v.get("VulnerabilityID", "")
             if not _CVE_RE.match(vid):

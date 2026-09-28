@@ -76,6 +76,15 @@ class TestEvidence(unittest.TestCase):
             self.assertEqual((by["CVE-2025-00002"].cvss, by["CVE-2025-00002"].cvss_source), (5.5, "redhat.V3Score"))
             self.assertIsNone(by["CVE-2025-00003"].cvss)
 
+    def test_report_without_results_is_a_clean_image(self):
+        with TemporaryDirectory() as td:
+            p = Path(td) / "s.json"
+            r = trivy_report(); del r["Results"]; p.write_text(json.dumps(r))
+            self.assertEqual(len(AW.load_trivy_scan(p).cves), 0)
+            p.write_text(json.dumps({"Results": [], "ArtifactName": IMG}))     # no SchemaVersion -> not Trivy
+            with self.assertRaises(AW.AssetWeekError):
+                AW.load_trivy_scan(p)
+
     def test_pinning_repo_digest_or_local_image_id(self):
         with TemporaryDirectory() as td:
             p = Path(td) / "s.json"
