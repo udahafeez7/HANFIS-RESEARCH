@@ -1,0 +1,14 @@
+{
+  "table": "/mnt/c/Research/ANFIS/data/processed/asset_weeks_v2.csv",
+  "rows_supervised": 159,
+  "assets": 3,
+  "image_groups": 2,
+  "n_splits_used": 2,
+  "embargo_days": 30,
+  "lag_weeks": 4,
+  "group_assignment": {
+    "docker.io/nginxinc/nginx-unprivileged@sha256:65e3e85dbaed8ba248841d9d58a899b6197106c23cb0ff1a132b7bfe0547e4c0": 0,
+    "hanfis/p0if:1.2@sha256:4b3e7080b453f4549a3a8e31dea91d3d009c0de9fa61cb5efbfdaeb44f0dc3d5": 1
+  },
+  "generated_utc": "20260928T063953Z"
+}
