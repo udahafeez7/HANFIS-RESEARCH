@@ -2,7 +2,7 @@
 
 > Memori proyek HANFIS. Dibaca ulang pada awal setiap sesi kerja (manusia maupun asisten AI).
 > Diperbarui hanya melalui amendemen bernomor (A-xx) atau penutupan blocker (F-xx).
-> Versi: 2.2 · Tanggal: 2026-09-28 · Pemilik: tim HANFIS (Universitas Andalas)
+> Versi: 2.3 · Tanggal: 2026-09-28 · Pemilik: tim HANFIS (Universitas Andalas)
 
 ## 0. Identitas dan target akhir
 
@@ -83,6 +83,13 @@ E0 selesai/perbaiki case · E1–E2 Sep minggu 4–Okt minggu 1 · E3 Okt minggu
 ## 9. Gerbang go/no-go sebelum E4
 
 Protokol beku bertanggal · ≥10 obs/parameter (≥1.320 baris) · non-NA ≥25% · assert_no_leakage lolos · snapshot EPSS/KEV lengkap · semua baseline berjalan pada pilot · tidak ada INSUFFICIENT_EVIDENCE di data latih · semua pengujian lulus di Linux ext4 dan WSL.
+
+## 11. Protokol verifikasi patch (wajib, ditetapkan 2026-09-28)
+
+- Lingkup uji resmi: `python -m pytest tests -q` dari `/mnt/c/Research/ANFIS`. **Jangan** `pytest` dari akar repo: folder `Jetson Orin/Telemetry/hanfis_protocol_v3/` berisi salinan cadangan modul uji bernama sama (`test_server_collector_v4_mock.py`) → 9 error koleksi, bukan kegagalan kode.
+- Urutan verifikasi setiap patch: (1) verifikasi numerik pada referensi JAX bila menyentuh model, (2) `ast.parse`, (3) `python -m pytest tests -q`, (4) terapkan ke snapshot bersih dengan `git am -3`, (5) `git format-patch` ke `Patch/NNNN/`.
+- Pengiriman: zip ke `C:\Research\ANFIS\Patch` (WSL `/mnt/c/Research/ANFIS/Patch`), diekstrak ke `/tmp/pNNNN`, diterapkan `./scripts/apply_latest_patch.sh` atau `git am -3 /tmp/pNNNN/*.patch`. Skrip penerap hanya bila konteks diff tidak tersedia; skrip harus gagal-tertutup (assert tepat 1 kemunculan) dan idempoten.
+- Lingkungan: venv `anfis`, Python 3.12, numpy ≥ 2.5 (memicu DeprecationWarning `generic unit` untuk `pd.Timedelta("30D")` maupun `pd.Timedelta(days=30)`; pakai `pd.Timedelta(n, unit="D")`). Nomor patch terakhir: 0021.
 
 ## 10. Cara memperbarui berkas ini
 
