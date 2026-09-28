@@ -68,7 +68,7 @@ def main(argv=None) -> int:
     (out.parent / (out.name + "_status.json")).write_text(json.dumps(st, indent=2), encoding="utf-8")
     print(f"wrote {out}.csv/.jsonl/_diagnostics.csv/_status.json")
     print(f"TIGA ANGKA WAJIB: baris event_id={st['n_rows_event_id']}  non-NA={st['share_non_na']:.3f}  "
-          f"positif={st['share_positive']:.3f}  aset={st['n_assets']}  INSUFFICIENT={st['n_insufficient']}")
+          f"positif={st['share_positive']:.3f}  asset_id={st['n_asset_ids']}  grup_image={st['n_image_groups']}  INSUFFICIENT={st['n_insufficient']}")
     print(json.dumps(st["checks"], indent=2))
     print("STATUS=" + ("TRAINING_AUTHORIZED" if st["TRAINING_AUTHORIZED"] else "HOLD_TRAINING"))
     return 0

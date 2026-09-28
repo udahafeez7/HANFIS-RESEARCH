@@ -19,10 +19,11 @@ OUT="$REPO/data/evidence/${SLUG}_trivy_scan_$(head -c 6 /dev/urandom | base64 | 
 mkdir -p "$OUT"
 echo "$IMAGE" > "$OUT/target_image.txt"
 date -u +%Y-%m-%dT%H:%M:%SZ > "$OUT/scan_started_utc.txt"
-trivy --version > "$OUT/trivy_version_and_db.txt"
 trivy image --cache-dir "$CACHE" --scanners vuln --format json --output "$OUT/${SLUG}_vulnerabilities.json" \
       --timeout 15m "$IMAGE" 2>&1 | tee "$OUT/scan.log"
 date -u +%Y-%m-%dT%H:%M:%SZ > "$OUT/scan_finished_utc.txt"
+trivy --version --cache-dir "$CACHE" > "$OUT/trivy_version_and_db.txt"          # after the scan: DB block is present
+cp "$CACHE/db/metadata.json" "$OUT/trivy_db_metadata.json" 2>/dev/null || echo "WARN: no $CACHE/db/metadata.json"
 python3 - "$OUT/${SLUG}_vulnerabilities.json" > "$OUT/trivy_image_id.txt" <<'PY'
 import json, sys
 d = json.load(open(sys.argv[1])); md = d.get("Metadata", {}) or {}
@@ -30,6 +31,6 @@ print(md.get("ImageID", "")); print("RepoDigests=" + ",".join(md.get("RepoDigest
 PY
 [ -n "${LOCAL_ID:-}" ] && { grep -q "$LOCAL_ID" "$OUT/trivy_image_id.txt" || { echo "ABORT: trivy scanned a different image ID than docker reports"; exit 1; }; }
 ( cd "$OUT" && sha256sum target_image.txt trivy_image_id.txt scan_started_utc.txt scan_finished_utc.txt scan.log \
-  "${SLUG}_vulnerabilities.json" trivy_version_and_db.txt > SCAN_SHA256.txt )
+  "${SLUG}_vulnerabilities.json" trivy_version_and_db.txt $(ls trivy_db_metadata.json 2>/dev/null) > SCAN_SHA256.txt )
 echo "BUNDLE=$OUT"
 echo "SCAN_JSON=data/evidence/$(basename "$OUT")/${SLUG}_vulnerabilities.json"

@@ -159,6 +159,7 @@ class TestRows(unittest.TestCase):
             self.assertEqual(len(AW.validate_contract([bad], SCHEMA)), 2)
             st = AW.gate_status(rows)
             self.assertFalse(st["TRAINING_AUTHORIZED"]); self.assertEqual(st["n_rows_event_id"], 9)
+            self.assertEqual((st["n_asset_ids"], st["n_image_groups"]), (1, 1))
             self.assertFalse(st["checks"]["rows>=1320"])
 
     def test_missing_snapshot_week_fails_closed(self):

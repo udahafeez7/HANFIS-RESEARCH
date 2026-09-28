@@ -392,7 +392,8 @@ def gate_status(rows: list[dict], min_rows: int = 1320, min_non_na: float = 0.25
         f"positive>={min_positive}": positive >= min_positive,
         "no_INSUFFICIENT_EVIDENCE": insufficient == 0,
     }
-    return {"n_rows_event_id": n, "n_assets": len({r["image_id"] for r in rows}),
+    return {"n_rows_event_id": n, "n_asset_ids": len({r["event_id"].rsplit("__", 1)[0] for r in rows}),
+            "n_image_groups": len({r["image_id"] for r in rows}),   # GroupTimeSplit groups (ON/OFF share an image)
             "share_non_na": round(non_na, 4), "share_positive": round(positive, 4),
             "n_insufficient": insufficient, "checks": checks,
             "TRAINING_AUTHORIZED": all(checks.values())}
