@@ -1,0 +1,190 @@
+# P0-IF positive control: two deployments from the same image, differing only in the
+# nginx configuration mounted from a ConfigMap (patch 0014).
+# Namespace and replica count mirror p0-baseline so the evidence protocol is unchanged.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: p0if-off-conf
+  namespace: hanfis-research
+  labels: { app: p0if, hanfis.condition: "off" }
+data:
+  nginx.conf: |
+    # P0-IF OFF: image_filter module present in the image but NOT loaded.
+    # Expected evidence: identity PASS, transitive dependency present, activation 0/2,
+    # runtime mapping 0/2 -> reachability_level 0.25 (module present, not activated).
+    worker_processes 1;
+    error_log /dev/stderr warn;
+    pid /tmp/nginx.pid;
+
+    events { worker_connections 256; }
+
+    http {
+        access_log off;
+        client_body_temp_path /tmp/client_body;
+        proxy_temp_path /tmp/proxy;
+        fastcgi_temp_path /tmp/fastcgi;
+        uwsgi_temp_path /tmp/uwsgi;
+        scgi_temp_path /tmp/scgi;
+        default_type application/octet-stream;
+
+        server {
+            listen 8080;
+            server_name _;
+            root /usr/share/nginx/html;
+
+            location / {
+                return 200 "p0if-off\n";
+                add_header Content-Type text/plain;
+            }
+
+            location /health {
+                return 200 "ok\n";
+                add_header Content-Type text/plain;
+            }
+        }
+    }
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: p0if-on-conf
+  namespace: hanfis-research
+  labels: { app: p0if, hanfis.condition: "on" }
+data:
+  nginx.conf: |
+    # P0-IF ON: image_filter module loaded and a location configured to use it.
+    # Expected evidence: identity PASS, transitive dependency present, activation 2/2,
+    # runtime mapping of libgd and libexpat 2/2 -> reachability_level 1.0 when the
+    # trigger path (/resize/sample.jpg) has been exercised.
+    load_module /usr/lib/nginx/modules/ngx_http_image_filter_module.so;
+
+    worker_processes 1;
+    error_log /dev/stderr warn;
+    pid /tmp/nginx.pid;
+
+    events { worker_connections 256; }
+
+    http {
+        access_log off;
+        client_body_temp_path /tmp/client_body;
+        proxy_temp_path /tmp/proxy;
+        fastcgi_temp_path /tmp/fastcgi;
+        uwsgi_temp_path /tmp/uwsgi;
+        scgi_temp_path /tmp/scgi;
+        default_type application/octet-stream;
+
+        server {
+            listen 8080;
+            server_name _;
+            root /usr/share/nginx/html;
+
+            location / {
+                return 200 "p0if-on\n";
+                add_header Content-Type text/plain;
+            }
+
+            location /health {
+                return 200 "ok\n";
+                add_header Content-Type text/plain;
+            }
+
+            # Trigger path: forces libgd (and through it libexpat) to be loaded and used.
+            location /resize/ {
+                alias /usr/share/nginx/html/;
+                image_filter resize 64 64;
+                image_filter_buffer 2M;
+            }
+        }
+    }
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: p0if-off
+  namespace: hanfis-research
+  labels: { app: p0if-off, hanfis.role: positive-control, hanfis.condition: "off" }
+spec:
+  replicas: 2
+  selector: { matchLabels: { app: p0if-off } }
+  template:
+    metadata:
+      labels: { app: p0if-off, hanfis.role: positive-control, hanfis.condition: "off" }
+    spec:
+      containers:
+        - name: nginx-p0if
+          image: hanfis/p0if:1.0
+          imagePullPolicy: IfNotPresent
+          ports: [{ containerPort: 8080 }]
+          volumeMounts:
+            - { name: conf, mountPath: /etc/nginx/nginx.conf, subPath: nginx.conf, readOnly: true }
+          readinessProbe:
+            httpGet: { path: /health, port: 8080 }
+            initialDelaySeconds: 2
+            periodSeconds: 5
+          resources:
+            requests: { cpu: 10m, memory: 32Mi }
+            limits: { cpu: 500m, memory: 256Mi }
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 101
+            allowPrivilegeEscalation: false
+            capabilities: { drop: ["ALL"] }
+      volumes:
+        - name: conf
+          configMap: { name: p0if-off-conf }
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: p0if-on
+  namespace: hanfis-research
+  labels: { app: p0if-on, hanfis.role: positive-control, hanfis.condition: "on" }
+spec:
+  replicas: 2
+  selector: { matchLabels: { app: p0if-on } }
+  template:
+    metadata:
+      labels: { app: p0if-on, hanfis.role: positive-control, hanfis.condition: "on" }
+    spec:
+      containers:
+        - name: nginx-p0if
+          image: hanfis/p0if:1.0
+          imagePullPolicy: IfNotPresent
+          ports: [{ containerPort: 8080 }]
+          volumeMounts:
+            - { name: conf, mountPath: /etc/nginx/nginx.conf, subPath: nginx.conf, readOnly: true }
+          readinessProbe:
+            httpGet: { path: /health, port: 8080 }
+            initialDelaySeconds: 2
+            periodSeconds: 5
+          resources:
+            requests: { cpu: 10m, memory: 32Mi }
+            limits: { cpu: 500m, memory: 256Mi }
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 101
+            allowPrivilegeEscalation: false
+            capabilities: { drop: ["ALL"] }
+      volumes:
+        - name: conf
+          configMap: { name: p0if-on-conf }
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: p0if-off-service
+  namespace: hanfis-research
+spec:
+  type: ClusterIP
+  selector: { app: p0if-off }
+  ports: [{ name: http, port: 80, targetPort: 8080 }]
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: p0if-on-service
+  namespace: hanfis-research
+spec:
+  type: ClusterIP
+  selector: { app: p0if-on }
+  ports: [{ name: http, port: 80, targetPort: 8080 }]
