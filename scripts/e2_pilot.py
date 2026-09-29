@@ -42,7 +42,16 @@ def main(argv=None) -> int:
     p.add_argument("--n-splits", type=int, default=5); p.add_argument("--embargo-days", type=int, default=30)
     p.add_argument("--min-train-weeks", type=int, default=4); p.add_argument("--n-restarts", type=int, default=3)
     p.add_argument("--epochs", type=int, default=600); p.add_argument("--out-dir", default=str(ROOT / "results_python" / "e2"))
+    p.add_argument("--ridge", default="1e-3",
+                   help='ridge lambda for the closed-form consequent solves; a float (e.g. "1e-3") or '
+                        '"adaptive" for lambda = max(1e-3, 0.01*n_params/n_train) (recommended when a fold\'s '
+                        'training set is small relative to the number of consequent parameters solved jointly, '
+                        'as in fold 0 of GroupTimeSplit -- see hanfis_end2end.solve_consequents\'s docstring)')
     a = p.parse_args(argv)
+    if a.n_splits < 2:
+        raise SystemExit(f"ABORT: --n-splits must be >= 2 (with n_splits=1 every image is in the single "
+                         f"held-out group, so there is never any training data outside it); got {a.n_splits}")
+    ridge = None if a.ridge.lower() == "adaptive" else float(a.ridge)
 
     df = pd.read_csv(a.table); df["week_start_utc"] = pd.to_datetime(df["week_start_utc"], utc=True)
     sup = df.dropna(subset=["y"]).reset_index(drop=True)
@@ -65,7 +74,8 @@ def main(argv=None) -> int:
             for k in range(a.n_restarts):
                 torch.manual_seed(20260928 * 1000 + f.index * 100 + k)
                 model = HANFIS(m_raw=2, m_intermediate=3, mf_family="gauss", monotone=True)
-                kwargs = dict(epochs=a.epochs, patience=100, min_epochs=200) if method_name != "adam" else dict(epochs=a.epochs, patience=60)
+                kwargs = (dict(epochs=a.epochs, patience=100, min_epochs=200, ridge=ridge) if method_name != "adam"
+                         else dict(epochs=a.epochs, patience=60))
                 hist = fit_fn(model, X[tr_idx], y_raw[tr_idx], X[val_idx], y_raw[val_idx], **kwargs)
                 if hist["best_validation_loss"] < best_val:
                     best_val, best_model = hist["best_validation_loss"], model
@@ -73,8 +83,10 @@ def main(argv=None) -> int:
             ytrue = sup["y"].to_numpy(dtype=np.float32)[te]
             rmse = float(np.sqrt(np.mean((yhat - ytrue) ** 2)))
             rows.append({"fold": f.index, "method": method_name, "rmse": rmse, "n_test": len(te),
+                        "n_train": len(tr_idx), "n_val": len(val_idx), "ridge": a.ridge,
                         "best_val_mse": best_val, "params": best_model.parameter_count, "rules": best_model.rule_count})
-            print(f"fold {f.index}  {method_name:26s}  rmse={rmse:.4f}  val_mse={best_val:.5f}")
+            print(f"fold {f.index}  {method_name:26s}  rmse={rmse:.4f}  val_mse={best_val:.5f}  "
+                  f"n_train={len(tr_idx)}  n_val={len(val_idx)}  ridge={a.ridge}")
 
     res = pd.DataFrame(rows)
     out = Path(a.out_dir); out.mkdir(parents=True, exist_ok=True)
