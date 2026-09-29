@@ -51,7 +51,7 @@ drupal-10,docker.io/library/drupal:10-apache,app,official
 joomla-5,docker.io/library/joomla:5-apache,app,official
 mediawiki,docker.io/library/mediawiki:1.42,app,official
 odoo-17,docker.io/library/odoo:17,app,official
-keycloak,docker.io/quay.io/keycloak/keycloak:25.0,identity,vendor
+keycloak,quay.io/keycloak/keycloak:25.0,identity,vendor
 openldap,docker.io/bitnami/openldap:2.6,identity,vendor
 php-8-3-apache,docker.io/library/php:8.3-apache,runtime,official
 ruby-3-3-slim,docker.io/library/ruby:3.3-slim,runtime,official
@@ -89,7 +89,7 @@ grafana-loki,docker.io/grafana/loki:3.1.1,observability,vendor
 grafana-tempo,docker.io/grafana/tempo:2.5.0,observability,vendor
 jaeger-all-in-one,docker.io/jaegertracing/all-in-one:1.60,observability,vendor
 zipkin,docker.io/openzipkin/zipkin:2.27,observability,vendor
-argo-cd,docker.io/quay.io/argoproj/argocd:v2.12.0,ci,vendor
+argo-cd,quay.io/argoproj/argocd:v2.12.0,ci,vendor
 harbor-core,docker.io/goharbor/harbor-core:v2.11.0,registry,vendor
 registry-2,docker.io/library/registry:2.8,registry,official
 portainer-ce,docker.io/portainer/portainer-ce:2.21.0,ops,vendor
@@ -107,8 +107,8 @@ selenium-standalone,docker.io/selenium/standalone-chrome:127.0,test,vendor
 locust,docker.io/locustio/locust:2.31.5,test,vendor
 k6,docker.io/grafana/k6:0.53.0,test,vendor
 haproxy-ingress,docker.io/haproxytech/haproxy-ingress:1.11,proxy,vendor
-nginx-ingress,docker.io/registry.k8s.io/ingress-nginx/controller:v1.11.2,proxy,vendor
-cert-manager,docker.io/quay.io/jetstack/cert-manager-controller:v1.15.3,security,vendor
+nginx-ingress,registry.k8s.io/ingress-nginx/controller:v1.11.2,proxy,vendor
+cert-manager,quay.io/jetstack/cert-manager-controller:v1.15.3,security,vendor
 trivy-server,docker.io/aquasec/trivy:0.54.1,security,vendor
 falco,docker.io/falcosecurity/falco:0.39.1,security,vendor
 clamav,docker.io/library/clamav/clamav:1.4,security,vendor
