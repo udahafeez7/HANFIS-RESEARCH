@@ -17,11 +17,20 @@ tail -n +2 "$CAND" | while IFS=, read -r ASSET REF CATEGORY NOTE; do
   n=$((n+1)); [ "$n" -gt "$MAX" ] && break
   if grep -q "^$ASSET," configs/assets.csv; then echo "SKIP $ASSET (already in inventory)" | tee -a "$LOG"; continue; fi
   echo "=== [$n] $ASSET  $REF" | tee -a "$LOG"
-  if ! docker pull -q "$REF" >/dev/null 2>&1; then echo "FAIL $ASSET: pull" | tee -a "$LOG"; fail=$((fail+1)); continue; fi
+  PULL_ERR="$(docker pull -q "$REF" 2>&1 >/dev/null)" && PULL_OK=1 || PULL_OK=0
+  if [ "$PULL_OK" != 1 ]; then echo "FAIL $ASSET: pull -- $PULL_ERR" | tee -a "$LOG"; fail=$((fail+1)); continue; fi
   DIGEST_REF="$(docker image inspect "$REF" --format '{{index .RepoDigests 0}}' 2>/dev/null || true)"
   [[ "$DIGEST_REF" == *@sha256:* ]] || { echo "FAIL $ASSET: no RepoDigest for $REF" | tee -a "$LOG"; fail=$((fail+1)); continue; }
   NAME="${DIGEST_REF%%@*}"; DIGEST="${DIGEST_REF##*@}"
-  IMAGE_ID="docker.io/${NAME#docker.io/}@${DIGEST}"
+  FIRST_SEGMENT="${NAME%%/*}"
+  # Docker's own heuristic: the reference already names a registry host if its first
+  # path segment contains "." or ":", or is exactly "localhost" -- anything else is a
+  # Docker Hub namespace/repo and gets docker.io/ made explicit.
+  if [[ "$FIRST_SEGMENT" == *"."* || "$FIRST_SEGMENT" == *":"* || "$FIRST_SEGMENT" == "localhost" ]]; then
+    IMAGE_ID="${NAME}@${DIGEST}"
+  else
+    IMAGE_ID="docker.io/${NAME#docker.io/}@${DIGEST}"
+  fi
   OUT="$(TRIVY_SKIP_DB_UPDATE="${TRIVY_SKIP_DB_UPDATE:-false}" scripts/scan_image_evidence.sh "$ASSET" "$IMAGE_ID" 2>&1 | tee -a "$LOG")" || true
   export TRIVY_SKIP_DB_UPDATE=true            # DB frozen after the first successful download
   SCAN_JSON="$(printf '%s\n' "$OUT" | grep '^SCAN_JSON=' | tail -1 | cut -d= -f2-)"
