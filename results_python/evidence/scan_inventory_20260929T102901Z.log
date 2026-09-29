@@ -1,0 +1,174 @@
+freeze_date_utc=2026-09-29
+SKIP nginx-1-27-alpine (already in inventory)
+SKIP httpd-2-4-alpine (already in inventory)
+SKIP caddy-2-alpine (already in inventory)
+SKIP haproxy-2-9-alpine (already in inventory)
+SKIP traefik-v3-0 (already in inventory)
+SKIP redis-7-alpine (already in inventory)
+SKIP memcached-1-6-alpine (already in inventory)
+SKIP postgres-16-alpine (already in inventory)
+SKIP mysql-8-0 (already in inventory)
+SKIP mariadb-11 (already in inventory)
+SKIP mongo-7 (already in inventory)
+SKIP rabbitmq-3-management-alpine (already in inventory)
+SKIP python-3-12-slim (already in inventory)
+SKIP python-3-12-alpine (already in inventory)
+SKIP node-20-alpine (already in inventory)
+SKIP node-20-slim (already in inventory)
+SKIP golang-1-22-alpine (already in inventory)
+SKIP openjdk-17-slim (already in inventory)
+SKIP alpine-3-20 (already in inventory)
+SKIP debian-bookworm-slim (already in inventory)
+SKIP ubuntu-22-04 (already in inventory)
+SKIP busybox-1-36 (already in inventory)
+SKIP wordpress-6-apache (already in inventory)
+SKIP grafana-11 (already in inventory)
+SKIP elasticsearch-8 (already in inventory)
+SKIP kibana-8 (already in inventory)
+SKIP logstash-8 (already in inventory)
+SKIP prometheus-v2 (already in inventory)
+SKIP alertmanager (already in inventory)
+SKIP jenkins-lts (already in inventory)
+SKIP gitlab-ce (already in inventory)
+SKIP gitea (already in inventory)
+SKIP sonarqube (already in inventory)
+SKIP vault (already in inventory)
+SKIP consul (already in inventory)
+SKIP zookeeper-3-9 (already in inventory)
+SKIP nats-2-10 (already in inventory)
+SKIP influxdb-2 (already in inventory)
+SKIP cassandra-5 (already in inventory)
+SKIP timescaledb (already in inventory)
+SKIP neo4j-5 (already in inventory)
+SKIP couchdb-3 (already in inventory)
+SKIP nextcloud (already in inventory)
+SKIP ghost-5 (already in inventory)
+SKIP drupal-10 (already in inventory)
+SKIP joomla-5 (already in inventory)
+SKIP odoo-17 (already in inventory)
+=== [48] keycloak  quay.io/keycloak/keycloak:25.0
+2026-09-29T17:29:04+07:00	INFO	[vuln] Vulnerability scanning is enabled
+2026-09-29T17:29:11+07:00	INFO	Detected OS	family="redhat" version="9.4"
+2026-09-29T17:29:11+07:00	INFO	[redhat] Detecting RHEL/CentOS vulnerabilities...	os_version="9" pkg_num=43
+2026-09-29T17:29:12+07:00	INFO	Number of language-specific files	num=1
+2026-09-29T17:29:12+07:00	INFO	[jar] Detecting vulnerabilities...
+2026-09-29T17:29:12+07:00	WARN	Using severities from other vendors for some vulnerabilities. Read https://trivy.dev/docs/v0.74/guide/scanner/vulnerability#severity-selection for details.
+BUNDLE=/mnt/c/Research/ANFIS/data/evidence/keycloak_trivy_scan_wLXkIMT
+SCAN_JSON=data/evidence/keycloak_trivy_scan_wLXkIMT/keycloak_vulnerabilities.json
+APPENDED {"asset_id": "keycloak", "image_id": "quay.io/keycloak/keycloak@sha256:82c5b7a110456dbd42b86ea572e728878549954cc8bd03cd65410d75328095d2", "scan_json": "data/evidence/keycloak_trivy_scan_wLXkIMT/keycloak_vulnerabilities.json", "mfa_risk": 0.5, "kubernetes_exposure": 0.5, "asset_criticality": 5, "default_rho": 0.1, "package_rho_json": "{}", "protocol": "scan-only-v1-rho0.1-assumed"}
+SKIP php-8-3-apache (already in inventory)
+SKIP ruby-3-3-slim (already in inventory)
+=== [51] dotnet-sdk-8  docker.io/library/dotnet/sdk:8.0
+FAIL dotnet-sdk-8: pull -- Error response from daemon: pull access denied for library/dotnet/sdk, repository does not exist or may require 'docker login'
+SKIP rust-1-80-slim (already in inventory)
+SKIP perl-5-40-slim (already in inventory)
+SKIP erlang-27-alpine (already in inventory)
+SKIP elixir-1-17-alpine (already in inventory)
+SKIP julia-1-10 (already in inventory)
+SKIP r-base-4-4 (already in inventory)
+SKIP swift-6-0 (already in inventory)
+SKIP fedora-40 (already in inventory)
+SKIP rockylinux-9 (already in inventory)
+SKIP almalinux-9 (already in inventory)
+=== [62] opensuse-leap-15  docker.io/library/opensuse/leap:15.6
+FAIL opensuse-leap-15: pull -- Error response from daemon: pull access denied for library/opensuse/leap, repository does not exist or may require 'docker login'
+SKIP amazonlinux-2023 (already in inventory)
+SKIP photon-5 (already in inventory)
+=== [65] distroless-base-debian12  gcr.io/distroless/base-debian12
+2026-09-29T17:29:27+07:00	INFO	[vuln] Vulnerability scanning is enabled
+2026-09-29T17:29:28+07:00	INFO	Detected OS	family="debian" version="12.15"
+2026-09-29T17:29:28+07:00	INFO	[debian] Detecting vulnerabilities...	os_version="12" pkg_num=7
+2026-09-29T17:29:28+07:00	INFO	Number of language-specific files	num=0
+2026-09-29T17:29:28+07:00	WARN	Using severities from other vendors for some vulnerabilities. Read https://trivy.dev/docs/v0.74/guide/scanner/vulnerability#severity-selection for details.
+BUNDLE=/mnt/c/Research/ANFIS/data/evidence/distroless-base-debian12_trivy_scan_lSDnibbb
+SCAN_JSON=data/evidence/distroless-base-debian12_trivy_scan_lSDnibbb/distroless-base-debian12_vulnerabilities.json
+APPENDED {"asset_id": "distroless-base-debian12", "image_id": "gcr.io/distroless/base-debian12@sha256:fabbf1c0c357a3d42550111351daed089b20a2c954df13ee2fcff60602515e84", "scan_json": "data/evidence/distroless-base-debian12_trivy_scan_lSDnibbb/distroless-base-debian12_vulnerabilities.json", "mfa_risk": 1.0, "kubernetes_exposure": 1.0, "asset_criticality": 2, "default_rho": 0.1, "package_rho_json": "{}", "protocol": "scan-only-v1-rho0.1-assumed"}
+=== [66] distroless-python3  gcr.io/distroless/python3-debian12
+2026-09-29T17:29:30+07:00	INFO	[vuln] Vulnerability scanning is enabled
+2026-09-29T17:29:32+07:00	INFO	Detected OS	family="debian" version="12.13"
+2026-09-29T17:29:32+07:00	INFO	[debian] Detecting vulnerabilities...	os_version="12" pkg_num=34
+2026-09-29T17:29:32+07:00	INFO	Number of language-specific files	num=0
+2026-09-29T17:29:32+07:00	WARN	Using severities from other vendors for some vulnerabilities. Read https://trivy.dev/docs/v0.74/guide/scanner/vulnerability#severity-selection for details.
+BUNDLE=/mnt/c/Research/ANFIS/data/evidence/distroless-python3_trivy_scan_YhgSJmV2
+SCAN_JSON=data/evidence/distroless-python3_trivy_scan_YhgSJmV2/distroless-python3_vulnerabilities.json
+APPENDED {"asset_id": "distroless-python3", "image_id": "gcr.io/distroless/python3-debian12@sha256:2fdb05402a2cf21cf78fdb3ba4c5db167241e9e498140f5bf689d7efb773731f", "scan_json": "data/evidence/distroless-python3_trivy_scan_YhgSJmV2/distroless-python3_vulnerabilities.json", "mfa_risk": 0.5, "kubernetes_exposure": 0.0, "asset_criticality": 2, "default_rho": 0.1, "package_rho_json": "{}", "protocol": "scan-only-v1-rho0.1-assumed"}
+SKIP envoy-v1-31 (already in inventory)
+SKIP varnish-7 (already in inventory)
+=== [69] squid-6  docker.io/library/ubuntu/squid:6.6
+FAIL squid-6: pull -- Error response from daemon: pull access denied for library/ubuntu/squid, repository does not exist or may require 'docker login'
+SKIP tomcat-10 (already in inventory)
+SKIP jetty-12 (already in inventory)
+SKIP coredns (already in inventory)
+SKIP bind9 (already in inventory)
+SKIP wireguard (already in inventory)
+SKIP rsyslog (already in inventory)
+SKIP fluentd (already in inventory)
+SKIP filebeat (already in inventory)
+SKIP telegraf (already in inventory)
+SKIP grafana-loki (already in inventory)
+SKIP grafana-tempo (already in inventory)
+SKIP jaeger-all-in-one (already in inventory)
+SKIP zipkin (already in inventory)
+=== [83] argo-cd  quay.io/argoproj/argocd:v2.12.0
+2026-09-29T17:29:35+07:00	INFO	[vuln] Vulnerability scanning is enabled
+2026-09-29T17:29:40+07:00	INFO	Detected OS	family="ubuntu" version="24.04"
+2026-09-29T17:29:40+07:00	INFO	[ubuntu] Detecting vulnerabilities...	os_version="24.04" pkg_num=150
+2026-09-29T17:29:40+07:00	INFO	Number of language-specific files	num=3
+2026-09-29T17:29:40+07:00	INFO	[gobinary] Detecting vulnerabilities...
+2026-09-29T17:29:40+07:00	WARN	Using severities from other vendors for some vulnerabilities. Read https://trivy.dev/docs/v0.74/guide/scanner/vulnerability#severity-selection for details.
+BUNDLE=/mnt/c/Research/ANFIS/data/evidence/argo-cd_trivy_scan_iJAWXTm
+SCAN_JSON=data/evidence/argo-cd_trivy_scan_iJAWXTm/argo-cd_vulnerabilities.json
+APPENDED {"asset_id": "argo-cd", "image_id": "quay.io/argoproj/argocd@sha256:3eb03fb533e5152ef3b4b57e6d8a5294963a3afe1cf5a6ee0459bce93fd309f7", "scan_json": "data/evidence/argo-cd_trivy_scan_iJAWXTm/argo-cd_vulnerabilities.json", "mfa_risk": 0.0, "kubernetes_exposure": 0.0, "asset_criticality": 5, "default_rho": 0.1, "package_rho_json": "{}", "protocol": "scan-only-v1-rho0.1-assumed"}
+SKIP harbor-core (already in inventory)
+SKIP registry-2 (already in inventory)
+SKIP portainer-ce (already in inventory)
+SKIP adminer (already in inventory)
+SKIP pgadmin4 (already in inventory)
+SKIP redis-stack (already in inventory)
+SKIP solr-9 (already in inventory)
+SKIP opensearch-2 (already in inventory)
+SKIP sentry (already in inventory)
+SKIP matomo (already in inventory)
+=== [94] gitlab-runner  docker.io/gitlab/gitlab-runner:v17.3.0
+2026-09-29T17:29:44+07:00	INFO	[vuln] Vulnerability scanning is enabled
+2026-09-29T17:29:45+07:00	FATAL	Fatal error	run error: image scan error: scan error: scan failed: failed analysis: analyze error: pipeline error: failed to analyze layer (sha256:e96701474bbc42f0a24f8bab579dbbe64f0343f6f995d46c53a0b532fff15350): unable to get uncompressed layer sha256:e96701474bbc42f0a24f8bab579dbbe64f0343f6f995d46c53a0b532fff15350: failed to get the layer (sha256:e96701474bbc42f0a24f8bab579dbbe64f0343f6f995d46c53a0b532fff15350): unable to populate: unable to open: failed to initialize the struct from the temporary file: file blobs/sha256/0e754b01aefcacc37fb5591319388a708c2d434fa133debc2970583d7a15d9fa not found in tar
+FAIL gitlab-runner: scan
+SKIP buildkite-agent (already in inventory)
+SKIP selenium-standalone (already in inventory)
+SKIP locust (already in inventory)
+SKIP k6 (already in inventory)
+=== [99] nginx-ingress  registry.k8s.io/ingress-nginx/controller:v1.11.2
+2026-09-29T17:29:47+07:00	INFO	[vuln] Vulnerability scanning is enabled
+2026-09-29T17:29:50+07:00	INFO	Detected OS	family="alpine" version="3.20.0"
+2026-09-29T17:29:50+07:00	INFO	[alpine] Detecting vulnerabilities...	os_version="3.20" repository="3.20" pkg_num=119
+2026-09-29T17:29:50+07:00	INFO	Number of language-specific files	num=3
+2026-09-29T17:29:50+07:00	INFO	[gobinary] Detecting vulnerabilities...
+2026-09-29T17:29:50+07:00	WARN	Using severities from other vendors for some vulnerabilities. Read https://trivy.dev/docs/v0.74/guide/scanner/vulnerability#severity-selection for details.
+2026-09-29T17:29:50+07:00	WARN	This OS version is no longer supported by the distribution	family="alpine" version="3.20.0"
+2026-09-29T17:29:50+07:00	WARN	The vulnerability detection may be insufficient because security updates are not provided
+BUNDLE=/mnt/c/Research/ANFIS/data/evidence/nginx-ingress_trivy_scan_MEqq2e
+SCAN_JSON=data/evidence/nginx-ingress_trivy_scan_MEqq2e/nginx-ingress_vulnerabilities.json
+APPENDED {"asset_id": "nginx-ingress", "image_id": "registry.k8s.io/ingress-nginx/controller@sha256:d5f8217feeac4887cb1ed21f27c2674e58be06bd8f5184cacea2a69abaf78dce", "scan_json": "data/evidence/nginx-ingress_trivy_scan_MEqq2e/nginx-ingress_vulnerabilities.json", "mfa_risk": 0.0, "kubernetes_exposure": 0.5, "asset_criticality": 4, "default_rho": 0.1, "package_rho_json": "{}", "protocol": "scan-only-v1-rho0.1-assumed"}
+=== [100] cert-manager  quay.io/jetstack/cert-manager-controller:v1.15.3
+2026-09-29T17:29:52+07:00	INFO	[vuln] Vulnerability scanning is enabled
+2026-09-29T17:29:53+07:00	INFO	Detected OS	family="debian" version="12.5"
+2026-09-29T17:29:53+07:00	INFO	[debian] Detecting vulnerabilities...	os_version="12" pkg_num=3
+2026-09-29T17:29:53+07:00	INFO	Number of language-specific files	num=1
+2026-09-29T17:29:53+07:00	INFO	[gobinary] Detecting vulnerabilities...
+2026-09-29T17:29:53+07:00	WARN	Using severities from other vendors for some vulnerabilities. Read https://trivy.dev/docs/v0.74/guide/scanner/vulnerability#severity-selection for details.
+BUNDLE=/mnt/c/Research/ANFIS/data/evidence/cert-manager_trivy_scan_Zr7Yga4B
+SCAN_JSON=data/evidence/cert-manager_trivy_scan_Zr7Yga4B/cert-manager_vulnerabilities.json
+APPENDED {"asset_id": "cert-manager", "image_id": "quay.io/jetstack/cert-manager-controller@sha256:eee34b3de2dd63f7e5ac459fc2d407662d433fd267d574557b76ee3c7d4bc44f", "scan_json": "data/evidence/cert-manager_trivy_scan_Zr7Yga4B/cert-manager_vulnerabilities.json", "mfa_risk": 0.0, "kubernetes_exposure": 0.0, "asset_criticality": 1, "default_rho": 0.1, "package_rho_json": "{}", "protocol": "scan-only-v1-rho0.1-assumed"}
+SKIP trivy-server (already in inventory)
+SKIP falco (already in inventory)
+=== [103] clamav  docker.io/library/clamav/clamav:1.4
+FAIL clamav: pull -- Error response from daemon: pull access denied for library/clamav/clamav, repository does not exist or may require 'docker login'
+SKIP wazuh-manager (already in inventory)
+=== [105] metabase  docker.io/library/metabase/metabase:v0.51.4
+FAIL metabase: pull -- Error response from daemon: pull access denied for library/metabase/metabase, repository does not exist or may require 'docker login'
+SKIP superset (already in inventory)
+SKIP airflow (already in inventory)
+SKIP n8n (already in inventory)
+=== [109] nodered  docker.io/library/nodered/node-red:4.0.5
+FAIL nodered: pull -- Error response from daemon: pull access denied for library/nodered/node-red, repository does not exist or may require 'docker login'
+SKIP homeassistant (already in inventory)
