@@ -7,7 +7,7 @@ independently in pure NumPy (see verify_math.py, included in this patch: MSE 0.7
 through the real torch classes and must pass before solve_lower_alternating /
 fit_hybrid_lower_alternating are trusted on real data.
 
-    python -m pytest -q python_hanfis/tests/test_e2_alternating_smoke.py -v
+    python -m pytest -q tests/test_e2_alternating_smoke.py -v
 """
 import sys
 import unittest
@@ -16,7 +16,7 @@ from pathlib import Path
 import numpy as np
 import torch
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "python_hanfis"))
 from hanfis_end2end import HANFIS, fit_hybrid, fit_hybrid_lower_alternating, predict  # noqa: E402
 
 
