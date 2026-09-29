@@ -1,0 +1,20 @@
+freeze_date_utc=2026-09-28
+=== [1] nginx-1-27-alpine  docker.io/library/nginx:1.27-alpine
+2026-09-28T13:23:26+07:00	INFO	[vuln] Vulnerability scanning is enabled
+2026-09-28T13:23:27+07:00	INFO	Detected OS	family="alpine" version="3.21.3"
+2026-09-28T13:23:27+07:00	INFO	[alpine] Detecting vulnerabilities...	os_version="3.21" repository="3.21" pkg_num=68
+2026-09-28T13:23:27+07:00	INFO	Number of language-specific files	num=0
+2026-09-28T13:23:27+07:00	WARN	Using severities from other vendors for some vulnerabilities. Read https://trivy.dev/docs/v0.74/guide/scanner/vulnerability#severity-selection for details.
+BUNDLE=/mnt/c/Research/ANFIS/data/evidence/nginx-1-27-alpine_trivy_scan_oAZBhqbc
+SCAN_JSON=data/evidence/nginx-1-27-alpine_trivy_scan_oAZBhqbc/nginx-1-27-alpine_vulnerabilities.json
+APPENDED {"asset_id": "nginx-1-27-alpine", "image_id": "docker.io/nginx@sha256:65645c7bb6a0661892a8b03b89d0743208a18dd2f3f17a54ef4b76fb8e2f2a10", "scan_json": "data/evidence/nginx-1-27-alpine_trivy_scan_oAZBhqbc/nginx-1-27-alpine_vulnerabilities.json", "mfa_risk": 0.0, "kubernetes_exposure": 1.0, "asset_criticality": 2, "default_rho": 0.1, "package_rho_json": "{}", "protocol": "scan-only-v1-rho0.1-assumed"}
+=== [2] httpd-2-4-alpine  docker.io/library/httpd:2.4-alpine
+2026-09-28T13:23:37+07:00	INFO	[vuln] Vulnerability scanning is enabled
+2026-09-28T13:23:37+07:00	INFO	Detected OS	family="alpine" version="3.24.2"
+2026-09-28T13:23:37+07:00	WARN	This OS version is not on the EOL list	family="alpine" version="3.24"
+2026-09-28T13:23:37+07:00	INFO	[alpine] Detecting vulnerabilities...	os_version="3.24" repository="3.24" pkg_num=41
+2026-09-28T13:23:37+07:00	INFO	Number of language-specific files	num=0
+2026-09-28T13:23:37+07:00	WARN	Using severities from other vendors for some vulnerabilities. Read https://trivy.dev/docs/v0.74/guide/scanner/vulnerability#severity-selection for details.
+BUNDLE=/mnt/c/Research/ANFIS/data/evidence/httpd-2-4-alpine_trivy_scan_v7cJLivC
+SCAN_JSON=data/evidence/httpd-2-4-alpine_trivy_scan_v7cJLivC/httpd-2-4-alpine_vulnerabilities.json
+APPENDED {"asset_id": "httpd-2-4-alpine", "image_id": "docker.io/httpd@sha256:4e585da9d0125dec36d4500a9f5c5df7b2c0a01f67cb47865a91a4b05bdbec1b", "scan_json": "data/evidence/httpd-2-4-alpine_trivy_scan_v7cJLivC/httpd-2-4-alpine_vulnerabilities.json", "mfa_risk": 0.5, "kubernetes_exposure": 0.0, "asset_criticality": 5, "default_rho": 0.1, "package_rho_json": "{}", "protocol": "scan-only-v1-rho0.1-assumed"}

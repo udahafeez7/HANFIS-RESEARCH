@@ -1,0 +1,864 @@
+freeze_date_utc=2026-09-29
+SKIP nginx-1-27-alpine (already in inventory)
+SKIP httpd-2-4-alpine (already in inventory)
+SKIP caddy-2-alpine (already in inventory)
+SKIP haproxy-2-9-alpine (already in inventory)
+SKIP traefik-v3-0 (already in inventory)
+SKIP redis-7-alpine (already in inventory)
+SKIP memcached-1-6-alpine (already in inventory)
+SKIP postgres-16-alpine (already in inventory)
+SKIP mysql-8-0 (already in inventory)
+SKIP mariadb-11 (already in inventory)
+SKIP mongo-7 (already in inventory)
+SKIP rabbitmq-3-management-alpine (already in inventory)
+SKIP python-3-12-slim (already in inventory)
+SKIP python-3-12-alpine (already in inventory)
+SKIP node-20-alpine (already in inventory)
+SKIP node-20-slim (already in inventory)
+SKIP golang-1-22-alpine (already in inventory)
+SKIP openjdk-17-slim (already in inventory)
+SKIP alpine-3-20 (already in inventory)
+SKIP debian-bookworm-slim (already in inventory)
+SKIP ubuntu-22-04 (already in inventory)
+SKIP busybox-1-36 (already in inventory)
+SKIP wordpress-6-apache (already in inventory)
+SKIP grafana-11 (already in inventory)
+=== [25] elasticsearch-8  docker.io/elastic/elasticsearch:8.15.0
+2026-09-29T15:35:15+07:00	INFO	[vulndb] Need to update DB
+2026-09-29T15:35:15+07:00	INFO	[vulndb] Downloading vulnerability DB...
+2026-09-29T15:35:15+07:00	INFO	[vulndb] Downloading artifact...	repo="mirror.gcr.io/aquasec/trivy-db:2"
+1.87 MiB / 118.00 MiB [->________________________________________________________________________________________________________] 1.58% ? p/s ?4.08 MiB / 118.00 MiB [--->______________________________________________________________________________________________________] 3.46% ? p/s ?6.32 MiB / 118.00 MiB [----->____________________________________________________________________________________________________] 5.36% ? p/s ?8.54 MiB / 118.00 MiB [------>______________________________________________________________________________________] 7.24% 11.12 MiB p/s ETA 9s10.76 MiB / 118.00 MiB [-------->___________________________________________________________________________________] 9.12% 11.12 MiB p/s ETA 9s13.00 MiB / 118.00 MiB [---------->________________________________________________________________________________] 11.01% 11.12 MiB p/s ETA 9s15.22 MiB / 118.00 MiB [----------->_______________________________________________________________________________] 12.90% 11.12 MiB p/s ETA 9s17.46 MiB / 118.00 MiB [------------->_____________________________________________________________________________] 14.80% 11.12 MiB p/s ETA 9s19.70 MiB / 118.00 MiB [--------------->___________________________________________________________________________] 16.70% 11.12 MiB p/s ETA 8s21.93 MiB / 118.00 MiB [---------------->__________________________________________________________________________] 18.59% 11.12 MiB p/s ETA 8s24.18 MiB / 118.00 MiB [------------------>________________________________________________________________________] 20.50% 11.12 MiB p/s ETA 8s26.41 MiB / 118.00 MiB [-------------------->______________________________________________________________________] 22.38% 11.12 MiB p/s ETA 8s28.66 MiB / 118.00 MiB [---------------------->____________________________________________________________________] 24.29% 11.13 MiB p/s ETA 8s30.89 MiB / 118.00 MiB [----------------------->___________________________________________________________________] 26.18% 11.13 MiB p/s ETA 7s33.12 MiB / 118.00 MiB [------------------------->_________________________________________________________________] 28.07% 11.13 MiB p/s ETA 7s35.36 MiB / 118.00 MiB [--------------------------->_______________________________________________________________] 29.96% 11.13 MiB p/s ETA 7s37.62 MiB / 118.00 MiB [----------------------------->_____________________________________________________________] 31.88% 11.13 MiB p/s ETA 7s39.86 MiB / 118.00 MiB [------------------------------>____________________________________________________________] 33.78% 11.13 MiB p/s ETA 7s42.10 MiB / 118.00 MiB [-------------------------------->__________________________________________________________] 35.67% 11.14 MiB p/s ETA 6s44.33 MiB / 118.00 MiB [---------------------------------->________________________________________________________] 37.57% 11.14 MiB p/s ETA 6s46.58 MiB / 118.00 MiB [----------------------------------->_______________________________________________________] 39.47% 11.14 MiB p/s ETA 6s48.83 MiB / 118.00 MiB [------------------------------------->_____________________________________________________] 41.38% 11.14 MiB p/s ETA 6s51.06 MiB / 118.00 MiB [--------------------------------------->___________________________________________________] 43.27% 11.14 MiB p/s ETA 6s53.29 MiB / 118.00 MiB [----------------------------------------->_________________________________________________] 45.16% 11.14 MiB p/s ETA 5s55.55 MiB / 118.00 MiB [------------------------------------------>________________________________________________] 47.07% 11.15 MiB p/s ETA 5s57.22 MiB / 118.00 MiB [-------------------------------------------->______________________________________________] 48.49% 11.15 MiB p/s ETA 5s58.76 MiB / 118.00 MiB [--------------------------------------------->_____________________________________________] 49.80% 11.15 MiB p/s ETA 5s61.02 MiB / 118.00 MiB [----------------------------------------------->___________________________________________] 51.71% 11.02 MiB p/s ETA 5s63.27 MiB / 118.00 MiB [------------------------------------------------>__________________________________________] 53.62% 11.02 MiB p/s ETA 4s65.52 MiB / 118.00 MiB [-------------------------------------------------->________________________________________] 55.52% 11.02 MiB p/s ETA 4s67.78 MiB / 118.00 MiB [---------------------------------------------------->______________________________________] 57.44% 11.03 MiB p/s ETA 4s70.04 MiB / 118.00 MiB [------------------------------------------------------>____________________________________] 59.36% 11.03 MiB p/s ETA 4s72.10 MiB / 118.00 MiB [------------------------------------------------------->___________________________________] 61.10% 11.03 MiB p/s ETA 4s74.54 MiB / 118.00 MiB [--------------------------------------------------------->_________________________________] 63.17% 11.05 MiB p/s ETA 3s76.78 MiB / 118.00 MiB [----------------------------------------------------------->_______________________________] 65.07% 11.05 MiB p/s ETA 3s79.01 MiB / 118.00 MiB [------------------------------------------------------------>______________________________] 66.96% 11.05 MiB p/s ETA 3s81.26 MiB / 118.00 MiB [-------------------------------------------------------------->____________________________] 68.87% 11.06 MiB p/s ETA 3s83.51 MiB / 118.00 MiB [---------------------------------------------------------------->__________________________] 70.77% 11.06 MiB p/s ETA 3s85.67 MiB / 118.00 MiB [------------------------------------------------------------------>________________________] 72.60% 11.06 MiB p/s ETA 2s88.02 MiB / 118.00 MiB [------------------------------------------------------------------->_______________________] 74.59% 11.07 MiB p/s ETA 2s90.26 MiB / 118.00 MiB [--------------------------------------------------------------------->_____________________] 76.49% 11.07 MiB p/s ETA 2s92.49 MiB / 118.00 MiB [----------------------------------------------------------------------->___________________] 78.38% 11.07 MiB p/s ETA 2s94.72 MiB / 118.00 MiB [------------------------------------------------------------------------->_________________] 80.27% 11.08 MiB p/s ETA 2s96.99 MiB / 118.00 MiB [-------------------------------------------------------------------------->________________] 82.19% 11.08 MiB p/s ETA 1s99.23 MiB / 118.00 MiB [---------------------------------------------------------------------------->______________] 84.09% 11.08 MiB p/s ETA 1s101.48 MiB / 118.00 MiB [----------------------------------------------------------------------------->____________] 86.00% 11.09 MiB p/s ETA 1s103.69 MiB / 118.00 MiB [------------------------------------------------------------------------------->__________] 87.87% 11.09 MiB p/s ETA 1s105.93 MiB / 118.00 MiB [-------------------------------------------------------------------------------->_________] 89.77% 11.09 MiB p/s ETA 1s108.15 MiB / 118.00 MiB [---------------------------------------------------------------------------------->_______] 91.65% 11.09 MiB p/s ETA 0s110.41 MiB / 118.00 MiB [------------------------------------------------------------------------------------>_____] 93.57% 11.09 MiB p/s ETA 0s112.64 MiB / 118.00 MiB [------------------------------------------------------------------------------------->____] 95.46% 11.09 MiB p/s ETA 0s114.73 MiB / 118.00 MiB [--------------------------------------------------------------------------------------->__] 97.23% 11.08 MiB p/s ETA 0s117.14 MiB / 118.00 MiB [----------------------------------------------------------------------------------------->] 99.27% 11.08 MiB p/s ETA 0s118.00 MiB / 118.00 MiB [---------------------------------------------------------------------------------------->] 100.00% 11.08 MiB p/s ETA 0s118.00 MiB / 118.00 MiB [---------------------------------------------------------------------------------------->] 100.00% 10.72 MiB p/s ETA 0s118.00 MiB / 118.00 MiB [---------------------------------------------------------------------------------------->] 100.00% 10.72 MiB p/s ETA 0s118.00 MiB / 118.00 MiB [---------------------------------------------------------------------------------------->] 100.00% 10.72 MiB p/s ETA 0s118.00 MiB / 118.00 MiB [---------------------------------------------------------------------------------------->] 100.00% 10.03 MiB p/s ETA 0s118.00 MiB / 118.00 MiB [---------------------------------------------------------------------------------------->] 100.00% 10.03 MiB p/s ETA 0s118.00 MiB / 118.00 MiB [---------------------------------------------------------------------------------------->] 100.00% 10.03 MiB p/s ETA 0s118.00 MiB / 118.00 MiB [----------------------------------------------------------------------------------------->] 100.00% 9.38 MiB p/s ETA 0s118.00 MiB / 118.00 MiB [----------------------------------------------------------------------------------------->] 100.00% 9.38 MiB p/s ETA 0s118.00 MiB / 118.00 MiB [----------------------------------------------------------------------------------------->] 100.00% 9.38 MiB p/s ETA 0s118.00 MiB / 118.00 MiB [----------------------------------------------------------------------------------------->] 100.00% 8.78 MiB p/s ETA 0s118.00 MiB / 118.00 MiB [----------------------------------------------------------------------------------------->] 100.00% 8.78 MiB p/s ETA 0s118.00 MiB / 118.00 MiB [----------------------------------------------------------------------------------------->] 100.00% 8.78 MiB p/s ETA 0s118.00 MiB / 118.00 MiB [----------------------------------------------------------------------------------------->] 100.00% 8.21 MiB p/s ETA 0s118.00 MiB / 118.00 MiB [----------------------------------------------------------------------------------------->] 100.00% 8.21 MiB p/s ETA 0s118.00 MiB / 118.00 MiB [----------------------------------------------------------------------------------------->] 100.00% 8.21 MiB p/s ETA 0s118.00 MiB / 118.00 MiB [----------------------------------------------------------------------------------------->] 100.00% 7.68 MiB p/s ETA 0s118.00 MiB / 118.00 MiB [----------------------------------------------------------------------------------------->] 100.00% 7.68 MiB p/s ETA 0s118.00 MiB / 118.00 MiB [----------------------------------------------------------------------------------------->] 100.00% 7.68 MiB p/s ETA 0s118.00 MiB / 118.00 MiB [----------------------------------------------------------------------------------------->] 100.00% 7.18 MiB p/s ETA 0s118.00 MiB / 118.00 MiB [----------------------------------------------------------------------------------------->] 100.00% 7.18 MiB p/s ETA 0s118.00 MiB / 118.00 MiB [----------------------------------------------------------------------------------------->] 100.00% 7.18 MiB p/s ETA 0s118.00 MiB / 118.00 MiB [----------------------------------------------------------------------------------------->] 100.00% 6.72 MiB p/s ETA 0s118.00 MiB / 118.00 MiB [----------------------------------------------------------------------------------------->] 100.00% 6.72 MiB p/s ETA 0s118.00 MiB / 118.00 MiB [----------------------------------------------------------------------------------------->] 100.00% 6.72 MiB p/s ETA 0s118.00 MiB / 118.00 MiB [----------------------------------------------------------------------------------------->] 100.00% 6.29 MiB p/s ETA 0s118.00 MiB / 118.00 MiB [----------------------------------------------------------------------------------------->] 100.00% 6.29 MiB p/s ETA 0s118.00 MiB / 118.00 MiB [----------------------------------------------------------------------------------------->] 100.00% 6.29 MiB p/s ETA 0s118.00 MiB / 118.00 MiB [----------------------------------------------------------------------------------------->] 100.00% 5.88 MiB p/s ETA 0s118.00 MiB / 118.00 MiB [----------------------------------------------------------------------------------------->] 100.00% 5.88 MiB p/s ETA 0s118.00 MiB / 118.00 MiB [----------------------------------------------------------------------------------------->] 100.00% 5.88 MiB p/s ETA 0s118.00 MiB / 118.00 MiB [----------------------------------------------------------------------------------------->] 100.00% 5.50 MiB p/s ETA 0s118.00 MiB / 118.00 MiB [----------------------------------------------------------------------------------------->] 100.00% 5.50 MiB p/s ETA 0s118.00 MiB / 118.00 MiB [----------------------------------------------------------------------------------------->] 100.00% 5.50 MiB p/s ETA 0s118.00 MiB / 118.00 MiB [----------------------------------------------------------------------------------------->] 100.00% 5.15 MiB p/s ETA 0s118.00 MiB / 118.00 MiB [----------------------------------------------------------------------------------------->] 100.00% 5.15 MiB p/s ETA 0s118.00 MiB / 118.00 MiB [----------------------------------------------------------------------------------------->] 100.00% 5.15 MiB p/s ETA 0s118.00 MiB / 118.00 MiB [----------------------------------------------------------------------------------------->] 100.00% 4.81 MiB p/s ETA 0s118.00 MiB / 118.00 MiB [---------------------------------------------------------------------------------------------] 100.00% 6.49 MiB p/s 18s2026-09-29T15:35:34+07:00	INFO	[vulndb] Artifact successfully downloaded	repo="mirror.gcr.io/aquasec/trivy-db:2"
+2026-09-29T15:35:34+07:00	INFO	[vuln] Vulnerability scanning is enabled
+2026-09-29T15:35:59+07:00	INFO	Detected OS	family="ubuntu" version="20.04"
+2026-09-29T15:35:59+07:00	INFO	[ubuntu] Detecting vulnerabilities...	os_version="20.04" pkg_num=128
+2026-09-29T15:35:59+07:00	INFO	Number of language-specific files	num=1
+2026-09-29T15:35:59+07:00	INFO	[jar] Detecting vulnerabilities...
+2026-09-29T15:35:59+07:00	WARN	This OS version is no longer supported by the distribution	family="ubuntu" version="20.04"
+2026-09-29T15:35:59+07:00	WARN	The vulnerability detection may be insufficient because security updates are not provided
+BUNDLE=/mnt/c/Research/ANFIS/data/evidence/elasticsearch-8_trivy_scan_wtq85Iu6
+SCAN_JSON=data/evidence/elasticsearch-8_trivy_scan_wtq85Iu6/elasticsearch-8_vulnerabilities.json
+APPENDED {"asset_id": "elasticsearch-8", "image_id": "docker.io/elastic/elasticsearch@sha256:84a73ced8390c059e7bc2858595c68dc36e6f8bdb98895dcab0074eda35ac96e", "scan_json": "data/evidence/elasticsearch-8_trivy_scan_wtq85Iu6/elasticsearch-8_vulnerabilities.json", "mfa_risk": 1.0, "kubernetes_exposure": 0.0, "asset_criticality": 5, "default_rho": 0.1, "package_rho_json": "{}", "protocol": "scan-only-v1-rho0.1-assumed"}
+=== [26] kibana-8  docker.io/elastic/kibana:8.15.0
+2026-09-29T15:37:11+07:00	INFO	[vuln] Vulnerability scanning is enabled
+2026-09-29T15:37:26+07:00	INFO	Detected OS	family="ubuntu" version="20.04"
+2026-09-29T15:37:26+07:00	INFO	[ubuntu] Detecting vulnerabilities...	os_version="20.04" pkg_num=131
+2026-09-29T15:37:26+07:00	INFO	Number of language-specific files	num=1
+2026-09-29T15:37:26+07:00	INFO	[node-pkg] Detecting vulnerabilities...
+2026-09-29T15:37:26+07:00	WARN	This OS version is no longer supported by the distribution	family="ubuntu" version="20.04"
+2026-09-29T15:37:26+07:00	WARN	The vulnerability detection may be insufficient because security updates are not provided
+BUNDLE=/mnt/c/Research/ANFIS/data/evidence/kibana-8_trivy_scan_qkKX2HDo
+SCAN_JSON=data/evidence/kibana-8_trivy_scan_qkKX2HDo/kibana-8_vulnerabilities.json
+APPENDED {"asset_id": "kibana-8", "image_id": "docker.io/elastic/kibana@sha256:ff5f6b9a49f410658b74b337b102c302bbeb52b470efe1f0e3af3c7526fbe0e7", "scan_json": "data/evidence/kibana-8_trivy_scan_qkKX2HDo/kibana-8_vulnerabilities.json", "mfa_risk": 0.5, "kubernetes_exposure": 0.0, "asset_criticality": 4, "default_rho": 0.1, "package_rho_json": "{}", "protocol": "scan-only-v1-rho0.1-assumed"}
+=== [27] logstash-8  docker.io/elastic/logstash:8.15.0
+2026-09-29T15:38:28+07:00	INFO	[vuln] Vulnerability scanning is enabled
+2026-09-29T15:38:44+07:00	INFO	Detected OS	family="ubuntu" version="20.04"
+2026-09-29T15:38:44+07:00	INFO	[ubuntu] Detecting vulnerabilities...	os_version="20.04" pkg_num=125
+2026-09-29T15:38:44+07:00	INFO	Number of language-specific files	num=3
+2026-09-29T15:38:44+07:00	INFO	[gemspec] Detecting vulnerabilities...
+2026-09-29T15:38:44+07:00	INFO	[gobinary] Detecting vulnerabilities...
+2026-09-29T15:38:44+07:00	INFO	[jar] Detecting vulnerabilities...
+2026-09-29T15:38:44+07:00	WARN	Using severities from other vendors for some vulnerabilities. Read https://trivy.dev/docs/v0.74/guide/scanner/vulnerability#severity-selection for details.
+2026-09-29T15:38:44+07:00	WARN	This OS version is no longer supported by the distribution	family="ubuntu" version="20.04"
+2026-09-29T15:38:44+07:00	WARN	The vulnerability detection may be insufficient because security updates are not provided
+BUNDLE=/mnt/c/Research/ANFIS/data/evidence/logstash-8_trivy_scan_3gwCbRf
+SCAN_JSON=data/evidence/logstash-8_trivy_scan_3gwCbRf/logstash-8_vulnerabilities.json
+APPENDED {"asset_id": "logstash-8", "image_id": "docker.io/elastic/logstash@sha256:73a30fb57f305c0a6e0018ef37aeda016b5a3578a95530af13579382938cc3d6", "scan_json": "data/evidence/logstash-8_trivy_scan_3gwCbRf/logstash-8_vulnerabilities.json", "mfa_risk": 0.5, "kubernetes_exposure": 0.5, "asset_criticality": 1, "default_rho": 0.1, "package_rho_json": "{}", "protocol": "scan-only-v1-rho0.1-assumed"}
+=== [28] prometheus-v2  docker.io/prom/prometheus:v2.54.0
+2026-09-29T15:39:01+07:00	INFO	[vuln] Vulnerability scanning is enabled
+2026-09-29T15:39:05+07:00	INFO	Number of language-specific files	num=2
+2026-09-29T15:39:05+07:00	INFO	[gobinary] Detecting vulnerabilities...
+2026-09-29T15:39:05+07:00	WARN	Using severities from other vendors for some vulnerabilities. Read https://trivy.dev/docs/v0.74/guide/scanner/vulnerability#severity-selection for details.
+BUNDLE=/mnt/c/Research/ANFIS/data/evidence/prometheus-v2_trivy_scan_i5ndfQ9W
+SCAN_JSON=data/evidence/prometheus-v2_trivy_scan_i5ndfQ9W/prometheus-v2_vulnerabilities.json
+APPENDED {"asset_id": "prometheus-v2", "image_id": "docker.io/prom/prometheus@sha256:497fe921f22fea8535fa2bcb1c193dacc6ce98c08274257b3d18a4eaae0f9647", "scan_json": "data/evidence/prometheus-v2_trivy_scan_i5ndfQ9W/prometheus-v2_vulnerabilities.json", "mfa_risk": 1.0, "kubernetes_exposure": 0.5, "asset_criticality": 2, "default_rho": 0.1, "package_rho_json": "{}", "protocol": "scan-only-v1-rho0.1-assumed"}
+=== [29] alertmanager  docker.io/prom/alertmanager:v0.27.0
+2026-09-29T15:39:13+07:00	INFO	[vuln] Vulnerability scanning is enabled
+2026-09-29T15:39:15+07:00	INFO	Number of language-specific files	num=2
+2026-09-29T15:39:15+07:00	INFO	[gobinary] Detecting vulnerabilities...
+2026-09-29T15:39:15+07:00	WARN	Using severities from other vendors for some vulnerabilities. Read https://trivy.dev/docs/v0.74/guide/scanner/vulnerability#severity-selection for details.
+BUNDLE=/mnt/c/Research/ANFIS/data/evidence/alertmanager_trivy_scan_lv0W4Mqq
+SCAN_JSON=data/evidence/alertmanager_trivy_scan_lv0W4Mqq/alertmanager_vulnerabilities.json
+APPENDED {"asset_id": "alertmanager", "image_id": "docker.io/prom/alertmanager@sha256:e13b6ed5cb929eeaee733479dce55e10eb3bc2e9c4586c705a4e8da41e5eacf5", "scan_json": "data/evidence/alertmanager_trivy_scan_lv0W4Mqq/alertmanager_vulnerabilities.json", "mfa_risk": 1.0, "kubernetes_exposure": 0.5, "asset_criticality": 3, "default_rho": 0.1, "package_rho_json": "{}", "protocol": "scan-only-v1-rho0.1-assumed"}
+=== [30] jenkins-lts  docker.io/jenkins/jenkins:lts-jdk17
+2026-09-29T15:39:45+07:00	INFO	[vuln] Vulnerability scanning is enabled
+2026-09-29T15:39:54+07:00	INFO	Detected OS	family="debian" version="13.2"
+2026-09-29T15:39:54+07:00	INFO	[debian] Detecting vulnerabilities...	os_version="13" pkg_num=131
+2026-09-29T15:39:54+07:00	INFO	Number of language-specific files	num=2
+2026-09-29T15:39:54+07:00	INFO	[gobinary] Detecting vulnerabilities...
+2026-09-29T15:39:54+07:00	INFO	[jar] Detecting vulnerabilities...
+2026-09-29T15:39:54+07:00	WARN	Using severities from other vendors for some vulnerabilities. Read https://trivy.dev/docs/v0.74/guide/scanner/vulnerability#severity-selection for details.
+BUNDLE=/mnt/c/Research/ANFIS/data/evidence/jenkins-lts_trivy_scan_dmWKbdA
+SCAN_JSON=data/evidence/jenkins-lts_trivy_scan_dmWKbdA/jenkins-lts_vulnerabilities.json
+APPENDED {"asset_id": "jenkins-lts", "image_id": "docker.io/jenkins/jenkins@sha256:cce1eeb79902722f3cf7a8831c41e95c39f4a42b9a2981959630cc66539b3c2d", "scan_json": "data/evidence/jenkins-lts_trivy_scan_dmWKbdA/jenkins-lts_vulnerabilities.json", "mfa_risk": 1.0, "kubernetes_exposure": 1.0, "asset_criticality": 5, "default_rho": 0.1, "package_rho_json": "{}", "protocol": "scan-only-v1-rho0.1-assumed"}
+=== [31] gitlab-ce  docker.io/gitlab/gitlab-ce:17.3.0-ce.0
+2026-09-29T15:42:31+07:00	INFO	[vuln] Vulnerability scanning is enabled
+2026-09-29T15:43:18+07:00	INFO	Detected OS	family="ubuntu" version="22.04"
+2026-09-29T15:43:18+07:00	INFO	[ubuntu] Detecting vulnerabilities...	os_version="22.04" pkg_num=123
+2026-09-29T15:43:18+07:00	INFO	Number of language-specific files	num=33
+2026-09-29T15:43:18+07:00	INFO	[cargo] Detecting vulnerabilities...
+2026-09-29T15:43:19+07:00	INFO	[gemspec] Detecting vulnerabilities...
+2026-09-29T15:43:19+07:00	INFO	[gobinary] Detecting vulnerabilities...
+2026-09-29T15:43:19+07:00	INFO	[node-pkg] Detecting vulnerabilities...
+2026-09-29T15:43:19+07:00	WARN	Using severities from other vendors for some vulnerabilities. Read https://trivy.dev/docs/v0.74/guide/scanner/vulnerability#severity-selection for details.
+BUNDLE=/mnt/c/Research/ANFIS/data/evidence/gitlab-ce_trivy_scan_SCpmd0zn
+SCAN_JSON=data/evidence/gitlab-ce_trivy_scan_SCpmd0zn/gitlab-ce_vulnerabilities.json
+APPENDED {"asset_id": "gitlab-ce", "image_id": "docker.io/gitlab/gitlab-ce@sha256:5c8940316d67e0f1a8536b527f8a9d9aa6733bb6d3f98132c010cdff8e73916e", "scan_json": "data/evidence/gitlab-ce_trivy_scan_SCpmd0zn/gitlab-ce_vulnerabilities.json", "mfa_risk": 0.0, "kubernetes_exposure": 0.5, "asset_criticality": 4, "default_rho": 0.1, "package_rho_json": "{}", "protocol": "scan-only-v1-rho0.1-assumed"}
+=== [32] gitea  docker.io/gitea/gitea:1.22
+2026-09-29T15:43:32+07:00	INFO	[vuln] Vulnerability scanning is enabled
+2026-09-29T15:43:34+07:00	INFO	Detected OS	family="alpine" version="3.20.3"
+2026-09-29T15:43:34+07:00	INFO	[alpine] Detecting vulnerabilities...	os_version="3.20" repository="3.20" pkg_num=83
+2026-09-29T15:43:34+07:00	INFO	Number of language-specific files	num=2
+2026-09-29T15:43:34+07:00	INFO	[gobinary] Detecting vulnerabilities...
+2026-09-29T15:43:34+07:00	WARN	Using severities from other vendors for some vulnerabilities. Read https://trivy.dev/docs/v0.74/guide/scanner/vulnerability#severity-selection for details.
+2026-09-29T15:43:34+07:00	WARN	This OS version is no longer supported by the distribution	family="alpine" version="3.20.3"
+2026-09-29T15:43:34+07:00	WARN	The vulnerability detection may be insufficient because security updates are not provided
+BUNDLE=/mnt/c/Research/ANFIS/data/evidence/gitea_trivy_scan_PbYByBw
+SCAN_JSON=data/evidence/gitea_trivy_scan_PbYByBw/gitea_vulnerabilities.json
+APPENDED {"asset_id": "gitea", "image_id": "docker.io/gitea/gitea@sha256:538658de667c5d098a274f2f63aa6ec891d88f670cdd5282cf27221ba747dda4", "scan_json": "data/evidence/gitea_trivy_scan_PbYByBw/gitea_vulnerabilities.json", "mfa_risk": 0.0, "kubernetes_exposure": 0.0, "asset_criticality": 2, "default_rho": 0.1, "package_rho_json": "{}", "protocol": "scan-only-v1-rho0.1-assumed"}
+=== [33] sonarqube  docker.io/library/sonarqube:10-community
+2026-09-29T15:44:57+07:00	INFO	[vuln] Vulnerability scanning is enabled
+2026-09-29T15:45:26+07:00	INFO	Detected OS	family="ubuntu" version="22.04"
+2026-09-29T15:45:26+07:00	INFO	[ubuntu] Detecting vulnerabilities...	os_version="22.04" pkg_num=144
+2026-09-29T15:45:26+07:00	INFO	Number of language-specific files	num=1
+2026-09-29T15:45:26+07:00	INFO	[jar] Detecting vulnerabilities...
+BUNDLE=/mnt/c/Research/ANFIS/data/evidence/sonarqube_trivy_scan_9K1xhxzs
+SCAN_JSON=data/evidence/sonarqube_trivy_scan_9K1xhxzs/sonarqube_vulnerabilities.json
+APPENDED {"asset_id": "sonarqube", "image_id": "docker.io/sonarqube@sha256:0842dcd4c8f851ce44f8edaf45ac93f7c9079017d60d99f614663e60cef5efe9", "scan_json": "data/evidence/sonarqube_trivy_scan_9K1xhxzs/sonarqube_vulnerabilities.json", "mfa_risk": 0.5, "kubernetes_exposure": 1.0, "asset_criticality": 5, "default_rho": 0.1, "package_rho_json": "{}", "protocol": "scan-only-v1-rho0.1-assumed"}
+=== [34] vault  docker.io/hashicorp/vault:1.17
+2026-09-29T15:45:47+07:00	INFO	[vuln] Vulnerability scanning is enabled
+2026-09-29T15:45:52+07:00	INFO	Detected OS	family="alpine" version="3.20.3"
+2026-09-29T15:45:52+07:00	INFO	[alpine] Detecting vulnerabilities...	os_version="3.20" repository="3.20" pkg_num=22
+2026-09-29T15:45:52+07:00	INFO	Number of language-specific files	num=1
+2026-09-29T15:45:52+07:00	INFO	[gobinary] Detecting vulnerabilities...
+2026-09-29T15:45:52+07:00	WARN	Using severities from other vendors for some vulnerabilities. Read https://trivy.dev/docs/v0.74/guide/scanner/vulnerability#severity-selection for details.
+2026-09-29T15:45:52+07:00	WARN	This OS version is no longer supported by the distribution	family="alpine" version="3.20.3"
+2026-09-29T15:45:52+07:00	WARN	The vulnerability detection may be insufficient because security updates are not provided
+BUNDLE=/mnt/c/Research/ANFIS/data/evidence/vault_trivy_scan_OycYkjzm
+SCAN_JSON=data/evidence/vault_trivy_scan_OycYkjzm/vault_vulnerabilities.json
+APPENDED {"asset_id": "vault", "image_id": "docker.io/hashicorp/vault@sha256:74a4ab138ab5d64725e89cd9a9c73f7040c7fe49e98b71697b275ca9a69919df", "scan_json": "data/evidence/vault_trivy_scan_OycYkjzm/vault_vulnerabilities.json", "mfa_risk": 1.0, "kubernetes_exposure": 1.0, "asset_criticality": 2, "default_rho": 0.1, "package_rho_json": "{}", "protocol": "scan-only-v1-rho0.1-assumed"}
+=== [35] consul  docker.io/hashicorp/consul:1.19
+2026-09-29T15:46:19+07:00	INFO	[vuln] Vulnerability scanning is enabled
+2026-09-29T15:46:22+07:00	INFO	Detected OS	family="alpine" version="3.19.3"
+2026-09-29T15:46:22+07:00	INFO	[alpine] Detecting vulnerabilities...	os_version="3.19" repository="3.19" pkg_num=76
+2026-09-29T15:46:22+07:00	INFO	Number of language-specific files	num=1
+2026-09-29T15:46:22+07:00	INFO	[gobinary] Detecting vulnerabilities...
+2026-09-29T15:46:22+07:00	WARN	Using severities from other vendors for some vulnerabilities. Read https://trivy.dev/docs/v0.74/guide/scanner/vulnerability#severity-selection for details.
+2026-09-29T15:46:22+07:00	WARN	This OS version is no longer supported by the distribution	family="alpine" version="3.19.3"
+2026-09-29T15:46:22+07:00	WARN	The vulnerability detection may be insufficient because security updates are not provided
+BUNDLE=/mnt/c/Research/ANFIS/data/evidence/consul_trivy_scan_4VNjCAKe
+SCAN_JSON=data/evidence/consul_trivy_scan_4VNjCAKe/consul_vulnerabilities.json
+APPENDED {"asset_id": "consul", "image_id": "docker.io/hashicorp/consul@sha256:e244c64df77ab3586f177f1692e98575086eb40343dc82a6320f5e79543490eb", "scan_json": "data/evidence/consul_trivy_scan_4VNjCAKe/consul_vulnerabilities.json", "mfa_risk": 1.0, "kubernetes_exposure": 0.0, "asset_criticality": 3, "default_rho": 0.1, "package_rho_json": "{}", "protocol": "scan-only-v1-rho0.1-assumed"}
+=== [36] etcd  docker.io/bitnami/etcd:3.5
+FAIL etcd: pull
+=== [37] zookeeper-3-9  docker.io/library/zookeeper:3.9
+2026-09-29T15:46:38+07:00	INFO	[vuln] Vulnerability scanning is enabled
+2026-09-29T15:46:42+07:00	INFO	Detected OS	family="ubuntu" version="22.04"
+2026-09-29T15:46:42+07:00	INFO	[ubuntu] Detecting vulnerabilities...	os_version="22.04" pkg_num=148
+2026-09-29T15:46:42+07:00	INFO	Number of language-specific files	num=1
+2026-09-29T15:46:42+07:00	INFO	[jar] Detecting vulnerabilities...
+BUNDLE=/mnt/c/Research/ANFIS/data/evidence/zookeeper-3-9_trivy_scan_LUnPayqD
+SCAN_JSON=data/evidence/zookeeper-3-9_trivy_scan_LUnPayqD/zookeeper-3-9_vulnerabilities.json
+APPENDED {"asset_id": "zookeeper-3-9", "image_id": "docker.io/zookeeper@sha256:8c073100106595cc70087e0218fb96b55e8f1f48d39568cd0b9cf547ff536211", "scan_json": "data/evidence/zookeeper-3-9_trivy_scan_LUnPayqD/zookeeper-3-9_vulnerabilities.json", "mfa_risk": 0.5, "kubernetes_exposure": 0.5, "asset_criticality": 2, "default_rho": 0.1, "package_rho_json": "{}", "protocol": "scan-only-v1-rho0.1-assumed"}
+=== [38] kafka-3-8  docker.io/bitnami/kafka:3.8
+FAIL kafka-3-8: pull
+=== [39] nats-2-10  docker.io/library/nats:2.10-alpine
+2026-09-29T15:46:50+07:00	INFO	[vuln] Vulnerability scanning is enabled
+2026-09-29T15:46:51+07:00	INFO	Detected OS	family="alpine" version="3.22.3"
+2026-09-29T15:46:51+07:00	INFO	[alpine] Detecting vulnerabilities...	os_version="3.22" repository="3.22" pkg_num=18
+2026-09-29T15:46:51+07:00	INFO	Number of language-specific files	num=1
+2026-09-29T15:46:51+07:00	INFO	[gobinary] Detecting vulnerabilities...
+2026-09-29T15:46:51+07:00	WARN	Using severities from other vendors for some vulnerabilities. Read https://trivy.dev/docs/v0.74/guide/scanner/vulnerability#severity-selection for details.
+BUNDLE=/mnt/c/Research/ANFIS/data/evidence/nats-2-10_trivy_scan_88O3d9x2
+SCAN_JSON=data/evidence/nats-2-10_trivy_scan_88O3d9x2/nats-2-10_vulnerabilities.json
+APPENDED {"asset_id": "nats-2-10", "image_id": "docker.io/nats@sha256:b83efabe3e7def1e0a4a31ec6e078999bb17c80363f881df35edc70fcb6bb927", "scan_json": "data/evidence/nats-2-10_trivy_scan_88O3d9x2/nats-2-10_vulnerabilities.json", "mfa_risk": 0.0, "kubernetes_exposure": 1.0, "asset_criticality": 3, "default_rho": 0.1, "package_rho_json": "{}", "protocol": "scan-only-v1-rho0.1-assumed"}
+=== [40] influxdb-2  docker.io/library/influxdb:2.7-alpine
+2026-09-29T15:47:12+07:00	INFO	[vuln] Vulnerability scanning is enabled
+2026-09-29T15:47:15+07:00	INFO	Detected OS	family="alpine" version="3.23.4"
+2026-09-29T15:47:15+07:00	INFO	[alpine] Detecting vulnerabilities...	os_version="3.23" repository="3.23" pkg_num=62
+2026-09-29T15:47:15+07:00	INFO	Number of language-specific files	num=3
+2026-09-29T15:47:15+07:00	INFO	[gobinary] Detecting vulnerabilities...
+2026-09-29T15:47:15+07:00	WARN	Using severities from other vendors for some vulnerabilities. Read https://trivy.dev/docs/v0.74/guide/scanner/vulnerability#severity-selection for details.
+BUNDLE=/mnt/c/Research/ANFIS/data/evidence/influxdb-2_trivy_scan_2BvVCszi
+SCAN_JSON=data/evidence/influxdb-2_trivy_scan_2BvVCszi/influxdb-2_vulnerabilities.json
+APPENDED {"asset_id": "influxdb-2", "image_id": "docker.io/influxdb@sha256:991673dc2d237bd79b15d6627410d72de111387e7dac673dbb92cf3333ffcc8c", "scan_json": "data/evidence/influxdb-2_trivy_scan_2BvVCszi/influxdb-2_vulnerabilities.json", "mfa_risk": 0.5, "kubernetes_exposure": 0.5, "asset_criticality": 3, "default_rho": 0.1, "package_rho_json": "{}", "protocol": "scan-only-v1-rho0.1-assumed"}
+=== [41] cassandra-5  docker.io/library/cassandra:5.0
+2026-09-29T15:47:34+07:00	INFO	[vuln] Vulnerability scanning is enabled
+2026-09-29T15:47:39+07:00	INFO	Detected OS	family="debian" version="13.7"
+2026-09-29T15:47:39+07:00	INFO	[debian] Detecting vulnerabilities...	os_version="13" pkg_num=112
+2026-09-29T15:47:39+07:00	INFO	Number of language-specific files	num=2
+2026-09-29T15:47:39+07:00	INFO	[gobinary] Detecting vulnerabilities...
+2026-09-29T15:47:39+07:00	INFO	[jar] Detecting vulnerabilities...
+2026-09-29T15:47:39+07:00	WARN	Using severities from other vendors for some vulnerabilities. Read https://trivy.dev/docs/v0.74/guide/scanner/vulnerability#severity-selection for details.
+BUNDLE=/mnt/c/Research/ANFIS/data/evidence/cassandra-5_trivy_scan_rJKr1j0c
+SCAN_JSON=data/evidence/cassandra-5_trivy_scan_rJKr1j0c/cassandra-5_vulnerabilities.json
+APPENDED {"asset_id": "cassandra-5", "image_id": "docker.io/cassandra@sha256:8819d1b7877ee6621751a761cc163332e9c3eaf671c8ef672f7c77a7c5bff05f", "scan_json": "data/evidence/cassandra-5_trivy_scan_rJKr1j0c/cassandra-5_vulnerabilities.json", "mfa_risk": 0.5, "kubernetes_exposure": 1.0, "asset_criticality": 4, "default_rho": 0.1, "package_rho_json": "{}", "protocol": "scan-only-v1-rho0.1-assumed"}
+=== [42] cockroachdb  docker.io/cockroachdb/cockroach:v24.1.0
+FAIL cockroachdb: pull
+=== [43] timescaledb  docker.io/timescale/timescaledb:2.16.0-pg16
+2026-09-29T15:48:28+07:00	INFO	[vuln] Vulnerability scanning is enabled
+2026-09-29T15:48:36+07:00	INFO	[python] Licenses acquired from one or more METADATA files may be subject to additional terms. Use `--debug` flag to see all affected packages.
+2026-09-29T15:48:37+07:00	INFO	Detected OS	family="alpine" version="3.20.2"
+2026-09-29T15:48:37+07:00	INFO	[alpine] Detecting vulnerabilities...	os_version="3.20" repository="3.20" pkg_num=59
+2026-09-29T15:48:37+07:00	INFO	Number of language-specific files	num=4
+2026-09-29T15:48:37+07:00	INFO	[gobinary] Detecting vulnerabilities...
+2026-09-29T15:48:37+07:00	INFO	[python-pkg] Detecting vulnerabilities...
+2026-09-29T15:48:37+07:00	WARN	Using severities from other vendors for some vulnerabilities. Read https://trivy.dev/docs/v0.74/guide/scanner/vulnerability#severity-selection for details.
+2026-09-29T15:48:37+07:00	WARN	This OS version is no longer supported by the distribution	family="alpine" version="3.20.2"
+2026-09-29T15:48:37+07:00	WARN	The vulnerability detection may be insufficient because security updates are not provided
+BUNDLE=/mnt/c/Research/ANFIS/data/evidence/timescaledb_trivy_scan_n2sbfzs9
+SCAN_JSON=data/evidence/timescaledb_trivy_scan_n2sbfzs9/timescaledb_vulnerabilities.json
+APPENDED {"asset_id": "timescaledb", "image_id": "docker.io/timescale/timescaledb@sha256:1d8a021f72f0e0adfa77a1312ae21f735de9fb8dc70375659241fabcd42fc1a7", "scan_json": "data/evidence/timescaledb_trivy_scan_n2sbfzs9/timescaledb_vulnerabilities.json", "mfa_risk": 0.0, "kubernetes_exposure": 0.5, "asset_criticality": 2, "default_rho": 0.1, "package_rho_json": "{}", "protocol": "scan-only-v1-rho0.1-assumed"}
+=== [44] neo4j-5  docker.io/library/neo4j:5-community
+2026-09-29T15:49:14+07:00	INFO	[vuln] Vulnerability scanning is enabled
+2026-09-29T15:49:26+07:00	INFO	Detected OS	family="debian" version="13.7"
+2026-09-29T15:49:26+07:00	INFO	[debian] Detecting vulnerabilities...	os_version="13" pkg_num=100
+2026-09-29T15:49:26+07:00	INFO	Number of language-specific files	num=1
+2026-09-29T15:49:26+07:00	INFO	[jar] Detecting vulnerabilities...
+2026-09-29T15:49:26+07:00	WARN	Using severities from other vendors for some vulnerabilities. Read https://trivy.dev/docs/v0.74/guide/scanner/vulnerability#severity-selection for details.
+BUNDLE=/mnt/c/Research/ANFIS/data/evidence/neo4j-5_trivy_scan_uf78c4KJ
+SCAN_JSON=data/evidence/neo4j-5_trivy_scan_uf78c4KJ/neo4j-5_vulnerabilities.json
+APPENDED {"asset_id": "neo4j-5", "image_id": "docker.io/neo4j@sha256:5eb12ad77fa46ab73e23df9ea1f43f5c0f2a79523435577648e046be042b9b93", "scan_json": "data/evidence/neo4j-5_trivy_scan_uf78c4KJ/neo4j-5_vulnerabilities.json", "mfa_risk": 0.0, "kubernetes_exposure": 1.0, "asset_criticality": 4, "default_rho": 0.1, "package_rho_json": "{}", "protocol": "scan-only-v1-rho0.1-assumed"}
+=== [45] couchdb-3  docker.io/library/couchdb:3.3
+2026-09-29T15:49:42+07:00	INFO	[vuln] Vulnerability scanning is enabled
+2026-09-29T15:49:45+07:00	INFO	Detected OS	family="debian" version="12.10"
+2026-09-29T15:49:45+07:00	INFO	[debian] Detecting vulnerabilities...	os_version="12" pkg_num=133
+2026-09-29T15:49:45+07:00	INFO	Number of language-specific files	num=0
+2026-09-29T15:49:45+07:00	WARN	Using severities from other vendors for some vulnerabilities. Read https://trivy.dev/docs/v0.74/guide/scanner/vulnerability#severity-selection for details.
+BUNDLE=/mnt/c/Research/ANFIS/data/evidence/couchdb-3_trivy_scan_DWXeL3H
+SCAN_JSON=data/evidence/couchdb-3_trivy_scan_DWXeL3H/couchdb-3_vulnerabilities.json
+APPENDED {"asset_id": "couchdb-3", "image_id": "docker.io/couchdb@sha256:307a3f5276f64c0db28f226b7b5c180b8f2c851afa681cfb4fbb1b1fe7fd5587", "scan_json": "data/evidence/couchdb-3_trivy_scan_DWXeL3H/couchdb-3_vulnerabilities.json", "mfa_risk": 0.0, "kubernetes_exposure": 0.0, "asset_criticality": 3, "default_rho": 0.1, "package_rho_json": "{}", "protocol": "scan-only-v1-rho0.1-assumed"}
+=== [46] minio  docker.io/minio/minio:RELEASE.2024-08-17T01-24-54Z
+FAIL minio: pull
+=== [47] nextcloud  docker.io/library/nextcloud:29-apache
+2026-09-29T15:50:43+07:00	INFO	[vuln] Vulnerability scanning is enabled
+2026-09-29T15:50:57+07:00	INFO	Detected OS	family="debian" version="12.11"
+2026-09-29T15:50:57+07:00	INFO	[debian] Detecting vulnerabilities...	os_version="12" pkg_num=276
+2026-09-29T15:50:57+07:00	INFO	Number of language-specific files	num=7
+2026-09-29T15:50:57+07:00	INFO	[composer-vendor] Detecting vulnerabilities...
+2026-09-29T15:50:57+07:00	INFO	[node-pkg] Detecting vulnerabilities...
+2026-09-29T15:50:57+07:00	WARN	Using severities from other vendors for some vulnerabilities. Read https://trivy.dev/docs/v0.74/guide/scanner/vulnerability#severity-selection for details.
+BUNDLE=/mnt/c/Research/ANFIS/data/evidence/nextcloud_trivy_scan_u8ep5He2
+SCAN_JSON=data/evidence/nextcloud_trivy_scan_u8ep5He2/nextcloud_vulnerabilities.json
+APPENDED {"asset_id": "nextcloud", "image_id": "docker.io/nextcloud@sha256:a7fbfcd4759bdd19b8fb8b1044b47ee3a9471d2e2c8bc68d56a2e671f86cebd2", "scan_json": "data/evidence/nextcloud_trivy_scan_u8ep5He2/nextcloud_vulnerabilities.json", "mfa_risk": 0.5, "kubernetes_exposure": 0.0, "asset_criticality": 3, "default_rho": 0.1, "package_rho_json": "{}", "protocol": "scan-only-v1-rho0.1-assumed"}
+=== [48] ghost-5  docker.io/library/ghost:5-alpine
+2026-09-29T15:51:40+07:00	INFO	[vuln] Vulnerability scanning is enabled
+2026-09-29T15:51:47+07:00	INFO	Detected OS	family="alpine" version="3.23.3"
+2026-09-29T15:51:47+07:00	INFO	[alpine] Detecting vulnerabilities...	os_version="3.23" repository="3.23" pkg_num=22
+2026-09-29T15:51:47+07:00	INFO	Number of language-specific files	num=2
+2026-09-29T15:51:47+07:00	INFO	[gobinary] Detecting vulnerabilities...
+2026-09-29T15:51:47+07:00	INFO	[node-pkg] Detecting vulnerabilities...
+2026-09-29T15:51:47+07:00	WARN	Using severities from other vendors for some vulnerabilities. Read https://trivy.dev/docs/v0.74/guide/scanner/vulnerability#severity-selection for details.
+BUNDLE=/mnt/c/Research/ANFIS/data/evidence/ghost-5_trivy_scan_qPADe5xA
+SCAN_JSON=data/evidence/ghost-5_trivy_scan_qPADe5xA/ghost-5_vulnerabilities.json
+APPENDED {"asset_id": "ghost-5", "image_id": "docker.io/ghost@sha256:a0506f3f05f5bdc6c950c5113cdcdb1e1f96fbf15f6dc0a39fc093c25348bdb5", "scan_json": "data/evidence/ghost-5_trivy_scan_qPADe5xA/ghost-5_vulnerabilities.json", "mfa_risk": 1.0, "kubernetes_exposure": 0.5, "asset_criticality": 1, "default_rho": 0.1, "package_rho_json": "{}", "protocol": "scan-only-v1-rho0.1-assumed"}
+=== [49] drupal-10  docker.io/library/drupal:10-apache
+2026-09-29T15:52:22+07:00	INFO	[vuln] Vulnerability scanning is enabled
+2026-09-29T15:52:29+07:00	INFO	Detected OS	family="debian" version="13.7"
+2026-09-29T15:52:29+07:00	INFO	[debian] Detecting vulnerabilities...	os_version="13" pkg_num=201
+2026-09-29T15:52:30+07:00	INFO	Number of language-specific files	num=1
+2026-09-29T15:52:30+07:00	INFO	[composer-vendor] Detecting vulnerabilities...
+2026-09-29T15:52:30+07:00	WARN	Using severities from other vendors for some vulnerabilities. Read https://trivy.dev/docs/v0.74/guide/scanner/vulnerability#severity-selection for details.
+BUNDLE=/mnt/c/Research/ANFIS/data/evidence/drupal-10_trivy_scan_v1ipqvTX
+SCAN_JSON=data/evidence/drupal-10_trivy_scan_v1ipqvTX/drupal-10_vulnerabilities.json
+APPENDED {"asset_id": "drupal-10", "image_id": "docker.io/drupal@sha256:5c137711e547eacb59b482bd9a5aa258f3911df0d1e0764ef8e37b96b17d43af", "scan_json": "data/evidence/drupal-10_trivy_scan_v1ipqvTX/drupal-10_vulnerabilities.json", "mfa_risk": 1.0, "kubernetes_exposure": 1.0, "asset_criticality": 4, "default_rho": 0.1, "package_rho_json": "{}", "protocol": "scan-only-v1-rho0.1-assumed"}
+=== [50] joomla-5  docker.io/library/joomla:5-apache
+2026-09-29T15:53:06+07:00	INFO	[vuln] Vulnerability scanning is enabled
+2026-09-29T15:53:15+07:00	INFO	Detected OS	family="debian" version="13.7"
+2026-09-29T15:53:15+07:00	INFO	[debian] Detecting vulnerabilities...	os_version="13" pkg_num=279
+2026-09-29T15:53:15+07:00	INFO	Number of language-specific files	num=1
+2026-09-29T15:53:15+07:00	INFO	[composer-vendor] Detecting vulnerabilities...
+2026-09-29T15:53:15+07:00	WARN	Version matching error	err="version error (dev-3.x-shtml): malformed version: dev-3.x-shtml"
+2026-09-29T15:53:15+07:00	WARN	Using severities from other vendors for some vulnerabilities. Read https://trivy.dev/docs/v0.74/guide/scanner/vulnerability#severity-selection for details.
+BUNDLE=/mnt/c/Research/ANFIS/data/evidence/joomla-5_trivy_scan_rbshrib
+SCAN_JSON=data/evidence/joomla-5_trivy_scan_rbshrib/joomla-5_vulnerabilities.json
+APPENDED {"asset_id": "joomla-5", "image_id": "docker.io/joomla@sha256:f18823b8bc0bfa77614cfc5c07117a8cd9d794c898de2e67975126c252fac216", "scan_json": "data/evidence/joomla-5_trivy_scan_rbshrib/joomla-5_vulnerabilities.json", "mfa_risk": 0.0, "kubernetes_exposure": 0.0, "asset_criticality": 4, "default_rho": 0.1, "package_rho_json": "{}", "protocol": "scan-only-v1-rho0.1-assumed"}
+=== [51] mediawiki  docker.io/library/mediawiki:1.42
+FAIL mediawiki: pull
+=== [52] odoo-17  docker.io/library/odoo:17
+2026-09-29T15:54:47+07:00	INFO	[vuln] Vulnerability scanning is enabled
+2026-09-29T15:55:06+07:00	INFO	[python] Licenses acquired from one or more METADATA files may be subject to additional terms. Use `--debug` flag to see all affected packages.
+2026-09-29T15:55:07+07:00	INFO	Detected OS	family="ubuntu" version="22.04"
+2026-09-29T15:55:07+07:00	INFO	[ubuntu] Detecting vulnerabilities...	os_version="22.04" pkg_num=330
+2026-09-29T15:55:07+07:00	INFO	Number of language-specific files	num=1
+2026-09-29T15:55:07+07:00	INFO	[node-pkg] Detecting vulnerabilities...
+BUNDLE=/mnt/c/Research/ANFIS/data/evidence/odoo-17_trivy_scan_7FYKJ64i
+SCAN_JSON=data/evidence/odoo-17_trivy_scan_7FYKJ64i/odoo-17_vulnerabilities.json
+APPENDED {"asset_id": "odoo-17", "image_id": "docker.io/odoo@sha256:8779f8157ddcc37b84014c94646073f46fd4ad776b7a5d95fc3b0dc73a24a8fa", "scan_json": "data/evidence/odoo-17_trivy_scan_7FYKJ64i/odoo-17_vulnerabilities.json", "mfa_risk": 1.0, "kubernetes_exposure": 0.5, "asset_criticality": 3, "default_rho": 0.1, "package_rho_json": "{}", "protocol": "scan-only-v1-rho0.1-assumed"}
+=== [53] keycloak  docker.io/quay.io/keycloak/keycloak:25.0
+FAIL keycloak: pull
+=== [54] openldap  docker.io/bitnami/openldap:2.6
+FAIL openldap: pull
+=== [55] php-8-3-apache  docker.io/library/php:8.3-apache
+2026-09-29T15:55:28+07:00	INFO	[vuln] Vulnerability scanning is enabled
+2026-09-29T15:55:28+07:00	INFO	Detected OS	family="debian" version="13.7"
+2026-09-29T15:55:28+07:00	INFO	[debian] Detecting vulnerabilities...	os_version="13" pkg_num=186
+2026-09-29T15:55:28+07:00	INFO	Number of language-specific files	num=0
+2026-09-29T15:55:28+07:00	WARN	Using severities from other vendors for some vulnerabilities. Read https://trivy.dev/docs/v0.74/guide/scanner/vulnerability#severity-selection for details.
+BUNDLE=/mnt/c/Research/ANFIS/data/evidence/php-8-3-apache_trivy_scan_ltyGdKcv
+SCAN_JSON=data/evidence/php-8-3-apache_trivy_scan_ltyGdKcv/php-8-3-apache_vulnerabilities.json
+APPENDED {"asset_id": "php-8-3-apache", "image_id": "docker.io/php@sha256:c2c73159da2f7a19167a2849bd9785ca9ad4f5eeff01f85295ef861a5e9bcf4d", "scan_json": "data/evidence/php-8-3-apache_trivy_scan_ltyGdKcv/php-8-3-apache_vulnerabilities.json", "mfa_risk": 0.0, "kubernetes_exposure": 1.0, "asset_criticality": 3, "default_rho": 0.1, "package_rho_json": "{}", "protocol": "scan-only-v1-rho0.1-assumed"}
+=== [56] ruby-3-3-slim  docker.io/library/ruby:3.3-slim
+2026-09-29T15:55:39+07:00	INFO	[vuln] Vulnerability scanning is enabled
+2026-09-29T15:55:41+07:00	INFO	Detected OS	family="debian" version="13.7"
+2026-09-29T15:55:41+07:00	INFO	[debian] Detecting vulnerabilities...	os_version="13" pkg_num=82
+2026-09-29T15:55:41+07:00	INFO	Number of language-specific files	num=1
+2026-09-29T15:55:41+07:00	INFO	[gemspec] Detecting vulnerabilities...
+2026-09-29T15:55:41+07:00	WARN	Using severities from other vendors for some vulnerabilities. Read https://trivy.dev/docs/v0.74/guide/scanner/vulnerability#severity-selection for details.
+BUNDLE=/mnt/c/Research/ANFIS/data/evidence/ruby-3-3-slim_trivy_scan_dtetSMTp
+SCAN_JSON=data/evidence/ruby-3-3-slim_trivy_scan_dtetSMTp/ruby-3-3-slim_vulnerabilities.json
+APPENDED {"asset_id": "ruby-3-3-slim", "image_id": "docker.io/ruby@sha256:379ffc9ca20cae2655cb80cac53ee23e1e7d859c03a4cceb7f567d6ce4873cee", "scan_json": "data/evidence/ruby-3-3-slim_trivy_scan_dtetSMTp/ruby-3-3-slim_vulnerabilities.json", "mfa_risk": 1.0, "kubernetes_exposure": 1.0, "asset_criticality": 3, "default_rho": 0.1, "package_rho_json": "{}", "protocol": "scan-only-v1-rho0.1-assumed"}
+=== [57] dotnet-sdk-8  docker.io/library/dotnet/sdk:8.0
+FAIL dotnet-sdk-8: pull
+=== [58] rust-1-80-slim  docker.io/library/rust:1.80-slim
+2026-09-29T15:56:22+07:00	INFO	[vuln] Vulnerability scanning is enabled
+2026-09-29T15:56:33+07:00	INFO	Detected OS	family="debian" version="12.7"
+2026-09-29T15:56:33+07:00	INFO	[debian] Detecting vulnerabilities...	os_version="12" pkg_num=131
+2026-09-29T15:56:33+07:00	INFO	Number of language-specific files	num=0
+2026-09-29T15:56:33+07:00	WARN	Using severities from other vendors for some vulnerabilities. Read https://trivy.dev/docs/v0.74/guide/scanner/vulnerability#severity-selection for details.
+BUNDLE=/mnt/c/Research/ANFIS/data/evidence/rust-1-80-slim_trivy_scan_eiYZ7h3K
+SCAN_JSON=data/evidence/rust-1-80-slim_trivy_scan_eiYZ7h3K/rust-1-80-slim_vulnerabilities.json
+APPENDED {"asset_id": "rust-1-80-slim", "image_id": "docker.io/rust@sha256:907ff4b3ee7df57149ffee04f606e0a08b9b2ed3507f00a19cf3c9c0f74b7681", "scan_json": "data/evidence/rust-1-80-slim_trivy_scan_eiYZ7h3K/rust-1-80-slim_vulnerabilities.json", "mfa_risk": 0.0, "kubernetes_exposure": 1.0, "asset_criticality": 2, "default_rho": 0.1, "package_rho_json": "{}", "protocol": "scan-only-v1-rho0.1-assumed"}
+=== [59] perl-5-40-slim  docker.io/library/perl:5.40-slim
+2026-09-29T15:56:47+07:00	INFO	[vuln] Vulnerability scanning is enabled
+2026-09-29T15:56:49+07:00	INFO	Detected OS	family="debian" version="13.7"
+2026-09-29T15:56:49+07:00	INFO	[debian] Detecting vulnerabilities...	os_version="13" pkg_num=112
+2026-09-29T15:56:49+07:00	INFO	Number of language-specific files	num=0
+2026-09-29T15:56:49+07:00	WARN	Using severities from other vendors for some vulnerabilities. Read https://trivy.dev/docs/v0.74/guide/scanner/vulnerability#severity-selection for details.
+BUNDLE=/mnt/c/Research/ANFIS/data/evidence/perl-5-40-slim_trivy_scan_AFBazv5Y
+SCAN_JSON=data/evidence/perl-5-40-slim_trivy_scan_AFBazv5Y/perl-5-40-slim_vulnerabilities.json
+APPENDED {"asset_id": "perl-5-40-slim", "image_id": "docker.io/perl@sha256:90406ca29154d80e43a0681c73e54a996f42c32d307c60ad389db3317c53dacf", "scan_json": "data/evidence/perl-5-40-slim_trivy_scan_AFBazv5Y/perl-5-40-slim_vulnerabilities.json", "mfa_risk": 0.0, "kubernetes_exposure": 0.5, "asset_criticality": 2, "default_rho": 0.1, "package_rho_json": "{}", "protocol": "scan-only-v1-rho0.1-assumed"}
+=== [60] erlang-27-alpine  docker.io/library/erlang:27-alpine
+2026-09-29T15:56:59+07:00	INFO	[vuln] Vulnerability scanning is enabled
+2026-09-29T15:57:01+07:00	INFO	Detected OS	family="alpine" version="3.22.5"
+2026-09-29T15:57:01+07:00	INFO	[alpine] Detecting vulnerabilities...	os_version="3.22" repository="3.22" pkg_num=26
+2026-09-29T15:57:01+07:00	INFO	Number of language-specific files	num=0
+2026-09-29T15:57:01+07:00	WARN	Using severities from other vendors for some vulnerabilities. Read https://trivy.dev/docs/v0.74/guide/scanner/vulnerability#severity-selection for details.
+BUNDLE=/mnt/c/Research/ANFIS/data/evidence/erlang-27-alpine_trivy_scan_NICgPng
+SCAN_JSON=data/evidence/erlang-27-alpine_trivy_scan_NICgPng/erlang-27-alpine_vulnerabilities.json
+APPENDED {"asset_id": "erlang-27-alpine", "image_id": "docker.io/erlang@sha256:f64e891340b38f89adc33e63be00eb027bffa84481f230f981422707efe3fa5e", "scan_json": "data/evidence/erlang-27-alpine_trivy_scan_NICgPng/erlang-27-alpine_vulnerabilities.json", "mfa_risk": 0.5, "kubernetes_exposure": 0.0, "asset_criticality": 3, "default_rho": 0.1, "package_rho_json": "{}", "protocol": "scan-only-v1-rho0.1-assumed"}
+=== [61] elixir-1-17-alpine  docker.io/library/elixir:1.17-alpine
+2026-09-29T15:57:14+07:00	INFO	[vuln] Vulnerability scanning is enabled
+2026-09-29T15:57:16+07:00	INFO	Detected OS	family="alpine" version="3.22.5"
+2026-09-29T15:57:16+07:00	INFO	[alpine] Detecting vulnerabilities...	os_version="3.22" repository="3.22" pkg_num=26
+2026-09-29T15:57:16+07:00	INFO	Number of language-specific files	num=0
+2026-09-29T15:57:16+07:00	WARN	Using severities from other vendors for some vulnerabilities. Read https://trivy.dev/docs/v0.74/guide/scanner/vulnerability#severity-selection for details.
+BUNDLE=/mnt/c/Research/ANFIS/data/evidence/elixir-1-17-alpine_trivy_scan_skqX5Jqz
+SCAN_JSON=data/evidence/elixir-1-17-alpine_trivy_scan_skqX5Jqz/elixir-1-17-alpine_vulnerabilities.json
+APPENDED {"asset_id": "elixir-1-17-alpine", "image_id": "docker.io/elixir@sha256:bd974cee509c50cca246509196b5215da9ba2c98fdb064f69c7b22a39d284257", "scan_json": "data/evidence/elixir-1-17-alpine_trivy_scan_skqX5Jqz/elixir-1-17-alpine_vulnerabilities.json", "mfa_risk": 1.0, "kubernetes_exposure": 1.0, "asset_criticality": 1, "default_rho": 0.1, "package_rho_json": "{}", "protocol": "scan-only-v1-rho0.1-assumed"}
+=== [62] julia-1-10  docker.io/library/julia:1.10
+2026-09-29T15:57:40+07:00	INFO	[vuln] Vulnerability scanning is enabled
+2026-09-29T15:57:48+07:00	INFO	Suppressing dependencies for development and testing. To display them, try the '--include-dev-deps' flag.
+2026-09-29T15:57:48+07:00	INFO	Detected OS	family="debian" version="13.7"
+2026-09-29T15:57:48+07:00	INFO	[debian] Detecting vulnerabilities...	os_version="13" pkg_num=104
+2026-09-29T15:57:48+07:00	INFO	Number of language-specific files	num=68
+2026-09-29T15:57:48+07:00	INFO	[julia] Detecting vulnerabilities...
+2026-09-29T15:57:48+07:00	WARN	Using severities from other vendors for some vulnerabilities. Read https://trivy.dev/docs/v0.74/guide/scanner/vulnerability#severity-selection for details.
+BUNDLE=/mnt/c/Research/ANFIS/data/evidence/julia-1-10_trivy_scan_TCt2TZbO
+SCAN_JSON=data/evidence/julia-1-10_trivy_scan_TCt2TZbO/julia-1-10_vulnerabilities.json
+APPENDED {"asset_id": "julia-1-10", "image_id": "docker.io/julia@sha256:238c8f5760477abfc0c8fd2828bbcbfa2a7f5510d11a26f1884a2fbfdb28b365", "scan_json": "data/evidence/julia-1-10_trivy_scan_TCt2TZbO/julia-1-10_vulnerabilities.json", "mfa_risk": 0.5, "kubernetes_exposure": 1.0, "asset_criticality": 2, "default_rho": 0.1, "package_rho_json": "{}", "protocol": "scan-only-v1-rho0.1-assumed"}
+=== [63] r-base-4-4  docker.io/library/r-base:4.4.1
+2026-09-29T15:58:31+07:00	INFO	[vuln] Vulnerability scanning is enabled
+2026-09-29T15:58:43+07:00	INFO	Detected OS	family="debian" version="trixie/sid"
+2026-09-29T15:58:43+07:00	WARN	This OS version is not on the EOL list	family="debian" version="trixie/sid"
+2026-09-29T15:58:43+07:00	INFO	[debian] Detecting vulnerabilities...	os_version="trixie/sid" pkg_num=277
+2026-09-29T15:58:43+07:00	INFO	Number of language-specific files	num=0
+BUNDLE=/mnt/c/Research/ANFIS/data/evidence/r-base-4-4_trivy_scan_9m1wzxFP
+SCAN_JSON=data/evidence/r-base-4-4_trivy_scan_9m1wzxFP/r-base-4-4_vulnerabilities.json
+APPENDED {"asset_id": "r-base-4-4", "image_id": "docker.io/r-base@sha256:e7032f2f6fd273ee944a717b436bc66d1a89b1b90a9bbcaafcf1318d68a7d8b2", "scan_json": "data/evidence/r-base-4-4_trivy_scan_9m1wzxFP/r-base-4-4_vulnerabilities.json", "mfa_risk": 0.5, "kubernetes_exposure": 0.5, "asset_criticality": 1, "default_rho": 0.1, "package_rho_json": "{}", "protocol": "scan-only-v1-rho0.1-assumed"}
+=== [64] swift-6-0  docker.io/library/swift:6.0
+2026-09-29T16:00:19+07:00	INFO	[vuln] Vulnerability scanning is enabled
+2026-09-29T16:00:53+07:00	INFO	Detected OS	family="ubuntu" version="24.04"
+2026-09-29T16:00:53+07:00	INFO	[ubuntu] Detecting vulnerabilities...	os_version="24.04" pkg_num=229
+2026-09-29T16:00:53+07:00	INFO	Number of language-specific files	num=0
+BUNDLE=/mnt/c/Research/ANFIS/data/evidence/swift-6-0_trivy_scan_MPG3BB
+SCAN_JSON=data/evidence/swift-6-0_trivy_scan_MPG3BB/swift-6-0_vulnerabilities.json
+APPENDED {"asset_id": "swift-6-0", "image_id": "docker.io/swift@sha256:cc93f1594d63122eff78133f799f7d45a441fa4c5193e164ecea6065fd448fdd", "scan_json": "data/evidence/swift-6-0_trivy_scan_MPG3BB/swift-6-0_vulnerabilities.json", "mfa_risk": 1.0, "kubernetes_exposure": 0.0, "asset_criticality": 2, "default_rho": 0.1, "package_rho_json": "{}", "protocol": "scan-only-v1-rho0.1-assumed"}
+=== [65] fedora-40  docker.io/library/fedora:40
+2026-09-29T16:01:10+07:00	INFO	[vuln] Vulnerability scanning is enabled
+2026-09-29T16:01:14+07:00	INFO	[python] Licenses acquired from one or more METADATA files may be subject to additional terms. Use `--debug` flag to see all affected packages.
+2026-09-29T16:01:14+07:00	INFO	Detected OS	family="fedora" version="40"
+2026-09-29T16:01:14+07:00	WARN	Unsupported os	family="fedora"
+2026-09-29T16:01:14+07:00	INFO	Number of language-specific files	num=0
+BUNDLE=/mnt/c/Research/ANFIS/data/evidence/fedora-40_trivy_scan_34s2g4D7
+SCAN_JSON=data/evidence/fedora-40_trivy_scan_34s2g4D7/fedora-40_vulnerabilities.json
+APPENDED {"asset_id": "fedora-40", "image_id": "docker.io/fedora@sha256:3c86d25fef9d2001712bc3d9b091fc40cf04be4767e48f1aa3b785bf58d300ed", "scan_json": "data/evidence/fedora-40_trivy_scan_34s2g4D7/fedora-40_vulnerabilities.json", "mfa_risk": 1.0, "kubernetes_exposure": 0.0, "asset_criticality": 5, "default_rho": 0.1, "package_rho_json": "{}", "protocol": "scan-only-v1-rho0.1-assumed"}
+=== [66] rockylinux-9  docker.io/library/rockylinux:9
+2026-09-29T16:01:26+07:00	INFO	[vuln] Vulnerability scanning is enabled
+2026-09-29T16:01:29+07:00	INFO	[python] Licenses acquired from one or more METADATA files may be subject to additional terms. Use `--debug` flag to see all affected packages.
+2026-09-29T16:01:29+07:00	INFO	Detected OS	family="rocky" version="9.3"
+2026-09-29T16:01:29+07:00	INFO	[rocky] Detecting vulnerabilities...	os_version="9" pkg_num=141
+2026-09-29T16:01:29+07:00	INFO	Number of language-specific files	num=0
+BUNDLE=/mnt/c/Research/ANFIS/data/evidence/rockylinux-9_trivy_scan_4U8u2Opf
+SCAN_JSON=data/evidence/rockylinux-9_trivy_scan_4U8u2Opf/rockylinux-9_vulnerabilities.json
+APPENDED {"asset_id": "rockylinux-9", "image_id": "docker.io/rockylinux@sha256:d7be1c094cc5845ee815d4632fe377514ee6ebcf8efaed6892889657e5ddaaa6", "scan_json": "data/evidence/rockylinux-9_trivy_scan_4U8u2Opf/rockylinux-9_vulnerabilities.json", "mfa_risk": 1.0, "kubernetes_exposure": 1.0, "asset_criticality": 4, "default_rho": 0.1, "package_rho_json": "{}", "protocol": "scan-only-v1-rho0.1-assumed"}
+=== [67] almalinux-9  docker.io/library/almalinux:9
+2026-09-29T16:02:25+07:00	INFO	[vuln] Vulnerability scanning is enabled
+2026-09-29T16:02:28+07:00	INFO	[python] Licenses acquired from one or more METADATA files may be subject to additional terms. Use `--debug` flag to see all affected packages.
+2026-09-29T16:02:28+07:00	INFO	Detected OS	family="alma" version="9.8"
+2026-09-29T16:02:28+07:00	INFO	[alma] Detecting vulnerabilities...	os_version="9" pkg_num=158
+2026-09-29T16:02:28+07:00	INFO	Number of language-specific files	num=0
+BUNDLE=/mnt/c/Research/ANFIS/data/evidence/almalinux-9_trivy_scan_l0Othe28
+SCAN_JSON=data/evidence/almalinux-9_trivy_scan_l0Othe28/almalinux-9_vulnerabilities.json
+APPENDED {"asset_id": "almalinux-9", "image_id": "docker.io/almalinux@sha256:3a3fa7f043b142bc8008c8b308d39b47d2c84008addcd52f9f9a7a82d2a90474", "scan_json": "data/evidence/almalinux-9_trivy_scan_l0Othe28/almalinux-9_vulnerabilities.json", "mfa_risk": 0.0, "kubernetes_exposure": 0.0, "asset_criticality": 3, "default_rho": 0.1, "package_rho_json": "{}", "protocol": "scan-only-v1-rho0.1-assumed"}
+=== [68] opensuse-leap-15  docker.io/library/opensuse/leap:15.6
+FAIL opensuse-leap-15: pull
+=== [69] amazonlinux-2023  docker.io/library/amazonlinux:2023
+2026-09-29T16:02:43+07:00	INFO	[vuln] Vulnerability scanning is enabled
+2026-09-29T16:02:45+07:00	INFO	[python] Licenses acquired from one or more METADATA files may be subject to additional terms. Use `--debug` flag to see all affected packages.
+2026-09-29T16:02:45+07:00	INFO	Detected OS	family="amazon" version="2023.12.20260918 (Amazon Linux)"
+2026-09-29T16:02:45+07:00	INFO	[amazon] Detecting vulnerabilities...	os_version="2023" pkg_num=105
+2026-09-29T16:02:45+07:00	INFO	Number of language-specific files	num=0
+BUNDLE=/mnt/c/Research/ANFIS/data/evidence/amazonlinux-2023_trivy_scan_fIjoj7w
+SCAN_JSON=data/evidence/amazonlinux-2023_trivy_scan_fIjoj7w/amazonlinux-2023_vulnerabilities.json
+APPENDED {"asset_id": "amazonlinux-2023", "image_id": "docker.io/amazonlinux@sha256:5b29412077a463b4a3a8fbc99a8cdf4b929f38a3ecc8dac10328d8f36b0099b8", "scan_json": "data/evidence/amazonlinux-2023_trivy_scan_fIjoj7w/amazonlinux-2023_vulnerabilities.json", "mfa_risk": 0.0, "kubernetes_exposure": 0.5, "asset_criticality": 3, "default_rho": 0.1, "package_rho_json": "{}", "protocol": "scan-only-v1-rho0.1-assumed"}
+=== [70] photon-5  docker.io/library/photon:5.0
+2026-09-29T16:03:00+07:00	INFO	[vuln] Vulnerability scanning is enabled
+2026-09-29T16:03:01+07:00	INFO	Detected OS	family="photon" version="5.0"
+2026-09-29T16:03:01+07:00	INFO	[photon] Detecting vulnerabilities...	os_version="5.0" pkg_num=38
+2026-09-29T16:03:01+07:00	INFO	Number of language-specific files	num=0
+BUNDLE=/mnt/c/Research/ANFIS/data/evidence/photon-5_trivy_scan_RpnqCesS
+SCAN_JSON=data/evidence/photon-5_trivy_scan_RpnqCesS/photon-5_vulnerabilities.json
+APPENDED {"asset_id": "photon-5", "image_id": "docker.io/photon@sha256:ab4b68e15c8ff6b9c79ba525f696260f772c711761d576dd53bf43c351c9a504", "scan_json": "data/evidence/photon-5_trivy_scan_RpnqCesS/photon-5_vulnerabilities.json", "mfa_risk": 0.0, "kubernetes_exposure": 1.0, "asset_criticality": 1, "default_rho": 0.1, "package_rho_json": "{}", "protocol": "scan-only-v1-rho0.1-assumed"}
+=== [71] distroless-base-debian12  gcr.io/distroless/base-debian12
+2026-09-29T16:03:10+07:00	INFO	[vuln] Vulnerability scanning is enabled
+2026-09-29T16:03:12+07:00	FATAL	Fatal error	run error: image scan error: scan error: unable to initialize a scan service: unable to initialize artifact: unable to initialize container image: unable to find the specified image "docker.io/gcr.io/distroless/base-debian12@sha256:fabbf1c0c357a3d42550111351daed089b20a2c954df13ee2fcff60602515e84" in ["docker" "containerd" "podman" "remote"]: 4 errors occurred:
+	* docker error: unable to inspect the image (docker.io/gcr.io/distroless/base-debian12@sha256:fabbf1c0c357a3d42550111351daed089b20a2c954df13ee2fcff60602515e84): Error response from daemon: No such image: gcr.io/distroless/base-debian12@sha256:fabbf1c0c357a3d42550111351daed089b20a2c954df13ee2fcff60602515e84
+	* containerd error: containerd socket not found: /run/containerd/containerd.sock
+	* podman error: unable to initialize Podman client: no podman socket found: stat /run/user/1000/podman/podman.sock: no such file or directory
+	* remote error: GET https://index.docker.io/v2/gcr.io/distroless/base-debian12/manifests/sha256:fabbf1c0c357a3d42550111351daed089b20a2c954df13ee2fcff60602515e84: UNAUTHORIZED: authentication required; [map[Action:pull Class: Name:gcr.io/distroless/base-debian12 Type:repository]]
+
+
+FAIL distroless-base-debian12: scan
+=== [72] distroless-python3  gcr.io/distroless/python3-debian12
+2026-09-29T16:03:23+07:00	INFO	[vuln] Vulnerability scanning is enabled
+2026-09-29T16:03:25+07:00	FATAL	Fatal error	run error: image scan error: scan error: unable to initialize a scan service: unable to initialize artifact: unable to initialize container image: unable to find the specified image "docker.io/gcr.io/distroless/python3-debian12@sha256:2fdb05402a2cf21cf78fdb3ba4c5db167241e9e498140f5bf689d7efb773731f" in ["docker" "containerd" "podman" "remote"]: 4 errors occurred:
+	* docker error: unable to inspect the image (docker.io/gcr.io/distroless/python3-debian12@sha256:2fdb05402a2cf21cf78fdb3ba4c5db167241e9e498140f5bf689d7efb773731f): Error response from daemon: No such image: gcr.io/distroless/python3-debian12@sha256:2fdb05402a2cf21cf78fdb3ba4c5db167241e9e498140f5bf689d7efb773731f
+	* containerd error: containerd socket not found: /run/containerd/containerd.sock
+	* podman error: unable to initialize Podman client: no podman socket found: stat /run/user/1000/podman/podman.sock: no such file or directory
+	* remote error: GET https://index.docker.io/v2/gcr.io/distroless/python3-debian12/manifests/sha256:2fdb05402a2cf21cf78fdb3ba4c5db167241e9e498140f5bf689d7efb773731f: UNAUTHORIZED: authentication required; [map[Action:pull Class: Name:gcr.io/distroless/python3-debian12 Type:repository]]
+
+
+FAIL distroless-python3: scan
+=== [73] envoy-v1-31  docker.io/envoyproxy/envoy:v1.31.0
+2026-09-29T16:03:42+07:00	INFO	[vuln] Vulnerability scanning is enabled
+2026-09-29T16:03:44+07:00	INFO	Detected OS	family="ubuntu" version="22.04"
+2026-09-29T16:03:44+07:00	INFO	[ubuntu] Detecting vulnerabilities...	os_version="22.04" pkg_num=103
+2026-09-29T16:03:44+07:00	INFO	Number of language-specific files	num=0
+BUNDLE=/mnt/c/Research/ANFIS/data/evidence/envoy-v1-31_trivy_scan_iJitgTF8
+SCAN_JSON=data/evidence/envoy-v1-31_trivy_scan_iJitgTF8/envoy-v1-31_vulnerabilities.json
+APPENDED {"asset_id": "envoy-v1-31", "image_id": "docker.io/envoyproxy/envoy@sha256:2bf7f042e3960e3904864cb09c174498e20a06859a5c394b7e3a6528a649b1da", "scan_json": "data/evidence/envoy-v1-31_trivy_scan_iJitgTF8/envoy-v1-31_vulnerabilities.json", "mfa_risk": 0.0, "kubernetes_exposure": 0.5, "asset_criticality": 4, "default_rho": 0.1, "package_rho_json": "{}", "protocol": "scan-only-v1-rho0.1-assumed"}
+=== [74] varnish-7  docker.io/library/varnish:7.5
+2026-09-29T16:04:15+07:00	INFO	[vuln] Vulnerability scanning is enabled
+2026-09-29T16:04:20+07:00	INFO	Detected OS	family="debian" version="12.10"
+2026-09-29T16:04:20+07:00	INFO	[debian] Detecting vulnerabilities...	os_version="12" pkg_num=175
+2026-09-29T16:04:20+07:00	INFO	Number of language-specific files	num=0
+2026-09-29T16:04:20+07:00	WARN	Using severities from other vendors for some vulnerabilities. Read https://trivy.dev/docs/v0.74/guide/scanner/vulnerability#severity-selection for details.
+BUNDLE=/mnt/c/Research/ANFIS/data/evidence/varnish-7_trivy_scan_7sx3oluq
+SCAN_JSON=data/evidence/varnish-7_trivy_scan_7sx3oluq/varnish-7_vulnerabilities.json
+APPENDED {"asset_id": "varnish-7", "image_id": "docker.io/varnish@sha256:4d0bb287d87b7b2121424e6cc24499ac50267e8ffe3122b9cbb9356a6a7c4e48", "scan_json": "data/evidence/varnish-7_trivy_scan_7sx3oluq/varnish-7_vulnerabilities.json", "mfa_risk": 0.5, "kubernetes_exposure": 1.0, "asset_criticality": 1, "default_rho": 0.1, "package_rho_json": "{}", "protocol": "scan-only-v1-rho0.1-assumed"}
+=== [75] squid-6  docker.io/library/ubuntu/squid:6.6
+FAIL squid-6: pull
+=== [76] tomcat-10  docker.io/library/tomcat:10.1-jdk17
+2026-09-29T16:04:55+07:00	INFO	[vuln] Vulnerability scanning is enabled
+2026-09-29T16:05:02+07:00	INFO	Detected OS	family="ubuntu" version="24.04"
+2026-09-29T16:05:02+07:00	INFO	[ubuntu] Detecting vulnerabilities...	os_version="24.04" pkg_num=146
+2026-09-29T16:05:02+07:00	INFO	Number of language-specific files	num=1
+2026-09-29T16:05:02+07:00	INFO	[jar] Detecting vulnerabilities...
+BUNDLE=/mnt/c/Research/ANFIS/data/evidence/tomcat-10_trivy_scan_EXkzx6L
+SCAN_JSON=data/evidence/tomcat-10_trivy_scan_EXkzx6L/tomcat-10_vulnerabilities.json
+APPENDED {"asset_id": "tomcat-10", "image_id": "docker.io/tomcat@sha256:6e57dc6a16f51955513860d92257a2d2ee29602671ddbe5c70690a11f899c178", "scan_json": "data/evidence/tomcat-10_trivy_scan_EXkzx6L/tomcat-10_vulnerabilities.json", "mfa_risk": 1.0, "kubernetes_exposure": 1.0, "asset_criticality": 5, "default_rho": 0.1, "package_rho_json": "{}", "protocol": "scan-only-v1-rho0.1-assumed"}
+=== [77] jetty-12  docker.io/library/jetty:12-jdk17
+2026-09-29T16:05:32+07:00	INFO	[vuln] Vulnerability scanning is enabled
+2026-09-29T16:05:40+07:00	INFO	Detected OS	family="ubuntu" version="26.04"
+2026-09-29T16:05:40+07:00	INFO	[ubuntu] Detecting vulnerabilities...	os_version="26.04" pkg_num=149
+2026-09-29T16:05:40+07:00	INFO	Number of language-specific files	num=2
+2026-09-29T16:05:40+07:00	INFO	[gobinary] Detecting vulnerabilities...
+2026-09-29T16:05:40+07:00	INFO	[jar] Detecting vulnerabilities...
+BUNDLE=/mnt/c/Research/ANFIS/data/evidence/jetty-12_trivy_scan_cVj2don
+SCAN_JSON=data/evidence/jetty-12_trivy_scan_cVj2don/jetty-12_vulnerabilities.json
+APPENDED {"asset_id": "jetty-12", "image_id": "docker.io/jetty@sha256:c75be72c23f5471873c091ac49a9c1cb91a6f2b558ea7ccc7bc978e3676837e4", "scan_json": "data/evidence/jetty-12_trivy_scan_cVj2don/jetty-12_vulnerabilities.json", "mfa_risk": 0.0, "kubernetes_exposure": 1.0, "asset_criticality": 4, "default_rho": 0.1, "package_rho_json": "{}", "protocol": "scan-only-v1-rho0.1-assumed"}
+=== [78] unbound  docker.io/library/unbound:1.21
+FAIL unbound: pull
+=== [79] coredns  docker.io/coredns/coredns:1.11.3
+2026-09-29T16:06:00+07:00	INFO	[vuln] Vulnerability scanning is enabled
+2026-09-29T16:06:01+07:00	INFO	Detected OS	family="debian" version="11.10"
+2026-09-29T16:06:01+07:00	INFO	[debian] Detecting vulnerabilities...	os_version="11" pkg_num=3
+2026-09-29T16:06:01+07:00	INFO	Number of language-specific files	num=1
+2026-09-29T16:06:01+07:00	INFO	[gobinary] Detecting vulnerabilities...
+2026-09-29T16:06:01+07:00	WARN	Using severities from other vendors for some vulnerabilities. Read https://trivy.dev/docs/v0.74/guide/scanner/vulnerability#severity-selection for details.
+2026-09-29T16:06:01+07:00	WARN	This OS version is no longer supported by the distribution	family="debian" version="11.10"
+2026-09-29T16:06:01+07:00	WARN	The vulnerability detection may be insufficient because security updates are not provided
+BUNDLE=/mnt/c/Research/ANFIS/data/evidence/coredns_trivy_scan_zQuAcFqK
+SCAN_JSON=data/evidence/coredns_trivy_scan_zQuAcFqK/coredns_vulnerabilities.json
+APPENDED {"asset_id": "coredns", "image_id": "docker.io/coredns/coredns@sha256:9caabbf6238b189a65d0d6e6ac138de60d6a1c419e5a341fbbb7c78382559c6e", "scan_json": "data/evidence/coredns_trivy_scan_zQuAcFqK/coredns_vulnerabilities.json", "mfa_risk": 1.0, "kubernetes_exposure": 0.5, "asset_criticality": 4, "default_rho": 0.1, "package_rho_json": "{}", "protocol": "scan-only-v1-rho0.1-assumed"}
+=== [80] bind9  docker.io/internetsystemsconsortium/bind9:9.20
+2026-09-29T16:06:09+07:00	INFO	[vuln] Vulnerability scanning is enabled
+2026-09-29T16:06:09+07:00	INFO	Detected OS	family="alpine" version="3.24.1"
+2026-09-29T16:06:09+07:00	WARN	This OS version is not on the EOL list	family="alpine" version="3.24"
+2026-09-29T16:06:09+07:00	INFO	[alpine] Detecting vulnerabilities...	os_version="3.24" repository="3.24" pkg_num=45
+2026-09-29T16:06:09+07:00	INFO	Number of language-specific files	num=0
+BUNDLE=/mnt/c/Research/ANFIS/data/evidence/bind9_trivy_scan_dH6bnw9
+SCAN_JSON=data/evidence/bind9_trivy_scan_dH6bnw9/bind9_vulnerabilities.json
+APPENDED {"asset_id": "bind9", "image_id": "docker.io/internetsystemsconsortium/bind9@sha256:f8506cfcbc8fcb44e40b922fa74b481ba23b50f00482bf6693ff8f120709a778", "scan_json": "data/evidence/bind9_trivy_scan_dH6bnw9/bind9_vulnerabilities.json", "mfa_risk": 0.0, "kubernetes_exposure": 0.5, "asset_criticality": 1, "default_rho": 0.1, "package_rho_json": "{}", "protocol": "scan-only-v1-rho0.1-assumed"}
+=== [81] openvpn  docker.io/library/openvpn:2.6
+FAIL openvpn: pull
+=== [82] wireguard  docker.io/linuxserver/wireguard:1.0.20210914
+2026-09-29T16:06:38+07:00	INFO	[vuln] Vulnerability scanning is enabled
+2026-09-29T16:06:40+07:00	INFO	Detected OS	family="alpine" version="3.21.4"
+2026-09-29T16:06:40+07:00	INFO	[alpine] Detecting vulnerabilities...	os_version="3.21" repository="3.21" pkg_num=89
+2026-09-29T16:06:40+07:00	INFO	Number of language-specific files	num=0
+2026-09-29T16:06:40+07:00	WARN	Using severities from other vendors for some vulnerabilities. Read https://trivy.dev/docs/v0.74/guide/scanner/vulnerability#severity-selection for details.
+BUNDLE=/mnt/c/Research/ANFIS/data/evidence/wireguard_trivy_scan_2fHcMhY
+SCAN_JSON=data/evidence/wireguard_trivy_scan_2fHcMhY/wireguard_vulnerabilities.json
+APPENDED {"asset_id": "wireguard", "image_id": "docker.io/linuxserver/wireguard@sha256:ee2db24277b43ec4e7529e93967dc3cea00a02bf81b749c680b2b102a6e4aa5b", "scan_json": "data/evidence/wireguard_trivy_scan_2fHcMhY/wireguard_vulnerabilities.json", "mfa_risk": 0.0, "kubernetes_exposure": 0.0, "asset_criticality": 2, "default_rho": 0.1, "package_rho_json": "{}", "protocol": "scan-only-v1-rho0.1-assumed"}
+=== [83] rsyslog  docker.io/jumanjiman/rsyslog:latest
+2026-09-29T16:07:20+07:00	INFO	[vuln] Vulnerability scanning is enabled
+2026-09-29T16:07:21+07:00	INFO	Detected OS	family="alpine" version="3.12.0"
+2026-09-29T16:07:21+07:00	INFO	[alpine] Detecting vulnerabilities...	os_version="3.12" repository="3.12" pkg_num=41
+2026-09-29T16:07:21+07:00	INFO	Number of language-specific files	num=0
+2026-09-29T16:07:21+07:00	WARN	This OS version is no longer supported by the distribution	family="alpine" version="3.12.0"
+2026-09-29T16:07:21+07:00	WARN	The vulnerability detection may be insufficient because security updates are not provided
+BUNDLE=/mnt/c/Research/ANFIS/data/evidence/rsyslog_trivy_scan_Lc9fJec
+SCAN_JSON=data/evidence/rsyslog_trivy_scan_Lc9fJec/rsyslog_vulnerabilities.json
+APPENDED {"asset_id": "rsyslog", "image_id": "docker.io/jumanjiman/rsyslog@sha256:dfadcaeac91d2a8950780acd44d9a061ce509d6f41fbfa2db06bb8211a4677d0", "scan_json": "data/evidence/rsyslog_trivy_scan_Lc9fJec/rsyslog_vulnerabilities.json", "mfa_risk": 0.5, "kubernetes_exposure": 0.5, "asset_criticality": 3, "default_rho": 0.1, "package_rho_json": "{}", "protocol": "scan-only-v1-rho0.1-assumed"}
+=== [84] fluentd  docker.io/fluent/fluentd:v1.17
+2026-09-29T16:07:29+07:00	INFO	[vuln] Vulnerability scanning is enabled
+2026-09-29T16:07:29+07:00	INFO	Detected OS	family="alpine" version="3.19.4"
+2026-09-29T16:07:29+07:00	INFO	[alpine] Detecting vulnerabilities...	os_version="3.19" repository="3.19" pkg_num=28
+2026-09-29T16:07:29+07:00	INFO	Number of language-specific files	num=1
+2026-09-29T16:07:29+07:00	INFO	[gemspec] Detecting vulnerabilities...
+2026-09-29T16:07:29+07:00	WARN	Using severities from other vendors for some vulnerabilities. Read https://trivy.dev/docs/v0.74/guide/scanner/vulnerability#severity-selection for details.
+2026-09-29T16:07:29+07:00	WARN	This OS version is no longer supported by the distribution	family="alpine" version="3.19.4"
+2026-09-29T16:07:29+07:00	WARN	The vulnerability detection may be insufficient because security updates are not provided
+BUNDLE=/mnt/c/Research/ANFIS/data/evidence/fluentd_trivy_scan_62f36YKh
+SCAN_JSON=data/evidence/fluentd_trivy_scan_62f36YKh/fluentd_vulnerabilities.json
+APPENDED {"asset_id": "fluentd", "image_id": "docker.io/fluent/fluentd@sha256:c795c1bf9918c77a5415e2fda5825f9341f2dd0645d9adfb91f8cae3a3e6b240", "scan_json": "data/evidence/fluentd_trivy_scan_62f36YKh/fluentd_vulnerabilities.json", "mfa_risk": 1.0, "kubernetes_exposure": 0.5, "asset_criticality": 1, "default_rho": 0.1, "package_rho_json": "{}", "protocol": "scan-only-v1-rho0.1-assumed"}
+=== [85] filebeat  docker.io/elastic/filebeat:8.15.0
+2026-09-29T16:07:45+07:00	INFO	[vuln] Vulnerability scanning is enabled
+2026-09-29T16:07:49+07:00	INFO	Detected OS	family="ubuntu" version="20.04"
+2026-09-29T16:07:49+07:00	INFO	[ubuntu] Detecting vulnerabilities...	os_version="20.04" pkg_num=129
+2026-09-29T16:07:49+07:00	INFO	Number of language-specific files	num=1
+2026-09-29T16:07:49+07:00	INFO	[gobinary] Detecting vulnerabilities...
+2026-09-29T16:07:49+07:00	WARN	Using severities from other vendors for some vulnerabilities. Read https://trivy.dev/docs/v0.74/guide/scanner/vulnerability#severity-selection for details.
+2026-09-29T16:07:49+07:00	WARN	This OS version is no longer supported by the distribution	family="ubuntu" version="20.04"
+2026-09-29T16:07:49+07:00	WARN	The vulnerability detection may be insufficient because security updates are not provided
+BUNDLE=/mnt/c/Research/ANFIS/data/evidence/filebeat_trivy_scan_hj2eMb7r
+SCAN_JSON=data/evidence/filebeat_trivy_scan_hj2eMb7r/filebeat_vulnerabilities.json
+APPENDED {"asset_id": "filebeat", "image_id": "docker.io/elastic/filebeat@sha256:c2cb458cba1eff0536639f7f101d8ddf570a4cf1973ed79d95db243077a39e7c", "scan_json": "data/evidence/filebeat_trivy_scan_hj2eMb7r/filebeat_vulnerabilities.json", "mfa_risk": 0.5, "kubernetes_exposure": 0.5, "asset_criticality": 2, "default_rho": 0.1, "package_rho_json": "{}", "protocol": "scan-only-v1-rho0.1-assumed"}
+=== [86] telegraf  docker.io/library/telegraf:1.32-alpine
+2026-09-29T16:08:15+07:00	INFO	[vuln] Vulnerability scanning is enabled
+2026-09-29T16:08:18+07:00	INFO	Detected OS	family="alpine" version="3.20.6"
+2026-09-29T16:08:18+07:00	INFO	[alpine] Detecting vulnerabilities...	os_version="3.20" repository="3.20" pkg_num=38
+2026-09-29T16:08:18+07:00	INFO	Number of language-specific files	num=1
+2026-09-29T16:08:18+07:00	INFO	[gobinary] Detecting vulnerabilities...
+2026-09-29T16:08:18+07:00	WARN	Using severities from other vendors for some vulnerabilities. Read https://trivy.dev/docs/v0.74/guide/scanner/vulnerability#severity-selection for details.
+2026-09-29T16:08:18+07:00	WARN	This OS version is no longer supported by the distribution	family="alpine" version="3.20.6"
+2026-09-29T16:08:18+07:00	WARN	The vulnerability detection may be insufficient because security updates are not provided
+BUNDLE=/mnt/c/Research/ANFIS/data/evidence/telegraf_trivy_scan_wRA0go5B
+SCAN_JSON=data/evidence/telegraf_trivy_scan_wRA0go5B/telegraf_vulnerabilities.json
+APPENDED {"asset_id": "telegraf", "image_id": "docker.io/telegraf@sha256:9613ea0126325721f7087013726dadd23bf0aff8caed38d9337c449cdb66f05b", "scan_json": "data/evidence/telegraf_trivy_scan_wRA0go5B/telegraf_vulnerabilities.json", "mfa_risk": 1.0, "kubernetes_exposure": 0.5, "asset_criticality": 2, "default_rho": 0.1, "package_rho_json": "{}", "protocol": "scan-only-v1-rho0.1-assumed"}
+=== [87] grafana-loki  docker.io/grafana/loki:3.1.1
+2026-09-29T16:08:27+07:00	INFO	[vuln] Vulnerability scanning is enabled
+2026-09-29T16:08:28+07:00	INFO	Detected OS	family="alpine" version="3.20.2"
+2026-09-29T16:08:28+07:00	INFO	[alpine] Detecting vulnerabilities...	os_version="3.20" repository="3.20" pkg_num=20
+2026-09-29T16:08:28+07:00	INFO	Number of language-specific files	num=1
+2026-09-29T16:08:28+07:00	INFO	[gobinary] Detecting vulnerabilities...
+2026-09-29T16:08:28+07:00	WARN	Using severities from other vendors for some vulnerabilities. Read https://trivy.dev/docs/v0.74/guide/scanner/vulnerability#severity-selection for details.
+2026-09-29T16:08:28+07:00	WARN	This OS version is no longer supported by the distribution	family="alpine" version="3.20.2"
+2026-09-29T16:08:28+07:00	WARN	The vulnerability detection may be insufficient because security updates are not provided
+BUNDLE=/mnt/c/Research/ANFIS/data/evidence/grafana-loki_trivy_scan_KlzjHzv7
+SCAN_JSON=data/evidence/grafana-loki_trivy_scan_KlzjHzv7/grafana-loki_vulnerabilities.json
+APPENDED {"asset_id": "grafana-loki", "image_id": "docker.io/grafana/loki@sha256:e689cc634841c937de4d7ea6157f17e29cf257d6a320f1c293ab18d46cfea986", "scan_json": "data/evidence/grafana-loki_trivy_scan_KlzjHzv7/grafana-loki_vulnerabilities.json", "mfa_risk": 0.5, "kubernetes_exposure": 0.0, "asset_criticality": 2, "default_rho": 0.1, "package_rho_json": "{}", "protocol": "scan-only-v1-rho0.1-assumed"}
+=== [88] grafana-tempo  docker.io/grafana/tempo:2.5.0
+2026-09-29T16:08:38+07:00	INFO	[vuln] Vulnerability scanning is enabled
+2026-09-29T16:08:40+07:00	INFO	Detected OS	family="alpine" version="3.20.0"
+2026-09-29T16:08:40+07:00	INFO	[alpine] Detecting vulnerabilities...	os_version="3.20" repository="3.20" pkg_num=15
+2026-09-29T16:08:40+07:00	INFO	Number of language-specific files	num=1
+2026-09-29T16:08:40+07:00	INFO	[gobinary] Detecting vulnerabilities...
+2026-09-29T16:08:40+07:00	WARN	Using severities from other vendors for some vulnerabilities. Read https://trivy.dev/docs/v0.74/guide/scanner/vulnerability#severity-selection for details.
+2026-09-29T16:08:40+07:00	WARN	This OS version is no longer supported by the distribution	family="alpine" version="3.20.0"
+2026-09-29T16:08:40+07:00	WARN	The vulnerability detection may be insufficient because security updates are not provided
+BUNDLE=/mnt/c/Research/ANFIS/data/evidence/grafana-tempo_trivy_scan_2gxZWMlO
+SCAN_JSON=data/evidence/grafana-tempo_trivy_scan_2gxZWMlO/grafana-tempo_vulnerabilities.json
+APPENDED {"asset_id": "grafana-tempo", "image_id": "docker.io/grafana/tempo@sha256:f0200a9bff6d14eb3a4332194f7b77c37ee1a3535e7e41db024d95aab6f1b4e8", "scan_json": "data/evidence/grafana-tempo_trivy_scan_2gxZWMlO/grafana-tempo_vulnerabilities.json", "mfa_risk": 1.0, "kubernetes_exposure": 1.0, "asset_criticality": 2, "default_rho": 0.1, "package_rho_json": "{}", "protocol": "scan-only-v1-rho0.1-assumed"}
+=== [89] jaeger-all-in-one  docker.io/jaegertracing/all-in-one:1.60
+2026-09-29T16:08:49+07:00	INFO	[vuln] Vulnerability scanning is enabled
+2026-09-29T16:08:50+07:00	INFO	Detected OS	family="alpine" version="3.20.2"
+2026-09-29T16:08:50+07:00	INFO	[alpine] Detecting vulnerabilities...	os_version="3.20" repository="3.20" pkg_num=14
+2026-09-29T16:08:50+07:00	INFO	Number of language-specific files	num=1
+2026-09-29T16:08:50+07:00	INFO	[gobinary] Detecting vulnerabilities...
+2026-09-29T16:08:50+07:00	WARN	Using severities from other vendors for some vulnerabilities. Read https://trivy.dev/docs/v0.74/guide/scanner/vulnerability#severity-selection for details.
+2026-09-29T16:08:50+07:00	WARN	This OS version is no longer supported by the distribution	family="alpine" version="3.20.2"
+2026-09-29T16:08:50+07:00	WARN	The vulnerability detection may be insufficient because security updates are not provided
+BUNDLE=/mnt/c/Research/ANFIS/data/evidence/jaeger-all-in-one_trivy_scan_rwJrBK6
+SCAN_JSON=data/evidence/jaeger-all-in-one_trivy_scan_rwJrBK6/jaeger-all-in-one_vulnerabilities.json
+APPENDED {"asset_id": "jaeger-all-in-one", "image_id": "docker.io/jaegertracing/all-in-one@sha256:4fd2d70fa347d6a47e79fcb06b1c177e6079f92cba88b083153d56263082135e", "scan_json": "data/evidence/jaeger-all-in-one_trivy_scan_rwJrBK6/jaeger-all-in-one_vulnerabilities.json", "mfa_risk": 0.0, "kubernetes_exposure": 1.0, "asset_criticality": 5, "default_rho": 0.1, "package_rho_json": "{}", "protocol": "scan-only-v1-rho0.1-assumed"}
+=== [90] zipkin  docker.io/openzipkin/zipkin:2.27
+2026-09-29T16:09:06+07:00	INFO	[vuln] Vulnerability scanning is enabled
+2026-09-29T16:09:10+07:00	INFO	Detected OS	family="alpine" version="3.19.0"
+2026-09-29T16:09:10+07:00	INFO	[alpine] Detecting vulnerabilities...	os_version="3.19" repository="edge" pkg_num=24
+2026-09-29T16:09:10+07:00	INFO	Number of language-specific files	num=1
+2026-09-29T16:09:10+07:00	INFO	[jar] Detecting vulnerabilities...
+2026-09-29T16:09:10+07:00	WARN	Using severities from other vendors for some vulnerabilities. Read https://trivy.dev/docs/v0.74/guide/scanner/vulnerability#severity-selection for details.
+2026-09-29T16:09:10+07:00	WARN	This OS version is no longer supported by the distribution	family="alpine" version="3.19.0"
+2026-09-29T16:09:10+07:00	WARN	The vulnerability detection may be insufficient because security updates are not provided
+BUNDLE=/mnt/c/Research/ANFIS/data/evidence/zipkin_trivy_scan_h0WQIN0x
+SCAN_JSON=data/evidence/zipkin_trivy_scan_h0WQIN0x/zipkin_vulnerabilities.json
+APPENDED {"asset_id": "zipkin", "image_id": "docker.io/openzipkin/zipkin@sha256:c138164b0e22ba0f49e4b142d10a8494d892b780bc89f9c04f8186d18fecdb60", "scan_json": "data/evidence/zipkin_trivy_scan_h0WQIN0x/zipkin_vulnerabilities.json", "mfa_risk": 0.5, "kubernetes_exposure": 1.0, "asset_criticality": 4, "default_rho": 0.1, "package_rho_json": "{}", "protocol": "scan-only-v1-rho0.1-assumed"}
+=== [91] argo-cd  docker.io/quay.io/argoproj/argocd:v2.12.0
+FAIL argo-cd: no RepoDigest for docker.io/quay.io/argoproj/argocd:v2.12.0
+=== [92] harbor-core  docker.io/goharbor/harbor-core:v2.11.0
+2026-09-29T16:09:42+07:00	INFO	[vuln] Vulnerability scanning is enabled
+2026-09-29T16:09:44+07:00	INFO	Detected OS	family="photon" version="5.0"
+2026-09-29T16:09:44+07:00	INFO	[photon] Detecting vulnerabilities...	os_version="5.0" pkg_num=45
+2026-09-29T16:09:44+07:00	INFO	Number of language-specific files	num=1
+2026-09-29T16:09:44+07:00	INFO	[gobinary] Detecting vulnerabilities...
+2026-09-29T16:09:44+07:00	WARN	Using severities from other vendors for some vulnerabilities. Read https://trivy.dev/docs/v0.74/guide/scanner/vulnerability#severity-selection for details.
+BUNDLE=/mnt/c/Research/ANFIS/data/evidence/harbor-core_trivy_scan_qVL2g58L
+SCAN_JSON=data/evidence/harbor-core_trivy_scan_qVL2g58L/harbor-core_vulnerabilities.json
+APPENDED {"asset_id": "harbor-core", "image_id": "docker.io/goharbor/harbor-core@sha256:6092e6032acc7e23db034c787018a875d65ffd090c593c182d16f422f6325e85", "scan_json": "data/evidence/harbor-core_trivy_scan_qVL2g58L/harbor-core_vulnerabilities.json", "mfa_risk": 1.0, "kubernetes_exposure": 0.5, "asset_criticality": 5, "default_rho": 0.1, "package_rho_json": "{}", "protocol": "scan-only-v1-rho0.1-assumed"}
+=== [93] registry-2  docker.io/library/registry:2.8
+2026-09-29T16:09:53+07:00	INFO	[vuln] Vulnerability scanning is enabled
+2026-09-29T16:09:53+07:00	INFO	Detected OS	family="alpine" version="3.18.12"
+2026-09-29T16:09:53+07:00	INFO	[alpine] Detecting vulnerabilities...	os_version="3.18" repository="3.18" pkg_num=16
+2026-09-29T16:09:53+07:00	INFO	Number of language-specific files	num=1
+2026-09-29T16:09:53+07:00	INFO	[gobinary] Detecting vulnerabilities...
+2026-09-29T16:09:53+07:00	WARN	Using severities from other vendors for some vulnerabilities. Read https://trivy.dev/docs/v0.74/guide/scanner/vulnerability#severity-selection for details.
+2026-09-29T16:09:53+07:00	WARN	This OS version is no longer supported by the distribution	family="alpine" version="3.18.12"
+2026-09-29T16:09:53+07:00	WARN	The vulnerability detection may be insufficient because security updates are not provided
+BUNDLE=/mnt/c/Research/ANFIS/data/evidence/registry-2_trivy_scan_ytlzd1zM
+SCAN_JSON=data/evidence/registry-2_trivy_scan_ytlzd1zM/registry-2_vulnerabilities.json
+APPENDED {"asset_id": "registry-2", "image_id": "docker.io/registry@sha256:a3d8aaa63ed8681a604f1dea0aa03f100d5895b6a58ace528858a7b332415373", "scan_json": "data/evidence/registry-2_trivy_scan_ytlzd1zM/registry-2_vulnerabilities.json", "mfa_risk": 0.5, "kubernetes_exposure": 0.0, "asset_criticality": 5, "default_rho": 0.1, "package_rho_json": "{}", "protocol": "scan-only-v1-rho0.1-assumed"}
+=== [94] portainer-ce  docker.io/portainer/portainer-ce:2.21.0
+2026-09-29T16:10:08+07:00	INFO	[vuln] Vulnerability scanning is enabled
+2026-09-29T16:10:11+07:00	INFO	Number of language-specific files	num=5
+2026-09-29T16:10:11+07:00	INFO	[gobinary] Detecting vulnerabilities...
+2026-09-29T16:10:11+07:00	WARN	Using severities from other vendors for some vulnerabilities. Read https://trivy.dev/docs/v0.74/guide/scanner/vulnerability#severity-selection for details.
+BUNDLE=/mnt/c/Research/ANFIS/data/evidence/portainer-ce_trivy_scan_x4V3lZYV
+SCAN_JSON=data/evidence/portainer-ce_trivy_scan_x4V3lZYV/portainer-ce_vulnerabilities.json
+APPENDED {"asset_id": "portainer-ce", "image_id": "docker.io/portainer/portainer-ce@sha256:a5e6d58c93bea2988b604f9c9b1afaa30dc213532dfd9beb7774429146276604", "scan_json": "data/evidence/portainer-ce_trivy_scan_x4V3lZYV/portainer-ce_vulnerabilities.json", "mfa_risk": 0.0, "kubernetes_exposure": 0.0, "asset_criticality": 1, "default_rho": 0.1, "package_rho_json": "{}", "protocol": "scan-only-v1-rho0.1-assumed"}
+=== [95] adminer  docker.io/library/adminer:4.8.1
+2026-09-29T16:10:27+07:00	INFO	[vuln] Vulnerability scanning is enabled
+2026-09-29T16:10:30+07:00	INFO	Detected OS	family="debian" version="11.10"
+2026-09-29T16:10:30+07:00	INFO	[debian] Detecting vulnerabilities...	os_version="11" pkg_num=151
+2026-09-29T16:10:30+07:00	INFO	Number of language-specific files	num=0
+2026-09-29T16:10:30+07:00	WARN	Using severities from other vendors for some vulnerabilities. Read https://trivy.dev/docs/v0.74/guide/scanner/vulnerability#severity-selection for details.
+2026-09-29T16:10:30+07:00	WARN	This OS version is no longer supported by the distribution	family="debian" version="11.10"
+2026-09-29T16:10:30+07:00	WARN	The vulnerability detection may be insufficient because security updates are not provided
+BUNDLE=/mnt/c/Research/ANFIS/data/evidence/adminer_trivy_scan_v0kue1MO
+SCAN_JSON=data/evidence/adminer_trivy_scan_v0kue1MO/adminer_vulnerabilities.json
+APPENDED {"asset_id": "adminer", "image_id": "docker.io/adminer@sha256:34d37131366c5aa84e1693dbed48593ed6f95fb450b576c1a7a59d3a9c9e8802", "scan_json": "data/evidence/adminer_trivy_scan_v0kue1MO/adminer_vulnerabilities.json", "mfa_risk": 1.0, "kubernetes_exposure": 0.0, "asset_criticality": 3, "default_rho": 0.1, "package_rho_json": "{}", "protocol": "scan-only-v1-rho0.1-assumed"}
+=== [96] phpmyadmin  docker.io/library/phpmyadmin:5.2
+FAIL phpmyadmin: pull
+=== [97] pgadmin4  docker.io/dpage/pgadmin4:8.10
+2026-09-29T16:11:44+07:00	INFO	[vuln] Vulnerability scanning is enabled
+2026-09-29T16:11:48+07:00	INFO	[python] Licenses acquired from one or more METADATA files may be subject to additional terms. Use `--debug` flag to see all affected packages.
+2026-09-29T16:11:49+07:00	INFO	Detected OS	family="alpine" version="3.20.2"
+2026-09-29T16:11:49+07:00	INFO	[alpine] Detecting vulnerabilities...	os_version="3.20" repository="3.20" pkg_num=65
+2026-09-29T16:11:49+07:00	INFO	Number of language-specific files	num=1
+2026-09-29T16:11:49+07:00	INFO	[python-pkg] Detecting vulnerabilities...
+2026-09-29T16:11:49+07:00	WARN	Using severities from other vendors for some vulnerabilities. Read https://trivy.dev/docs/v0.74/guide/scanner/vulnerability#severity-selection for details.
+2026-09-29T16:11:49+07:00	WARN	This OS version is no longer supported by the distribution	family="alpine" version="3.20.2"
+2026-09-29T16:11:49+07:00	WARN	The vulnerability detection may be insufficient because security updates are not provided
+BUNDLE=/mnt/c/Research/ANFIS/data/evidence/pgadmin4_trivy_scan_SH8X4153
+SCAN_JSON=data/evidence/pgadmin4_trivy_scan_SH8X4153/pgadmin4_vulnerabilities.json
+APPENDED {"asset_id": "pgadmin4", "image_id": "docker.io/dpage/pgadmin4@sha256:ab92b145c617f3c48ff54ed2cd765210a12e7b4f0d0da7897d944b2a90203910", "scan_json": "data/evidence/pgadmin4_trivy_scan_SH8X4153/pgadmin4_vulnerabilities.json", "mfa_risk": 0.0, "kubernetes_exposure": 0.0, "asset_criticality": 5, "default_rho": 0.1, "package_rho_json": "{}", "protocol": "scan-only-v1-rho0.1-assumed"}
+=== [98] redis-stack  docker.io/redis/redis-stack:7.4.0-v0
+2026-09-29T16:12:35+07:00	INFO	[vuln] Vulnerability scanning is enabled
+2026-09-29T16:12:44+07:00	INFO	[python] Licenses acquired from one or more METADATA files may be subject to additional terms. Use `--debug` flag to see all affected packages.
+2026-09-29T16:12:46+07:00	INFO	Detected OS	family="ubuntu" version="22.04"
+2026-09-29T16:12:46+07:00	INFO	[ubuntu] Detecting vulnerabilities...	os_version="22.04" pkg_num=139
+2026-09-29T16:12:46+07:00	INFO	Number of language-specific files	num=0
+BUNDLE=/mnt/c/Research/ANFIS/data/evidence/redis-stack_trivy_scan_3Ua2qBhM
+SCAN_JSON=data/evidence/redis-stack_trivy_scan_3Ua2qBhM/redis-stack_vulnerabilities.json
+APPENDED {"asset_id": "redis-stack", "image_id": "docker.io/redis/redis-stack@sha256:ee18d7ce6f3e9e9ddc315d8cb4e2db11e76bc89f52a35405aa5dac330421d98f", "scan_json": "data/evidence/redis-stack_trivy_scan_3Ua2qBhM/redis-stack_vulnerabilities.json", "mfa_risk": 1.0, "kubernetes_exposure": 0.0, "asset_criticality": 1, "default_rho": 0.1, "package_rho_json": "{}", "protocol": "scan-only-v1-rho0.1-assumed"}
+=== [99] solr-9  docker.io/library/solr:9.6
+2026-09-29T16:13:18+07:00	INFO	[vuln] Vulnerability scanning is enabled
+2026-09-29T16:13:32+07:00	INFO	Detected OS	family="ubuntu" version="22.04"
+2026-09-29T16:13:32+07:00	INFO	[ubuntu] Detecting vulnerabilities...	os_version="22.04" pkg_num=135
+2026-09-29T16:13:32+07:00	INFO	Number of language-specific files	num=1
+2026-09-29T16:13:32+07:00	INFO	[jar] Detecting vulnerabilities...
+BUNDLE=/mnt/c/Research/ANFIS/data/evidence/solr-9_trivy_scan_dvlcoRxm
+SCAN_JSON=data/evidence/solr-9_trivy_scan_dvlcoRxm/solr-9_vulnerabilities.json
+APPENDED {"asset_id": "solr-9", "image_id": "docker.io/solr@sha256:8e47adc0da374463605dd9a9084b7053674eda6e2c95059b8ce8f138af99dcb2", "scan_json": "data/evidence/solr-9_trivy_scan_dvlcoRxm/solr-9_vulnerabilities.json", "mfa_risk": 0.5, "kubernetes_exposure": 0.5, "asset_criticality": 4, "default_rho": 0.1, "package_rho_json": "{}", "protocol": "scan-only-v1-rho0.1-assumed"}
+=== [100] opensearch-2  docker.io/opensearchproject/opensearch:2.16.0
+2026-09-29T16:15:05+07:00	INFO	[vuln] Vulnerability scanning is enabled
+2026-09-29T16:15:30+07:00	INFO	[python] Licenses acquired from one or more METADATA files may be subject to additional terms. Use `--debug` flag to see all affected packages.
+2026-09-29T16:15:39+07:00	INFO	Detected OS	family="amazon" version="2023.5.20240903 (Amazon Linux)"
+2026-09-29T16:15:39+07:00	INFO	[amazon] Detecting vulnerabilities...	os_version="2023" pkg_num=109
+2026-09-29T16:15:39+07:00	INFO	Number of language-specific files	num=1
+2026-09-29T16:15:39+07:00	INFO	[jar] Detecting vulnerabilities...
+BUNDLE=/mnt/c/Research/ANFIS/data/evidence/opensearch-2_trivy_scan_IGrfHLLq
+SCAN_JSON=data/evidence/opensearch-2_trivy_scan_IGrfHLLq/opensearch-2_vulnerabilities.json
+APPENDED {"asset_id": "opensearch-2", "image_id": "docker.io/opensearchproject/opensearch@sha256:d5dd094fd48bdc4dfd032b7137c9c44a697071dcf320f1a76bc4159fe079679c", "scan_json": "data/evidence/opensearch-2_trivy_scan_IGrfHLLq/opensearch-2_vulnerabilities.json", "mfa_risk": 0.5, "kubernetes_exposure": 0.0, "asset_criticality": 1, "default_rho": 0.1, "package_rho_json": "{}", "protocol": "scan-only-v1-rho0.1-assumed"}
+=== [101] sentry  docker.io/getsentry/sentry:24.8.0
+2026-09-29T16:17:10+07:00	INFO	[vuln] Vulnerability scanning is enabled
+2026-09-29T16:17:29+07:00	INFO	[python] Licenses acquired from one or more METADATA files may be subject to additional terms. Use `--debug` flag to see all affected packages.
+2026-09-29T16:17:35+07:00	INFO	Detected OS	family="debian" version="12.5"
+2026-09-29T16:17:35+07:00	INFO	[debian] Detecting vulnerabilities...	os_version="12" pkg_num=106
+2026-09-29T16:17:35+07:00	INFO	Number of language-specific files	num=3
+2026-09-29T16:17:35+07:00	INFO	[gobinary] Detecting vulnerabilities...
+2026-09-29T16:17:35+07:00	INFO	[node-pkg] Detecting vulnerabilities...
+2026-09-29T16:17:35+07:00	INFO	[python-pkg] Detecting vulnerabilities...
+2026-09-29T16:17:35+07:00	WARN	Using severities from other vendors for some vulnerabilities. Read https://trivy.dev/docs/v0.74/guide/scanner/vulnerability#severity-selection for details.
+BUNDLE=/mnt/c/Research/ANFIS/data/evidence/sentry_trivy_scan_2LA0JRIH
+SCAN_JSON=data/evidence/sentry_trivy_scan_2LA0JRIH/sentry_vulnerabilities.json
+APPENDED {"asset_id": "sentry", "image_id": "docker.io/getsentry/sentry@sha256:085694189d29d14746467f495b97eff3f1e7492a6917d8c694a42f3cbffdcc46", "scan_json": "data/evidence/sentry_trivy_scan_2LA0JRIH/sentry_vulnerabilities.json", "mfa_risk": 0.5, "kubernetes_exposure": 1.0, "asset_criticality": 3, "default_rho": 0.1, "package_rho_json": "{}", "protocol": "scan-only-v1-rho0.1-assumed"}
+=== [102] matomo  docker.io/library/matomo:5-apache
+2026-09-29T16:17:46+07:00	INFO	[vuln] Vulnerability scanning is enabled
+2026-09-29T16:17:52+07:00	INFO	Detected OS	family="debian" version="13.7"
+2026-09-29T16:17:52+07:00	INFO	[debian] Detecting vulnerabilities...	os_version="13" pkg_num=190
+2026-09-29T16:17:52+07:00	INFO	Number of language-specific files	num=0
+2026-09-29T16:17:52+07:00	WARN	Using severities from other vendors for some vulnerabilities. Read https://trivy.dev/docs/v0.74/guide/scanner/vulnerability#severity-selection for details.
+BUNDLE=/mnt/c/Research/ANFIS/data/evidence/matomo_trivy_scan_t0pYx2gJ
+SCAN_JSON=data/evidence/matomo_trivy_scan_t0pYx2gJ/matomo_vulnerabilities.json
+APPENDED {"asset_id": "matomo", "image_id": "docker.io/matomo@sha256:70b23dfb55d25a32538009f75a0222adf2322515b626512a9228c1b97e51b020", "scan_json": "data/evidence/matomo_trivy_scan_t0pYx2gJ/matomo_vulnerabilities.json", "mfa_risk": 0.0, "kubernetes_exposure": 0.5, "asset_criticality": 5, "default_rho": 0.1, "package_rho_json": "{}", "protocol": "scan-only-v1-rho0.1-assumed"}
+=== [103] gitlab-runner  docker.io/gitlab/gitlab-runner:v17.3.0
+2026-09-29T16:18:53+07:00	INFO	[vuln] Vulnerability scanning is enabled
+2026-09-29T16:18:53+07:00	FATAL	Fatal error	run error: image scan error: scan error: scan failed: failed analysis: analyze error: pipeline error: failed to analyze layer (sha256:e96701474bbc42f0a24f8bab579dbbe64f0343f6f995d46c53a0b532fff15350): unable to get uncompressed layer sha256:e96701474bbc42f0a24f8bab579dbbe64f0343f6f995d46c53a0b532fff15350: failed to get the layer (sha256:e96701474bbc42f0a24f8bab579dbbe64f0343f6f995d46c53a0b532fff15350): unable to populate: unable to open: failed to initialize the struct from the temporary file: file blobs/sha256/0e754b01aefcacc37fb5591319388a708c2d434fa133debc2970583d7a15d9fa not found in tar
+FAIL gitlab-runner: scan
+=== [104] buildkite-agent  docker.io/buildkite/agent:3.85
+2026-09-29T16:19:15+07:00	INFO	[vuln] Vulnerability scanning is enabled
+2026-09-29T16:19:19+07:00	INFO	Detected OS	family="alpine" version="3.20.3"
+2026-09-29T16:19:19+07:00	INFO	[alpine] Detecting vulnerabilities...	os_version="3.20" repository="3.20" pkg_num=79
+2026-09-29T16:19:19+07:00	INFO	Number of language-specific files	num=1
+2026-09-29T16:19:19+07:00	INFO	[gobinary] Detecting vulnerabilities...
+2026-09-29T16:19:19+07:00	WARN	Using severities from other vendors for some vulnerabilities. Read https://trivy.dev/docs/v0.74/guide/scanner/vulnerability#severity-selection for details.
+2026-09-29T16:19:19+07:00	WARN	This OS version is no longer supported by the distribution	family="alpine" version="3.20.3"
+2026-09-29T16:19:19+07:00	WARN	The vulnerability detection may be insufficient because security updates are not provided
+BUNDLE=/mnt/c/Research/ANFIS/data/evidence/buildkite-agent_trivy_scan_EymUEmb6
+SCAN_JSON=data/evidence/buildkite-agent_trivy_scan_EymUEmb6/buildkite-agent_vulnerabilities.json
+APPENDED {"asset_id": "buildkite-agent", "image_id": "docker.io/buildkite/agent@sha256:d232c53a0b8ad2e796fdc5fb55b215b096e9a0afb3f9368f7161a21fab257b08", "scan_json": "data/evidence/buildkite-agent_trivy_scan_EymUEmb6/buildkite-agent_vulnerabilities.json", "mfa_risk": 0.5, "kubernetes_exposure": 1.0, "asset_criticality": 5, "default_rho": 0.1, "package_rho_json": "{}", "protocol": "scan-only-v1-rho0.1-assumed"}
+=== [105] selenium-standalone  docker.io/selenium/standalone-chrome:127.0
+2026-09-29T16:20:25+07:00	INFO	[vuln] Vulnerability scanning is enabled
+2026-09-29T16:20:42+07:00	INFO	Detected OS	family="ubuntu" version="24.04"
+2026-09-29T16:20:42+07:00	INFO	[ubuntu] Detecting vulnerabilities...	os_version="24.04" pkg_num=428
+2026-09-29T16:20:42+07:00	INFO	Number of language-specific files	num=2
+2026-09-29T16:20:42+07:00	INFO	[jar] Detecting vulnerabilities...
+2026-09-29T16:20:42+07:00	INFO	[node-pkg] Detecting vulnerabilities...
+BUNDLE=/mnt/c/Research/ANFIS/data/evidence/selenium-standalone_trivy_scan_pxpnOliK
+SCAN_JSON=data/evidence/selenium-standalone_trivy_scan_pxpnOliK/selenium-standalone_vulnerabilities.json
+APPENDED {"asset_id": "selenium-standalone", "image_id": "docker.io/selenium/standalone-chrome@sha256:dae707687d5fb86b0eeb752358d0877a2b4015b2458191bf169b15000d05b8a4", "scan_json": "data/evidence/selenium-standalone_trivy_scan_pxpnOliK/selenium-standalone_vulnerabilities.json", "mfa_risk": 0.5, "kubernetes_exposure": 0.0, "asset_criticality": 4, "default_rho": 0.1, "package_rho_json": "{}", "protocol": "scan-only-v1-rho0.1-assumed"}
+=== [106] locust  docker.io/locustio/locust:2.31.5
+2026-09-29T16:20:59+07:00	INFO	[vuln] Vulnerability scanning is enabled
+2026-09-29T16:21:02+07:00	INFO	[python] Licenses acquired from one or more METADATA files may be subject to additional terms. Use `--debug` flag to see all affected packages.
+2026-09-29T16:21:02+07:00	INFO	Detected OS	family="debian" version="12.6"
+2026-09-29T16:21:02+07:00	INFO	[debian] Detecting vulnerabilities...	os_version="12" pkg_num=106
+2026-09-29T16:21:02+07:00	INFO	Number of language-specific files	num=1
+2026-09-29T16:21:02+07:00	INFO	[python-pkg] Detecting vulnerabilities...
+2026-09-29T16:21:02+07:00	WARN	Using severities from other vendors for some vulnerabilities. Read https://trivy.dev/docs/v0.74/guide/scanner/vulnerability#severity-selection for details.
+BUNDLE=/mnt/c/Research/ANFIS/data/evidence/locust_trivy_scan_TjTMi5mM
+SCAN_JSON=data/evidence/locust_trivy_scan_TjTMi5mM/locust_vulnerabilities.json
+APPENDED {"asset_id": "locust", "image_id": "docker.io/locustio/locust@sha256:d9f2fe8899e3cc924b17afcdda25e1cbd4164955e06bac208cecf6aefea0a685", "scan_json": "data/evidence/locust_trivy_scan_TjTMi5mM/locust_vulnerabilities.json", "mfa_risk": 1.0, "kubernetes_exposure": 0.0, "asset_criticality": 4, "default_rho": 0.1, "package_rho_json": "{}", "protocol": "scan-only-v1-rho0.1-assumed"}
+=== [107] k6  docker.io/grafana/k6:0.53.0
+2026-09-29T16:21:21+07:00	INFO	[vuln] Vulnerability scanning is enabled
+2026-09-29T16:21:22+07:00	INFO	Detected OS	family="alpine" version="3.18.8"
+2026-09-29T16:21:22+07:00	INFO	[alpine] Detecting vulnerabilities...	os_version="3.18" repository="3.18" pkg_num=15
+2026-09-29T16:21:22+07:00	INFO	Number of language-specific files	num=1
+2026-09-29T16:21:22+07:00	INFO	[gobinary] Detecting vulnerabilities...
+2026-09-29T16:21:22+07:00	WARN	Using severities from other vendors for some vulnerabilities. Read https://trivy.dev/docs/v0.74/guide/scanner/vulnerability#severity-selection for details.
+2026-09-29T16:21:22+07:00	WARN	This OS version is no longer supported by the distribution	family="alpine" version="3.18.8"
+2026-09-29T16:21:22+07:00	WARN	The vulnerability detection may be insufficient because security updates are not provided
+BUNDLE=/mnt/c/Research/ANFIS/data/evidence/k6_trivy_scan_ShtjAWca
+SCAN_JSON=data/evidence/k6_trivy_scan_ShtjAWca/k6_vulnerabilities.json
+APPENDED {"asset_id": "k6", "image_id": "docker.io/grafana/k6@sha256:9b48ed1865a697ac481b5aed98975d098c6086ad418a023eed12e43d876ce271", "scan_json": "data/evidence/k6_trivy_scan_ShtjAWca/k6_vulnerabilities.json", "mfa_risk": 0.5, "kubernetes_exposure": 0.5, "asset_criticality": 5, "default_rho": 0.1, "package_rho_json": "{}", "protocol": "scan-only-v1-rho0.1-assumed"}
+=== [108] haproxy-ingress  docker.io/haproxytech/haproxy-ingress:1.11
+FAIL haproxy-ingress: pull
+=== [109] nginx-ingress  docker.io/registry.k8s.io/ingress-nginx/controller:v1.11.2
+FAIL nginx-ingress: no RepoDigest for docker.io/registry.k8s.io/ingress-nginx/controller:v1.11.2
+=== [110] cert-manager  docker.io/quay.io/jetstack/cert-manager-controller:v1.15.3
+FAIL cert-manager: no RepoDigest for docker.io/quay.io/jetstack/cert-manager-controller:v1.15.3
+=== [111] trivy-server  docker.io/aquasec/trivy:0.54.1
+2026-09-29T16:22:06+07:00	INFO	[vuln] Vulnerability scanning is enabled
+2026-09-29T16:22:08+07:00	INFO	Detected OS	family="alpine" version="3.20.0"
+2026-09-29T16:22:08+07:00	INFO	[alpine] Detecting vulnerabilities...	os_version="3.20" repository="3.20" pkg_num=27
+2026-09-29T16:22:08+07:00	INFO	Number of language-specific files	num=1
+2026-09-29T16:22:08+07:00	INFO	[gobinary] Detecting vulnerabilities...
+2026-09-29T16:22:08+07:00	WARN	Using severities from other vendors for some vulnerabilities. Read https://trivy.dev/docs/v0.74/guide/scanner/vulnerability#severity-selection for details.
+2026-09-29T16:22:08+07:00	WARN	This OS version is no longer supported by the distribution	family="alpine" version="3.20.0"
+2026-09-29T16:22:08+07:00	WARN	The vulnerability detection may be insufficient because security updates are not provided
+BUNDLE=/mnt/c/Research/ANFIS/data/evidence/trivy-server_trivy_scan_zv4Kc8Ea
+SCAN_JSON=data/evidence/trivy-server_trivy_scan_zv4Kc8Ea/trivy-server_vulnerabilities.json
+APPENDED {"asset_id": "trivy-server", "image_id": "docker.io/aquasec/trivy@sha256:e654e95e0753d2daeb4d5b1c2791eee6a1262c7e002770511d773c02a898c73b", "scan_json": "data/evidence/trivy-server_trivy_scan_zv4Kc8Ea/trivy-server_vulnerabilities.json", "mfa_risk": 1.0, "kubernetes_exposure": 0.0, "asset_criticality": 1, "default_rho": 0.1, "package_rho_json": "{}", "protocol": "scan-only-v1-rho0.1-assumed"}
+=== [112] falco  docker.io/falcosecurity/falco:0.39.1
+2026-09-29T16:23:01+07:00	INFO	[vuln] Vulnerability scanning is enabled
+2026-09-29T16:23:14+07:00	INFO	Detected OS	family="debian" version="12.7"
+2026-09-29T16:23:14+07:00	INFO	[debian] Detecting vulnerabilities...	os_version="12" pkg_num=225
+2026-09-29T16:23:14+07:00	INFO	Number of language-specific files	num=0
+2026-09-29T16:23:14+07:00	WARN	Using severities from other vendors for some vulnerabilities. Read https://trivy.dev/docs/v0.74/guide/scanner/vulnerability#severity-selection for details.
+BUNDLE=/mnt/c/Research/ANFIS/data/evidence/falco_trivy_scan_7Fnlncrh
+SCAN_JSON=data/evidence/falco_trivy_scan_7Fnlncrh/falco_vulnerabilities.json
+APPENDED {"asset_id": "falco", "image_id": "docker.io/falcosecurity/falco@sha256:3d2b0f2a43add10d5c39c9b1b1c52eb2d017bb6a65a83fc48d52e75bdff954be", "scan_json": "data/evidence/falco_trivy_scan_7Fnlncrh/falco_vulnerabilities.json", "mfa_risk": 0.0, "kubernetes_exposure": 0.5, "asset_criticality": 5, "default_rho": 0.1, "package_rho_json": "{}", "protocol": "scan-only-v1-rho0.1-assumed"}
+=== [113] clamav  docker.io/library/clamav/clamav:1.4
+FAIL clamav: pull
+=== [114] osquery  docker.io/osquery/osquery:5.13.1
+FAIL osquery: pull
+=== [115] wazuh-manager  docker.io/wazuh/wazuh-manager:4.9.0
+2026-09-29T16:24:22+07:00	INFO	[vuln] Vulnerability scanning is enabled
+2026-09-29T16:24:41+07:00	INFO	[python] Licenses acquired from one or more METADATA files may be subject to additional terms. Use `--debug` flag to see all affected packages.
+2026-09-29T16:24:41+07:00	INFO	Detected OS	family="amazon" version="2023.5.20240903 (Amazon Linux)"
+2026-09-29T16:24:41+07:00	INFO	[amazon] Detecting vulnerabilities...	os_version="2023" pkg_num=113
+2026-09-29T16:24:41+07:00	INFO	Number of language-specific files	num=2
+2026-09-29T16:24:41+07:00	INFO	[gobinary] Detecting vulnerabilities...
+2026-09-29T16:24:41+07:00	INFO	[python-pkg] Detecting vulnerabilities...
+2026-09-29T16:24:41+07:00	WARN	Using severities from other vendors for some vulnerabilities. Read https://trivy.dev/docs/v0.74/guide/scanner/vulnerability#severity-selection for details.
+BUNDLE=/mnt/c/Research/ANFIS/data/evidence/wazuh-manager_trivy_scan_veShz
+SCAN_JSON=data/evidence/wazuh-manager_trivy_scan_veShz/wazuh-manager_vulnerabilities.json
+APPENDED {"asset_id": "wazuh-manager", "image_id": "docker.io/wazuh/wazuh-manager@sha256:e0a78683d35556465d599a923ddc2eaec38110f911fc2c82e578f7c4ab038004", "scan_json": "data/evidence/wazuh-manager_trivy_scan_veShz/wazuh-manager_vulnerabilities.json", "mfa_risk": 1.0, "kubernetes_exposure": 0.0, "asset_criticality": 5, "default_rho": 0.1, "package_rho_json": "{}", "protocol": "scan-only-v1-rho0.1-assumed"}
+=== [116] metabase  docker.io/library/metabase/metabase:v0.51.4
+FAIL metabase: pull
+=== [117] superset  docker.io/apache/superset:4.0.2
+2026-09-29T16:25:37+07:00	INFO	[vuln] Vulnerability scanning is enabled
+2026-09-29T16:25:48+07:00	INFO	[python] Licenses acquired from one or more METADATA files may be subject to additional terms. Use `--debug` flag to see all affected packages.
+2026-09-29T16:25:51+07:00	INFO	Detected OS	family="debian" version="12.6"
+2026-09-29T16:25:51+07:00	INFO	[debian] Detecting vulnerabilities...	os_version="12" pkg_num=181
+2026-09-29T16:25:52+07:00	INFO	Number of language-specific files	num=2
+2026-09-29T16:25:52+07:00	INFO	[node-pkg] Detecting vulnerabilities...
+2026-09-29T16:25:52+07:00	INFO	[python-pkg] Detecting vulnerabilities...
+2026-09-29T16:25:52+07:00	WARN	Using severities from other vendors for some vulnerabilities. Read https://trivy.dev/docs/v0.74/guide/scanner/vulnerability#severity-selection for details.
+BUNDLE=/mnt/c/Research/ANFIS/data/evidence/superset_trivy_scan_MXO6gbl
+SCAN_JSON=data/evidence/superset_trivy_scan_MXO6gbl/superset_vulnerabilities.json
+APPENDED {"asset_id": "superset", "image_id": "docker.io/apache/superset@sha256:51a90d11a59ac522172642cece4bd8047917253e13d884293fcd0cd48419939c", "scan_json": "data/evidence/superset_trivy_scan_MXO6gbl/superset_vulnerabilities.json", "mfa_risk": 0.5, "kubernetes_exposure": 0.5, "asset_criticality": 1, "default_rho": 0.1, "package_rho_json": "{}", "protocol": "scan-only-v1-rho0.1-assumed"}
+=== [118] airflow  docker.io/apache/airflow:2.10.0
+2026-09-29T16:27:11+07:00	INFO	[vuln] Vulnerability scanning is enabled
+2026-09-29T16:27:21+07:00	INFO	[python] Licenses acquired from one or more METADATA files may be subject to additional terms. Use `--debug` flag to see all affected packages.
+2026-09-29T16:27:25+07:00	INFO	Detected OS	family="debian" version="12.6"
+2026-09-29T16:27:25+07:00	INFO	[debian] Detecting vulnerabilities...	os_version="12" pkg_num=194
+2026-09-29T16:27:25+07:00	INFO	Number of language-specific files	num=3
+2026-09-29T16:27:25+07:00	INFO	[gobinary] Detecting vulnerabilities...
+2026-09-29T16:27:25+07:00	INFO	[node-pkg] Detecting vulnerabilities...
+2026-09-29T16:27:25+07:00	INFO	[python-pkg] Detecting vulnerabilities...
+2026-09-29T16:27:25+07:00	WARN	Using severities from other vendors for some vulnerabilities. Read https://trivy.dev/docs/v0.74/guide/scanner/vulnerability#severity-selection for details.
+BUNDLE=/mnt/c/Research/ANFIS/data/evidence/airflow_trivy_scan_El7TkP3w
+SCAN_JSON=data/evidence/airflow_trivy_scan_El7TkP3w/airflow_vulnerabilities.json
+APPENDED {"asset_id": "airflow", "image_id": "docker.io/apache/airflow@sha256:0bdad079614ecd800397966c8584a72ff568407554c81b7728560cee368cc637", "scan_json": "data/evidence/airflow_trivy_scan_El7TkP3w/airflow_vulnerabilities.json", "mfa_risk": 0.0, "kubernetes_exposure": 1.0, "asset_criticality": 4, "default_rho": 0.1, "package_rho_json": "{}", "protocol": "scan-only-v1-rho0.1-assumed"}
+=== [119] n8n  docker.io/n8nio/n8n:1.57.0
+2026-09-29T16:28:04+07:00	INFO	[vuln] Vulnerability scanning is enabled
+2026-09-29T16:28:11+07:00	INFO	Detected OS	family="alpine" version="3.20.1"
+2026-09-29T16:28:11+07:00	INFO	[alpine] Detecting vulnerabilities...	os_version="3.20" repository="3.20" pkg_num=16
+2026-09-29T16:28:11+07:00	INFO	Number of language-specific files	num=1
+2026-09-29T16:28:11+07:00	INFO	[node-pkg] Detecting vulnerabilities...
+2026-09-29T16:28:11+07:00	WARN	Using severities from other vendors for some vulnerabilities. Read https://trivy.dev/docs/v0.74/guide/scanner/vulnerability#severity-selection for details.
+2026-09-29T16:28:11+07:00	WARN	This OS version is no longer supported by the distribution	family="alpine" version="3.20.1"
+2026-09-29T16:28:11+07:00	WARN	The vulnerability detection may be insufficient because security updates are not provided
+BUNDLE=/mnt/c/Research/ANFIS/data/evidence/n8n_trivy_scan_WfSnOf
+SCAN_JSON=data/evidence/n8n_trivy_scan_WfSnOf/n8n_vulnerabilities.json
+APPENDED {"asset_id": "n8n", "image_id": "docker.io/n8nio/n8n@sha256:1aca01738deb8864a71e0b780162b3fa817aa630933e7943ee788e6e55319385", "scan_json": "data/evidence/n8n_trivy_scan_WfSnOf/n8n_vulnerabilities.json", "mfa_risk": 0.0, "kubernetes_exposure": 0.5, "asset_criticality": 2, "default_rho": 0.1, "package_rho_json": "{}", "protocol": "scan-only-v1-rho0.1-assumed"}
+=== [120] nodered  docker.io/library/nodered/node-red:4.0.5
+FAIL nodered: pull
+=== [121] homeassistant  docker.io/homeassistant/home-assistant:2024.9.1
+2026-09-29T16:29:56+07:00	INFO	[vuln] Vulnerability scanning is enabled
+2026-09-29T16:30:10+07:00	INFO	[python] Licenses acquired from one or more METADATA files may be subject to additional terms. Use `--debug` flag to see all affected packages.
+2026-09-29T16:30:17+07:00	INFO	Detected OS	family="alpine" version="3.20.1"
+2026-09-29T16:30:17+07:00	INFO	[alpine] Detecting vulnerabilities...	os_version="3.20" repository="3.20" pkg_num=201
+2026-09-29T16:30:17+07:00	INFO	Number of language-specific files	num=2
+2026-09-29T16:30:17+07:00	INFO	[gobinary] Detecting vulnerabilities...
+2026-09-29T16:30:17+07:00	INFO	[python-pkg] Detecting vulnerabilities...
+2026-09-29T16:30:17+07:00	WARN	Using severities from other vendors for some vulnerabilities. Read https://trivy.dev/docs/v0.74/guide/scanner/vulnerability#severity-selection for details.
+2026-09-29T16:30:17+07:00	WARN	This OS version is no longer supported by the distribution	family="alpine" version="3.20.1"
+2026-09-29T16:30:17+07:00	WARN	The vulnerability detection may be insufficient because security updates are not provided
+BUNDLE=/mnt/c/Research/ANFIS/data/evidence/homeassistant_trivy_scan_mXxWc8Ys
+SCAN_JSON=data/evidence/homeassistant_trivy_scan_mXxWc8Ys/homeassistant_vulnerabilities.json
+APPENDED {"asset_id": "homeassistant", "image_id": "docker.io/homeassistant/home-assistant@sha256:f1a96b632ea6f2b96f882ea17e2ed3660a741d5e45a5278ef0f38abe8e1df6c8", "scan_json": "data/evidence/homeassistant_trivy_scan_mXxWc8Ys/homeassistant_vulnerabilities.json", "mfa_risk": 0.5, "kubernetes_exposure": 0.0, "asset_criticality": 4, "default_rho": 0.1, "package_rho_json": "{}", "protocol": "scan-only-v1-rho0.1-assumed"}
+=== [122] plex  docker.io/plexinc/pms-docker:1.40.5
+FAIL plex: pull
