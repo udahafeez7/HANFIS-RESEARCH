@@ -33,6 +33,10 @@ def main(argv=None) -> int:
     p.add_argument("--only", action="append", default=None, help="restrict to these asset_id(s)")
     p.add_argument("--horizon-days", type=int, default=30)
     p.add_argument("--s-no-rho", action="store_true", help="label S_{v,a}=1 instead of rho_v")
+    p.add_argument("--drop-insufficient", action="store_true",
+                   help="exclude rows with version_range_status == INSUFFICIENT_EVIDENCE from the "
+                        "written table instead of keeping them and failing the gate's "
+                        "no_INSUFFICIENT_EVIDENCE check; each dropped row is reported by asset_id")
     a = p.parse_args(argv)
     try:
         assets = AW.load_assets(Path(a.assets), ROOT)
@@ -44,6 +48,15 @@ def main(argv=None) -> int:
         weeks = S.monday_grid(a.start, a.end)
         spec = AW.LabelSpec(horizon_days=a.horizon_days, s_uses_rho=not a.s_no_rho)
         rows, diags = AW.build_rows(assets, store, weeks, spec)
+        if a.drop_insufficient:
+            insufficient = [r for r in rows if r["version_range_status"] == "INSUFFICIENT_EVIDENCE"]
+            if insufficient:
+                from collections import Counter
+                by_asset = Counter(r["event_id"].rsplit("__", 1)[0] for r in insufficient)
+                print(f"--drop-insufficient: excluding {len(insufficient)} row(s) with unresolved evidence, by asset: {dict(by_asset)}")
+                keep_ids = {r["event_id"] for r in insufficient}
+                rows = [r for r in rows if r["event_id"] not in keep_ids]
+                diags = [d for d in diags if d["event_id"] not in keep_ids]
         problems = AW.validate_contract(rows, json.loads(Path(a.schema).read_text(encoding="utf-8")))
         if problems:
             print("\n".join(problems[:20]))
