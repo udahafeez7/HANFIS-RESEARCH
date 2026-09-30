@@ -1,18 +1,18 @@
 {
-  "n_rows_event_id": 6213,
+  "n_rows_event_id": 6206,
   "n_asset_ids": 109,
   "n_image_groups": 108,
-  "share_non_na": 0.9298,
+  "share_non_na": 0.9304,
   "share_positive": 0.8769,
-  "n_insufficient": 7,
+  "n_insufficient": 0,
   "checks": {
     "rows>=1320": true,
     "non_na>=0.25": true,
     "positive>=0.25": true,
-    "no_INSUFFICIENT_EVIDENCE": false
+    "no_INSUFFICIENT_EVIDENCE": true
   },
-  "TRAINING_AUTHORIZED": false,
-  "built_at": "2026-09-29T10:30:46+00:00",
+  "TRAINING_AUTHORIZED": true,
+  "built_at": "2026-09-30T04:26:39+00:00",
   "weeks": 57,
   "start": "2025-08-25",
   "end": "2026-09-21",
