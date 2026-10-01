@@ -24,11 +24,20 @@ set -euo pipefail
 REPO="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$REPO"
 
+# IMPORTANT: trivy_version_and_db.txt has TWO "UpdatedAt:" lines -- one under
+# "Vulnerability DB:" and one under "Java DB:". A plain `grep UpdatedAt` mixes
+# both kinds together; the fix (caught after the first real run produced 10
+# false "DRIFTED" results) is to extract ONLY the Vulnerability DB's
+# UpdatedAt, both here and in the per-scan check below, via the same awk.
+vuln_db_updated_at() {
+  awk '/^Vulnerability DB:/{f=1; next} f && /UpdatedAt:/{sub(/^ *UpdatedAt: */, ""); print; exit}' "$1"
+}
+
 EXPECTED_DB_UPDATED_AT="${1:-}"
 if [ -z "$EXPECTED_DB_UPDATED_AT" ]; then
   EXPECTED_DB_UPDATED_AT="$(
-    find data/evidence -iname "trivy_version_and_db.txt" -exec grep -h "UpdatedAt:" {} \; \
-      | sort | uniq -c | sort -rn | head -1 | sed -E 's/.*UpdatedAt: *//'
+    for f in data/evidence/*/trivy_version_and_db.txt; do [ -f "$f" ] && vuln_db_updated_at "$f"; done \
+      | sort | uniq -c | sort -rn | head -1 | sed -E 's/^ *[0-9]+ *//'
   )"
 fi
 if [ -z "$EXPECTED_DB_UPDATED_AT" ]; then
@@ -86,7 +95,7 @@ for entry in "${CANDIDATES[@]}"; do
   fi
   BUNDLE="${BUNDLE_OUT#BUNDLE=}"
   DB_META="$BUNDLE/trivy_version_and_db.txt"
-  SEEN_UPDATED_AT="$(grep "UpdatedAt:" "$DB_META" | head -1 | sed -E 's/.*UpdatedAt: *//')"
+  SEEN_UPDATED_AT="$(vuln_db_updated_at "$DB_META")"
   if [ "$SEEN_UPDATED_AT" = "$EXPECTED_DB_UPDATED_AT" ]; then
     DB_OK="OK"
   else
