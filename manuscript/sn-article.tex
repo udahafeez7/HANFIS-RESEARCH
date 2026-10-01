@@ -670,28 +670,60 @@ tier. The shaded region ($k\ge3$) exceeds the parameter budget the present inven
 refused rather than attempted.}\label{fig:e5-rule-growth}
 \end{figure}
 
+At $k{=}1$ the sweep uses exactly A-09's training scheme -- the alternating closed-form least squares
+for both lower panels, the intercept refit after the monotone projection, and the same hard clamp on
+$v,e$ that HANFIS's own forward pass applies -- implemented separately in
+\texttt{hanfis\_bottleneck.py} under a multi-head representation that generalises cleanly to $k>1$. A
+per-row comparison against the $k{=}1$ predictions underlying Table~\ref{tab:e4-results} confirms this
+reproduction directly rather than merely asserting it: Pearson $r=0.9984$ on point predictions, and
+identical fold assignment for all 981 held-out rows. An earlier version of this sweep used a simpler
+training scheme (the Integration-only closed form rather than the alternating scheme) and omitted the
+intercept refit after the monotone projection; both have since been corrected, and the numbers below
+supersede that earlier, confounded comparison.
+
+\begin{table}[h]
+\caption{E5 bottleneck-width sweep: pooled RMSE and skill against persistence, 95\% confidence intervals
+from 2{,}000 image-clustered bootstrap resamples (the same procedure as
+Table~\ref{tab:e4-results}), 109-asset inventory.}\label{tab:e5-results}
+\begin{tabular}{@{}lccc@{}}
+\toprule
+$k$ & Rules / Params & RMSE (pooled) & $\mathrm{SS}_{\mathrm{pers}}$ [95\% CI] \\
+\midrule
+1 & 34 / 176 & 0.617 & 0.334\ [0.111,\ 0.392] \\
+2 & 178 / 1{,}152 & 0.785 & $-0.080$\ [$-1.681$,\ 0.180] \\
+\botrule
+\end{tabular}
+\end{table}
+
 \begin{figure}[h]
 \centering
 \includegraphics[width=0.75\linewidth]{fig_e5_bottleneck_curve.pdf}
-\caption{E5: RMSE and parameter count across the two feasible bottleneck widths. $k=2$ is worse on
-every fold, not merely on average; the confound discussed in the text means this cannot yet be read as
-evidence against widening the bottleneck in general.}\label{fig:e5-bottleneck-curve}
+\caption{E5: pooled skill against persistence for $k\in\{1,2\}$ with 95\% image-clustered bootstrap
+confidence intervals. $k{=}1$'s interval excludes zero; $k{=}2$'s spans from strongly negative to
+mildly positive.}\label{fig:e5-bottleneck-curve}
 \end{figure}
 
-$k=2$ is markedly worse than $k=1$ on every one of the five folds (RMSE 8.3--26.3 against
-2.5--3.1), not a subtle trade-off. Read at face value this would support the scalar bottleneck choice;
-however, the comparison is confounded by two deliberate methodological simplifications in this
-exploratory sweep, documented in \texttt{hanfis\_bottleneck.py}: the multi-head panels used E4's
-simpler Integration-only closed-form training rather than the alternating-lower-panel scheme
-(Section~\ref{subsec:hanfis-architecture}) that A-09 actually uses, and the monotonicity projection
-omits the intercept-refit correction Section~\ref{subssec4.5}'s ablation shows matters substantially
-for Gaussian premises. Because both omissions are already known (from that same ablation) to cost more
-accuracy as rule count grows, the sharp $k=1$-to-$k=2$ drop cannot yet be cleanly attributed to
-bottleneck width itself rather than to these simplifications compounding faster at the larger rule
-count. A clean test requires generalising the alternating closed-form scheme to vector intermediates,
-left for future work; at present, Section~\ref{subssec4.3}'s confirmatory comparison (which does use
-the correct A-09 scheme, at $k=1$ throughout) is the only result in this study that should be read as
-settled.
+$k{=}1$ recovers skill indistinguishable from HANFIS's own H1b result
+(Table~\ref{tab:e4-results}: $\mathrm{SS}_{\mathrm{pers}}=0.300$, $[-0.035,0.417]$), as the per-row
+parity above predicts. $k{=}2$'s interval does not exclude zero: on this inventory, widening the
+bottleneck demonstrates no benefit. The paired comparison on matched resampled images -- the same
+resample used for both arms, so sampling noise is shared -- gives
+$\mathrm{SS}_{\mathrm{pers}}(k{=}1)-\mathrm{SS}_{\mathrm{pers}}(k{=}2)=0.414$, 95\% CI
+$[0.179,1.815]$, excluding zero; $k{=}1$ is pooled-RMSE-better on all five folds (two-sided sign
+test $p=0.0625$, the floor attainable with five folds).
+
+This is the strongest statement the present inventory supports, and it remains a mechanism claim
+rather than a claim that wider bottlenecks are intrinsically worse: every $k{=}2$ fold falls under ten
+observations per parameter (range 0.26--2.6), the same ten-per-parameter threshold applied elsewhere in
+this study (Section~\ref{subsec:target-definition}), while $k{=}1$ clears it in three of five folds. A
+secondary diagnostic separates part of this gap from pure data scarcity: disabling the hard clamp on
+$v,e$ (an ablation, not the model HANFIS reports) costs $k{=}1$ only 0.019 of skill but costs $k{=}2$
+0.394 -- consistent with $v,e$ being estimated less reliably from the same training rows once six
+times as many consequent parameters compete for them, so that excursions outside $[0,1]$ are both
+more frequent and more consequential once clamped. Separating an intrinsic cost of wider bottlenecks
+from this data-scale effect requires an inventory substantially larger than the 109 assets collected
+here, left for future work; the architecture's own combinatorial growth in $k$
+(Figure~\ref{fig:e5-rule-growth}) means that separation gets harder, not easier, as $k$ increases.
 
 \subsection{Ablation and Robustness Analysis}\label{subssec4.5}
 
