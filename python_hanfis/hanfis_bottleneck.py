@@ -205,3 +205,110 @@ def predict(model: HANFISBottleneck, x: np.ndarray) -> np.ndarray:
     model.eval()
     with torch.no_grad():
         return model(torch.as_tensor(x, dtype=torch.float32)).cpu().numpy()
+
+
+@torch.no_grad()
+def solve_lower_alternating(model: "HANFISBottleneck", x7: torch.Tensor, y: torch.Tensor, ridge: float | None = 1e-3) -> None:
+    """Vector generalisation of hanfis_end2end.solve_lower_alternating (E2, patch 0035) to
+    bottleneck_k > 1. Given Integration's just-solved consequents and current firing weights
+    (frozen this outer iteration), r is affine in v,e in R^k per row:
+        r_n = A_n + sum_i B_{n,i} v_{n,i} + sum_j C_{n,j} e_{n,j}
+    with A, B, C aggregated from Integration's frozen firing weights and consequents. Since
+    v_{n,i} (resp. e_{n,j}) is itself affine in V's (resp. E's) own frozen-firing-weight
+    consequents, r is linear in the FLATTENED beta_V, beta_E given this iteration's firing
+    weights: one joint ridge LSE solves both panels' full (R, n_in+1, k) consequent tensors at
+    once. Verified first in pure NumPy (verify_vector_alternating.py) for k=1,2,3, monotone and
+    non-monotone, converging without divergence in every case before this torch transcription.
+
+    Must be called AFTER model.integration.solve_consequents() this same outer iteration/epoch,
+    exactly like hanfis_end2end's version.
+    """
+    k = model.bottleneck_k
+    v, e = model.intermediates(x7, clamp=False)
+    v, e = v.detach(), e.detach()
+    x7d = x7.detach()
+    xi = torch.cat([v, e, x7d[:, 6:7]], dim=1)
+    wI = model.integration.firing(xi)                                  # (N, R_I)
+    betaI = model.integration.effective_consequents()[:, :, 0]          # (R_I, 2k+2)
+    A = (wI * (betaI[:, 0] + betaI[:, -1] * x7d[:, 6][:, None])).sum(dim=1)
+    B = wI @ betaI[:, 1 : 1 + k]        # (N, k)
+    C = wI @ betaI[:, 1 + k : 1 + 2 * k]  # (N, k)
+
+    wV = model.vulnerability.firing(x7d[:, 0:3])   # (N, R_V)
+    wE = model.environment.firing(x7d[:, 3:6])     # (N, R_E)
+    xaV = torch.cat([torch.ones((x7d.shape[0], 1), dtype=x7d.dtype, device=x7d.device), x7d[:, 0:3]], dim=1)
+    xaE = torch.cat([torch.ones((x7d.shape[0], 1), dtype=x7d.dtype, device=x7d.device), x7d[:, 3:6]], dim=1)
+    R_V, R_E = model.vulnerability.rule_count, model.environment.rule_count
+    # Phi_V[n, (p,d,i)] = B[n,i] * wV[n,p] * xaV[n,d]; flattened to (N, R_V*4*k)
+    phi_V = torch.einsum("ni,np,nd->npdi", B, wV, xaV).reshape(x7d.shape[0], -1)
+    phi_E = torch.einsum("nj,nq,nd->nqdj", C, wE, xaE).reshape(x7d.shape[0], -1)
+    phi = torch.cat([phi_V, phi_E], dim=1)
+    target = y - A
+    if ridge is None:
+        ridge = max(1e-3, 0.01 * phi.shape[1] / phi.shape[0])
+    gram = phi.T @ phi + ridge * torch.eye(phi.shape[1], device=phi.device, dtype=phi.dtype)
+    beta = torch.linalg.solve(gram, phi.T @ target)
+    n_v = R_V * 4 * k
+    beta_V = beta[:n_v].reshape(R_V, 4, k)
+    beta_E = beta[n_v:].reshape(R_E, 4, k)
+
+    if model.monotone:
+        # Clamp every slope entry (both panels, every head) >= 0, then refit ONLY the
+        # intercepts (one per rule per head) in a second, well-posed ridge solve -- the same
+        # "clamp then refit" idea as the scalar case, generalised across the k heads.
+        slope_V = beta_V[:, 1:, :].clamp_min(1e-4)   # (R_V, 3, k)
+        slope_E = beta_E[:, 1:, :].clamp_min(1e-4)   # (R_E, 3, k)
+        v_slope = torch.einsum("np,pdi,nd->ni", wV, slope_V, xaV[:, 1:])   # (N, k)
+        e_slope = torch.einsum("nq,qdj,nd->nj", wE, slope_E, xaE[:, 1:])   # (N, k)
+        residual = target - (B * v_slope).sum(dim=1) - (C * e_slope).sum(dim=1)
+        phi_int_V = torch.einsum("ni,np->npi", B, wV).reshape(x7d.shape[0], -1)   # (N, R_V*k)
+        phi_int_E = torch.einsum("nj,nq->nqj", C, wE).reshape(x7d.shape[0], -1)   # (N, R_E*k)
+        phi_int = torch.cat([phi_int_V, phi_int_E], dim=1)
+        gram_i = phi_int.T @ phi_int + ridge * torch.eye(phi_int.shape[1], device=phi.device, dtype=phi.dtype)
+        intercepts = torch.linalg.solve(gram_i, phi_int.T @ residual)
+        int_V = intercepts[: R_V * k].reshape(R_V, k)
+        int_E = intercepts[R_V * k :].reshape(R_E, k)
+        beta_V = torch.cat([int_V[:, None, :], torch.log(torch.expm1(slope_V))], dim=1)
+        beta_E = torch.cat([int_E[:, None, :], torch.log(torch.expm1(slope_E))], dim=1)
+
+    model.vulnerability.consequents.copy_(beta_V)
+    model.environment.consequents.copy_(beta_E)
+
+
+def fit_hybrid_lower_alternating(model: "HANFISBottleneck", x_train: np.ndarray, y_train: np.ndarray,
+                                 x_validation: np.ndarray, y_validation: np.ndarray, epochs: int = 600,
+                                 learning_rate: float = 1e-2, patience: int = 100, ridge: float | None = 1e-3,
+                                 min_epochs: int = 200) -> dict:
+    """E2 generalised to bottleneck_k >= 1: both lower panels solved jointly in closed form every
+    epoch (solve_lower_alternating), Integration solved in closed form too (as in fit_hybrid),
+    premises left to Adam. This is what de-confounds the E5 sweep: at k=1 it is mathematically
+    the SAME scheme as hanfis_end2end.fit_hybrid_lower_alternating (A-09), just reimplemented for
+    this module's MultiHeadSugenoPanel representation."""
+    xtr = torch.as_tensor(x_train, dtype=torch.float32); ytr = torch.as_tensor(y_train, dtype=torch.float32)
+    xva = torch.as_tensor(x_validation, dtype=torch.float32); yva = torch.as_tensor(y_validation, dtype=torch.float32)
+    premise = [p for panel in (model.vulnerability, model.environment, model.integration)
+              for p in list(panel.centers) + list(panel.log_sigmas)]
+    optimizer = torch.optim.Adam(premise, lr=learning_rate)
+    best_loss, best_state, best_epoch, stale = float("inf"), copy.deepcopy(model.state_dict()), 0, 0
+    history = {"training_loss": [], "validation_loss": []}
+    for epoch in range(epochs):
+        model.train()
+        model.integration.solve_consequents(model.integration_input(xtr, clamp=False), ytr[:, None], ridge)
+        solve_lower_alternating(model, xtr, ytr, ridge)
+        optimizer.zero_grad()
+        loss = torch.mean((model(xtr) - ytr) ** 2)
+        loss.backward()
+        optimizer.step()
+        model.eval()
+        with torch.no_grad():
+            val = torch.mean((model(xva) - yva) ** 2).item()
+        history["training_loss"].append(float(loss.item())); history["validation_loss"].append(val)
+        if val < best_loss - 1e-8:
+            best_loss, best_state, best_epoch, stale = val, copy.deepcopy(model.state_dict()), epoch + 1, 0
+        else:
+            stale += 1
+            if stale >= patience and epoch + 1 >= min_epochs:
+                break
+    model.load_state_dict(best_state)
+    history.update(best_validation_loss=best_loss, best_epoch=best_epoch)
+    return history

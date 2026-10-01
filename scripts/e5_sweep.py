@@ -25,7 +25,7 @@ import torch
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "python_hanfis"))
 from splits import GroupTimeSplit  # noqa: E402
-from hanfis_bottleneck import HANFISBottleneck, BottleneckBudgetError, fit_hybrid, predict, estimate_params  # noqa: E402
+from hanfis_bottleneck import HANFISBottleneck, BottleneckBudgetError, fit_hybrid, fit_hybrid_lower_alternating, predict, estimate_params  # noqa: E402
 
 INPUTS = ["cvss", "exploitability", "patch_risk", "mfa_risk", "kubernetes_exposure", "asset_criticality", "threat_intelligence"]
 SEEDS = [20260928, 20261005, 20261012, 20261019, 20261026]
@@ -45,6 +45,10 @@ def main(argv=None) -> int:
     p.add_argument("--epochs", type=int, default=600); p.add_argument("--lag-weeks", type=int, default=4)
     p.add_argument("--ks", type=int, nargs="+", default=[1, 2])
     p.add_argument("--max-params", type=int, default=2000)
+    p.add_argument("--scheme", choices=["integration_only", "alternating"], default="alternating",
+                   help="training scheme: 'alternating' (default) is the vector-generalised E2/A-09 "
+                        "scheme that de-confounds the sweep; 'integration_only' reproduces the "
+                        "earlier, confounded e5_sweep_20261001T045940Z.csv run for comparison")
     p.add_argument("--allow-oversize", action="store_true", help="train a k whose estimated params exceed --max-params anyway")
     p.add_argument("--out-dir", default=str(ROOT / "results_python" / "e5"))
     a = p.parse_args(argv)
@@ -91,11 +95,12 @@ def main(argv=None) -> int:
             try:
                 for seed in SEEDS:
                     best_val, best_model = float("inf"), None
+                    fit_fn = fit_hybrid_lower_alternating if a.scheme == "alternating" else fit_hybrid
                     for r in range(a.n_restarts):
                         torch.manual_seed(seed * 100 + r)
                         model = HANFISBottleneck(bottleneck_k=k, monotone=True, max_params=a.max_params, allow_oversize=a.allow_oversize)
-                        hist = fit_hybrid(model, X_all[tr_idx], y01[tr_idx], X_all[val_idx], y01[val_idx],
-                                         epochs=a.epochs, patience=100, min_epochs=200)
+                        hist = fit_fn(model, X_all[tr_idx], y01[tr_idx], X_all[val_idx], y01[val_idx],
+                                     epochs=a.epochs, patience=100, min_epochs=200)
                         if hist["best_validation_loss"] < best_val:
                             best_val, best_model = hist["best_validation_loss"], model
                     preds.append(predict(best_model, X_all[te]))
@@ -107,7 +112,7 @@ def main(argv=None) -> int:
             mse_pers = float(np.mean((y_pers - y_raw[te]) ** 2))
             mse_h = float(np.mean((y_hanfis - y_raw[te]) ** 2))
             ss_pers = 1 - mse_h / mse_pers if mse_pers > 0 else float("nan")
-            rows.append({"k": k, "fold": f.index, "rmse": rmse, "ss_pers": ss_pers, "n_test": len(te),
+            rows.append({"k": k, "fold": f.index, "scheme": a.scheme, "rmse": rmse, "ss_pers": ss_pers, "n_test": len(te),
                         "rules": best_model.rule_count, "params": best_model.parameter_count,
                         "time_sec": round(time.time() - t0, 1), **{f"est_{kk}": vv for kk, vv in estimate_k.items()}})
             print(f"k={k} fold {f.index}: rmse={rmse:.4f} ss_pers={ss_pers:.4f} "

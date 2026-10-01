@@ -82,3 +82,53 @@ class TestForwardAndTrain(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class TestAlternatingGeneralised(unittest.TestCase):
+    def test_k1_alternating_matches_known_good_convergence(self):
+        """At k=1 this must behave like the original scalar E2 check: MSE collapses toward the
+        noise floor via pure closed-form alternation, premises untouched."""
+        import hanfis_bottleneck as hb
+        x, y = synthetic(n=400, seed=0)
+        torch.manual_seed(0)
+        model = hb.HANFISBottleneck(bottleneck_k=1, monotone=False)
+        xt, yt = torch.as_tensor(x), torch.as_tensor(y)
+        with torch.no_grad():
+            mse0 = torch.mean((model(xt) - yt) ** 2).item()
+        for _ in range(6):
+            with torch.no_grad():
+                model.integration.solve_consequents(model.integration_input(xt, clamp=False), yt[:, None], 1e-3)
+                hb.solve_lower_alternating(model, xt, yt, 1e-3)
+        with torch.no_grad():
+            mse_final = torch.mean((model(xt) - yt) ** 2).item()
+        print(f"\n  k=1 alternating: {mse0:.4f} -> {mse_final:.6f}")
+        self.assertLess(mse_final, 0.01)
+
+    def test_k2_alternating_converges_without_diverging(self):
+        import hanfis_bottleneck as hb
+        x, y = synthetic(n=400, seed=1)
+        torch.manual_seed(1)
+        model = hb.HANFISBottleneck(bottleneck_k=2, monotone=True, max_params=2000)
+        xt, yt = torch.as_tensor(x), torch.as_tensor(y)
+        for _ in range(6):
+            with torch.no_grad():
+                model.integration.solve_consequents(model.integration_input(xt, clamp=False), yt[:, None], 1e-3)
+                hb.solve_lower_alternating(model, xt, yt, 1e-3)
+        with torch.no_grad():
+            mse_final = torch.mean((model(xt) - yt) ** 2).item()
+        print(f"\n  k=2 alternating (monotone): final MSE {mse_final:.6f}")
+        self.assertTrue(np.isfinite(mse_final))
+        self.assertLess(mse_final, 0.1)
+
+    def test_full_training_loop_k1_and_k2(self):
+        import hanfis_bottleneck as hb
+        x, y = synthetic(n=250, seed=2)
+        x_tr, x_va = x[:180], x[180:]; y_tr, y_va = y[:180], y[180:]
+        for k in (1, 2):
+            torch.manual_seed(3)
+            model = hb.HANFISBottleneck(bottleneck_k=k, monotone=True, max_params=2000)
+            hist = hb.fit_hybrid_lower_alternating(model, x_tr, y_tr, x_va, y_va, epochs=60, patience=20, min_epochs=20)
+            print(f"\n  fit_hybrid_lower_alternating k={k}: best_val_mse={hist['best_validation_loss']:.5f}")
+            self.assertTrue(np.isfinite(hist["best_validation_loss"]))
+            r = hb.predict(model, x_va)
+            self.assertTrue(np.all(np.isfinite(r)))
