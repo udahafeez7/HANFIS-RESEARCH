@@ -583,6 +583,14 @@ Ridge regression, all 7 inputs & 0.419 & 0.971 & 0.301 \\
 \end{tabular}
 \end{table}
 
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.75\linewidth]{fig_e3_baselines.pdf}
+\caption{Mandatory baselines' skill against climatology, pooled over 5 folds. A single CVSS score
+adds essentially nothing over climatology; persistence and ridge already recover 96--97\% of the
+climatology-relative skill, setting the bar for Section~\ref{subssec4.3}.}\label{fig:e3-baselines}
+\end{figure}
+
 A single CVSS score explains essentially none of the realised label ($\mathrm{SS}_{\mathrm{clim}}\approx0$),
 confirming that static severity alone does not describe which vulnerabilities become exploitable in
 practice. A naive persistence forecast, in contrast, already recovers 96\% of the climatology-relative
@@ -630,15 +638,60 @@ C1/H2 rather than a methodological artefact: the random 15\% validation carve-ou
 the best of three restarts is identical for both models, while the reported skill score itself comes
 from the temporally and group-disjoint held-out block that carve-out never touches.
 
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.78\linewidth]{fig_e4_skill_scores.pdf}
+\caption{E4 confirmatory results: HANFIS skill score against each comparator with 95\% group-clustered
+bootstrap confidence intervals. Green bars exclude zero (confirmed); the red bar (H1b, vs.\ persistence)
+does not.}\label{fig:e4-skill-scores}
+\end{figure}
+
 \subsection{Accuracy-complexity curve}
 \label{subssec4.4}
 
 The scalar inter-tier bottleneck between the lower panels and the integration panel is a candidate
 explanation for any residual gap between HANFIS and a full-capacity flat ANFIS: compressing $v$ and $e$
 to a single number may discard cross-subsystem interaction that the flat model can still represent. A
-sweep of the bottleneck width $k\in\{1,2,4\}$ -- widening $v$ and $e$ from scalars to $k$-dimensional
-vectors passed into the integration panel -- is designed to trace the resulting accuracy/complexity curve
-and is planned for the next phase; no runs have been made at the time of writing.
+sweep over the bottleneck width $k$ -- widening $v$ and $e$ from scalars to $k$-dimensional vectors
+passed into the integration panel -- traces this trade-off directly, but grid-partitioning the
+integration tier makes its rule count grow as $m_I^{2k}\cdot m$: at the frozen $m_I=3$, $k=1$ reproduces
+HANFIS exactly (34 rules, 176 parameters), $k=2$ already costs 178 rules and 1{,}152 parameters (6.5x),
+and $k\ge3$ exceeds 1{,}400 rules (Figure~\ref{fig:e5-rule-growth}) -- more parameters than the present
+inventory has rows, and the sweep script refuses these by default rather than attempting an
+underdetermined fit. $k\in\{1,2\}$ were run; $k=4$, originally planned, was dropped on these grounds and
+this combinatorial explosion is itself read as evidence for why a scalar bottleneck was the design
+choice in the first place, independent of what $k=1$ vs.\ $k=2$ shows empirically.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.75\linewidth]{fig_e5_rule_growth.pdf}
+\caption{Rule and parameter growth with bottleneck width $k$ under grid partition of the integration
+tier. The shaded region ($k\ge3$) exceeds the parameter budget the present inventory supports and was
+refused rather than attempted.}\label{fig:e5-rule-growth}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.75\linewidth]{fig_e5_bottleneck_curve.pdf}
+\caption{E5: RMSE and parameter count across the two feasible bottleneck widths. $k=2$ is worse on
+every fold, not merely on average; the confound discussed in the text means this cannot yet be read as
+evidence against widening the bottleneck in general.}\label{fig:e5-bottleneck-curve}
+\end{figure}
+
+$k=2$ is markedly worse than $k=1$ on every one of the five folds (RMSE 8.3--26.3 against
+2.5--3.1), not a subtle trade-off. Read at face value this would support the scalar bottleneck choice;
+however, the comparison is confounded by two deliberate methodological simplifications in this
+exploratory sweep, documented in \texttt{hanfis\_bottleneck.py}: the multi-head panels used E4's
+simpler Integration-only closed-form training rather than the alternating-lower-panel scheme
+(Section~\ref{subsec:hanfis-architecture}) that A-09 actually uses, and the monotonicity projection
+omits the intercept-refit correction Section~\ref{subssec4.5}'s ablation shows matters substantially
+for Gaussian premises. Because both omissions are already known (from that same ablation) to cost more
+accuracy as rule count grows, the sharp $k=1$-to-$k=2$ drop cannot yet be cleanly attributed to
+bottleneck width itself rather than to these simplifications compounding faster at the larger rule
+count. A clean test requires generalising the alternating closed-form scheme to vector intermediates,
+left for future work; at present, Section~\ref{subssec4.3}'s confirmatory comparison (which does use
+the correct A-09 scheme, at $k=1$ throughout) is the only result in this study that should be read as
+settled.
 
 \subsection{Ablation and Robustness Analysis}\label{subssec4.5}
 
