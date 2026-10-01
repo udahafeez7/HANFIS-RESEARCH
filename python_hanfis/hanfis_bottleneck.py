@@ -14,16 +14,28 @@ exceeding the ~6,200-row inventory). build_bottleneck_hanfis refuses k values wh
 parameter count exceeds a data-driven budget unless explicitly overridden, so an infeasible
 sweep point fails loudly rather than hanging or silently training something meaningless.
 
-Training here uses the Integration-only closed-form scheme (hanfis_end2end.fit_hybrid's
-style), NOT the alternating-lower-panel scheme (E2/A-09): E2's closed-form derivation was built
-specifically for scalar v, e and generalising it to vector intermediates is future work, out of
-scope for this exploratory sweep. This is a deliberate, documented methodological difference
-from the confirmatory A-09 configuration, not an oversight.
+Training: two schemes. fit_hybrid is the Integration-only closed-form scheme (kept for the
+superseded, confounded first E5 run). fit_hybrid_lower_alternating (patch 0058) is E2/A-19
+generalised to v, e in R^k: both lower panels solved jointly in closed form every epoch, the
+Integration panel solved in closed form, premises left to Adam. This is the sweep's default.
 
-Monotonicity (if enabled) applies softplus per consequent head independently, WITHOUT the
-intercept-refit correction hanfis_end2end.SugenoPanel.solve_consequents uses (E1 already showed
-that correction matters for accuracy); the simpler, uncorrected projection is accepted here
-because this model is a mechanism probe, not a candidate for the confirmatory family.
+Monotone projection (patch 0059): BOTH the Integration solve (solve_consequents) and the lower
+joint solve (solve_lower_alternating) clamp the slopes to >= 0 and then REFIT THE INTERCEPTS in
+a second, well-posed ridge solve. Patch 0058 refitted only in the lower solve and left the
+Integration intercepts stale after projection -- the exact defect E1 found in the scalar model
+("intercept refit is critical"). Diagnosed in pure NumPy (verify_bottleneck_refit.py):
+with stale Integration intercepts the pure closed-form alternation oscillates (k=1 monotone:
+MSE 0.039 -> 0.220 -> 0.021 -> ...; k=2 monotone: 0.177 ... 0.036, which is what the failing
+smoke test saw as 0.157); with the refit it converges to the noise floor (k=1: 1.03e-4;
+k=2: 8.5e-5 on sigma^2 = 1e-4).
+
+Intermediate clamping (patch 0059): HANFISBottleneck.forward used to clamp v, e to [0,1] while
+every closed-form solve works on the UNclamped v, e (it must -- linearity). The function being
+solved was therefore not the function being evaluated: on synthetic data ~40-55% of rows had
+some v or e outside [0,1], and all of the residual training MSE (0.007-0.02 vs an unclamped
+1e-4) came from that mismatch. `clamp_intermediates` (default True = patch 0058 behaviour,
+for parity checks against the A-09 model) switches it off; the E5 sweep runs with it OFF so the
+objective the closed form minimises is the one that is scored.
 """
 from __future__ import annotations
 
@@ -117,7 +129,15 @@ class MultiHeadSugenoPanel(nn.Module):
         beta = torch.linalg.solve(gram, phi.T @ y)                                     # (R*(n_in+1), k_out)
         beta = beta.reshape(self.rule_count, self.n_inputs + 1, self.k_out)
         if self.monotone:
-            beta = torch.cat([beta[:, :1, :], torch.log(torch.expm1(beta[:, 1:, :].clamp_min(1e-4)))], dim=1)
+            # Clamp slopes >= 0, then refit ONLY the intercepts (one per rule per head) against
+            # the residual left by the clamped slopes: one (R x R) Gram, k_out right-hand sides.
+            # Without this the intercepts fitted jointly with the (now discarded) negative slopes
+            # stay in place and the projected panel is biased -- see module docstring.
+            slope = beta[:, 1:, :].clamp_min(1e-4)                                     # (R, n_in, k_out)
+            y_slope = torch.einsum("nr,rdk,nd->nk", w, slope, xa[:, 1:])               # (N, k_out)
+            gram_i = w.T @ w + ridge * torch.eye(self.rule_count, dtype=phi.dtype, device=phi.device)
+            intercepts = torch.linalg.solve(gram_i, w.T @ (y - y_slope))               # (R, k_out)
+            beta = torch.cat([intercepts[:, None, :], torch.log(torch.expm1(slope))], dim=1)
         self.consequents.copy_(beta)
 
 
@@ -126,7 +146,8 @@ class HANFISBottleneck(nn.Module):
 
     def __init__(self, m_raw: int = 2, m_intermediate: int = 3, bottleneck_k: int = 1,
                 m_threat: int | None = None, monotone: bool = False,
-                max_params: int = 2000, allow_oversize: bool = False) -> None:
+                max_params: int = 2000, allow_oversize: bool = False,
+                clamp_intermediates: bool = True) -> None:
         super().__init__()
         m_threat = m_raw if m_threat is None else m_threat
         est = estimate_params(m_raw, m_intermediate, bottleneck_k)
@@ -139,6 +160,7 @@ class HANFISBottleneck(nn.Module):
                 f"allow_oversize=True only if you accept the resulting training cost.")
         self.bottleneck_k = bottleneck_k
         self.monotone = monotone
+        self.clamp_intermediates = bool(clamp_intermediates)
         self.vulnerability = MultiHeadSugenoPanel([m_raw, m_raw, m_raw], k_out=bottleneck_k, monotone=monotone)
         self.environment = MultiHeadSugenoPanel([m_raw, m_raw, m_raw], k_out=bottleneck_k, monotone=monotone)
         self.integration = MultiHeadSugenoPanel([m_intermediate] * (2 * bottleneck_k) + [m_threat], k_out=1, monotone=monotone)
@@ -163,7 +185,9 @@ class HANFISBottleneck(nn.Module):
         return torch.cat([v, e, x7[:, 6:7]], dim=1)   # (N, 2k+1)
 
     def forward(self, x7: torch.Tensor) -> torch.Tensor:
-        r = self.integration(self.integration_input(x7, clamp=True))   # (N, 1)
+        # clamp_intermediates=False makes forward() exactly the function the closed-form solves
+        # minimise (they always use clamp=False); the output clip to [0,1] is kept in both cases.
+        r = self.integration(self.integration_input(x7, clamp=self.clamp_intermediates))   # (N, 1)
         return torch.clamp(r[:, 0], 0.0, 1.0)
 
 

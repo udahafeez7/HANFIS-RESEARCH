@@ -1,14 +1,26 @@
 #!/usr/bin/env python
-"""E5: accuracy/complexity curve over the inter-tier bottleneck width k (patch 0055).
+"""E5: accuracy/complexity curve over the inter-tier bottleneck width k (patch 0055/0058/0059).
 RUN tests/test_bottleneck_smoke.py FIRST.
 
 Trains HANFISBottleneck at each k in --ks (default 1 2; k>=3 refused by estimate_params unless
---allow-oversize) on the SAME GroupTimeSplit folds and frozen seeds as E4, using the simpler
-Integration-only closed-form scheme (NOT E2 -- see hanfis_bottleneck.py's module docstring for
-why). Reports RMSE and skill vs persistence per k, alongside rule/parameter counts, so the
-accuracy/complexity trade-off is visible directly rather than asserted.
+--allow-oversize) on the SAME GroupTimeSplit folds and frozen seeds as E4, with the vector
+generalisation of the A-19 alternating scheme (default) and, since patch 0059, with the
+Integration intercept refit and clamp_intermediates OFF (--clamp-intermediates on reproduces
+the patch-0058 forward for a parity check against the A-09 model).
+
+Reporting (patch 0059). The per-fold mean of ss_pers is NOT a usable summary: ss = 1 - mse/
+mse_pers explodes on folds whose test block is nearly static (persistence RMSE ~0.09-0.10 on the
+0-100 scale gave -124 and -102 on 2026-10-01) and the mean is then meaningless. The E4
+preregistration scores skill on the POOLED MSE over all test rows; this script now writes every
+test-row prediction (e5_predictions_<stamp>.csv: event_id, image_id, k, fold, y, y_pers,
+y_hanfis) and reports ss_pers_pooled and rmse_pooled per k, with the per-fold median as a
+robustness check. The per-fold mean is kept in the CSV only for continuity. It also reports
+obs_per_param = n_train / params per fold: the §9 gate asks >= 10, and k=2 (1,152 params) is
+below it on every fold of the 109-asset inventory -- the sweep still runs (mechanism probe),
+but the flag must travel with the number into the manuscript.
 
   python scripts/e5_sweep.py --ks 1 2
+  python scripts/e5_sweep.py --ks 1 --clamp-intermediates on     # parity run vs A-09 forward
 """
 from __future__ import annotations
 
@@ -50,6 +62,10 @@ def main(argv=None) -> int:
                         "scheme that de-confounds the sweep; 'integration_only' reproduces the "
                         "earlier, confounded e5_sweep_20261001T045940Z.csv run for comparison")
     p.add_argument("--allow-oversize", action="store_true", help="train a k whose estimated params exceed --max-params anyway")
+    p.add_argument("--clamp-intermediates", choices=["on", "off"], default="off",
+                   help="'off' (default, patch 0059): forward() evaluates the same unclamped v,e the closed-form "
+                        "solves minimise; 'on' reproduces the patch-0058 forward (v,e clamped to [0,1])")
+    p.add_argument("--min-obs-per-param", type=float, default=10.0, help="§9 gate threshold used only to FLAG folds (never to skip them)")
     p.add_argument("--out-dir", default=str(ROOT / "results_python" / "e5"))
     a = p.parse_args(argv)
 
@@ -73,7 +89,8 @@ def main(argv=None) -> int:
     sp = GroupTimeSplit(n_splits=n_groups, embargo_days=a.embargo_days, min_train_weeks=a.min_train_weeks)
     folds = sp.split(sup); sp.assert_no_leakage(sup, folds)
 
-    rows = []
+    rows = []; pred_rows = []
+    clamp_flag = a.clamp_intermediates == "on"
     for k in a.ks:
         try:
             estimate_k = estimate_params(2, 3, k)
@@ -98,7 +115,8 @@ def main(argv=None) -> int:
                     fit_fn = fit_hybrid_lower_alternating if a.scheme == "alternating" else fit_hybrid
                     for r in range(a.n_restarts):
                         torch.manual_seed(seed * 100 + r)
-                        model = HANFISBottleneck(bottleneck_k=k, monotone=True, max_params=a.max_params, allow_oversize=a.allow_oversize)
+                        model = HANFISBottleneck(bottleneck_k=k, monotone=True, max_params=a.max_params,
+                                                 allow_oversize=a.allow_oversize, clamp_intermediates=clamp_flag)
                         hist = fit_fn(model, X_all[tr_idx], y01[tr_idx], X_all[val_idx], y01[val_idx],
                                      epochs=a.epochs, patience=100, min_epochs=200)
                         if hist["best_validation_loss"] < best_val:
@@ -112,10 +130,17 @@ def main(argv=None) -> int:
             mse_pers = float(np.mean((y_pers - y_raw[te]) ** 2))
             mse_h = float(np.mean((y_hanfis - y_raw[te]) ** 2))
             ss_pers = 1 - mse_h / mse_pers if mse_pers > 0 else float("nan")
-            rows.append({"k": k, "fold": f.index, "scheme": a.scheme, "rmse": rmse, "ss_pers": ss_pers, "n_test": len(te),
+            obs_per_param = len(tr_idx) / best_model.parameter_count
+            rows.append({"k": k, "fold": f.index, "scheme": a.scheme, "clamp_intermediates": a.clamp_intermediates,
+                        "rmse": rmse, "ss_pers": ss_pers, "rmse_pers": float(np.sqrt(mse_pers)), "n_test": len(te),
+                        "n_train": int(len(tr_idx)), "obs_per_param": round(obs_per_param, 2),
+                        "underpowered": bool(obs_per_param < a.min_obs_per_param),
                         "rules": best_model.rule_count, "params": best_model.parameter_count,
                         "time_sec": round(time.time() - t0, 1), **{f"est_{kk}": vv for kk, vv in estimate_k.items()}})
-            print(f"k={k} fold {f.index}: rmse={rmse:.4f} ss_pers={ss_pers:.4f} "
+            pred_rows.append(pd.DataFrame({"event_id": sup["event_id"].to_numpy()[te], "image_id": sup["image_id"].to_numpy()[te],
+                                           "k": k, "fold": f.index, "y": y_raw[te], "y_pers": y_pers, "y_hanfis": y_hanfis}))
+            print(f"k={k} fold {f.index}: rmse={rmse:.4f} rmse_pers={np.sqrt(mse_pers):.4f} ss_pers={ss_pers:.4f} "
+                  f"n_train={len(tr_idx)} obs/param={obs_per_param:.1f}{' UNDERPOWERED' if obs_per_param < a.min_obs_per_param else ''} "
                   f"rules={best_model.rule_count} params={best_model.parameter_count} ({time.time()-t0:.0f}s)")
 
     res = pd.DataFrame(rows)
@@ -123,11 +148,24 @@ def main(argv=None) -> int:
     stamp = dt.datetime.now(dt.timezone.utc).strftime("%Y%m%dT%H%M%SZ")
     res.to_csv(out / f"e5_sweep_{stamp}.csv", index=False)
     if not res.empty:
+        preds_df = pd.concat(pred_rows, ignore_index=True)
+        preds_df.to_csv(out / f"e5_predictions_{stamp}.csv", index=False)
+        pooled = []
+        for k, g in preds_df.groupby("k"):
+            mse_h = float(np.mean((g["y_hanfis"] - g["y"]) ** 2)); mse_p = float(np.mean((g["y_pers"] - g["y"]) ** 2))
+            pooled.append({"k": k, "rmse_pooled": np.sqrt(mse_h), "rmse_pers_pooled": np.sqrt(mse_p),
+                           "ss_pers_pooled": 1 - mse_h / mse_p if mse_p > 0 else float("nan"), "n_test_total": int(len(g))})
+        pooled = pd.DataFrame(pooled).set_index("k")
         summary = res.groupby("k").agg(rmse_mean=("rmse", "mean"), rmse_std=("rmse", "std"),
-                                       ss_pers_mean=("ss_pers", "mean"), rules=("rules", "first"),
-                                       params=("params", "first"), time_sec_total=("time_sec", "sum"))
+                                       ss_pers_median=("ss_pers", "median"), ss_pers_mean_UNSTABLE=("ss_pers", "mean"),
+                                       obs_per_param_min=("obs_per_param", "min"), folds_underpowered=("underpowered", "sum"),
+                                       rules=("rules", "first"), params=("params", "first"), time_sec_total=("time_sec", "sum"))
+        summary = pooled.join(summary)
         print(); print(summary.round(4).to_string())
+        print("\nHeadline per k = ss_pers_pooled / rmse_pooled (E4 preregistration metric). ss_pers_mean_UNSTABLE is the "
+              "per-fold mean of ratios, kept for continuity only. Any folds_underpowered > 0 must be reported with the number.")
         summary.to_csv(out / f"e5_summary_{stamp}.csv")
+        print(f"wrote {out}/e5_predictions_{stamp}.csv")
     print(f"\nwrote {out}/e5_sweep_{stamp}.csv")
     print("STATUS=E5_SWEEP_DONE")
     return 0

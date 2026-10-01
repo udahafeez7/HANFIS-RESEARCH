@@ -1,6 +1,7 @@
 """E5 smoke test -- RUN THIS FIRST, before using hanfis_bottleneck.py for the sweep.
 
-I could not execute torch in the sandbox that wrote this (same limitation as patches 0035/0049).
+Torch could not be executed in the sandbox that wrote this (patches 0035/0049/0058/0059); the
+patch-0059 cases were first reproduced and fixed in pure NumPy (python_hanfis/verify_bottleneck_refit.py).
 The multi-head Sugeno math (k=1 reduces exactly to the scalar panel; k=3 output shape is (N,3))
 was verified independently in pure NumPy first (python_hanfis/verify_multihead.py). This test
 re-runs the same checks through the real torch classes and must pass before trusting
@@ -104,21 +105,85 @@ class TestAlternatingGeneralised(unittest.TestCase):
         print(f"\n  k=1 alternating: {mse0:.4f} -> {mse_final:.6f}")
         self.assertLess(mse_final, 0.01)
 
-    def test_k2_alternating_converges_without_diverging(self):
+    def _alternate(self, model, xt, yt, iters=6, ridge=1e-3):
+        import hanfis_bottleneck as hb
+        hist = []
+        for _ in range(iters):
+            with torch.no_grad():
+                model.integration.solve_consequents(model.integration_input(xt, clamp=False), yt[:, None], ridge)
+                hb.solve_lower_alternating(model, xt, yt, ridge)
+                hist.append(torch.mean((model(xt) - yt) ** 2).item())
+        return hist
+
+    def test_k1_monotone_alternating_reaches_noise_floor(self):
+        """Patch 0059: with the Integration intercept refit and no intermediate clamp, the
+        monotone k=1 closed-form alternation must reach the noise floor (NumPy: 1.03e-4 on
+        sigma^2 = 1e-4). Patch 0058 oscillated here (0.039 -> 0.220 -> 0.021 ...)."""
         import hanfis_bottleneck as hb
         x, y = synthetic(n=400, seed=1)
         torch.manual_seed(1)
-        model = hb.HANFISBottleneck(bottleneck_k=2, monotone=True, max_params=2000)
+        model = hb.HANFISBottleneck(bottleneck_k=1, monotone=True, clamp_intermediates=False)
         xt, yt = torch.as_tensor(x), torch.as_tensor(y)
-        for _ in range(6):
-            with torch.no_grad():
-                model.integration.solve_consequents(model.integration_input(xt, clamp=False), yt[:, None], 1e-3)
-                hb.solve_lower_alternating(model, xt, yt, 1e-3)
+        hist = self._alternate(model, xt, yt)
+        var_y = float(np.var(y))
+        print(f"\n  k=1 alternating (monotone, no clamp): {[round(h, 6) for h in hist]}  var(y)={var_y:.4f}")
+        self.assertTrue(np.all(np.isfinite(hist)))
+        self.assertLessEqual(hist[-1], hist[0] + 1e-9)          # no divergence
+        self.assertLess(hist[-1], 0.05 * var_y)                  # explains > 95% of the variance
+
+    def test_k2_alternating_converges_without_diverging(self):
+        """What the name says: finite, last iteration no worse than the first, and well below
+        var(y). The patch-0058 version asserted an absolute 0.1 with the clamp mismatch still in
+        place and failed at 0.157 (= 12 x var(y), i.e. worse than predicting the mean)."""
+        import hanfis_bottleneck as hb
+        x, y = synthetic(n=400, seed=1)
+        torch.manual_seed(1)
+        model = hb.HANFISBottleneck(bottleneck_k=2, monotone=True, max_params=2000, clamp_intermediates=False)
+        xt, yt = torch.as_tensor(x), torch.as_tensor(y)
+        hist = self._alternate(model, xt, yt)
+        var_y = float(np.var(y))
+        print(f"\n  k=2 alternating (monotone, no clamp): {[round(h, 6) for h in hist]}  var(y)={var_y:.4f}")
+        self.assertTrue(np.all(np.isfinite(hist)))
+        self.assertLessEqual(hist[-1], hist[0] + 1e-9)
+        self.assertLess(hist[-1], 0.05 * var_y)
+
+    def test_monotone_integration_solve_refits_intercepts(self):
+        """Direct check of MultiHeadSugenoPanel.solve_consequents under monotone=True: on a
+        monotone 3-input target the projected panel must still fit (stale intercepts cannot)."""
+        import hanfis_bottleneck as hb
+        rng = np.random.default_rng(5)
+        x = rng.random((500, 3)).astype(np.float32)
+        y = (0.2 + 0.3 * x[:, 0] + 0.5 * x[:, 1] ** 2 + 0.1 * x[:, 2] + rng.normal(0, 0.01, 500)).astype(np.float32)
+        torch.manual_seed(5)
+        panel = hb.MultiHeadSugenoPanel([2, 2, 2], k_out=1, monotone=True)
+        xt, yt = torch.as_tensor(x), torch.as_tensor(y)[:, None]
         with torch.no_grad():
-            mse_final = torch.mean((model(xt) - yt) ** 2).item()
-        print(f"\n  k=2 alternating (monotone): final MSE {mse_final:.6f}")
-        self.assertTrue(np.isfinite(mse_final))
-        self.assertLess(mse_final, 0.1)
+            panel.solve_consequents(xt, yt, 1e-3)
+            mse = torch.mean((panel(xt) - yt) ** 2).item()
+            slopes = panel.effective_consequents()[:, 1:, :]
+        print(f"\n  monotone panel solve: mse={mse:.6f} var(y)={np.var(y):.4f}")
+        self.assertTrue(bool(torch.all(slopes >= 0)))
+        self.assertLess(mse, 0.05 * float(np.var(y)))
+
+    def test_intermediate_clamp_mismatch_is_real(self):
+        """Documents the second cause: with clamp_intermediates=True (patch 0058 default) the
+        closed form solves an unclamped function but forward() evaluates a clamped one, and a
+        large share of rows have v or e outside [0,1] (NumPy: ~55% at k=1)."""
+        import hanfis_bottleneck as hb
+        x, y = synthetic(n=400, seed=1)
+        torch.manual_seed(1)
+        model = hb.HANFISBottleneck(bottleneck_k=1, monotone=True, clamp_intermediates=True)
+        xt, yt = torch.as_tensor(x), torch.as_tensor(y)
+        self._alternate(model, xt, yt)
+        with torch.no_grad():
+            v, e = model.intermediates(xt, clamp=False)
+            frac_out = float(((v < 0) | (v > 1) | (e < 0) | (e > 1)).any(dim=1).float().mean())
+            mse_clamped = torch.mean((model(xt) - yt) ** 2).item()
+            r_unclamped = torch.clamp(model.integration(model.integration_input(xt, clamp=False))[:, 0], 0.0, 1.0)
+            mse_unclamped = torch.mean((r_unclamped - yt) ** 2).item()
+        print(f"\n  clamp mismatch k=1: frac rows out of [0,1]={frac_out:.2f}  mse clamped={mse_clamped:.6f} unclamped={mse_unclamped:.6f}")
+        self.assertGreater(frac_out, 0.10)
+        self.assertGreater(mse_clamped, mse_unclamped)
 
     def test_full_training_loop_k1_and_k2(self):
         import hanfis_bottleneck as hb
