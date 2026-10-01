@@ -41,7 +41,7 @@ echo
 
 FOUND=0
 for slug in "${CANDIDATE_SLUGS[@]}"; do
-  bundle="$(ls -d data/evidence/${slug}_trivy_scan_* 2>/dev/null | head -1 || true)"
+  bundle="$(ls -dt data/evidence/${slug}_trivy_scan_* 2>/dev/null | head -1 || true)"  # -t: newest first, not alphabetical
   if [ -z "$bundle" ]; then
     echo "$slug: no bundle found (not yet scanned, or scan failed before writing evidence)"
     continue
