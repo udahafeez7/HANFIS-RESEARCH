@@ -29,13 +29,18 @@ MSE 0.039 -> 0.220 -> 0.021 -> ...; k=2 monotone: 0.177 ... 0.036, which is what
 smoke test saw as 0.157); with the refit it converges to the noise floor (k=1: 1.03e-4;
 k=2: 8.5e-5 on sigma^2 = 1e-4).
 
-Intermediate clamping (patch 0059): HANFISBottleneck.forward used to clamp v, e to [0,1] while
-every closed-form solve works on the UNclamped v, e (it must -- linearity). The function being
-solved was therefore not the function being evaluated: on synthetic data ~40-55% of rows had
-some v or e outside [0,1], and all of the residual training MSE (0.007-0.02 vs an unclamped
-1e-4) came from that mismatch. `clamp_intermediates` (default True = patch 0058 behaviour,
-for parity checks against the A-09 model) switches it off; the E5 sweep runs with it OFF so the
-objective the closed form minimises is the one that is scored.
+Intermediate clamping (patch 0059, reframed 0062): hanfis_end2end.py's A-09 model does the
+same thing deliberately -- forward()/the training loss/the validation loss all hard-clamp v, e
+to [0,1] (the "verified E-INT path", A-09's own code), while every closed-form solve always
+uses the UNclamped v, e internally (it must -- linearity). This is NOT a bug to fix; A-09's own
+comments document the clamp's accuracy cost (RMSE 3.53 hard clamp vs 1.83 soft range-penalty on
+scenario S2) and keep it anyway as the confirmatory convention. `clamp_intermediates` (default
+True, matching A-09) lets callers switch it OFF as an explicit ablation -- that scores a
+DIFFERENT function, not a more-correct one, and is not directly comparable to A-09/E4 results
+without saying so. Per-row parity at k=1, clamp on: pearson r=0.9984 against E4's predictions,
+0/981 rows assigned to a different fold (scripts/e5_e4_parity.py, patch 0061) -- this is what
+confirms the k=1 reproduction claim at the module docstring's top, not just the pooled skill
+being close.
 """
 from __future__ import annotations
 

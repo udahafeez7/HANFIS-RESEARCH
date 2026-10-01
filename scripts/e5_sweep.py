@@ -62,9 +62,15 @@ def main(argv=None) -> int:
                         "scheme that de-confounds the sweep; 'integration_only' reproduces the "
                         "earlier, confounded e5_sweep_20261001T045940Z.csv run for comparison")
     p.add_argument("--allow-oversize", action="store_true", help="train a k whose estimated params exceed --max-params anyway")
-    p.add_argument("--clamp-intermediates", choices=["on", "off"], default="off",
-                   help="'off' (default, patch 0059): forward() evaluates the same unclamped v,e the closed-form "
-                        "solves minimise; 'on' reproduces the patch-0058 forward (v,e clamped to [0,1])")
+    p.add_argument("--clamp-intermediates", choices=["on", "off"], default="on",
+                   help="'on' (default, patch 0062): matches hanfis_end2end.py's A-09/E4 convention -- v,e hard-"
+                        "clamped to [0,1] in forward()/loss/validation (the closed-form solves always use the "
+                        "unclamped v,e internally, as A-09 does too). Per-row parity confirmed against E4 at k=1 "
+                        "(pearson r=0.9984, 0/981 fold mismatches, e5_e4_parity_20261001T061220Z.csv). 'off' is an "
+                        "ABLATION, not a more-correct default: it scores a different function than E4 reports and "
+                        "is not directly comparable to it; A-09's own code documents that the hard clamp costs real "
+                        "accuracy (RMSE 3.53 vs a soft range-penalty's 1.83 on scenario S2) but is the convention "
+                        "used for the confirmatory family regardless.")
     p.add_argument("--min-obs-per-param", type=float, default=10.0, help="§9 gate threshold used only to FLAG folds (never to skip them)")
     p.add_argument("--out-dir", default=str(ROOT / "results_python" / "e5"))
     a = p.parse_args(argv)
