@@ -107,9 +107,19 @@ def main(argv=None) -> int:
     results = bootstrap_skill_scores(df, n_boot=a.n_boot)
     results = holm_correction(results)
 
+    flat_full_mse = None
+    if "y_flat_full" in df.columns and df["y_flat_full"].notna().any():
+        mse_hanfis = pooled_mse(df, "y_hanfis")
+        flat_full_mse = pooled_mse(df, "y_flat_full")
+        flat_full_ss = 1 - mse_hanfis / flat_full_mse if flat_full_mse > 0 else float("nan")
+
     out = Path(a.out_dir); out.mkdir(parents=True, exist_ok=True)
     stamp = dt.datetime.now(dt.timezone.utc).strftime("%Y%m%dT%H%M%SZ")
     summary_rows = [{"ref": ref, **r} for ref, r in results.items()]
+    if flat_full_mse is not None:
+        summary_rows.append({"ref": "flat_full", "hypothesis": "H2'", "ss_point": flat_full_ss,
+                             "ci_lo": None, "ci_hi": None, "sesoi_or_margin": None,
+                             "p_boot_at_margin": None, "n_boot_valid": None, "p_holm": None, "confirmed": None})
     pd.DataFrame(summary_rows).to_csv(out / f"E4_skill_scores_{stamp}.csv", index=False)
 
     lines = ["# E4 hasil (draf otomatis)", ""]
@@ -117,6 +127,9 @@ def main(argv=None) -> int:
         verdict = "TERKONFIRMASI" if r["confirmed"] else "belum terkonfirmasi"
         lines.append(f"- **{r['hypothesis']}** ({ref}): SS = {r['ss_point']:.4f} "
                      f"[{r['ci_lo']:.4f}, {r['ci_hi']:.4f}], p_Holm = {r['p_holm']:.4f} -> {verdict}")
+    if flat_full_mse is not None:
+        lines.append(f"- **H2\u2032** (flat ANFIS penuh, referensi tanpa kriteria): SS = {flat_full_ss:.4f} "
+                     f"(MSE flat penuh = {flat_full_mse:.4f}) -- dilaporkan, tidak diuji")
     (out / f"E4_report_{stamp}.md").write_text("\n".join(lines), encoding="utf-8")
 
     print("\n".join(lines))
