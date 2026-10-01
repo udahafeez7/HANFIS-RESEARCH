@@ -1,0 +1,207 @@
+"""E5: bottleneck-width sweep (k in {1, 2}; k >= 3 refused by default -- see below).
+
+Deliberately a SEPARATE module from hanfis_end2end.py, not a modification of it: HANFIS (k=1,
+the A-09 default) already produced the confirmatory E4 results and must not be touched by
+exploratory code. HANFISBottleneck generalises v, e from scalars to k-dimensional vectors fed
+into the Integration panel, via a multi-output Sugeno panel (same firing weights/rules, k
+consequent heads instead of 1 -- verified in NumPy first, see verify_multihead.py, including
+that k=1 reduces EXACTLY to the scalar panel).
+
+Rule growth is exponential in k under grid partition: integration rules = m_I^(2k) * m_raw.
+At the frozen m_I=3: k=1 -> 18 rules (176 total params, matches HANFIS exactly); k=2 -> 162
+rules (~1,154 params, 6.5x); k=3 -> 1,458 rules; k=4 -> 13,122 rules (~131,000 params, far
+exceeding the ~6,200-row inventory). build_bottleneck_hanfis refuses k values whose estimated
+parameter count exceeds a data-driven budget unless explicitly overridden, so an infeasible
+sweep point fails loudly rather than hanging or silently training something meaningless.
+
+Training here uses the Integration-only closed-form scheme (hanfis_end2end.fit_hybrid's
+style), NOT the alternating-lower-panel scheme (E2/A-09): E2's closed-form derivation was built
+specifically for scalar v, e and generalising it to vector intermediates is future work, out of
+scope for this exploratory sweep. This is a deliberate, documented methodological difference
+from the confirmatory A-09 configuration, not an oversight.
+
+Monotonicity (if enabled) applies softplus per consequent head independently, WITHOUT the
+intercept-refit correction hanfis_end2end.SugenoPanel.solve_consequents uses (E1 already showed
+that correction matters for accuracy); the simpler, uncorrected projection is accepted here
+because this model is a mechanism probe, not a candidate for the confirmatory family.
+"""
+from __future__ import annotations
+
+import copy
+import itertools
+
+import numpy as np
+import torch
+from torch import nn
+
+
+class BottleneckBudgetError(RuntimeError):
+    """Raised when a requested k implies a parameter count the data cannot support."""
+
+
+def estimate_params(m_raw: int, m_intermediate: int, bottleneck_k: int) -> dict:
+    r_ve = m_raw ** 3
+    r_i = m_intermediate ** (2 * bottleneck_k) * m_raw
+    cons_ve = r_ve * (3 + 1) * bottleneck_k           # each of V, E: R rules x (n_in+1) x k heads
+    premise_ve = 2 * 3 * m_raw                        # gauss: 2 params x 3 inputs x m_raw MFs each... per panel
+    cons_i = r_i * (2 * bottleneck_k + 1 + 1)
+    premise_i = 2 * (2 * bottleneck_k) * m_intermediate + 2 * 1 * m_raw
+    total_params = 2 * (premise_ve + cons_ve) + premise_i + cons_i
+    return {"bottleneck_k": bottleneck_k, "integration_rules": r_i, "ve_rules_each": r_ve,
+            "total_rules": r_i + 2 * r_ve, "total_params": total_params}
+
+
+class MultiHeadSugenoPanel(nn.Module):
+    """Like hanfis_end2end.SugenoPanel, but with k_out >= 1 consequent heads sharing one set of
+    rules/firing weights. k_out=1 reduces exactly to the single-output panel (verified in
+    verify_multihead.py). Gaussian premises only (the exploratory sweep does not re-run the
+    MF-family ablation)."""
+
+    def __init__(self, m_per_input: list[int], k_out: int = 1, monotone: bool = False) -> None:
+        super().__init__()
+        self.m_per_input = list(int(m) for m in m_per_input)
+        self.n_inputs = len(self.m_per_input)
+        self.k_out = int(k_out)
+        self.monotone = monotone
+        self.centers = nn.ParameterList([nn.Parameter(torch.linspace(0.25, 0.75, m) if m > 1 else torch.tensor([0.5])) for m in self.m_per_input])
+        self.log_sigmas = nn.ParameterList([nn.Parameter(torch.full((m,), float(np.log(0.25)))) for m in self.m_per_input])
+        rules = list(itertools.product(*[range(m) for m in self.m_per_input]))
+        self.register_buffer("rule_indices", torch.tensor(rules, dtype=torch.long))
+        self.consequents = nn.Parameter(torch.zeros(len(rules), self.n_inputs + 1, self.k_out))
+        nn.init.normal_(self.consequents, mean=0.0, std=0.05)
+
+    @property
+    def rule_count(self) -> int:
+        return int(self.rule_indices.shape[0])
+
+    @property
+    def premise_parameter_count(self) -> int:
+        return sum(2 * m for m in self.m_per_input)
+
+    @property
+    def parameter_count(self) -> int:
+        return self.premise_parameter_count + self.consequents.numel()
+
+    def effective_consequents(self) -> torch.Tensor:
+        if not self.monotone:
+            return self.consequents
+        return torch.cat([self.consequents[:, :1, :], torch.nn.functional.softplus(self.consequents[:, 1:, :])], dim=1)
+
+    def memberships(self, x: torch.Tensor, i: int) -> torch.Tensor:
+        sigma = torch.exp(self.log_sigmas[i]).clamp_min(1e-3)
+        xi = x[:, i : i + 1]
+        return torch.exp(-0.5 * ((xi - self.centers[i][None, :]) / sigma[None, :]) ** 2)
+
+    def firing(self, x: torch.Tensor) -> torch.Tensor:
+        selected = [self.memberships(x, i)[:, self.rule_indices[:, i]] for i in range(self.n_inputs)]
+        w = torch.stack(selected, dim=-1).prod(dim=-1)
+        return w / w.sum(dim=1, keepdim=True).clamp_min(1e-12)
+
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
+        """Returns (N, k_out); callers wanting the old scalar behaviour use k_out=1 and squeeze."""
+        w = self.firing(x)                                                            # (N, R)
+        xa = torch.cat([torch.ones((x.shape[0], 1), dtype=x.dtype, device=x.device), x], dim=1)  # (N, n_in+1)
+        cons = self.effective_consequents()                                           # (R, n_in+1, k)
+        rule_out = torch.einsum("nd,rdk->nrk", xa, cons)                              # (N, R, k)
+        return (w[:, :, None] * rule_out).sum(dim=1)                                  # (N, k)
+
+    @torch.no_grad()
+    def solve_consequents(self, x: torch.Tensor, y: torch.Tensor, ridge: float | None = 1e-3) -> None:
+        """y: (N, k_out). One Gram matrix, k_out right-hand sides solved at once."""
+        w = self.firing(x)
+        xa = torch.cat([torch.ones((x.shape[0], 1), dtype=x.dtype, device=x.device), x], dim=1)
+        phi = (w[:, :, None] * xa[:, None, :]).reshape(x.shape[0], -1)                 # (N, R*(n_in+1))
+        if ridge is None:
+            ridge = max(1e-3, 0.01 * phi.shape[1] / phi.shape[0])
+        gram = phi.T @ phi + ridge * torch.eye(phi.shape[1], dtype=phi.dtype, device=phi.device)
+        beta = torch.linalg.solve(gram, phi.T @ y)                                     # (R*(n_in+1), k_out)
+        beta = beta.reshape(self.rule_count, self.n_inputs + 1, self.k_out)
+        if self.monotone:
+            beta = torch.cat([beta[:, :1, :], torch.log(torch.expm1(beta[:, 1:, :].clamp_min(1e-4)))], dim=1)
+        self.consequents.copy_(beta)
+
+
+class HANFISBottleneck(nn.Module):
+    """V(x1..x3)->v in R^k, E(x4..x6)->e in R^k, I(v,e,x7)->r. k=1 matches HANFIS exactly."""
+
+    def __init__(self, m_raw: int = 2, m_intermediate: int = 3, bottleneck_k: int = 1,
+                m_threat: int | None = None, monotone: bool = False,
+                max_params: int = 2000, allow_oversize: bool = False) -> None:
+        super().__init__()
+        m_threat = m_raw if m_threat is None else m_threat
+        est = estimate_params(m_raw, m_intermediate, bottleneck_k)
+        if est["total_params"] > max_params and not allow_oversize:
+            raise BottleneckBudgetError(
+                f"bottleneck_k={bottleneck_k} with m_intermediate={m_intermediate} implies "
+                f"~{est['total_params']} parameters ({est['integration_rules']} integration rules "
+                f"alone), over the {max_params}-parameter budget. This is itself the E5 finding: "
+                f"grid-partitioning the integration tier explodes combinatorially with k. Pass "
+                f"allow_oversize=True only if you accept the resulting training cost.")
+        self.bottleneck_k = bottleneck_k
+        self.monotone = monotone
+        self.vulnerability = MultiHeadSugenoPanel([m_raw, m_raw, m_raw], k_out=bottleneck_k, monotone=monotone)
+        self.environment = MultiHeadSugenoPanel([m_raw, m_raw, m_raw], k_out=bottleneck_k, monotone=monotone)
+        self.integration = MultiHeadSugenoPanel([m_intermediate] * (2 * bottleneck_k) + [m_threat], k_out=1, monotone=monotone)
+
+    @property
+    def rule_count(self) -> int:
+        return self.vulnerability.rule_count + self.environment.rule_count + self.integration.rule_count
+
+    @property
+    def parameter_count(self) -> int:
+        return sum(p.parameter_count for p in (self.vulnerability, self.environment, self.integration))
+
+    def intermediates(self, x7: torch.Tensor, clamp: bool = True) -> tuple[torch.Tensor, torch.Tensor]:
+        v = self.vulnerability(x7[:, 0:3])     # (N, k)
+        e = self.environment(x7[:, 3:6])       # (N, k)
+        if clamp:
+            v, e = torch.clamp(v, 0.0, 1.0), torch.clamp(e, 0.0, 1.0)
+        return v, e
+
+    def integration_input(self, x7: torch.Tensor, clamp: bool = True) -> torch.Tensor:
+        v, e = self.intermediates(x7, clamp=clamp)
+        return torch.cat([v, e, x7[:, 6:7]], dim=1)   # (N, 2k+1)
+
+    def forward(self, x7: torch.Tensor) -> torch.Tensor:
+        r = self.integration(self.integration_input(x7, clamp=True))   # (N, 1)
+        return torch.clamp(r[:, 0], 0.0, 1.0)
+
+
+def fit_hybrid(model: HANFISBottleneck, x_train: np.ndarray, y_train: np.ndarray,
+              x_validation: np.ndarray, y_validation: np.ndarray, epochs: int = 600,
+              learning_rate: float = 1e-2, patience: int = 100, ridge: float | None = 1e-3,
+              min_epochs: int = 200) -> dict:
+    """Integration-only closed form (NOT E2's alternating scheme -- see module docstring)."""
+    xtr = torch.as_tensor(x_train, dtype=torch.float32); ytr = torch.as_tensor(y_train, dtype=torch.float32)[:, None]
+    xva = torch.as_tensor(x_validation, dtype=torch.float32); yva = torch.as_tensor(y_validation, dtype=torch.float32)[:, None]
+    premise = [p for panel in (model.vulnerability, model.environment, model.integration)
+              for p in list(panel.centers) + list(panel.log_sigmas)]
+    optimizer = torch.optim.Adam(premise, lr=learning_rate)
+    best_loss, best_state, best_epoch, stale = float("inf"), copy.deepcopy(model.state_dict()), 0, 0
+    history = {"training_loss": [], "validation_loss": []}
+    for epoch in range(epochs):
+        model.train()
+        model.integration.solve_consequents(model.integration_input(xtr, clamp=False), ytr, ridge)
+        optimizer.zero_grad()
+        loss = torch.mean((model(xtr) - ytr[:, 0]) ** 2)
+        loss.backward()
+        optimizer.step()
+        model.eval()
+        with torch.no_grad():
+            val = torch.mean((model(xva) - yva[:, 0]) ** 2).item()
+        history["training_loss"].append(float(loss.item())); history["validation_loss"].append(val)
+        if val < best_loss - 1e-8:
+            best_loss, best_state, best_epoch, stale = val, copy.deepcopy(model.state_dict()), epoch + 1, 0
+        else:
+            stale += 1
+            if stale >= patience and epoch + 1 >= min_epochs:
+                break
+    model.load_state_dict(best_state)
+    history.update(best_validation_loss=best_loss, best_epoch=best_epoch)
+    return history
+
+
+def predict(model: HANFISBottleneck, x: np.ndarray) -> np.ndarray:
+    model.eval()
+    with torch.no_grad():
+        return model(torch.as_tensor(x, dtype=torch.float32)).cpu().numpy()
