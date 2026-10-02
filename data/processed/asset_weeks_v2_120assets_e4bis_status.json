@@ -1,0 +1,31 @@
+{
+  "n_rows_event_id": 6833,
+  "n_asset_ids": 120,
+  "n_image_groups": 119,
+  "share_non_na": 0.9303,
+  "share_positive": 0.8882,
+  "n_insufficient": 0,
+  "checks": {
+    "rows>=1320": true,
+    "non_na>=0.25": true,
+    "positive>=0.25": true,
+    "no_INSUFFICIENT_EVIDENCE": true
+  },
+  "TRAINING_AUTHORIZED": true,
+  "built_at": "2026-10-02T10:25:01+00:00",
+  "weeks": 57,
+  "start": "2025-08-25",
+  "end": "2026-09-21",
+  "kev_catalog": "2026.09.27",
+  "epss_model_versions": [
+    "v2025.03.14",
+    "v2026.06.15"
+  ],
+  "label_spec": {
+    "horizon_days": 30,
+    "stride_days": 7,
+    "kev_weight": 1.0,
+    "s_uses_rho": true,
+    "ti_mode": "kev_any"
+  }
+}
