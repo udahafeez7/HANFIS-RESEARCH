@@ -17,7 +17,13 @@ directly comparable row-for-row.
 Writes results_python/e4/predictions_<timestamp>.csv with columns: event_id, image_id, fold,
 y_true, y_hanfis, y_cvss_only, y_persistence, y_ridge_7inputs, y_matched, plus a
 _meta_<timestamp>.json recording the frozen seeds, fold group assignment, and per-fold/method
-wall-clock time.
+wall-clock time (plus, unconditionally: INPUTS order and normalisation shift/scale, for any
+downstream figure script).
+
+Pass --save-models to additionally write <out-dir>/models/fold<F>_seed<S>_hanfis.pt (one
+state_dict per fold x seed) and append {fold, seed, best_val_mse, file} entries under
+meta["saved_models"], for a later MF / surface-view figure (A-08). Off by default; does not
+change predictions_<timestamp>.csv, skill scores, or any other existing output.
 """
 from __future__ import annotations
 
@@ -42,10 +48,24 @@ import hanfis_models  # noqa: E402  (flat ANFIS full reference, m=2 grid partiti
 INPUTS = ["cvss", "exploitability", "patch_risk", "mfa_risk", "kubernetes_exposure", "asset_criticality", "threat_intelligence"]
 SEEDS = [20260928, 20261005, 20261012, 20261019, 20261026]   # frozen per preregistration
 
+# Named form of the scaling applied in normalise(), one row per INPUTS entry: (shift, scale) s.t.
+# x_norm = (x_raw - shift) / scale. Recorded verbatim into meta.json so a downstream figure script
+# (e.g. an MF/surface-view plot) can map a trained model's premise parameters, which live in this
+# normalised [0,1]-ish space, back to raw input units for axis labels -- without re-deriving or
+# guessing the arithmetic from this file. Unused inputs keep (0.0, 1.0): identity, matching the
+# untouched columns in normalise() below.
+NORM_SHIFT_SCALE = {
+    "cvss": (0.0, 10.0), "exploitability": (0.0, 1.0), "patch_risk": (0.0, 2.0),
+    "mfa_risk": (0.0, 1.0), "kubernetes_exposure": (0.0, 1.0),
+    "asset_criticality": (1.0, 4.0), "threat_intelligence": (0.0, 1.0),
+}
+
 
 def normalise(df: pd.DataFrame) -> np.ndarray:
     X = df[INPUTS].to_numpy(dtype=np.float64, copy=True)
-    X[:, 0] /= 10.0; X[:, 2] /= 2.0; X[:, 5] = (X[:, 5] - 1) / 4.0
+    for j, name in enumerate(INPUTS):
+        shift, scale = NORM_SHIFT_SCALE[name]
+        X[:, j] = (X[:, j] - shift) / scale
     return np.nan_to_num(X, nan=0.0)
 
 
@@ -78,6 +98,10 @@ def main(argv=None) -> int:
     p.add_argument("--out-dir", default=str(ROOT / "results_python" / "e4"))
     p.add_argument("--seeds", type=int, nargs="+", default=SEEDS,
                    help="override the frozen seed list -- only for a quick smoke run, never for the real E4 result")
+    p.add_argument("--save-models", action="store_true",
+                   help="also save each seed's best-of-restarts HANFIS state_dict to <out-dir>/models/, "
+                        "for post-hoc MF/surface-view figures (A-08). Does NOT change predictions, skill "
+                        "scores, or any existing output -- purely additive, default off.")
     a = p.parse_args(argv)
     if a.seeds != SEEDS:
         print(f"WARNING: using non-frozen seeds {a.seeds} -- this run is NOT the confirmatory E4 result")
@@ -97,7 +121,15 @@ def main(argv=None) -> int:
 
     all_rows = []
     meta = {"seeds": a.seeds, "n_splits": n_groups, "group_assignment": sp.group_assignment(sup),
-           "fold_times_sec": {}, "generated_utc": dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds")}
+           "fold_times_sec": {}, "generated_utc": dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds"),
+           "inputs_order": INPUTS, "normalisation_shift_scale": NORM_SHIFT_SCALE,
+           "saved_models": [] if a.save_models else None}
+
+    models_dir = None
+    if a.save_models:
+        models_dir = Path(a.out_dir) / "models"
+        models_dir.mkdir(parents=True, exist_ok=True)
+    stamp = dt.datetime.now(dt.timezone.utc).strftime("%Y%m%dT%H%M%SZ")
 
     for f in folds:
         t0 = time.time()
@@ -123,6 +155,10 @@ def main(argv=None) -> int:
                 epochs=a.epochs, patience=100, min_epochs=200, ridge=None)
             hanfis_preds.append(hanfis_predict(model, X_all[te]))
             print(f"fold {f.index}  HANFIS seed={seed}  best_val_mse={val:.5f}")
+            if models_dir is not None:
+                fname = f"fold{f.index}_seed{seed}_hanfis.pt"
+                torch.save(model.state_dict(), models_dir / fname)
+                meta["saved_models"].append({"fold": f.index, "seed": seed, "best_val_mse": float(val), "file": fname})
         y_hanfis = np.mean(hanfis_preds, axis=0) * 100.0
 
         # --- FlatANFISMatched: radius searched fresh on THIS fold's training data ---
@@ -160,7 +196,6 @@ def main(argv=None) -> int:
         print(f"fold {f.index} done in {meta['fold_times_sec'][f.index]}s  ({len(te)} test rows)")
 
     out = Path(a.out_dir); out.mkdir(parents=True, exist_ok=True)
-    stamp = dt.datetime.now(dt.timezone.utc).strftime("%Y%m%dT%H%M%SZ")
     pd.DataFrame(all_rows).to_csv(out / f"predictions_{stamp}.csv", index=False)
     (out / f"meta_{stamp}.json").write_text(json.dumps(meta, indent=2, default=str), encoding="utf-8")
     print(f"\nwrote {out}/predictions_{stamp}.csv ({len(all_rows)} rows)")
