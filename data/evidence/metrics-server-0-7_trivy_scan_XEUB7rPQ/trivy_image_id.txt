@@ -1,0 +1,2 @@
+sha256:48d9cfaaf3904a3821b1e71e50d7cbcf52fb19d5286c59e0f86b1389d189b19c
+RepoDigests=registry.k8s.io/metrics-server/metrics-server@sha256:78e46b57096ec75e302fbc853e36359555df5c827bb009ecfe66f97474cc2a5a

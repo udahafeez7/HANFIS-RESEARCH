@@ -1,0 +1,1 @@
+velero/velero:v1.15.0@sha256:0b37fa40a7aee4c1dae8ecbd90a0a1d6ae2d6ee01038f2669ddc91542fa23064

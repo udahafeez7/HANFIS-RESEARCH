@@ -1,0 +1,2 @@
+sha256:0b844ea0bc6b9bec0a58cc2ccbf850d676fd3adca53fd49df7ec05f50dafd4c8
+RepoDigests=quay.io/coreos/etcd@sha256:75af419abd4e02411e0df74e3b32f131359839c0994e934c7bcc8eea40cb7298

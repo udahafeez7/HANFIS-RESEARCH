@@ -1,0 +1,14 @@
+2026-10-02T14:52:26+07:00	INFO	[vuln] Vulnerability scanning is enabled
+2026-10-02T14:52:28+07:00	INFO	Detected OS	family="alpine" version="3.20.3"
+2026-10-02T14:52:28+07:00	INFO	[alpine] Detecting vulnerabilities...	os_version="3.20" repository="3.20" pkg_num=51
+2026-10-02T14:52:28+07:00	INFO	Number of language-specific files	num=1
+2026-10-02T14:52:28+07:00	INFO	[jar] Detecting vulnerabilities...
+2026-10-02T14:52:28+07:00	WARN	Using severities from other vendors for some vulnerabilities. Read https://trivy.dev/docs/v0.74/guide/scanner/vulnerability#severity-selection for details.
+2026-10-02T14:52:28+07:00	WARN	This OS version is no longer supported by the distribution	family="alpine" version="3.20.3"
+2026-10-02T14:52:28+07:00	WARN	The vulnerability detection may be insufficient because security updates are not provided
+
+📣 [34mNotices:[0m
+  - Version 0.75.0 of Trivy is now available, current version is 0.74.0
+
+To suppress version checks, run Trivy scans with the --skip-version-check flag
+
