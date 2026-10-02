@@ -1,16 +1,18 @@
 #!/usr/bin/env python
-"""Fills proposed_kubernetes_exposure and proposed_asset_criticality in
-configs/assets_candidates_toward120.csv with the rubric-derived DRAFT values
-from catatan_keputusan_20261002.md section 4. Does NOT touch proposed_mfa_risk
-(its rubric does not exist yet -- left as ISI_HAFIZ deliberately, not silently
-filled with a guess).
+"""Fills proposed_kubernetes_exposure, proposed_asset_criticality, and
+proposed_mfa_risk in configs/assets_candidates_toward120.csv with the
+rubric-derived DRAFT values from catatan_keputusan_20261002.md section 4
+(kubernetes_exposure/asset_criticality) and the follow-up mfa_risk rubric
+given in chat on 2026-10-02 (infrastructure-MFA framing: does compromising
+this component bypass MFA protecting something else, rather than "does it
+have its own MFA login" -- none of the 11 candidates have a human login path
+at all, so the literal question doesn't apply to any of them).
 
 This is a draft-filling convenience, not a final decision: it prints a
 before/after diff for every row it changes, and the values it writes are
-exactly the ones already shown to Hafiz for review in catatan_keputusan_
-20261002.md section 4 -- nothing here is computed fresh or hidden. Hafiz can
-hand-edit the CSV afterward to override any value before running
-scripts/merge_candidates_into_assets.py.
+exactly the ones already shown to Hafiz for review -- nothing here is
+computed fresh or hidden. Hafiz can hand-edit the CSV afterward to override
+any value before running scripts/merge_candidates_into_assets.py.
 
 Usage: scripts/apply_rubric_draft_values.py [--dry-run]
 """
@@ -24,19 +26,24 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 CANDIDATES_CSV = ROOT / "configs" / "assets_candidates_toward120.csv"
 
-# asset_id -> (kubernetes_exposure, asset_criticality), from catatan_keputusan_20261002.md section 4
+# asset_id -> (kubernetes_exposure, asset_criticality, mfa_risk)
+# ke/ac from catatan_keputusan_20261002.md section 4; mfa_risk from the
+# infrastructure-MFA rubric given in chat 2026-10-02 (0 = machine-to-machine
+# auth only, no reusable human-equivalent credential; 0.5 = holds a reusable
+# identity/signing credential but not SSO/IdP itself; 1 = directly manages
+# SSO/IdP-equivalent credentials, compromise bypasses MFA entirely elsewhere).
 DRAFT_VALUES = {
-    "etcd-3-5":                ("0.5", "7"),
-    "opa-0-70":                ("0.5", "4"),
-    "gatekeeper-3-17":         ("1",   "5"),
-    "cilium-1-16":             ("1",   "6"),
-    "istio-proxy-1-23":        ("1",   "3"),
-    "kafka-3-8":               ("0.5", "4"),
-    "velero-1-15":             ("0.5", "6"),
-    "metrics-server-0-7":      ("0.5", "2"),
-    "cosign-2-4":              ("0",   "1"),
-    "external-secrets-0-10":   ("0.5", "5"),
-    "kube-state-metrics-2-13": ("0.5", "1"),
+    "etcd-3-5":                ("0.5", "7", "0"),
+    "opa-0-70":                ("0.5", "4", "0"),
+    "gatekeeper-3-17":         ("1",   "5", "0"),
+    "cilium-1-16":             ("1",   "6", "0"),
+    "istio-proxy-1-23":        ("1",   "3", "0.5"),
+    "kafka-3-8":               ("0.5", "4", "0"),
+    "velero-1-15":             ("0.5", "6", "0.5"),
+    "metrics-server-0-7":      ("0.5", "2", "0"),
+    "cosign-2-4":              ("0",   "1", "0.5"),
+    "external-secrets-0-10":   ("0.5", "5", "1"),
+    "kube-state-metrics-2-13": ("0.5", "1", "0"),
 }
 
 
@@ -61,28 +68,24 @@ def main(argv=None) -> int:
         aid = row["asset_id"]
         if aid not in DRAFT_VALUES:
             continue
-        ke_new, ac_new = DRAFT_VALUES[aid]
+        ke_new, ac_new, mfa_new = DRAFT_VALUES[aid]
         ke_old = row.get("proposed_kubernetes_exposure", "")
         ac_old = row.get("proposed_asset_criticality", "")
-        if ke_old != ke_new or ac_old != ac_new:
-            changes.append((aid, ke_old, ke_new, ac_old, ac_new))
+        mfa_old = row.get("proposed_mfa_risk", "")
+        if ke_old != ke_new or ac_old != ac_new or mfa_old != mfa_new:
+            changes.append((aid, ke_old, ke_new, ac_old, ac_new, mfa_old, mfa_new))
             row["proposed_kubernetes_exposure"] = ke_new
             row["proposed_asset_criticality"] = ac_new
-        mfa = row.get("proposed_mfa_risk", "")
-        if mfa.strip().upper() == "ISI_HAFIZ" or not mfa.strip():
-            pass  # deliberately left alone -- no rubric for mfa_risk yet
+            row["proposed_mfa_risk"] = mfa_new
 
     if not changes:
         print("No changes to make (already applied, or no matching asset_id).")
         return 0
 
     print(f"{len(changes)} row(s) would change:")
-    for aid, ke_old, ke_new, ac_old, ac_new in changes:
-        print(f"  {aid}: kubernetes_exposure '{ke_old}' -> '{ke_new}', asset_criticality '{ac_old}' -> '{ac_new}'")
-
-    remaining_mfa = sum(1 for r in rows if r.get("proposed_mfa_risk", "").strip().upper() in ("", "ISI_HAFIZ"))
-    print(f"\nproposed_mfa_risk left untouched for all rows ({remaining_mfa} still ISI_HAFIZ/empty) -- "
-          f"no rubric exists for it yet; fill it separately before merging.")
+    for aid, ke_old, ke_new, ac_old, ac_new, mfa_old, mfa_new in changes:
+        print(f"  {aid}: kubernetes_exposure '{ke_old}' -> '{ke_new}', asset_criticality '{ac_old}' -> '{ac_new}', "
+              f"mfa_risk '{mfa_old}' -> '{mfa_new}'")
 
     if a.dry_run:
         print("\n--dry-run: not writing anything.")
