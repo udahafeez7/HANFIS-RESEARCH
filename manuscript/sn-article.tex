@@ -232,9 +232,6 @@ HANFIS composes three first-order Sugeno ANFIS panels. The vulnerability panel $
 takes CVSS, Exploitability, and Patch Risk; the environmental panel $E(x_4,x_5,x_6)\to e$ takes MFA
 Risk, Kubernetes Exposure, and Asset Criticality; the integration panel $I(v,e,x_7)\to \tilde r$ takes
 the two intermediate indices and Threat Intelligence, with the final score $r=\mathrm{clip}(\tilde r,0,1)$.
-
-\input{A19_rubrik_skor_subjektif}
-
 No panel is given an intermediate target: $v$ and $e$ are latent, and gradients flow end-to-end from the
 loss on $r$ back through both tiers.
 
