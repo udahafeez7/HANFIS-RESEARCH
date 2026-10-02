@@ -8,8 +8,20 @@ Joins two files, neither of which alone has everything a row needs:
     judgment columns (filled by hand; this script refuses to proceed if any are
     still the ISI_HAFIZ placeholder)
   - configs/assets_candidates_toward120_scanresults.csv: asset_id, image_ref,
-    bundle_dir, scan_json, db_frozen_ok, db_updated_at_seen (written by
-    scripts/run_candidate_scans_20261001.sh)
+    bundle_dir, scan_json (written by scripts/run_candidate_scans_20261001.sh)
+
+IMPORTANT: this script does NOT trust that file's own db_frozen_ok column. It was
+written by run_candidate_scans_20261001.sh's ORIGINAL (buggy) per-scan check,
+which -- like verify_candidate_db_freeze.sh before its own fix -- conflated the
+Vulnerability-DB and Java-DB "UpdatedAt:" lines and so can read DRIFTED on rows
+that are actually fine (confirmed: a scanresults.csv pulled into this session
+showed DRIFTED on all 11 rows with a db_updated_at_seen that in fact MATCHES the
+expected frozen value -- the label was stale, not the data). This script instead
+re-derives the Vulnerability-DB UpdatedAt directly from each candidate's own
+bundle_dir/trivy_version_and_db.txt, and compares it against the majority
+Vulnerability-DB UpdatedAt read from the EXISTING 109 assets' own scan_json
+sibling files -- the same ground truth verify_candidate_db_freeze.sh uses, just
+computed here independently rather than trusted from a column that can go stale.
 
 Writes the result to configs/assets.csv, after backing up the original, and
 refuses to proceed on ANY of the following (fail-closed, consistent with this
@@ -55,6 +67,25 @@ def read_csv(path: Path) -> list[dict]:
         return list(csv.DictReader(fh))
 
 
+def vuln_db_updated_at(trivy_version_and_db_txt: Path) -> str | None:
+    """Reads ONLY the Vulnerability DB's UpdatedAt line, ignoring the Java DB
+    block entirely -- the two share the literal string 'UpdatedAt:' and a plain
+    grep/search that doesn't track which section it's in will conflate them
+    (exactly the bug found and fixed in verify_candidate_db_freeze.sh)."""
+    if not trivy_version_and_db_txt.exists():
+        return None
+    in_vuln_block = False
+    for line in trivy_version_and_db_txt.read_text(encoding="utf-8", errors="replace").splitlines():
+        if line.strip().startswith("Vulnerability DB:"):
+            in_vuln_block = True
+            continue
+        if in_vuln_block and line.strip().endswith(":") and "UpdatedAt" not in line:
+            break  # entered the next section (e.g. "Java DB:") without finding it
+        if in_vuln_block and "UpdatedAt:" in line:
+            return line.split("UpdatedAt:", 1)[1].strip()
+    return None
+
+
 def main(argv=None) -> int:
     p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     p.add_argument("--dry-run", action="store_true", help="validate and print the merge plan, write nothing")
@@ -82,6 +113,27 @@ def main(argv=None) -> int:
         problems.append(f"{len(already_present)} candidate asset_id already exist in assets.csv -- "
                         f"refusing to duplicate/overwrite: {sorted(already_present)}")
 
+    # Independently establish the expected Vulnerability-DB UpdatedAt from the
+    # 109 EXISTING assets (not from data/evidence broadly, and not from the
+    # candidates' own scanresults.csv) -- each existing row's scan_json sits in
+    # a bundle directory that should also hold trivy_version_and_db.txt.
+    existing_updated_ats: dict[str, int] = {}
+    for row in assets:
+        sj = row.get("scan_json", "").strip()
+        if not sj:
+            continue
+        ts = vuln_db_updated_at((ROOT / sj).parent / "trivy_version_and_db.txt")
+        if ts:
+            existing_updated_ats[ts] = existing_updated_ats.get(ts, 0) + 1
+    if not existing_updated_ats:
+        print("WARNING: could not determine an expected Vulnerability-DB UpdatedAt from any existing "
+              "asset's bundle -- DB-freeze disclosure notes below will be skipped, not assumed clean.")
+        expected_db_updated_at = None
+    else:
+        expected_db_updated_at = max(existing_updated_ats, key=existing_updated_ats.get)
+        print(f"Expected Vulnerability DB UpdatedAt (majority of {sum(existing_updated_ats.values())} "
+              f"existing assets): {expected_db_updated_at}")
+
     scan_by_id = {r["asset_id"]: r for r in scanresults}
     merged_rows = []
     for row in candidates:
@@ -105,10 +157,19 @@ def main(argv=None) -> int:
         scan_json_path = ROOT / sr["scan_json"]
         if not scan_json_path.exists():
             problems.append(f"{aid}: scan_json path does not exist: {scan_json_path}")
-        if sr.get("db_frozen_ok") == "DRIFTED":
-            print(f"NOTE: {aid} has db_frozen_ok=DRIFTED (db_updated_at_seen={sr.get('db_updated_at_seen')}) "
-                  f"-- accepted per A-29 as a disclosed outlier, not blocking the merge. "
-                  f"Remember to disclose this wherever results involving {aid} are cited.")
+
+        bundle_dir = ROOT / sr.get("bundle_dir", "")
+        seen_ts = vuln_db_updated_at(bundle_dir / "trivy_version_and_db.txt") if sr.get("bundle_dir") else None
+        if expected_db_updated_at is None or seen_ts is None:
+            print(f"NOTE: {aid}: could not independently verify DB-freeze status "
+                  f"(expected={expected_db_updated_at!r}, seen={seen_ts!r}) -- check manually before citing results.")
+        elif seen_ts != expected_db_updated_at:
+            print(f"NOTE: {aid}: Vulnerability DB UpdatedAt '{seen_ts}' differs from the expected "
+                  f"'{expected_db_updated_at}' -- genuinely on a different CVE cutoff than the majority "
+                  f"of existing assets. Not blocking the merge (per A-29 precedent if this is istio-proxy-1-23; "
+                  f"for any OTHER asset this is new and should be investigated, not assumed acceptable), "
+                  f"but must be disclosed wherever results involving {aid} are cited.")
+        # else: matches expected, no note needed -- this is the common case and should not be noisy.
 
         merged_rows.append({
             "asset_id": aid,
