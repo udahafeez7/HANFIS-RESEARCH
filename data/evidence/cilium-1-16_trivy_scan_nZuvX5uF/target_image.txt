@@ -1,1 +1,0 @@
-quay.io/cilium/cilium:v1.16.4@sha256:9c808dfa6ee2445f5606341db599b039f48e2a4a703a9236c0ae2f85c69f69a1

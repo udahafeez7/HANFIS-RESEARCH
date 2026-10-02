@@ -1,0 +1,2 @@
+sha256:639a1e2da549210adddc0391ff91e270e83f7873014aec53258462812f741e6f
+RepoDigests=registry.k8s.io/kube-state-metrics/kube-state-metrics@sha256:639a1e2da549210adddc0391ff91e270e83f7873014aec53258462812f741e6f

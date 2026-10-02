@@ -1,2 +1,0 @@
-sha256:bcc7ed4f20deec84e2d277a8a5326b58c957da1433177bdf65dc1098effbca28
-RepoDigests=openpolicyagent/gatekeeper@sha256:57dee5ed7d56526a34b36a29a56ea85a50b00d39ebca256a9e5379f50de420f7

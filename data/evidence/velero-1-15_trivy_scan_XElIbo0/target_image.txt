@@ -1,0 +1,1 @@
+docker.io/velero/velero@sha256:8a82ab0b14a8fc479cf494172c0f7d168d018a3bb1d19c9a0d8889d3039288fc

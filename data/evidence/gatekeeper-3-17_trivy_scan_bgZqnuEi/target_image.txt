@@ -1,0 +1,1 @@
+docker.io/openpolicyagent/gatekeeper@sha256:b7b4d7cfdd52c877267dac0824977eaf289fd4640b9bd530e7fc742c6d6e5cc0

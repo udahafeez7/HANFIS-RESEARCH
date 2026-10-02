@@ -19,7 +19,7 @@ OUT="$REPO/data/evidence/${SLUG}_trivy_scan_$(head -c 6 /dev/urandom | base64 | 
 mkdir -p "$OUT"
 echo "$IMAGE" > "$OUT/target_image.txt"
 date -u +%Y-%m-%dT%H:%M:%SZ > "$OUT/scan_started_utc.txt"
-trivy image --cache-dir "$CACHE" --scanners vuln --format json --output "$OUT/${SLUG}_vulnerabilities.json" \
+trivy image --skip-db-update --cache-dir "$CACHE" --scanners vuln --format json --output "$OUT/${SLUG}_vulnerabilities.json" \
       --timeout 15m "$IMAGE" 2>&1 | tee "$OUT/scan.log"
 date -u +%Y-%m-%dT%H:%M:%SZ > "$OUT/scan_finished_utc.txt"
 trivy --version --cache-dir "$CACHE" > "$OUT/trivy_version_and_db.txt"          # after the scan: DB block is present

@@ -1,0 +1,1 @@
+gcr.io/projectsigstore/cosign@sha256:dc905e434d9d7f0a5cff8e76abdfae02be313cfa5f3eac6e89209d9bd52e3b92

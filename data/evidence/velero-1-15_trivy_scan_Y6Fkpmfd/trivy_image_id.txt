@@ -1,2 +1,0 @@
-sha256:d870f15a96b08d2fd4f46cfd9359824c3d8243c3367ed324fe9ba4fefe988f69
-RepoDigests=velero/velero@sha256:0b37fa40a7aee4c1dae8ecbd90a0a1d6ae2d6ee01038f2669ddc91542fa23064

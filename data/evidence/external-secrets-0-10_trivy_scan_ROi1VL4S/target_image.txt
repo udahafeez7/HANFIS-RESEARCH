@@ -1,0 +1,1 @@
+ghcr.io/external-secrets/external-secrets@sha256:b97ebc9975ccc378a5f29e9fc77e52e1d76cdbf48acad078428392eb6114c33f

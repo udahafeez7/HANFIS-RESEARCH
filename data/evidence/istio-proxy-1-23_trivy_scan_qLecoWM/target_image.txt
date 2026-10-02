@@ -1,0 +1,1 @@
+docker.io/istio/proxyv2@sha256:2876cfc2fdf47e4b9665390ccc9ccf2bf913b71379325b8438135c9f35578e1a
