@@ -124,7 +124,7 @@
 %% Sample for unstructured abstract %%
 %%==================================%%
 
-\abstract{Static, expert-weighted fuzzy risk scores go stale between elicitations, while a flat Adaptive Neuro-Fuzzy Inference System (ANFIS) over the seven inputs relevant to cloud-native risk -- CVSS, exploitability, patch risk, MFA risk, Kubernetes exposure, asset criticality, and time-varying threat intelligence -- requires $2^7=128$ rules and 1{,}052 parameters under exhaustive grid partitioning. We propose HANFIS, a domain-informed hierarchical ANFIS that separates vulnerability and environmental reasoning into two first-tier Sugeno subsystems before an integration tier combines them with dynamic threat intelligence, cutting the rule base to 34 rules and 176 parameters (a 73.4\% and 83.3\% reduction, respectively) while keeping every intermediate variable semantically interpretable. We construct a temporal exploitability-exposure target from sealed weekly EPSS and CISA KEV snapshots over a 57-week window and a digest-pinned container-image inventory, validated through a data-quality gate (6{,}206 labelled asset-weeks from 109 assets at the time of writing, non-missing rate 0.93, zero unresolved evidence rows) and evaluated with a grouped, embargoed temporal split so that no image or outcome window leaks across folds. On this real-world inventory, a naive 4-week persistence baseline already explains most of the label's variance and a single CVSS score explains almost none, setting a high and non-obvious bar for any learned model. Under a protocol frozen and dated before training began, HANFIS reduces mean squared error by 96.9\% against a single CVSS score, 71.5\% against a linear model over the same seven inputs, and 81.6\% against a parameter-matched flat ANFIS initialised by subtractive clustering (all three 95\% bootstrap confidence intervals excluding zero); HANFIS is not yet distinguishable from the persistence baseline (confidence interval crossing zero), which we report as an open rather than a negative result. The hybrid least-squares/gradient training scheme and its monotonicity and membership-function ablations are reported alongside these confirmatory comparisons, and Fuzzyfortify is reported separately as an external, non-retrained reference.}
+\abstract{Static, expert-weighted fuzzy risk scores go stale between elicitations, while a flat Adaptive Neuro-Fuzzy Inference System (ANFIS) over the seven inputs relevant to cloud-native risk -- CVSS, exploitability, patch risk, MFA risk, Kubernetes exposure, asset criticality, and time-varying threat intelligence -- requires $2^7=128$ rules and 1{,}052 parameters under exhaustive grid partitioning. We propose HANFIS, a domain-informed hierarchical ANFIS that separates vulnerability and environmental reasoning into two first-tier Sugeno subsystems before an integration tier combines them with dynamic threat intelligence, cutting the rule base to 34 rules and 176 parameters (a 73.4\% and 83.3\% reduction, respectively) while keeping every intermediate variable semantically interpretable. We construct a temporal exploitability-exposure target from sealed weekly EPSS and CISA KEV snapshots over a 57-week window and a digest-pinned container-image inventory, validated through a data-quality gate (6{,}833 labelled asset-weeks from 120 assets at the time of writing, non-missing rate 0.93, zero unresolved evidence rows) and evaluated with a grouped, embargoed temporal split so that no image or outcome window leaks across folds. On this real-world inventory, a naive 4-week persistence baseline already explains most of the label's variance and a single CVSS score explains almost none, setting a high and non-obvious bar for any learned model. Under a protocol frozen and dated before training began, HANFIS reduces mean squared error by 96.7\% against a single CVSS score, 69.6\% against a linear model over the same seven inputs, and 66.5\% against a parameter-matched flat ANFIS initialised by subtractive clustering (all three 95\% bootstrap confidence intervals excluding zero); HANFIS is not yet distinguishable from the persistence baseline (confidence interval crossing zero), which we report as an open rather than a negative result. The hybrid least-squares/gradient training scheme and its monotonicity and membership-function ablations are reported alongside these confirmatory comparisons, and Fuzzyfortify is reported separately as an external, non-retrained reference.}
 
 %%================================%%
 %% Sample for structured abstract %%
@@ -363,9 +363,9 @@ path exercised ($\rho=1$), built from the same digest-pinned base image as the p
 its vulnerability surface (109 of 135 known CVEs as of the freeze date, 25 in \texttt{libexpat}) is not
 an artefact of an unrelated rebuild.
 
-At the time of writing the inventory holds 109 assets (106 images across web, proxy, cache, database,
-queue, runtime, base, and observability categories, plus P0 and the two P0-IF conditions) across the
-57-week window: 6{,}206 asset-week rows, after excluding seven rows whose evidence remained unresolved
+At the time of writing the inventory holds 120 assets (117 images across web, proxy, cache, database,
+queue, runtime, base, observability, and Kubernetes-native infrastructure and security tooling categories, plus
+P0 and the two P0-IF conditions) across the 57-week window: 6{,}833 asset-week rows, after excluding seven rows whose evidence remained unresolved
 (one CockroachDB CVE under Trivy status \texttt{under\_investigation} at the inventory freeze date) a
 non-missing rate of 0.93 and zero rows left in an unresolved evidence state. This clears the
 pre-registered data-quality gate (protocol frozen and dated; $\ge 10$ observations per model parameter,
@@ -601,7 +601,7 @@ pilot ($\mathrm{SS}_{\mathrm{pers}}=0.301$), which is the bar hypotheses H1b and
 and HANFIS-versus-FlatANFISMatched comparisons (H1a--H1c, H2, H3) are pre-registered under a frozen
 protocol (fixed seeds, fold assignment, smallest-effect-size-of-interest of 5\% on
 $\mathrm{SS}_{\mathrm{pers}}$, group-clustered bootstrap confidence intervals, Holm correction across the
-family of four comparisons). Table~\ref{tab:e4-results} reports the outcome on the 109-asset inventory
+family of four comparisons). Table~\ref{tab:e4-results} reports the outcome on the 120-asset inventory
 described in Section~\ref{subsec:target-definition}: HANFIS confirms H1a, H1c, and H2, does not yet
 confirm H1b, and H2$'$ is reported as the uncriteria'd capacity reference. Fuzzyfortify is reported
 separately as an external, non-retrained reference on its five original benchmark cases rather than
@@ -614,11 +614,11 @@ folded into the statistical family above.
 \toprule
 Hypothesis & Comparator & SS & 95\% CI & Outcome \\
 \midrule
-H1a & Single CVSS score & 0.969 & [0.939, 0.990] & Confirmed \\
-H1b & Persistence (4-week) & 0.300 & [$-$0.035, 0.417] & Not yet confirmed \\
-H1c & Ridge, 7 inputs & 0.715 & [0.518, 0.893] & Confirmed \\
-H2 & FlatANFISMatched & 0.816 & [0.649, 0.933] & Confirmed \\
-H2$'$ & Flat ANFIS (full) & 0.324 & --- & Reported, no criterion \\
+H1a & Single CVSS score & 0.967 & [0.951, 0.980] & Confirmed \\
+H1b & Persistence (4-week) & 0.015 & [$-$0.607, 0.246] & Not yet confirmed \\
+H1c & Ridge, 7 inputs & 0.696 & [0.527, 0.816] & Confirmed \\
+H2 & FlatANFISMatched & 0.665 & [0.269, 0.844] & Confirmed \\
+H2$'$ & Flat ANFIS (full) & 0.253 & --- & Reported, no criterion \\
 \botrule
 \end{tabular}
 \end{table}
@@ -627,10 +627,16 @@ H1b's confidence interval crosses zero, so HANFIS is not yet distinguishable fro
 persistence forecast -- the same pattern observed in the E3 pilot (Section~\ref{subssec4.3}'s baseline
 table above), and the honest reading is that the strongly autocorrelated label remains the hardest bar
 in this study, not that H1b has failed outright. H2's margin is large for two models holding an
-identical 176-parameter budget: a per-fold check (every one of the 5 folds favours HANFIS, SS ranging
-0.275--0.986, never negative) rules out a single outlier fold driving the pooled estimate, and
-FlatANFISMatched's held-out predictions range outside the plausible label interval (down to $-0.155$
-and up to 11.3, against HANFIS's 0.003--10.33) in a manner consistent with poor extrapolation from
+identical 176-parameter budget, though not uniform across folds: HANFIS wins on four of the five
+held-out blocks, with per-fold skill against FlatANFISMatched ranging from 0.165 to 0.924; the fifth
+fold (fold 1) is negative ($\mathrm{SS}=-0.122$) and coincides with a secondary diagnostic in which
+HANFIS's predicted variance exceeds the label's own variance by more than three orders of magnitude
+on several near-constant-label images in that fold (ratio >$1{,}000\times$ in the most extreme case),
+consistent with the model under-damping day-to-day EPSS/CVSS snapshot noise where the weekly
+aggregate carries little real signal -- a limitation discussed further in Section~\ref{subsec5.1}, not
+a single outlier fold driving an otherwise uniform result. FlatANFISMatched's held-out predictions
+nonetheless range well outside the plausible label interval (down to $-6.679$ and up to $11.059$,
+against HANFIS's $0.000$--$10.401$) in a manner consistent with poor extrapolation from
 unsupervised cluster centres that have no access to the label's own generative grouping -- precisely
 the vulnerability/environmental/threat decomposition HANFIS's architecture encodes by construction
 (Section~\ref{subsec:hanfis-architecture}). This is read as evidence for the mechanism claimed in
@@ -721,7 +727,7 @@ $v,e$ (an ablation, not the model HANFIS reports) costs $k{=}1$ only 0.019 of sk
 0.394 -- consistent with $v,e$ being estimated less reliably from the same training rows once six
 times as many consequent parameters compete for them, so that excursions outside $[0,1]$ are both
 more frequent and more consequential once clamped. Separating an intrinsic cost of wider bottlenecks
-from this data-scale effect requires an inventory substantially larger than the 109 assets collected
+from this data-scale effect requires an inventory substantially larger than the 120 assets collected
 here, left for future work; the architecture's own combinatorial growth in $k$
 (Figure~\ref{fig:e5-rule-growth}) means that separation gets harder, not easier, as $k$ increases.
 
@@ -792,15 +798,19 @@ Kubernetes-exposure input relies on.
 \subsection{Limitations}
 \label{subsec5.1}
 
-The present inventory (27 of a targeted 120 images) is a pilot, not the final dataset; skill scores in
-Table~\ref{tab:e3-baselines} may shift, in either direction, once the inventory and its posture
-factorial are complete. The EPSS scoring model changed version (\texttt{v2025.03.14} to
+The full inventory of 120 images is now complete, and the confirmatory comparison
+(Table~\ref{tab:e4-results}) was re-run on it, confirming H1a, H1c, and H2 at broadly similar margins
+to those reported on the earlier, partial inventory. The mandatory-baseline comparison in
+Table~\ref{tab:e3-baselines}, however, was conducted on an earlier 27-image pilot subset and has not
+yet been re-run on the completed 120-image inventory; those skill scores may shift, in either
+direction, once it is. The EPSS scoring model changed version (\texttt{v2025.03.14} to
 \texttt{v2026.06.15}) inside the sealed 57-week window, a threat to label comparability across that
 boundary that is recorded but not yet corrected for. CVEs lacking a Trivy-reported publication date are
 dated by their first appearance in a sealed EPSS snapshot, which is conservative (at most 7 days late)
 but not exact. The label aggregation rule (a row-wise maximum over active CVEs), its numeric scale, and
-the operational definition of Patch Risk are still open decisions to be closed, and pre-registered,
-before the confirmatory comparison runs (Section~\ref{subsec:target-definition}). The testbed is a
+the operational definition of Patch Risk were closed and pre-registered as amendment A-13
+(cross-checked against the literal target-definition formula, Section~\ref{subsec:target-definition})
+before the confirmatory comparison in Table~\ref{tab:e4-results} was run. The testbed is a
 single two-node WSL~2/Docker Desktop Kubernetes cluster; external validity to production multi-node
 clusters and other CNI/storage stacks is untested. Five paired observability runs, while showing large
 and consistent effects, still provide limited power for null-hypothesis testing on the latency measure
@@ -821,9 +831,9 @@ baselines (Section~\ref{subssec4.3}) show to be a far harder bar than static exp
 afterthought comparator. H2's margin is read as evidence that the vulnerability/environmental/threat
 decomposition mirrors the label's own generative structure (Section~\ref{subsec:target-definition}) --
 an advantage a capacity-matched but domain-blind flat model cannot access from input density alone --
-rather than as a training artefact, on the strength of a per-fold check in which HANFIS wins all five
-held-out blocks. Two further contributions are established: the real-world data pipeline itself (sealed,
-hash-verified EPSS and CISA KEV evidence feeding a gated inventory of 109 assets and 6{,}206 labelled
+rather than as a training artefact, on the strength of a per-fold check in which HANFIS wins four of
+the five held-out blocks (Section~\ref{subssec4.3}). Two further contributions are established: the real-world data pipeline itself (sealed,
+hash-verified EPSS and CISA KEV evidence feeding a gated inventory of 120 assets and 6{,}833 labelled
 asset-weeks, Section~\ref{subsec:target-definition}), and a completed ablation showing that the
 monotonicity constraint required for an auditable, higher-is-riskier score has a real,
 membership-family-dependent accuracy cost (Section~\ref{subssec4.5}).
