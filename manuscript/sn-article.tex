@@ -563,7 +563,7 @@ over six alternating iterations with no premise training at all), but has not ye
 \subsection{Predictive performance}
 \label{subssec4.3}
 
-Table~\ref{tab:e3-baselines} reports the mandatory baselines on the 1{,}431 labelled rows described in
+Table~\ref{tab:e3-baselines} reports the mandatory baselines on the 6{,}357 labelled rows described in
 Section~\ref{subsec:target-definition}, pooled over all five test folds (one mean-squared-error ratio over
 every held-out row, rather than an average of per-fold ratios, which is unstable when a fold's reference
 error is near zero). $\mathrm{SS}_{\mathrm{clim}}$ and $\mathrm{SS}_{\mathrm{pers}}$ are skill scores
@@ -575,10 +575,10 @@ against the training-fold climatology and against a causal 4-week persistence fo
 \toprule
 Baseline & RMSE & $\mathrm{SS}_{\mathrm{clim}}$ & $\mathrm{SS}_{\mathrm{pers}}$ \\
 \midrule
-Climatology & 2.471 & 0.000 & $-23.35$ \\
-Single CVSS score & 2.470 & 0.001 & $-23.33$ \\
-Persistence (causal, 4-week lag) & 0.501 & 0.959 & 0.000 \\
-Ridge regression, all 7 inputs & 0.419 & 0.971 & 0.301 \\
+Climatology & 4.010 & 0.000 & $-37.78$ \\
+Single CVSS score & 3.537 & 0.222 & $-29.17$ \\
+Persistence (causal, 4-week lag) & 0.644 & 0.974 & 0.000 \\
+Ridge regression, all 7 inputs & 1.169 & 0.915 & $-2.293$ \\
 \botrule
 \end{tabular}
 \end{table}
@@ -587,17 +587,25 @@ Ridge regression, all 7 inputs & 0.419 & 0.971 & 0.301 \\
 \centering
 \includegraphics[width=0.75\linewidth]{fig_e3_baselines.pdf}
 \caption{Mandatory baselines' skill against climatology, pooled over 5 folds. A single CVSS score
-adds essentially nothing over climatology; persistence and ridge already recover 96--97\% of the
-climatology-relative skill, setting the bar for Section~\ref{subssec4.3}.}\label{fig:e3-baselines}
+now adds modest skill over climatology (22\%, up from essentially nothing on the earlier 27-image
+pilot); persistence and ridge separately recover over 90\% of the climatology-relative skill each, though
+not of each other -- see Table~\ref{tab:e3-baselines} for the reversal in their relative standing.}\label{fig:e3-baselines}
 \end{figure}
 
-A single CVSS score explains essentially none of the realised label ($\mathrm{SS}_{\mathrm{clim}}\approx0$),
-confirming that static severity alone does not describe which vulnerabilities become exploitable in
-practice. A naive persistence forecast, in contrast, already recovers 96\% of the climatology-relative
-skill: the label is strongly autocorrelated because the set of active CVEs and their EPSS scores change
-slowly week to week. A linear ridge model over all seven inputs improves on persistence by 30\% on this
-pilot ($\mathrm{SS}_{\mathrm{pers}}=0.301$), which is the bar hypotheses H1b and H1c
-(Section~\ref{sec1}) ask HANFIS to clear or match. The HANFIS-versus-persistence, HANFIS-versus-ridge,
+A single CVSS score explains a modest fraction of the realised label's variance
+($\mathrm{SS}_{\mathrm{clim}}=0.222$) -- markedly more than on the earlier 27-image pilot
+($\mathrm{SS}_{\mathrm{clim}}\approx0$), though still far below persistence or ridge -- confirming that
+static severity alone remains a poor descriptor of which vulnerabilities become exploitable in practice,
+even as the larger inventory gives it some traction. A naive persistence forecast, in contrast, recovers
+97\% of the climatology-relative skill: the label is strongly autocorrelated because the set of active
+CVEs and their EPSS scores change slowly week to week. On the completed 120-image inventory, a linear
+ridge model over all seven inputs no longer improves on persistence -- it is now substantially worse
+($\mathrm{SS}_{\mathrm{pers}}=-2.293$ pooled, raw scale), a reversal from the 27-image pilot's $+0.301$,
+confirmed on every one of the five grouped-temporal folds rather than driven by one outlier
+(Section~\ref{subsec5.1}). This is consistent with a linear model over-extrapolating as the inventory's
+heterogeneity grew, where persistence's week-to-week copy remains comparatively safe. Persistence is
+therefore the bar hypotheses H1b and H1c (Section~\ref{sec1}) ask HANFIS to clear or match; ridge alone
+no longer clears it either. The HANFIS-versus-persistence, HANFIS-versus-ridge,
 and HANFIS-versus-FlatANFISMatched comparisons (H1a--H1c, H2, H3) are pre-registered under a frozen
 protocol (fixed seeds, fold assignment, smallest-effect-size-of-interest of 5\% on
 $\mathrm{SS}_{\mathrm{pers}}$, group-clustered bootstrap confidence intervals, Holm correction across the
@@ -801,9 +809,12 @@ Kubernetes-exposure input relies on.
 The full inventory of 120 images is now complete, and the confirmatory comparison
 (Table~\ref{tab:e4-results}) was re-run on it, confirming H1a, H1c, and H2 at broadly similar margins
 to those reported on the earlier, partial inventory. The mandatory-baseline comparison in
-Table~\ref{tab:e3-baselines}, however, was conducted on an earlier 27-image pilot subset and has not
-yet been re-run on the completed 120-image inventory; those skill scores may shift, in either
-direction, once it is. The EPSS scoring model changed version (\texttt{v2025.03.14} to
+Table~\ref{tab:e3-baselines} has since been re-run on the completed 120-image inventory (6{,}357 rows);
+the headline shift is that a linear ridge model over all seven inputs, which improved on persistence by
+30\% on the 27-image pilot, now underperforms it on every one of the five grouped-temporal folds
+($\mathrm{SS}_{\mathrm{pers}}=-2.293$ pooled, raw scale) -- a reversal, not a refinement, attributed to
+the linear model over-extrapolating as the inventory's heterogeneity grew, where persistence's
+week-to-week copy remains comparatively safe. The EPSS scoring model changed version (\texttt{v2025.03.14} to
 \texttt{v2026.06.15}) inside the sealed 57-week window, a threat to label comparability across that
 boundary that is recorded but not yet corrected for. CVEs lacking a Trivy-reported publication date are
 dated by their first appearance in a sealed EPSS snapshot, which is conservative (at most 7 days late)
