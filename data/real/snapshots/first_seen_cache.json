@@ -1,10 +1,18 @@
 {
 "first_seen": {
+"CVE-2024-10039": null,
+"CVE-2025-2792": null,
+"CVE-2026-33863": null,
+"CVE-2026-33864": null,
 "CVE-2026-36849": null,
 "CVE-2026-53612": null,
 "CVE-2026-53613": null,
 "CVE-2026-53614": null,
-"CVE-2026-53615": null
+"CVE-2026-53615": null,
+"CVE-2026-59766": null,
+"CVE-2026-80256": null,
+"CVE-2026-88841": null,
+"CVE-2026-9672": null
 },
 "key": "bdc815116cba2d82"
 }

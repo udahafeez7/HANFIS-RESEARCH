@@ -82,7 +82,7 @@ def main(argv=None) -> int:
     with CANDIDATES_CSV.open("w", newline="", encoding="utf-8") as fh:
         w = csv.DictWriter(fh, fieldnames=fieldnames, lineterminator="\n")
         w.writeheader()
-        w.writerows(committed_rows)
+        w.writerows([{k: v for k, v in r.items() if k is not None} for r in committed_rows])
 
     final = list(csv.DictReader(CANDIDATES_CSV.open(encoding="utf-8")))
     print(f"\nwrote {CANDIDATES_CSV}: {len(final)} rows.")

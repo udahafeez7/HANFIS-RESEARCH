@@ -112,7 +112,7 @@ spec:
     spec:
       containers:
         - name: nginx-p0if
-          image: hanfis/p0if:1.0
+          image: hanfis/p0if:1.2
           imagePullPolicy: IfNotPresent
           ports: [{ containerPort: 8080 }]
           volumeMounts:
@@ -148,7 +148,7 @@ spec:
     spec:
       containers:
         - name: nginx-p0if
-          image: hanfis/p0if:1.0
+          image: hanfis/p0if:1.2
           imagePullPolicy: IfNotPresent
           ports: [{ containerPort: 8080 }]
           volumeMounts:

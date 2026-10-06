@@ -1,42 +1,24 @@
-# P0-IF positive control image (HANFIS amendment A-01, patch 0014).
+# P0-IF positive control image, version 1.2 (HANFIS A-01/A-11, amendment A-15).
 #
-# Purpose: create a workload in which the libexpat code path is genuinely reachable,
-# so that the applicability dataset contains APPLICABLE_OBSERVED rows and not only
-# NA_OBSERVED_DEPLOYMENT. nginx's image_filter module links against libgd, which in
-# turn links against libexpat; loading the module and configuring an image_filter
-# location makes both libraries appear in the process memory map.
+# Derived DIRECTLY from the P0 baseline image, pinned by digest, so that P0-IF carries
+# exactly P0's package set and CVE surface (Alpine 3.21.3; 109 CVEs at DB 2026-09-14,
+# 25 of them in libexpat). The base already contains ngx_http_image_filter_module.so,
+# libgd.so.3, libexpat.so.1 and scanelf (pax-utils), which is everything the
+# reachability-evidence protocol needs.
 #
-# Both the OFF and the ON variant are built from THIS image, so the only difference
-# between the two conditions is the nginx configuration (module loaded or not).
-# The original p0-baseline deployment (nginxinc/nginx-unprivileged:1.27-alpine) is
-# never modified; telemetry continuity with Runs 7-17 is preserved.
+# NO `apk add` here: apk would fetch the *current* Alpine 3.21 package versions and
+# silently patch the CVEs the control depends on (this is how image 1.1 ended up with
+# 0 CVEs). Fence P13: base pinned by digest, tag never rewritten.
+#
+# OFF and ON variants use THIS image; only the mounted nginx.conf differs (p0if.yaml).
+FROM nginxinc/nginx-unprivileged@sha256:65e3e85dbaed8ba248841d9d58a899b6197106c23cb0ff1a132b7bfe0547e4c0
 
-FROM alpine:3.21
-
-RUN apk add --no-cache \
-      nginx \
-      nginx-mod-http-image-filter \
-      gd \
-      expat \
-      curl \
-      binutils \
-      pax-utils \
- && mkdir -p /var/lib/nginx/tmp /var/log/nginx /usr/share/nginx/html \
- && chown -R 101:101 /var/lib/nginx /var/log/nginx /usr/share/nginx/html
-
-# binutils (readelf, objdump) and pax-utils (scanelf) are required by
-# scripts/capture_reachability_evidence.sh to record the direct DT_NEEDED dependencies
-# (evidence dimension 2). The script tries the three tools in order and fails closed only when
-# none is present, so this dimension can never be silently empty (patches 0015, 0016).
-
-# A tiny JPEG so the image_filter location has something to process.
+USER root
+# A tiny JPEG so the image_filter location (/resize/sample.jpg) has something to process.
 COPY sample.jpg /usr/share/nginx/html/sample.jpg
-
-# Record the exact package versions inside the image: this file is part of the
-# identity evidence and is hashed together with the rest of the bundle.
+# Exact package versions inside the image: part of the identity evidence bundle.
 RUN apk list --installed | sort > /usr/share/nginx/html/apk-installed.txt \
- && chown 101:101 /usr/share/nginx/html/apk-installed.txt
-
+ && chown 101:101 /usr/share/nginx/html/sample.jpg /usr/share/nginx/html/apk-installed.txt
 USER 101
 EXPOSE 8080
-CMD ["nginx", "-g", "daemon off;"]
+# ENTRYPOINT/CMD inherited from the base (docker-entrypoint.sh + nginx -g "daemon off;").
