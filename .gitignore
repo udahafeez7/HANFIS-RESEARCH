@@ -62,3 +62,14 @@ Thumbs.db
 
 # patch inbox: keep the folder and its README, ignore the archives
 Patch/*.zip
+*.bak
+*.rar
+*.bundle
+HANFIS_patch_*.zip
+HANFIS_patches_*.zip
+manuscript_for_claude.zip
+manuscript/sn-article.aux
+manuscript/sn-article.bbl
+manuscript/sn-article.blg
+manuscript/sn-article.out
+manuscript/sn-article.log
