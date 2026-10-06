@@ -2,7 +2,7 @@
 
 > Memori proyek HANFIS. Dibaca ulang pada awal setiap sesi kerja (manusia maupun asisten AI).
 > Diperbarui hanya melalui amendemen bernomor (A-xx) atau penutupan blocker (F-xx).
-> Versi: 2.20 · Tanggal: 2026-10-06 · Pemilik: tim HANFIS (Universitas Andalas)
+> Versi: 2.21 · Tanggal: 2026-10-06 · Pemilik: tim HANFIS (Universitas Andalas)
 
 ## 0. Identitas dan target akhir
 
@@ -84,6 +84,7 @@ Setiap usulan perubahan harus menyebut lapisan dan dokumen yang diubah. Usulan t
 | A-38 | 2026-10-06 | Arsip telemetri (bukan naskah) | Investigasi `O5-B4.11*` (gerbang 5-run lama, bukan protokol naskah) menemukan Run 2 ON tahap pertama (`run2-on-20260811T095841Z`) **berstatus HOLD sejak awal** (`RESOURCE_STATUS: HOLD`, P0 rows 90/60 — duplikasi pengumpulan), dan lima file ringkasan I1–I5 (`O5-B4.11I1`–`I5`) ternyata dihitung dari capture HOLD ini, bukan dari capture pemulihan yang valid (`run2-on-20260814T073513Z`, status PASS, "Reconstructed and frozen"). Dihitung ulang manual (skrip pembuat asli tidak tersimpan) dari data valid (OFF `20260810T061621Z` status PASS + ON `20260814T073513Z` status PASS): mean latensi tidak banyak berubah (OFF 1,473 vs ON 1,469 ms, kesimpulan kualitatif sama), tapi **std dan P95 pada angka HOLD lama meremehkan jauh** (std ON 0,249→0,416, +67%; P95 0,810→2,621 ms, +45%). **PENTING — ini TIDAK memengaruhi naskah**: `manuscript/sn-article.tex` hanya merujuk protokol `external-v3.0` (10 pasangan run berimbang, Tabel~tab:overhead, F3 sudah ditutup), tidak pernah menyebut `O5-B4.11` sama sekali — diverifikasi lewat grep, bukan asumsi. Gerbang `O5-B4.11*` adalah metodologi internal yang sudah ditinggalkan/digantikan `external-v3.0`. **Catatan untuk sesi mendatang:** jangan habiskan waktu menghitung ulang I2–I5 atau melanjutkan Run 3–5 gerbang `O5-B4.11` kecuali ada alasan eksplisit baru untuk menghidupkan kembali jalur ini — bukan jalur yang memblokir submisi. |
 | A-39 | 2026-10-06 | Eksperimen E4 (sensitivitas) + Naskah §4.5, Limitations | Sensitivitas POST HOC (tidak ada di praregistrasi E4) terhadap pergantian model EPSS 2026-06-15 (`v2025.03.14` -> `v2026.06.15`): fold 3 (blok uji melintasi) dan fold 4 (uji pasca-pergantian) pada run penuh terpengaruh. E4bis dijalankan ulang dengan kode, seed, dan konfigurasi beku pada 4.560 aset-minggu berlabel pra-pergantian (<= 2026-05-11; 720 baris uji; `scripts/make_pre_epss_change_table.py`). H1a/H1c/H2 tetap terkonfirmasi, H1b tetap belum; SS tidak sebanding langsung antar-kolom. Tidak mengubah status konfirmasi. Satu-satunya perubahan kode sejak tag gerbang E4bis: `--save-models`/meta aditif (komit 6aaec37); grup image 119/119 identik. Hasil: `results_python/e4bis_120_preEPSS` |
 | A-40 | 2026-10-06 | Naskah (abstrak, sec. 1 H1b, kontribusi C5, sec. 4.3) + Pembanding | Klaim Fuzzyfortify disesuaikan dengan bukti audit. Protokol pembanding (comparison_20260914_v3) mensyaratkan 4 input asli (`complexity_resilience_index`, `impact`, `base_score`, `exploitability`) dan melarang pemetaan proksi tak-terlapor; model yang diadaptasi hanya sensitivitas. Audit reproduksi 5 kasus terbit GAGAL (`STATUS=HOLD_FUZZYFORTIFY_REPRODUCTION_GAP`): skor reproduksi lebih rendah di semua kasus, selisih 5,94-20,97 (MAE 12,04, skala 0-100), empat dari lima identik 49,5. Naskah tidak lagi mengklaim perbandingan Fuzzyfortify; kalimat 'persistence, not Fuzzyfortify or CVSS, is the strongest baseline on the pilot' dikoreksi karena Fuzzyfortify tidak pernah dievaluasi pada pilot. Penyebab selisih (paper vs kode) BELUM diketahui; bila terselesaikan, Fuzzyfortify hanya boleh kembali sebagai sensitivitas. Bukti: `Jetson Orin/Telemetry/hanfis_protocol_v3/comparison_20260914_v3/` (komit 48c10e1) |
+| A-41 | 2026-10-06 | Analisis eksploratori + Naskah (abstrak, sec. 4.5, Limitations, Conclusion) | Analisis POST HOC (bukan praregistrasi) atas prediksi E4 penuh dan pra-EPSS (`scripts/e4_influence.py`, `scripts/e4_regime.py`; hasil `results_python/e4_influence*` dan `e4_regime*`; komit 7f4a0eb). Pemeriksa mereproduksi SS E4 persis (persistence 0,0146; ridge-7 0,6961; CVSS 0,9674; matched 0,6654; flat 0,2527). Temuan: (1) SS vs persistence bergantung pada fold 3 (buang fold 3: -1,168; fold lain 0,007-0,172); dalam jendela label tak cocok setelah pergantian EPSS (2026-W24..W27, 95 baris) SS +0,483, di luarnya (985 baris) -0,420; keunggulan agregat +6,5 = +104,1 (jendela) -97,6 (lainnya); matched ikut beradaptasi (W25/W26: 4,8 dan 5,2 vs persistence 63,1 dan 28,9), jadi efeknya akses ke input EPSS terkini, bukan struktur hierarki; HANFIS reaktif, bukan prediktif. (2) H2: fold 0 (2,2 obs/parameter) menyumbang 91% selisih ke matched; tanpa fold 0 SS vs matched 0,183, vs flat penuh 0,084; ridge stabil 0,656-0,793 (H1c kuat). (3) Gerbang >=10 obs/parameter hanya dipenuhi pada total, tidak pada fold 0-1 (2,2; 7,1; pra-EPSS fold 0-2: 2,2; 5,5; 8,7). Naskah: abstrak menyebut H1b 'unconfirmed rather than a tie'; klaim 'bukan artefak pelatihan' untuk H2 dilunakkan; kalimat spekulatif sec. 4.5 diganti MSE nyata (matched 1,22 -> 3,77; HANFIS 0,41 -> 0,33). Status konfirmasi H1a/H1c/H2/H1b TIDAK berubah. Hipotesis baru (HANFIS sebagai koreksi di atas persistence; kurva belajar terhadap ukuran data latih) HARUS dipraregistrasi sebelum dijalankan |
 ## 5. Blocker manuskrip F1–F9 (status 2026-10-02, diverifikasi dari commit log + manuskrip)
 
 - **F1 (target sintetis) → DITUTUP.** Snapshot EPSS/KEV bersegel 57 minggu; tabel aset-minggu kontrak v2 berjalan; gerbang §9 lolos 2026-09-28 (tag `m2-gate-training-authorized-20260928`). Lih. A-13 (patch 0024–0025).
@@ -108,7 +109,7 @@ Tiga angka wajib di setiap laporan harian: jumlah baris event_id (aset-minggu), 
 
 ## 7. Pelajaran literatur (satu kalimat per sumber)
 
-- **Raju–Zhou–Kisner 1991; Wang 1999:** hierarki menekan mⁿ menjadi linier dan tetap aproksimator universal — dasar H2.
+- **Raju–Zhou–Kisner 1991; Wang 1998:** hierarki menekan mⁿ menjadi linier dan tetap aproksimator universal — dasar H2.
 - **Lee–Chung–Yu 2003 (L-HFS):** variabel antara harus bermakna; reduksi hanya bila jumlah nilai antara kecil (total₁ − total₂ < 0) — dasar A-02 dan diagnostik pola kolom di E5.
 - **Juston dkk. 2024:** MF terhubung Ruspini, LSE tertutup P = yA⁺, konstrain struktural, masking aturan — dasar A-03, A-04, A-06, A-08; DDPG ditolak.
 - **Soozanchi dkk. (HANFIS penutur):** istilah HANFIS dan pengelompokan fitur sudah ada; subtractive clustering untuk premis; data kecil = klaim rapuh — dasar A-05, A-07.
@@ -215,3 +216,17 @@ Penomoran patch hari ini dapat bentrok dengan nomor lama (mis. komit 6aaec37, 20
 
 Status naskah: PDF 25 halaman; tanpa `undefined`/`multiply defined`/duplicate destination; sisa satu Overfull 8,6 pt (mind map). 126 passed + 11 subtests (ext4 dan WSL).
 Terbuka: bibliografi `nist_zta_cloudnative_2023` dan Soozanchi dkk. (butuh sumber dari peneliti); penyebab selisih Fuzzyfortify; `apply_*.py` lama di akar repo belum diarsipkan.
+
+## Peta komit lanjutan 2 (2026-10-06)
+
+| Komit | Isi |
+|---|---|
+| 00ba12b | memory: v2.20, A-40 |
+| 5b54560 | chore: skrip tambalan lama diarsipkan ke `scripts/applied/` |
+| 97f7c31, 62bdb4a | bib: nist_zta_cloudnative_2023 = NIST SP 800-207A (entri ditulis dari ingatan; Crossref: OK), penanda VERIFY dihapus |
+| 0f3826c | bib: DOI raju1991 dan wang1998 dikoreksi (dicocokkan Crossref), DOI ojha/lee ditambah, tanggal akses entri web; `check_bib_crossref.py`, `search_crossref.py` |
+| 7f4a0eb | manuscript: analisis rezim post hoc (A-41); `e4_influence.py`, `e4_regime.py` |
+
+Tag: `m2-gate-e3-checklist-pass-20261006` menunjuk c44d246; `m2-close-manuscript-clean-20261006` menunjuk 00ba12b (sebelum perbaikan bibliografi dan analisis rezim). Keadaan akhir sesi: PDF 26 halaman, 126 passed + 11 subtests.
+Koreksi: tahun Wang (universal approximation by hierarchical fuzzy systems, Fuzzy Sets and Systems 93) = 1998 menurut Crossref; "Wang 1999" di catatan lama salah.
+Terbuka: selisih Fuzzyfortify paper vs kode (butuh `public/js/scripts2.js` aplikasi web asli); sumber Soozanchi dkk.; praregistrasi hipotesis baru sebelum dijalankan.
