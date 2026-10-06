@@ -460,23 +460,28 @@ recorded as incidents rather than observations, in accordance with the fail-clos
 rule stated in Section~\ref{sec3}. Table~\ref{tab:overhead} reports the
 paired differences $\Delta Y_r = \bar{Y}_{r,\mathrm{ON}} - \bar{Y}_{r,\mathrm{OFF}}$.
 
-\begin{table*}[t]
-\caption{Paired ON--OFF observability overhead, node level, 10 run pairs (protocol \texttt{external-v3.0}).}\label{tab:overhead}
-\centering
-\begin{tabular}{@{}lcccc@{}}
+\begin{table}[htbp]
+\caption{Paired monitoring overhead over ten counterbalanced runs (protocol external-v3.0).
+CI: 10{,}000-resample bootstrap; $p$: exact two-sided sign-flip test (floor $2/2^{10}=0.002$).}
+\label{tab:overhead}
+\begin{tabularx}{\textwidth}{@{}Xrrrr@{}}
 \toprule
-Metric & ON--OFF difference & Effect size ($d_z$) & 95\% CI & Sign-flip $p$ \\
+Measure & Mean $\Delta$ & 95\% CI & Relative & $p$ \\
 \midrule
-Node CPU & $+99.4$~mCPU & 16.5 & -- & 0.002 \\
-Node memory & $+280.8$~MiB & -- & -- & -- \\
-Monitoring-namespace CPU (pod-sum) & $+39.8$~mCPU & -- & -- & -- \\
-Monitoring-namespace memory (pod-sum) & $+204.2$~MiB & -- & -- & -- \\
-Median latency & $\approx 0$ & -- & $[-0.06,+0.04]$~ms & -- \\
-P95 latency & $\approx 0$ & -- & $[-0.13,+0.27]$~ms & -- \\
-P0 container memory & $-0.33$~MiB & -- & -- & 0.016 \\
+\multicolumn{5}{@{}l}{\emph{Resource cost of the observability stack}}\\
+Node CPU (mCPU)            & $+99.36$  & $[96.29,\ 103.35]$ & $+43.3\%$ & $0.002$ \\
+Monitoring namespace CPU (mCPU) & $+39.79$ & $[33.00,\ 52.77]$ & --- & $0.002$ \\
+Node memory (MiB)          & $+280.76$ & $[250.99,\ 303.54]$ & $+18.7\%$ & $0.002$ \\
+Monitoring namespace memory (MiB) & $+204.19$ & $[191.38,\ 218.82]$ & --- & $0.002$ \\
+\multicolumn{5}{@{}l}{\emph{Effect on the observed workload}}\\
+Latency median (ms)        & $-0.005$  & $[-0.055,\ +0.044]$ & $-0.06\%$ & $0.859$ \\
+Latency P95 (ms)           & $+0.059$  & $[-0.126,\ +0.265]$ & $+0.67\%$ & $0.607$ \\
+Latency P99 (ms)           & $+0.188$  & $[-0.127,\ +0.448]$ & $+1.94\%$ & $0.268$ \\
+P0 container CPU (mCPU)    & $-0.059$  & $[-0.156,\ +0.041]$ & $-3.9\%$  & $0.305$ \\
+P0 container memory (MiB)  & $-0.334$  & $[-0.522,\ -0.147]$ & $-1.19\%$ & $0.016$ \\
 \botrule
-\end{tabular}
-\end{table*}
+\end{tabularx}
+\end{table}
 
 Two results follow. First, the resource cost of the observability stack is large,
 consistent, and unambiguous: every pair shows the same direction and the effect sizes
