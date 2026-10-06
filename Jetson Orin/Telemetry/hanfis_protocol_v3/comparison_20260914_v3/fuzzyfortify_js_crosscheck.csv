@@ -1,0 +1,6 @@
+technique,cri,impact,base_score,exploitability,published,js_11_rules,js_minus_published,js_8_rules,python_audit,level_published,level_js,level_python,rules_firing
+Data destruction,34.0,4.9,6.9,1.9,70.47,70.20000000000002,-0.2699999999999818,nan,49.5,High,High,Medium,"{9: 0.1, 10: 0.4}"
+Endpoint DOS,34.0,4.2,6.5,2.0,59.56,55.0,-4.560000000000002,nan,49.5,Medium,Medium,Medium,{9: 0.5}
+Network DOS,34.0,3.7,6.3,2.2,55.44,54.99999999999999,-0.44000000000000483,nan,49.50000000000001,Medium,Medium,Medium,{9: 0.7}
+Inhibit system recovery,34.0,4.0,6.4,3.1,57.45,nan,nan,nan,49.5,Medium,-,Medium,{}
+Resource hijacking,34.0,4.8,7.5,2.4,74.6,74.0,-0.5999999999999943,nan,59.29718766901028,High,High,Medium,{10: 1.0}
