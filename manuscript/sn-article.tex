@@ -259,7 +259,7 @@ panels rather than exponential in the number of inputs \cite{raju1991,wang1998hi
 \begin{table}[h]
 \caption{Rule and parameter counts by panel ($m=2$ on raw inputs, $m_I=3$ on $v,e$) against a full flat
 ANFIS over the same seven inputs.}\label{tab:rules-params}
-\begin{tabular}{@{}lccccc@{}}
+\begin{tabularx}{\textwidth}{@{}lXcccc@{}}
 \toprule
 Panel & Inputs & Rules & Premise params. & Consequent params. & Total \\
 \midrule
@@ -269,7 +269,7 @@ $I$ & $v,e,x_7$ & 18 & 16 & 72 & 88 \\
 HANFIS (total) & 7 raw + 2 intermediate & \textbf{34} & 40 & 136 & \textbf{176} \\
 Flat ANFIS (reference) & 7 raw & 128 & 28 & 1{,}024 & 1{,}052 \\
 \botrule
-\end{tabular}
+\end{tabularx}
 \end{table}
 
 Consequent slopes in every panel are constrained non-negative through a softplus reparameterisation
@@ -351,8 +351,10 @@ $T=\{t{+}7,t{+}14,t{+}21,t{+}28\}$,
 y(a,t)=\frac{100}{|T|}\sum_{\tau\in T}\max_{v}\big[X_v(\tau)\,S_{v,a}(\tau)\big],
 \end{equation}
 \begin{equation}
-X_v(\tau)=\max\big(\mathrm{EPSS}_v(\tau),\,\mathbb{1}[v\in\mathrm{KEV}(\tau)]\big),\qquad
-S_{v,a}(\tau)=\rho_{v,a}\cdot\mathbb{1}[v\text{ affected and reachable on }a\text{ at }\tau],
+\begin{aligned}
+X_v(\tau)&=\max\big(\mathrm{EPSS}_v(\tau),\,\mathbb{1}[v\in\mathrm{KEV}(\tau)]\big),\\
+S_{v,a}(\tau)&=\rho_{v,a}\cdot\mathbb{1}[v\text{ affected and reachable on }a\text{ at }\tau],
+\end{aligned}
 \end{equation}
 where $\rho_{v,a}\in\{0,0.1,0.25,0.6,1\}$ is a five-level runtime-reachability estimate (not installed;
 installed with no dependency; transitively loaded but inactive; loaded with an unproven trigger; loaded
@@ -401,6 +403,7 @@ Figure~\ref{fig:methodology-mindmap} summarises the relationship among infrastru
 
 \begin{figure*}[t]
 \centering
+\resizebox{\textwidth}{!}{%
 \begin{tikzpicture}[
   mindmap,
   grow cyclic,
@@ -435,7 +438,7 @@ Figure~\ref{fig:methodology-mindmap} summarises the relationship among infrastru
    child{node{Kubernetes exposure}}
    child{node{Environmental subsystem}}
    child{node{Dynamic Risk Score}}};
-\end{tikzpicture}
+\end{tikzpicture}}
 
 \caption{Methodological mind map linking the cloud-native testbed, telemetry acquisition, monitoring-overhead controls, reproducibility evidence, and HANFIS integration.}
 \label{fig:methodology-mindmap}
