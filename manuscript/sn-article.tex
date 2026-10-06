@@ -93,6 +93,7 @@
 \raggedbottom
 %%\unnumbered% uncomment this for unnumbered level heads
 
+\hypersetup{hypertexnames=false}
 \begin{document}
 
 \title[HANFIS: Evidence-Based Dynamic Risk Scoring for Cloud-Native Kubernetes]{HANFIS: A Hierarchical Adaptive Neuro-Fuzzy Inference System for Evidence-Based Dynamic Cybersecurity Risk Scoring in Cloud-Native Kubernetes Deployments}
@@ -563,7 +564,7 @@ A single CVSS score explains a modest fraction of the realised label's variance
 static severity alone remains a poor descriptor of which vulnerabilities become exploitable in practice,
 even as the larger inventory gives it some traction. A naive persistence forecast, in contrast, recovers
 97\% of the climatology-relative skill: the label is strongly autocorrelated because the set of active
-CVEs and their EPSS scores change slowly week to week. On the completed 120-image inventory, a linear
+CVEs and their EPSS scores change slowly week to week. On the completed 120-asset inventory, a linear
 ridge model over all seven inputs no longer improves on persistence -- it is now substantially worse
 ($\mathrm{SS}_{\mathrm{pers}}=-2.293$ pooled, raw scale), a reversal from the 27-image pilot's $+0.301$,
 confirmed on every one of the five grouped-temporal folds rather than driven by one outlier
@@ -686,7 +687,7 @@ $k{=}1$ recovers skill broadly consistent with HANFIS's own H1b result
 (Table~\ref{tab:e4-results}: $\mathrm{SS}_{\mathrm{pers}}=0.015$, $[-0.607,0.246]$) -- both
 confidence intervals cross zero and overlap substantially, as the per-row parity above predicts,
 though the point estimates ($0.169$ vs.\ $0.015$) agree less closely than on the smaller inventory.
-$k{=}2$'s interval now excludes zero entirely on the negative side: on the completed 120-image
+$k{=}2$'s interval now excludes zero entirely on the negative side: on the completed 120-asset
 inventory, widening the bottleneck is no longer merely unsupported by evidence -- it is
 significantly worse than persistence. The paired comparison on matched resampled images -- the same
 resample used for both arms, so sampling noise is shared -- gives
@@ -748,10 +749,38 @@ pure-Adam variant without the closed-form anchor (Section~\ref{subsec:hanfis-arc
 tested during this ablation and diverged on a subset of seeds under otherwise identical settings,
 confirming the hybrid scheme as necessary rather than incidental.
 
+\emph{Sensitivity to the EPSS model change.} The EPSS scoring model changed version on 2026-06-15
+(\texttt{v2025.03.14} to \texttt{v2026.06.15}). Because the label of week $t$ is computed from snapshots
+$t{+}7,\dots,t{+}28$ days ahead, two of the five held-out blocks of the confirmatory comparison involve labels
+computed under the newer version: one block straddles the change and one lies wholly after it. This contrast
+was not pre-registered, so it is reported as a post hoc sensitivity analysis. The confirmatory pipeline was
+re-run with the same code, seeds and frozen configuration on the 4{,}560 asset-weeks whose labels all
+pre-date the change (weeks up to 2026-05-11; 720 held-out rows), with the results in
+Table~\ref{tab:e4-epss}. H1a, H1c and H2 remain confirmed, and H1b remains unconfirmed, with a much wider
+interval. Because both the training and the held-out windows change, skill scores are not directly comparable
+across the two columns; the larger margin over the matched flat model (H2: $0.665$ to $0.913$) may reflect
+that the post-change blocks are harder for HANFIS than for a flat model, but this analysis does not establish it.
+
+\begin{table}[h]
+\caption{Post hoc sensitivity of the confirmatory comparison to the EPSS model change: full run versus weeks
+whose labels all pre-date 2026-06-15 (skill score, 95\% group-clustered bootstrap CI).}\label{tab:e4-epss}
+\begin{tabular}{@{}llcc@{}}
+\toprule
+Hypothesis & Comparator & Full run & Pre-change weeks \\
+\midrule
+H1a & Single CVSS score & 0.967 [0.951, 0.980] & 0.973 [0.939, 0.991] \\
+H1b & Persistence (4-week) & 0.015 [$-$0.607, 0.246] & $-$0.055 [$-$2.731, 0.201] \\
+H1c & Ridge, 7 inputs & 0.696 [0.527, 0.816] & 0.728 [0.484, 0.901] \\
+H2 & FlatANFISMatched & 0.665 [0.269, 0.844] & 0.913 [0.753, 0.974] \\
+H2$'$ & Flat ANFIS (full) & 0.253 & 0.441 \\
+\botrule
+\end{tabular}
+\end{table}
+
 \section{Discussion}\label{sec5}
 
 Three findings from the completed experiments (E1, E3, and the observability-overhead runs) shape how
-the confirmatory comparison in Section~\ref{subssec4.3} should be read once it is complete. First, the
+the confirmatory comparison in Section~\ref{subssec4.3} should be read. First, the
 label is dominated by its own recent history: a 4-week persistence forecast recovers 96\% of the
 climatology-relative skill on the pilot inventory, so any claim that HANFIS ``predicts risk'' must be a
 claim about improving on a strong autoregressive baseline, not about beating an uninformative one --
@@ -777,17 +806,19 @@ Kubernetes-exposure input relies on.
 \subsection{Limitations}
 \label{subsec5.1}
 
-The full inventory of 120 images is now complete, and the confirmatory comparison
+The full inventory of 120 assets is now complete, and the confirmatory comparison
 (Table~\ref{tab:e4-results}) was re-run on it, confirming H1a, H1c, and H2 at broadly similar margins
 to those reported on the earlier, partial inventory. The mandatory-baseline comparison in
-Table~\ref{tab:e3-baselines} has since been re-run on the completed 120-image inventory (6{,}357 rows);
+Table~\ref{tab:e3-baselines} has since been re-run on the completed 120-asset inventory (6{,}357 labelled rows);
 the headline shift is that a linear ridge model over all seven inputs, which improved on persistence by
 30\% on the 27-image pilot, now underperforms it on every one of the five grouped-temporal folds
 ($\mathrm{SS}_{\mathrm{pers}}=-2.293$ pooled, raw scale) -- a reversal, not a refinement, attributed to
 the linear model over-extrapolating as the inventory's heterogeneity grew, where persistence's
 week-to-week copy remains comparatively safe. The EPSS scoring model changed version (\texttt{v2025.03.14} to
 \texttt{v2026.06.15}) inside the sealed 57-week window, a threat to label comparability across that
-boundary that is recorded but not yet corrected for. CVEs lacking a Trivy-reported publication date are
+boundary; two of the five held-out blocks involve labels computed under the newer version, and a post hoc
+re-analysis restricted to weeks whose labels all pre-date the change leaves the confirmatory conclusions
+unchanged (Section~\ref{subssec4.5}). CVEs lacking a Trivy-reported publication date are
 dated by their first appearance in a sealed EPSS snapshot, which is conservative (at most 7 days late)
 but not exact. The label aggregation rule (a row-wise maximum over active CVEs), its numeric scale, and
 the operational definition of Patch Risk were closed and pre-registered as amendment A-13
@@ -820,10 +851,9 @@ asset-weeks, Section~\ref{subsec:target-definition}), and a completed ablation s
 monotonicity constraint required for an auditable, higher-is-riskier score has a real,
 membership-family-dependent accuracy cost (Section~\ref{subssec4.5}).
 
-Confirming H1b against persistence, running the bottleneck-width sweep (Section~\ref{subssec4.4}) to
-test whether widening the scalar inter-tier bottleneck trades parameters for the interaction H1b's gap
-may reflect, and re-running the confirmatory comparison as the inventory scales from 109 toward the
-120 images targeted for the final manuscript, are the immediate next steps. Re-scanning every image with
+Confirming H1b against persistence is the main open question; the bottleneck-width sweep
+(Section~\ref{subssec4.4}) found that widening the scalar inter-tier bottleneck from $k{=}1$ to $k{=}2$
+does not close the gap to persistence and is significantly worse than it. Re-scanning every image with
 a single frozen vulnerability database, so that no image's CVE surface differs merely because it was
 scanned on a different day, remains an open methodological item but is not expected to change the
 qualitative picture given the gate margin already achieved. The auditable policy-translation layer
