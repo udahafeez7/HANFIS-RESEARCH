@@ -556,10 +556,11 @@ every other group up to a cutoff date and evaluates group $k$ inside the followi
 30-day embargo equal to the outcome window, so no image and no overlapping outcome window appears on
 both sides of any fold; every image is evaluated exactly once. On the completed 120-asset inventory this
 yields 5 folds of 95--96 training images against 23--24 held-out images. The alternating lower-panel
-closed-form training variant (Section~\ref{subsec:hanfis-architecture}) has been implemented and verified
-against an independent closed-form derivation on synthetic data (mean squared error $0.78\to4\times10^{-4}$
-over six alternating iterations with no premise training at all), but has not yet been run on the real
-27-asset table at the time of writing.
+closed-form training variant (Section~\ref{subsec:hanfis-architecture}) was verified against an
+independent closed-form derivation on synthetic data (mean squared error $0.78\to4\times10^{-4}$ over
+six alternating iterations with no premise training at all) before being adopted as amendment A-09's
+frozen training scheme, used throughout the real-data results reported below and in
+Section~\ref{subssec4.4}.
 
 \subsection{Predictive performance}
 \label{subssec4.3}
