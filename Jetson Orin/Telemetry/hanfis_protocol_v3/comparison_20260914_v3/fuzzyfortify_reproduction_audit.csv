@@ -1,0 +1,6 @@
+adversarial_technique,complexity_resilience_index,impact,base_score,exploitability,published_risk_score,reproduced_risk_score,absolute_difference
+Data destruction,34.0,4.9,6.9,1.9,70.47,49.5,20.97
+Endpoint DOS,34.0,4.2,6.5,2.0,59.56,49.5,10.060000000000002
+Network DOS,34.0,3.7,6.3,2.2,55.44,49.50000000000001,5.939999999999991
+Inhibit system recovery,34.0,4.0,6.4,3.1,57.45,49.5,7.950000000000003
+Resource hijacking,34.0,4.8,7.5,2.4,74.6,59.29718766901028,15.302812330989717
