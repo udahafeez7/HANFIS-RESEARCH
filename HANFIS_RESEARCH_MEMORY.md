@@ -2,7 +2,7 @@
 
 > Memori proyek HANFIS. Dibaca ulang pada awal setiap sesi kerja (manusia maupun asisten AI).
 > Diperbarui hanya melalui amendemen bernomor (A-xx) atau penutupan blocker (F-xx).
-> Versi: 2.19 · Tanggal: 2026-10-06 · Pemilik: tim HANFIS (Universitas Andalas)
+> Versi: 2.20 · Tanggal: 2026-10-06 · Pemilik: tim HANFIS (Universitas Andalas)
 
 ## 0. Identitas dan target akhir
 
@@ -83,6 +83,7 @@ Setiap usulan perubahan harus menyebut lapisan dan dokumen yang diubah. Usulan t
 | A-37 | 2026-10-06 | Eksperimen E5 (ablasi clamp) + Naskah §4.4 | Ablasi `clamp_intermediates off` (vs default `on`) dijalankan ulang pada inventaris 120-aset lengkap, menutup satu-satunya sub-temuan E5 yang masih ditandai "belum di-rerun" di A-36. Biaya skill dari hard clamp pada v,e: k=1 naik dari 0,019 (pilot 27-aset) menjadi **0,161** (120-aset, naik 8,5×); k=2 naik dari 0,394 menjadi **0,813** (naik 2,1×). **Arah dan interpretasi TIDAK berubah** (berbeda dari E3/E5 utama yang berbalik arah) — ini memperkuat, bukan membalikkan, narasi yang sudah ada: v,e makin sulit diestimasi andal seiring makin banyak parameter konsekuen bersaing untuk itu, konsisten dengan heterogenitas inventaris yang bertambah. Naskah diperbarui: angka ablasi diganti, catatan "belum di-rerun" (ditambahkan A-36) dihapus karena sudah selesai. **Dengan ini, seluruh E0–E5 kini final dan konsisten di skala 120-aset — tidak ada lagi sub-temuan yang menggantung di 109/27-aset lama.** File: `results_python/e5_120_clamp_ablation/e5_sweep_20261006T052942Z.csv`, `e5_predictions_20261006T052942Z.csv`. |
 | A-38 | 2026-10-06 | Arsip telemetri (bukan naskah) | Investigasi `O5-B4.11*` (gerbang 5-run lama, bukan protokol naskah) menemukan Run 2 ON tahap pertama (`run2-on-20260811T095841Z`) **berstatus HOLD sejak awal** (`RESOURCE_STATUS: HOLD`, P0 rows 90/60 — duplikasi pengumpulan), dan lima file ringkasan I1–I5 (`O5-B4.11I1`–`I5`) ternyata dihitung dari capture HOLD ini, bukan dari capture pemulihan yang valid (`run2-on-20260814T073513Z`, status PASS, "Reconstructed and frozen"). Dihitung ulang manual (skrip pembuat asli tidak tersimpan) dari data valid (OFF `20260810T061621Z` status PASS + ON `20260814T073513Z` status PASS): mean latensi tidak banyak berubah (OFF 1,473 vs ON 1,469 ms, kesimpulan kualitatif sama), tapi **std dan P95 pada angka HOLD lama meremehkan jauh** (std ON 0,249→0,416, +67%; P95 0,810→2,621 ms, +45%). **PENTING — ini TIDAK memengaruhi naskah**: `manuscript/sn-article.tex` hanya merujuk protokol `external-v3.0` (10 pasangan run berimbang, Tabel~tab:overhead, F3 sudah ditutup), tidak pernah menyebut `O5-B4.11` sama sekali — diverifikasi lewat grep, bukan asumsi. Gerbang `O5-B4.11*` adalah metodologi internal yang sudah ditinggalkan/digantikan `external-v3.0`. **Catatan untuk sesi mendatang:** jangan habiskan waktu menghitung ulang I2–I5 atau melanjutkan Run 3–5 gerbang `O5-B4.11` kecuali ada alasan eksplisit baru untuk menghidupkan kembali jalur ini — bukan jalur yang memblokir submisi. |
 | A-39 | 2026-10-06 | Eksperimen E4 (sensitivitas) + Naskah §4.5, Limitations | Sensitivitas POST HOC (tidak ada di praregistrasi E4) terhadap pergantian model EPSS 2026-06-15 (`v2025.03.14` -> `v2026.06.15`): fold 3 (blok uji melintasi) dan fold 4 (uji pasca-pergantian) pada run penuh terpengaruh. E4bis dijalankan ulang dengan kode, seed, dan konfigurasi beku pada 4.560 aset-minggu berlabel pra-pergantian (<= 2026-05-11; 720 baris uji; `scripts/make_pre_epss_change_table.py`). H1a/H1c/H2 tetap terkonfirmasi, H1b tetap belum; SS tidak sebanding langsung antar-kolom. Tidak mengubah status konfirmasi. Satu-satunya perubahan kode sejak tag gerbang E4bis: `--save-models`/meta aditif (komit 6aaec37); grup image 119/119 identik. Hasil: `results_python/e4bis_120_preEPSS` |
+| A-40 | 2026-10-06 | Naskah (abstrak, sec. 1 H1b, kontribusi C5, sec. 4.3) + Pembanding | Klaim Fuzzyfortify disesuaikan dengan bukti audit. Protokol pembanding (comparison_20260914_v3) mensyaratkan 4 input asli (`complexity_resilience_index`, `impact`, `base_score`, `exploitability`) dan melarang pemetaan proksi tak-terlapor; model yang diadaptasi hanya sensitivitas. Audit reproduksi 5 kasus terbit GAGAL (`STATUS=HOLD_FUZZYFORTIFY_REPRODUCTION_GAP`): skor reproduksi lebih rendah di semua kasus, selisih 5,94-20,97 (MAE 12,04, skala 0-100), empat dari lima identik 49,5. Naskah tidak lagi mengklaim perbandingan Fuzzyfortify; kalimat 'persistence, not Fuzzyfortify or CVSS, is the strongest baseline on the pilot' dikoreksi karena Fuzzyfortify tidak pernah dievaluasi pada pilot. Penyebab selisih (paper vs kode) BELUM diketahui; bila terselesaikan, Fuzzyfortify hanya boleh kembali sebagai sensitivitas. Bukti: `Jetson Orin/Telemetry/hanfis_protocol_v3/comparison_20260914_v3/` (komit 48c10e1) |
 ## 5. Blocker manuskrip F1–F9 (status 2026-10-02, diverifikasi dari commit log + manuskrip)
 
 - **F1 (target sintetis) → DITUTUP.** Snapshot EPSS/KEV bersegel 57 minggu; tabel aset-minggu kontrak v2 berjalan; gerbang §9 lolos 2026-09-28 (tag `m2-gate-training-authorized-20260928`). Lih. A-13 (patch 0024–0025).
@@ -198,3 +199,19 @@ Penomoran patch hari ini dapat bentrok dengan nomor lama (mis. komit 6aaec37, 20
 | 0072 | 6a4f29f | naskah: inventaris 120 aset; cek fold vs EPSS |
 | 0073 | 6307778 | naskah: buang sisa template backmatter |
 | 0074 | 07dc7eb | naskah: sensitivitas pra-pergantian, kalimat basi, hypertexnames |
+
+## Peta komit lanjutan (2026-10-06, setelah patch 0074)
+
+| Komit | Isi |
+|---|---|
+| ac74c3f | memory: catat patch 0071-0074 |
+| 7d4d27a | memory: v2.19 |
+| c44d246 | memory: A-39 + peta patch; e4_run menyimpan `args` ke meta |
+| c7cb23d | chore: .gitignore artefak build dan cadangan |
+| 48c10e1 | manuscript: klaim Fuzzyfortify (A-40); audit Fuzzyfortify dikomit |
+| 1327491 | manuscript: tab:overhead lengkap dari results_efficiency.tex (tabularx) |
+| eaef23b | chore: skrip figur E3/E5 dan catatan_keputusan_20261002.md terlacak |
+| 3ed82d2 | manuscript: tiga Overfull hbox diperbaiki (rules-params, persamaan label, mind map) |
+
+Status naskah: PDF 25 halaman; tanpa `undefined`/`multiply defined`/duplicate destination; sisa satu Overfull 8,6 pt (mind map). 126 passed + 11 subtests (ext4 dan WSL).
+Terbuka: bibliografi `nist_zta_cloudnative_2023` dan Soozanchi dkk. (butuh sumber dari peneliti); penyebab selisih Fuzzyfortify; `apply_*.py` lama di akar repo belum diarsipkan.
