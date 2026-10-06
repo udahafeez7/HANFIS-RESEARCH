@@ -224,7 +224,7 @@ This study adopts a controlled, repeated-measures experimental design to develop
 
 The study therefore separates two related but analytically distinct objectives. The first objective is to quantify the overhead associated with Kubernetes observability. The second is to transform validated runtime measurements into features for the environmental subsystem of HANFIS. The overhead experiment compares the same baseline workload under two conditions: monitoring enabled (ON) and monitoring disabled (OFF). The workload, service configuration, request path, cluster topology, sampling procedure, and validation gates are held constant. Monitoring state is the principal experimental factor. This design provides a control condition against which the incremental cost of telemetry collection can be estimated.
 
-The experiment comprises five paired runs. Conditions are counterbalanced across runs using ON--OFF and OFF--ON sequences. Counterbalancing reduces systematic error associated with execution order, cache warming, temporal load variation, and cluster stabilisation. Each transition is guarded by a preflight or post-transition validation step. A condition is admitted to measurement only when the Kubernetes nodes, baseline workload, HTTP service, and required monitoring state satisfy predetermined acceptance criteria. Failed gates produce a \texttt{HOLD} decision rather than an experimental observation. This prevents measurements obtained from a degraded or incorrectly configured system from entering the analytical dataset.
+The observability experiment comprises ten paired runs (Runs~7--16). Conditions are counterbalanced across runs using ON--OFF and OFF--ON sequences. Counterbalancing reduces systematic error associated with execution order, cache warming, temporal load variation, and cluster stabilisation. Each transition is guarded by a preflight or post-transition validation step. A condition is admitted to measurement only when the Kubernetes nodes, baseline workload, HTTP service, and required monitoring state satisfy predetermined acceptance criteria. Failed gates produce a \texttt{HOLD} decision rather than an experimental observation. This prevents measurements obtained from a degraded or incorrectly configured system from entering the analytical dataset.
 
 \subsection{HANFIS Architecture, Rule Count, and Parameter Complexity}
 \label{subsec:hanfis-architecture}
@@ -319,14 +319,24 @@ Counterbalancing & Prespecified ON--OFF or OFF--ON order & Reduces order, warm-u
 \end{tabularx}
 \end{table*}
 
-\subsection{Dataset Construction and Target Definition}
-\label{subsec3.3}
+\subsection{Observability-Overhead Protocol (external-v3.0)}
+\label{subsec:overhead-protocol}
 
-Telemetry acquisition was designed to preserve the relationship among the observed value, Kubernetes object, node, container, experimental condition, and run. The principal measurements include node-, pod-, and container-level CPU and memory consumption; workload placement; pod readiness and execution state; HTTP outcome; and response latency. The resulting artefacts include node and container CSV files, resource snapshots, HTTP sample files, resource summaries, and pod-to-node maps. Configuration files, event logs, gate reports, console logs, replication plans, and cryptographic manifests provide supporting evidence but are not treated as direct HANFIS training features.
+The gates and integrity controls of Table~\ref{tab1} were developed during the first runs and were carried forward unchanged into protocol \texttt{external-v3.0}, which produced all observability-overhead results reported in Section~\ref{subsec4.1}. The protocol comprises ten complete counterbalanced ON--OFF pairs (Runs~7--16): Runs~8, 10, 12, 14 and~16 were executed OFF--ON, and Runs~7, 9, 11, 13 and~15 ON--OFF. The earlier Runs~1--6 belong to the protocol-development phase and are not pooled with the ten pairs. One aborted attempt of Run~7 and one aborted attempt of Run~17 failed the integrity gate and are recorded as incidents rather than observations.
 
-This distinction is important. A telemetry record is a candidate analytical observation, whereas a shell script or checksum is methodological evidence concerning how that observation was generated. Both are required for a defensible experiment, but they serve different purposes. Only measurements collected after a condition passes its validation gate are eligible for analysis. Console output is additionally written to files by means of redirection and \texttt{tee}; consequently, clearing a terminal does not remove the stored reports, CSV files, or checksums.
+The protocol follows a fail-closed rule: a condition is admitted to measurement only when the nodes, the P0 workload (two of two replicas), the HTTP service (status~200) and the required monitoring state satisfy the acceptance criteria of Table~\ref{tab1}; a failed gate yields a \texttt{HOLD} decision, not an observation. Each run is archived with a SHA-256 manifest, so that the ten run archives and the cumulative analysis can be re-verified without reconstructing the original command sequence.
 
-For each paired run, identical request-generation and resource-sampling procedures are applied to the ON and OFF conditions. Thirty resource snapshots are planned for each condition, accompanied by HTTP and latency observations using the same sampling interval and service path. The raw measurements are retained before aggregation. This permits inspection of within-condition variability and prevents the loss of temporal information that would result from retaining only a mean value. Derived summaries are produced only after completeness, service health, and condition labels have been validated.
+Telemetry preserves the link between each value and its Kubernetes object, node, container, condition and run. The measurements are node-, pod- and container-level CPU and memory, pod readiness, HTTP outcome and response latency; identical request-generation and sampling procedures are applied in the ON and OFF conditions. Configuration files, event logs, gate reports and manifests document how each observation was produced and are not treated as HANFIS training features.
+
+Let $Y_{r,c,k}$ denote observation $k$ of run $r$ under condition $c\in\{\mathrm{ON},\mathrm{OFF}\}$, where $Y$ may be CPU, memory or latency. The run mean is
+\begin{equation}
+ \bar{Y}_{r,c}=\frac{1}{n_{r,c}}\sum_{k=1}^{n_{r,c}}Y_{r,c,k},
+\end{equation}
+the paired absolute overhead is $\Delta Y_r=\bar{Y}_{r,\mathrm{ON}}-\bar{Y}_{r,\mathrm{OFF}}$, and the relative overhead, when the OFF denominator is non-zero, is
+\begin{equation}
+ \Delta Y^{(\%)}_r=\frac{\bar{Y}_{r,\mathrm{ON}}-\bar{Y}_{r,\mathrm{OFF}}}{\bar{Y}_{r,\mathrm{OFF}}}\times100\%.
+\end{equation}
+The run, not the individual sample, is the independent replication unit, which avoids pseudoreplication from temporally adjacent samples. Inference over the ten paired differences uses an exact two-sided sign-flip test, whose smallest attainable $p$ with ten pairs is $2/2^{10}=0.002$, together with a bootstrap confidence interval for the mean difference. Effect sizes, confidence intervals and the consistency of direction carry more interpretive weight than a binary significance decision. The estimated increment is an instrumentation cost; it must not be read as a change in application exposure.
 
 \subsection{Realised Exploitability-Exposure Target and Real-World Asset-Week Dataset}
 \label{subsec:target-definition}
@@ -380,27 +390,6 @@ row-wise maximum and the raw 0--100 scale are the definition as written, not a c
 120 images targeted for the final manuscript remains an open item, tracked as unlikely to change the
 qualitative confirmatory picture in Section~\ref{subssec4.3} given the gate margin already achieved.
 
-\subsection{Model Training and Evaluation Protocol}
-\label{subsec3.4}
-
-Let $Y_{r,c,k}$ denote observation $k$ for run $r$ under condition $c\in\{\mathrm{ON},\mathrm{OFF}\}$, where $Y$ may represent CPU utilisation, memory consumption, or response latency. The condition-specific mean for a run is
-\begin{equation}
- \bar{Y}_{r,c}=\frac{1}{n_{r,c}}\sum_{k=1}^{n_{r,c}}Y_{r,c,k}.
-\end{equation}
-The paired absolute overhead attributable to monitoring is defined as
-\begin{equation}
- \Delta Y_r=\bar{Y}_{r,\mathrm{ON}}-\bar{Y}_{r,\mathrm{OFF}},
-\end{equation}
-and the relative overhead, when the OFF-condition denominator is non-zero, is
-\begin{equation}
- \Delta Y^{(\%)}_r=
- \frac{\bar{Y}_{r,\mathrm{ON}}-\bar{Y}_{r,\mathrm{OFF}}}
- {\bar{Y}_{r,\mathrm{OFF}}}\times100\%.
-\end{equation}
-The run, rather than an individual rapid snapshot, constitutes the independent replication unit. This avoids pseudoreplication caused by treating temporally adjacent samples from one execution as independent experiments. After all five runs are complete, paired ON--OFF differences will be examined for distributional plausibility and outliers. A paired-samples procedure will then be selected: a paired $t$-test when its assumptions are defensible, or a Wilcoxon signed-rank analysis otherwise. Given the small number of independent runs, effect sizes, paired differences, confidence intervals, and the direction and consistency of effects will receive greater interpretive weight than a binary significance decision alone.
-
-The comparison isolates the measurement cost of the observability stack. If the ON state increases CPU, memory, or latency relative to its paired OFF state, the estimated increment can be treated as instrumentation overhead. This quantity can subsequently be considered during feature calibration or sensitivity analysis. It must not be interpreted automatically as an increase in application exposure. Conversely, instability in the OFF state would indicate that monitoring is not the sole plausible cause and would trigger further diagnostic analysis rather than direct integration into HANFIS.
-
 \subsection{Integration of Validated Telemetry with HANFIS}
 \label{subsec:hanfis-integration}
 
@@ -437,7 +426,7 @@ Figure~\ref{fig:methodology-mindmap} summarises the relationship among infrastru
  child[validation]{node{Overhead control}
    child{node{Monitoring ON}}
    child{node{Monitoring OFF}}
-   child{node{Five paired runs}}}
+   child{node{Ten paired runs}}}
  child[evidence]{node{Research integrity}
    child{node{Protocol freeze}}
    child{node{Gate reports}}
@@ -452,37 +441,12 @@ Figure~\ref{fig:methodology-mindmap} summarises the relationship among infrastru
 \label{fig:methodology-mindmap}
 \end{figure*}
 
-\subsection{Audit of the Five Methodological Questions}
-\label{subsec:methodological-audit}
-
-The five questions that motivated the experimental preparation must be answered according to the evidence presently available, rather than according to the intended final protocol. Table~\ref{tab:five-questions} therefore distinguishes established evidence from work that remains in progress. At the current checkpoint, Run~1 has been closed and audited, the full five-run replication structure has been frozen, and Run~2 has passed preflight and entered a validated OFF condition. Consequently, data provenance and procedural reproducibility are already strongly supported. However, claims concerning cross-run consistency and final overhead magnitude remain provisional until Runs~2--5, statistical analysis, and telemetry-to-feature calibration have been completed.
-
-\begin{table*}[t]
-\caption{Evidence-based status of the five methodological questions at checkpoint O5--B4.11B.}
-\label{tab:five-questions}
-\centering
-\small
-\begin{tabularx}{\textwidth}{@{}p{0.55cm}p{4.0cm}p{2.25cm}X@{}}
-\toprule
-\textbf{No.} & \textbf{Methodological question} & \textbf{Status} & \textbf{Evidence and remaining requirement} \\
-\midrule
-1 & Does the telemetry originate from the actual runtime environment? & Established & Measurements are tied to Kubernetes nodes, pods, containers, namespaces, workload placement, service health, and explicitly labeled ON/OFF conditions. Pod--node maps, resource snapshots, and Kubernetes state records preserve provenance. \\
-2 & What is the overhead of telemetry collection? & Partially established & Run~1 provides an initial paired ON--OFF estimate and the monitoring stack has been isolated as the experimental factor. A defensible final magnitude requires completion of all five paired runs and the prespecified aggregate analysis. \\
-3 & Are the results consistent across repeated executions? & Not yet established & The five-run counterbalanced design and Runs~2--5 directories have been prepared, but one completed run cannot demonstrate between-run consistency. This claim remains pending until all replication units are complete. \\
-4 & Can the procedure and configuration be reproduced and audited? & Established for the executed stages & Scripts, frozen protocol, Kubernetes definitions, services, system fingerprint, gate reports, console logs, replication plan, and SHA-256 manifests are retained. B4.10 integrity was revalidated at the Run~2 preflight. Reproduction on an independent cluster remains a stronger future external validity test. \\
-5 & Can monitoring overhead be distinguished from workload behavior? & Provisionally established & The paired ON/OFF design, constant P0 workload, HTTP health checks, controlled stack transition, and counterbalanced order provide the required identification strategy. Final attribution depends on the successful completion of the remaining pairs and confirmation that no uncontrolled condition has changed. \\
-\bottomrule
-\end{tabularx}
-\end{table*}
-
-\subsection{Validity Safeguards and Current Methodological Boundary}
+\subsection{Validity Safeguards and Methodological Boundary}
 \label{subsec:validity}
 
-Internal validity is strengthened by paired comparisons, a stable workload, condition gates, health checks, counterbalancing, and the rejection of measurements collected under invalid states. Construct validity is addressed by separating observability overhead from cybersecurity exposure and by requiring a semantic mapping before telemetry is used as a HANFIS feature. Reliability is supported by script-based execution, standardized output formats, frozen configuration, and cryptographic integrity checks. Traceability is maintained from raw samples through summaries and model-ready features.
+Internal validity rests on paired comparisons, a stable workload, condition gates, health checks, counterbalanced order, and the rejection of measurements taken under invalid states. Construct validity is protected by separating observability overhead from cybersecurity exposure and by requiring a semantic mapping before any telemetry variable is used as a HANFIS feature. Reliability is supported by script-based execution, frozen configuration and cryptographic integrity checks, and traceability runs from raw samples through summaries to model-ready features.
 
-Several limitations remain. WSL~2 and Docker Desktop provide a reproducible research environment but do not represent every production Kubernetes deployment. The two-node topology and P0 workload constrain external validity. Five paired runs improve reliability but still provide limited power for null-hypothesis testing; therefore, effect estimation and transparent paired results are prioritized. Moreover, successful collection of telemetry does not itself prove predictive value for cyber risk. That claim requires subsequent HANFIS training, validation, comparison with a flat ANFIS baseline, and evaluation using held-out data and predefined metrics such as RMSE, MAE, and $R^2$.
-
-Accordingly, the present evidence supports the readiness and methodological integrity of the telemetry experiment, but it does not yet justify claiming that the entire five-run study or final HANFIS integration has been completed. The current verified boundary is O5--B4.11B: Run~1 is closed, Run~2 has passed preflight, and its monitoring-OFF condition is ready for measurement. This explicit boundary prevents planned procedures from being reported as completed results and preserves the distinction between methodological preparation, preliminary evidence, and final inference.
+Several limits remain. WSL~2 with Docker Desktop is reproducible but does not represent every production Kubernetes deployment, and the two-node topology and P0 workload constrain external validity. Ten pairs make an effect-size reading appropriate, but they bound the smallest attainable sign-flip $p$ at $0.002$ and give limited power for small latency effects. The protocol was frozen before the ten pairs were analysed, yet its version is entangled with the platform on which the earlier runs were taken, so cross-platform comparisons are descriptive. Finally, successful telemetry collection does not by itself show predictive value for cyber risk; that claim rests on the held-out HANFIS evaluation against the baselines of Section~\ref{sec4}.
 
 \section{Results}\label{sec4}
 
@@ -831,7 +795,7 @@ the operational definition of Patch Risk were closed and pre-registered as amend
 (cross-checked against the literal target-definition formula, Section~\ref{subsec:target-definition})
 before the confirmatory comparison in Table~\ref{tab:e4-results} was run. The testbed is a
 single two-node WSL~2/Docker Desktop Kubernetes cluster; external validity to production multi-node
-clusters and other CNI/storage stacks is untested. Five paired observability runs, while showing large
+clusters and other CNI/storage stacks is untested. Ten paired observability runs, while showing large
 and consistent effects, still provide limited power for null-hypothesis testing on the latency measure
 specifically, which is why the reported confidence intervals rather than a significance threshold carry
 the interpretive weight in Section~\ref{subsec4.1}.
