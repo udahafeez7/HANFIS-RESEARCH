@@ -125,7 +125,7 @@
 %% Sample for unstructured abstract %%
 %%==================================%%
 
-\abstract{Static, expert-weighted fuzzy risk scores go stale between elicitations, while a flat Adaptive Neuro-Fuzzy Inference System (ANFIS) over the seven inputs relevant to cloud-native risk -- CVSS, exploitability, patch risk, MFA risk, Kubernetes exposure, asset criticality, and time-varying threat intelligence -- requires $2^7=128$ rules and 1{,}052 parameters under exhaustive grid partitioning. We propose HANFIS, a domain-informed hierarchical ANFIS that separates vulnerability and environmental reasoning into two first-tier Sugeno subsystems before an integration tier combines them with dynamic threat intelligence, cutting the rule base to 34 rules and 176 parameters (a 73.4\% and 83.3\% reduction, respectively) while keeping every intermediate variable semantically interpretable. We construct a temporal exploitability-exposure target from sealed weekly EPSS and CISA KEV snapshots over a 57-week window and a digest-pinned container-image inventory, validated through a data-quality gate (6{,}833 labelled asset-weeks from 120 assets at the time of writing, non-missing rate 0.93, zero unresolved evidence rows) and evaluated with a grouped, embargoed temporal split so that no image or outcome window leaks across folds. On this real-world inventory, a naive 4-week persistence baseline already explains most of the label's variance and a single CVSS score explains almost none, setting a high and non-obvious bar for any learned model. Under a protocol frozen and dated before training began, HANFIS reduces mean squared error by 96.7\% against a single CVSS score, 69.6\% against a linear model over the same seven inputs, and 66.5\% against a parameter-matched flat ANFIS initialised by subtractive clustering (all three 95\% bootstrap confidence intervals excluding zero); HANFIS is not yet distinguishable from the persistence baseline (confidence interval crossing zero), which we report as an open rather than a negative result. The hybrid least-squares/gradient training scheme and its monotonicity and membership-function ablations are reported alongside these confirmatory comparisons, and a Fuzzyfortify comparison is not claimed because its published benchmark scores could not be reproduced.}
+\abstract{Static, expert-weighted fuzzy risk scores go stale between elicitations, while a flat Adaptive Neuro-Fuzzy Inference System (ANFIS) over the seven inputs relevant to cloud-native risk -- CVSS, exploitability, patch risk, MFA risk, Kubernetes exposure, asset criticality, and time-varying threat intelligence -- requires $2^7=128$ rules and 1{,}052 parameters under exhaustive grid partitioning. We propose HANFIS, a domain-informed hierarchical ANFIS that separates vulnerability and environmental reasoning into two first-tier Sugeno subsystems before an integration tier combines them with dynamic threat intelligence, cutting the rule base to 34 rules and 176 parameters (a 73.4\% and 83.3\% reduction, respectively) while keeping every intermediate variable semantically interpretable. We construct a temporal exploitability-exposure target from sealed weekly EPSS and CISA KEV snapshots over a 57-week window and a digest-pinned container-image inventory, validated through a data-quality gate (6{,}833 labelled asset-weeks from 120 assets at the time of writing, non-missing rate 0.93, zero unresolved evidence rows) and evaluated with a grouped, embargoed temporal split so that no image or outcome window leaks across folds. On this real-world inventory, a naive 4-week persistence baseline already explains most of the label's variance and a single CVSS score explains almost none, setting a high and non-obvious bar for any learned model. Under a protocol frozen and dated before training began, HANFIS reduces mean squared error by 96.7\% against a single CVSS score, 69.6\% against a linear model over the same seven inputs, and 66.5\% against a parameter-matched flat ANFIS initialised by subtractive clustering (all three 95\% bootstrap confidence intervals excluding zero); HANFIS is not distinguishable from the persistence baseline overall (confidence interval crossing zero), and a post hoc analysis shows it is better only around structural breaks in the label and worse in stable periods, so we report H1b as unconfirmed rather than as a tie. The hybrid least-squares/gradient training scheme and its monotonicity and membership-function ablations are reported alongside these confirmatory comparisons, and a Fuzzyfortify comparison is not claimed because its published benchmark scores could not be reproduced.}
 
 %%================================%%
 %% Sample for structured abstract %%
@@ -770,8 +770,8 @@ re-run with the same code, seeds and frozen configuration on the 4{,}560 asset-w
 pre-date the change (weeks up to 2026-05-11; 720 held-out rows), with the results in
 Table~\ref{tab:e4-epss}. H1a, H1c and H2 remain confirmed, and H1b remains unconfirmed, with a much wider
 interval. Because both the training and the held-out windows change, skill scores are not directly comparable
-across the two columns; the larger margin over the matched flat model (H2: $0.665$ to $0.913$) may reflect
-that the post-change blocks are harder for HANFIS than for a flat model, but this analysis does not establish it.
+across the two columns; the larger margin over the matched flat model (H2: $0.665$ to $0.913$) comes from the matched
+model, whose mean squared error per held-out row rises from $1.22$ to $3.77$ while that of HANFIS stays at $0.41$ and $0.33$.
 
 \begin{table}[h]
 \caption{Post hoc sensitivity of the confirmatory comparison to the EPSS model change: full run versus weeks
@@ -788,6 +788,26 @@ H2$'$ & Flat ANFIS (full) & 0.253 & 0.441 \\
 \botrule
 \end{tabular}
 \end{table}
+
+\emph{Where HANFIS and persistence differ.} The pooled skill against persistence ($0.015$) hides two regimes, and
+this exploratory, post hoc analysis (not part of the Holm-corrected family) separates them. Dropping one held-out
+fold at a time leaves it between $0.007$ and $0.172$ except for fold~3, whose removal gives $-1.168$. Fold~3 ends at
+the EPSS model change, and the label of week $t$ is built from snapshots up to $t{+}28$ days ahead whereas the
+persistence forecast reuses the label of week $t{-}4$. For the four weeks in which the label is fully computed under the
+new model while the lagged label is still computed under the old one (2026-W24 to W27; 95 rows), skill against
+persistence is $+0.483$; on the remaining 985 rows it is $-0.420$. In 2026-W25 and W26 the squared error of persistence is
+$63.1$ and $28.9$ against $0.7$ and $1.0$ for HANFIS, while the parameter-matched model also adapts ($4.8$ and $5.2$), so the
+advantage reflects access to the current EPSS input rather than the hierarchical structure. In the week the label first
+jumps (W24) neither HANFIS nor persistence anticipates it ($108.9$ and $115.2$). In the stable weeks that follow
+HANFIS keeps a small error floor (about $0.7$--$0.8$ per week over 24 rows, against $0.1$ for persistence). The pooled
+advantage of $6.5$ squared-error units is thus the sum of $+104.1$ in the break weeks and $-97.6$ elsewhere. The same
+pattern appears before the change: in the run restricted to earlier weeks the advantage concentrates in 2026-W06 and W07,
+the weeks of one image's label surge (an image carrying 77.8\% of the persistence error), and the total is $-12.3$.
+HANFIS is therefore reactive rather than predictive: better than persistence when the label moves, worse when it does not.
+Two further observations qualify H2. The first held-out fold, trained on 2.2 observations per parameter, contributes
+$91\%$ of the pooled gap to the matched model (squared error $869.6$ against $73.9$); without it the skill against
+FlatANFISMatched is $0.183$ and against the full flat model $0.084$, whereas the skill against the ridge model stays between
+$0.656$ and $0.793$ whichever fold is removed.
 
 \section{Discussion}\label{sec5}
 
@@ -830,7 +850,10 @@ week-to-week copy remains comparatively safe. The EPSS scoring model changed ver
 \texttt{v2026.06.15}) inside the sealed 57-week window, a threat to label comparability across that
 boundary; two of the five held-out blocks involve labels computed under the newer version, and a post hoc
 re-analysis restricted to weeks whose labels all pre-date the change leaves the confirmatory conclusions
-unchanged (Section~\ref{subssec4.5}). CVEs lacking a Trivy-reported publication date are
+unchanged (Section~\ref{subssec4.5}). The data-sufficiency gate (at least ten observations per parameter) is met by the pooled
+sample ($6{,}833$ rows against 176 parameters) but not by the two earliest held-out folds ($2.2$ and $7.1$ observations per
+parameter), which are also those in which HANFIS is furthest behind persistence, and H2's pooled margin is dominated by the
+first fold (Section~\ref{subssec4.5}). CVEs lacking a Trivy-reported publication date are
 dated by their first appearance in a sealed EPSS snapshot, which is conservative (at most 7 days late)
 but not exact. The label aggregation rule (a row-wise maximum over active CVEs), its numeric scale, and
 the operational definition of Patch Risk were closed and pre-registered as amendment A-13
@@ -853,11 +876,10 @@ substantial reduction in estimation error against a single CVSS score (H1a), a l
 seven inputs (H1c), and a parameter-matched flat ANFIS initialised by subtractive clustering (H2); it is
 not yet distinguishable from a causal 4-week persistence forecast (H1b), which this study's own mandatory
 baselines (Section~\ref{subssec4.3}) show to be a far harder bar than static expert scoring, not an
-afterthought comparator. H2's margin is read as evidence that the vulnerability/environmental/threat
-decomposition mirrors the label's own generative structure (Section~\ref{subsec:target-definition}) --
-an advantage a capacity-matched but domain-blind flat model cannot access from input density alone --
-rather than as a training artefact, on the strength of a per-fold check in which HANFIS wins four of
-the five held-out blocks (Section~\ref{subssec4.3}). Two further contributions are established: the real-world data pipeline itself (sealed,
+afterthought comparator. H2 is confirmed as non-inferiority to a capacity-matched flat model, and HANFIS has the lower error in four of the
+five held-out blocks (Section~\ref{subssec4.3}); the pooled margin is, however, dominated by the first block, where
+training is thinnest, so it is read as suggestive of, not as evidence for, a structural advantage of the
+vulnerability/environmental/threat decomposition (Section~\ref{subssec4.5}). Two further contributions are established: the real-world data pipeline itself (sealed,
 hash-verified EPSS and CISA KEV evidence feeding a gated inventory of 120 assets and 6{,}833 labelled
 asset-weeks, Section~\ref{subsec:target-definition}), and a completed ablation showing that the
 monotonicity constraint required for an auditable, higher-is-riskier score has a real,
