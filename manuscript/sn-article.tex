@@ -735,10 +735,10 @@ This is the strongest statement the present inventory supports, and it remains a
 rather than a claim that wider bottlenecks are intrinsically worse: every $k{=}2$ fold falls under ten
 observations per parameter (range 0.3--2.9), the same ten-per-parameter threshold applied elsewhere in
 this study (Section~\ref{subsec:target-definition}), while $k{=}1$ clears it in three of five folds. A
-secondary diagnostic (109-asset inventory; not yet repeated on the completed 120-asset set) separates
-part of this gap from pure data scarcity: disabling the hard clamp on
-$v,e$ (an ablation, not the model HANFIS reports) costs $k{=}1$ only 0.019 of skill but costs $k{=}2$
-0.394 -- consistent with $v,e$ being estimated less reliably from the same training rows once six
+secondary diagnostic separates part of this gap from pure data scarcity: disabling the hard clamp on
+$v,e$ (an ablation, not the model HANFIS reports) costs $k{=}1$ 0.161 of skill but costs $k{=}2$
+0.813 (both re-run on the completed 120-asset inventory; up from 0.019 and 0.394 respectively
+on the 27-image pilot) -- consistent with $v,e$ being estimated less reliably from the same training rows once six
 times as many consequent parameters compete for them, so that excursions outside $[0,1]$ are both
 more frequent and more consequential once clamped. Separating an intrinsic cost of wider bottlenecks
 from this data-scale effect requires an inventory substantially larger than the 120 assets collected
