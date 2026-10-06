@@ -123,7 +123,9 @@ def main(argv=None) -> int:
     meta = {"seeds": a.seeds, "n_splits": n_groups, "group_assignment": sp.group_assignment(sup),
            "fold_times_sec": {}, "generated_utc": dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds"),
            "inputs_order": INPUTS, "normalisation_shift_scale": NORM_SHIFT_SCALE,
-           "saved_models": [] if a.save_models else None}
+           "saved_models": [] if a.save_models else None,
+            "args": {k: (v if isinstance(v, (int, float, str, bool, list, type(None))) else str(v))
+                     for k, v in vars(a).items()}}
 
     models_dir = None
     if a.save_models:
