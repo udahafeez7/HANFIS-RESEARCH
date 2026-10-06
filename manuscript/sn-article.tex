@@ -305,16 +305,16 @@ System preparation was organised as a sequence of auditable gates. Earlier gates
 \small
 \begin{tabularx}{\textwidth}{@{}p{2.6cm}p{3.4cm}X p{2.4cm}@{}}
 \toprule
-\textbf{Preparation element} & \textbf{Acceptance criterion} & \textbf{Methodological purpose} & \textbf{Current evidence} \\
+\textbf{Preparation element} & \textbf{Acceptance criterion} & \textbf{Methodological purpose} & \textbf{Evidence (Runs~7--16)} \\
 \midrule
-Cluster health & Two Kubernetes nodes in Ready state & Excludes measurements obtained during node degradation or loss of schedulability & Passed at B4.10 and B4.11A \\
-Baseline workload P0 & Two of two replicas Ready & Holds application capacity constant across monitoring conditions & Passed through B4.11B \\
-Service health & Internal HTTP response code 200 & Confirms that the measurement target remains operational before and after state transitions & Passed through B4.11B \\
-Monitoring ON state & Five of five pods Running and fully Ready; Prometheus 1/1 Ready & Defines a complete observability treatment rather than a partially deployed stack & Passed at B4.10 and B4.11A \\
-Monitoring OFF state & Zero monitoring pods remaining & Defines a valid control condition without residual collector workloads & Passed at B4.11B \\
-Protocol freeze & Scripts, controller definitions, services, system fingerprint, and replication plan present & Prevents unrecorded procedural drift between runs & Passed at B4.10 \\
-Integrity control & SHA-256 manifests validate without mismatch & Detects post hoc alteration or corruption of experimental artefacts & Passed at B4.10 and revalidated at B4.11A \\
-Counterbalancing & Prespecified ON--OFF or OFF--ON order & Reduces order, warm-up, cache, and time-dependent bias & Run~2 OFF--ON validated \\
+Cluster health & Two Kubernetes nodes in Ready state & Excludes measurements obtained during node degradation or loss of schedulability & Gate passed in all ten pairs \\
+Baseline workload P0 & Two of two replicas Ready & Holds application capacity constant across monitoring conditions & Gate passed in all ten pairs \\
+Service health & Internal HTTP response code 200 & Confirms that the measurement target remains operational before and after state transitions & Gate passed in all ten pairs \\
+Monitoring ON state & Five of five pods Running and fully Ready; Prometheus 1/1 Ready & Defines a complete observability treatment rather than a partially deployed stack & Gate passed in all ten pairs \\
+Monitoring OFF state & Zero monitoring pods remaining & Defines a valid control condition without residual collector workloads & Gate passed in all ten pairs \\
+Protocol freeze & Scripts, controller definitions, services, system fingerprint, and replication plan present & Prevents unrecorded procedural drift between runs & Applied to Runs~7--16; two aborted attempts logged as incidents \\
+Integrity control & SHA-256 manifests validate without mismatch & Detects post hoc alteration or corruption of experimental artefacts & SHA-256 manifest retained for each of the ten run archives \\
+Counterbalancing & Prespecified ON--OFF or OFF--ON order & Reduces order, warm-up, cache, and time-dependent bias & Five ON--OFF and five OFF--ON pairs \\
 \bottomrule
 \end{tabularx}
 \end{table*}
@@ -336,7 +336,7 @@ the paired absolute overhead is $\Delta Y_r=\bar{Y}_{r,\mathrm{ON}}-\bar{Y}_{r,\
 \begin{equation}
  \Delta Y^{(\%)}_r=\frac{\bar{Y}_{r,\mathrm{ON}}-\bar{Y}_{r,\mathrm{OFF}}}{\bar{Y}_{r,\mathrm{OFF}}}\times100\%.
 \end{equation}
-The run, not the individual sample, is the independent replication unit, which avoids pseudoreplication from temporally adjacent samples. Inference over the ten paired differences uses an exact two-sided sign-flip test, whose smallest attainable $p$ with ten pairs is $2/2^{10}=0.002$, together with a bootstrap confidence interval for the mean difference. Effect sizes, confidence intervals and the consistency of direction carry more interpretive weight than a binary significance decision. The estimated increment is an instrumentation cost; it must not be read as a change in application exposure.
+The run, not the individual sample, is the independent replication unit, which avoids pseudoreplication from temporally adjacent samples. Inference over the ten paired differences uses an exact two-sided sign-flip test, whose smallest attainable $p$ with ten pairs is $2/2^{10}=0.002$, together with a 10{,}000-resample bootstrap confidence interval (fixed seed) for the mean difference. Effect sizes, confidence intervals and the consistency of direction carry more interpretive weight than a binary significance decision. The estimated increment is an instrumentation cost; it must not be read as a change in application exposure.
 
 \subsection{Realised Exploitability-Exposure Target and Real-World Asset-Week Dataset}
 \label{subsec:target-definition}
