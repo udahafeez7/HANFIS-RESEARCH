@@ -859,15 +859,7 @@ Two limits of construct validity deserve emphasis before the usual caveats. Firs
 
 \label{subsec5.1}
 
-The full inventory of 120 assets is now complete, and the confirmatory comparison
-(Table~\ref{tab:e4-results}) was re-run on it, confirming H1a, H1c, and H2 at broadly similar margins
-to those reported on the earlier, partial inventory. The mandatory-baseline comparison in
-Table~\ref{tab:e3-baselines} has since been re-run on the completed 120-asset inventory (6{,}357 labelled rows);
-the headline shift is that a linear ridge model over all seven inputs, which improved on persistence by
-30\% on the 27-image pilot, now underperforms it on every one of the five grouped-temporal folds
-($\mathrm{SS}_{\mathrm{pers}}=-2.293$ pooled, raw scale) -- a reversal, not a refinement, attributed to
-the linear model over-extrapolating as the inventory's heterogeneity grew, where persistence's
-week-to-week copy remains comparatively safe. The EPSS scoring model changed version (\texttt{v2025.03.14} to
+The confirmatory comparison (Table~\ref{tab:e4-results}) uses the full 120-asset inventory. On the full 120-asset inventory (6{,}357 labelled rows; Table~\ref{tab:e3-baselines}), a linear ridge model over all seven inputs underperforms persistence on every one of the five grouped-temporal folds ($\mathrm{SS}_{\mathrm{pers}}=-2.293$ pooled, raw scale); we suspect that the linear model over-extrapolates as the inventory's heterogeneity grows, where persistence's week-to-week copy remains comparatively safe, but we did not test this explanation. The EPSS scoring model changed version (\texttt{v2025.03.14} to
 \texttt{v2026.06.15}) inside the sealed 57-week window, a threat to label comparability across that
 boundary; two of the five held-out blocks involve labels computed under the newer version, and a post hoc
 re-analysis restricted to weeks whose labels all pre-date the change leaves the confirmatory conclusions
