@@ -72,6 +72,30 @@ def spearman_weekly(df, cols):
     return out
 
 
+def change_spearman(weeks_split, cols, counts=None):
+    """Rerata mingguan Spearman antara perubahan prediksi (y_hat - y_lag4) dan perubahan nyata (y_true - y_lag4)."""
+    out = {c: [] for c in cols}
+    for g in weeks_split:
+        rows = np.arange(len(g))
+        if counts is not None: rows = np.repeat(rows, counts[g["gidx"].to_numpy()])
+        if len(rows) < 5: continue
+        tc = pd.Series((g["y_true"] - g["y_lag4"]).to_numpy()[rows]).rank()
+        for c in cols:
+            r = tc.corr(pd.Series((g[c] - g["y_lag4"]).to_numpy()[rows]).rank())
+            if r == r: out[c].append(r)
+    return {c: float(np.mean(v)) if v else float("nan") for c, v in out.items()}
+
+
+def boot_change_spearman(df, cols, groups, rng, B):
+    gi = {g: i for i, g in enumerate(groups)}; d = df.copy(); d["gidx"] = d["grup"].map(gi)
+    split = [g for _, g in d.groupby("week")]; pt = change_spearman(split, cols); G = len(groups); draws = {c: [] for c in cols}
+    for _ in range(B):
+        b = change_spearman(split, cols, rng.multinomial(G, np.full(G, 1.0 / G)))
+        for c in cols: draws[c].append(b[c])
+    ci = {c: [float(np.nanpercentile(draws[c], 2.5)), float(np.nanpercentile(draws[c], 97.5))] for c in cols}
+    return pt, ci
+
+
 def verify(tag, files):
     here = Path(__file__).with_name("verify_prereg_tag.py")
     return subprocess.run([sys.executable, str(here), tag, *files], capture_output=True, text=True)
@@ -119,9 +143,12 @@ def main(argv=None, verifier=None):
     pc_cols = ["y_hanfis", "y_lag4", "y_hibrida"] + (["y_ridge7"] if "y_ridge7" in df.columns else [])
     pt, ci = boot_precision(df, pc_cols, groups, rng, min(a.boot, 1000)); delta = pt["y_hibrida"] - pt["y_lag4"]
     v_c = "NON-INFERIOR" if ci[0] > NONINF else "TIDAK TERBUKTI NON-INFERIOR"
+    cs_cols = ["y_hanfis"] + (["y_ridge7"] if "y_ridge7" in df.columns else [])
+    cs_pt, cs_ci = boot_change_spearman(df, cs_cols, groups, rng, min(a.boot, 1000)); v_d = "INFORMATIF" if cs_ci["y_hanfis"][0] > 0 else "TIDAK TERBUKTI"
     out.update({"P7a": {"ss_hanfis_stabil": sa["ss"], "ci95": sa["ci95"], "keputusan": v_a, "holm": holm["P7a"]},
                 "P7b": {"ss_hibrida": sb["ss"], "ci95": sb["ci95"], "keputusan": v_b, "holm": holm["P7b"]},
-                "P7c": {"presisi_pada_20persen": pt, "selisih_hibrida_minus_persistence": delta, "ci95_selisih": ci, "keputusan": v_c, "spearman_mingguan": spearman_weekly(df, pc_cols)},
+                "P7d": {"spearman_perubahan_mingguan": cs_pt, "ci95": cs_ci, "keputusan": v_d, "catatan": "informasi tambahan di atas persistence; hibrida identik dengan HANFIS (lambda > 0), sekunder tanpa koreksi"},
+                "P7c_deskriptif": {"presisi_pada_20persen": pt, "selisih_hibrida_minus_persistence": delta, "ci95_selisih": ci, "keputusan": v_c, "spearman_mingguan": spearman_weekly(df, pc_cols)},
                 "ss_semua_metode": {m: {"ss": bs_all[m]["ss"], "ci95": bs_all[m]["ci95"]} for m in methods}})
     strata = {}
     if {"dx2_4w", "dkev_4w"} <= set(df.columns):
@@ -144,7 +171,8 @@ def main(argv=None, verifier=None):
     print(f"== {out['mode']} | lambda={lam:.4f} | minggu={len(weeks)} baris={len(df)} kelompok={len(groups)} ==")
     print(f"P7a SS_HANFIS(stabil)={sa['ss']:+.3f} CI95 [{sa['ci95'][0]:+.3f}, {sa['ci95'][1]:+.3f}]  -> {v_a} (Holm p={p_a:.4f}, lolos={holm['P7a']['lolos']})")
     print(f"P7b SS_hibrida      ={sb['ss']:+.3f} CI95 [{sb['ci95'][0]:+.3f}, {sb['ci95'][1]:+.3f}]  -> {v_b} (Holm p={p_b:.4f}, lolos={holm['P7b']['lolos']})")
-    print(f"P7c presisi@20%: " + ", ".join(f"{k}={v:.3f}" for k, v in pt.items()) + f" | selisih hibrida-persistence={delta:+.3f} CI95 [{ci[0]:+.3f}, {ci[1]:+.3f}] -> {v_c}")
+    print(f"P7c (deskriptif) presisi@20%: " + ", ".join(f"{k}={v:.3f}" for k, v in pt.items()) + f" | selisih hibrida-persistence={delta:+.3f} CI95 [{ci[0]:+.3f}, {ci[1]:+.3f}] -> {v_c}")
+    print(f"P7d Spearman(perubahan prediksi, perubahan nyata): " + ", ".join(f"{c}={cs_pt[c]:+.3f} CI95 [{cs_ci[c][0]:+.3f}, {cs_ci[c][1]:+.3f}]" for c in cs_cols) + f" -> {v_d}")
     for k, v in strata.items(): print(f"strata {k}: {v}")
     od = Path(a.out_dir); od.mkdir(parents=True, exist_ok=True); fp = od / f"e7_{'rehearsal' if a.rehearsal else 'results'}_{time.strftime('%Y%m%dT%H%M%SZ', time.gmtime())}.json"
     fp.write_text(json.dumps(out, indent=1, ensure_ascii=False, default=float), encoding="utf-8")

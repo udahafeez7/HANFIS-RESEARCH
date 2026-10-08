@@ -80,3 +80,18 @@ memilih minggu; menambah pembanding; mengubah definisi hibrida.
 - **D2 primer = 2026-11-02**: 6 minggu forward matang (t = 2026-08-31, 09-07, 09-14, 09-21, 09-28, 10-05), tepat di minimum.
 - **Cadangan = 2026-11-09 (7 minggu)**, hanya bila saat dataset versi 3 dibangun jumlah minggu matang < 6 (snapshot hilang, pergantian versi model EPSS), diputuskan **sebelum model apa pun dijalankan pada data forward**. Tidak ada pilihan D2 setelah melihat hasil.
 - Alasan: percepatan satu minggu; risiko ketiadaan cadangan dibatasi oleh aturan cadangan ini.
+
+## Amendemen A-46 (2026-10-08): metrik utilitas dan keterbatasan daya, setelah latihan kode
+
+Latihan kode `e7_evaluate.py --rehearsal` pada 1.080 baris out-of-fold E4 (**bukan data E7**; lambda dipasang pada baris yang sama) memberi tiga pelajaran, dicatat sebelum pembekuan:
+
+1. **Efek langit-langit pada P7c (level).** Persistence mencapai presisi@20% = 0,969 karena perbedaan antar-asset yang stabil mendominasi label; hibrida 0,889 (selisih -0,080, CI95 [-0,299; -0,020]).
+   Margin non-inferioritas -0,05 hampir pasti gagal di E7 bukan karena kualitas hibrida, tetapi karena metrik level tidak mengukur kontribusi dinamis. **P7c (level) diturunkan menjadi deskriptif.**
+2. **P7d (utilitas, menggantikan P7c sebagai kriteria utilitas): informasi tambahan di atas persistence.** Rerata mingguan korelasi Spearman antara perubahan prediksi (`y_hanfis - y_lag4`)
+   dan perubahan nyata (`y_true - y_lag4`), minggu dengan >= 5 asset. Kriteria: batas bawah CI95 bootstrap berkelompok per image > 0. Sekunder, tanpa koreksi multiplisitas. Hibrida memiliki Spearman perubahan
+   identik dengan HANFIS (lambda > 0), sehingga tidak dilaporkan terpisah; ridge-7 dilaporkan sebagai pembanding.
+3. **Daya terbatas.** Pada OOF, SS_hibrida = 0,174 dengan CI95 [0,011; 0,236] dan p Holm 0,021 (> ambang 0,0125): P7b gagal pada ambang Holm walaupun batas bawah CI > 0; P7a CI95 [-0,642; 0,241].
+   Data forward lebih sedikit (6 minggu x sekitar 120 image). **Aturan keputusan P7a dan P7b tidak diubah karena rehearsal** (Holm dipertahankan). E7 dilaporkan sebagai estimasi prospektif dengan CI;
+   hasil "tidak terbukti" bukan bukti kesetaraan.
+
+Perubahan nomor 1 dan 2 didasarkan pada data E4, bukan data forward; data forward belum disentuh.
