@@ -1,0 +1,51 @@
+# P0 baseline (Deployment), dibersihkan dari ekspor klaster 2026-08-07.
+# Sumber: Kubernetes/Observability/Results/O5-B4-preflight-20260807-095253/O5-B4-P0-deployment-before-off.yaml
+# sha256 sumber: 0027cf651381cf00d8a0d888ed81380a8f56c72b8fd7441b384e0123c23fd72a
+# Dihasilkan oleh scripts/export_p0_manifest.py; medan yang diisi server dibuang, spesifikasi tidak diubah.
+# SYARAT SEBELUM apply: image berupa TAG (nginxinc/nginx-unprivileged:1.27-alpine); digest lokalnya harus sha256:65e3e85dbaed8ba248841d9d58a899b6197106c23cb0ff1a132b7bfe0547e4c0
+# (pagar P13). Bila beda, jangan di-apply tanpa amendemen.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: p0-baseline
+    project: hanfis
+    risk-state: normal
+    scenario: P0
+  name: p0-baseline
+  namespace: hanfis-research
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 2
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: p0-baseline
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: p0-baseline
+    spec:
+      containers:
+      - image: nginxinc/nginx-unprivileged:1.27-alpine
+        imagePullPolicy: IfNotPresent
+        name: nginx-unprivileged
+        resources:
+          limits:
+            cpu: 100m
+            memory: 64Mi
+          requests:
+            cpu: 25m
+            memory: 32Mi
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
