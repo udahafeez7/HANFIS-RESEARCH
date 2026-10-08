@@ -1,0 +1,6 @@
+technique,published,notebook_logic,diff,python_audit,level_published,level_notebook,level_python,activation
+Data destruction,70.47,70.47932437212594,0.009324372125945501,49.5,High,High,Medium,"{'medium': 0.1, 'high': 0.9}"
+Endpoint DOS,59.56,59.56062355658197,0.0006235565819707745,49.5,Medium,Medium,Medium,"{'medium': 0.5, 'high': 0.5}"
+Network DOS,55.44,55.44053566716509,0.0005356671650957878,49.50000000000001,Medium,Medium,Medium,"{'medium': 0.7, 'high': 0.3}"
+Inhibit system recovery,57.45,57.455316091954096,0.005316091954092883,49.5,Medium,Medium,Medium,"{'medium': 0.6, 'high': 0.4}"
+Resource hijacking,74.6,74.60054719562241,0.0005471956224170071,59.29718766901028,High,High,Medium,{'high': 1.0}
