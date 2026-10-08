@@ -230,3 +230,15 @@ Terbuka: bibliografi `nist_zta_cloudnative_2023` dan Soozanchi dkk. (butuh sumbe
 Tag: `m2-gate-e3-checklist-pass-20261006` menunjuk c44d246; `m2-close-manuscript-clean-20261006` menunjuk 00ba12b (sebelum perbaikan bibliografi dan analisis rezim). Keadaan akhir sesi: PDF 26 halaman, 126 passed + 11 subtests.
 Koreksi: tahun Wang (universal approximation by hierarchical fuzzy systems, Fuzzy Sets and Systems 93) = 1998 menurut Crossref; "Wang 1999" di catatan lama salah.
 Terbuka: selisih Fuzzyfortify paper vs kode (butuh `public/js/scripts2.js` aplikasi web asli); sumber Soozanchi dkk.; praregistrasi hipotesis baru sebelum dijalankan.
+
+## Catatan testbed 2026-10-08
+
+- Setelah listrik padam 2026-10-07: repo utuh (`git fsck` tanpa galat), Docker 29.6.1, Kubernetes `docker-desktop` 2 node (control-plane `NoSchedule`, worker), 16 inti logis, 15,6 GB, tanpa `.wslconfig`.
+- Prometheus eksternal v4: kontainer lama Exited (127) karena bind-mount dari filesystem WSL belum tersedia saat Docker menyala (`no such file or directory` pada jalur `docker-desktop-bind-mounts/Ubuntu-24.04`). Diganti nama `…-failed-20261008`, dipasang ulang lewat `deploy_external_prometheus_v4.sh` -> `STATUS=PASS_EXTERNAL_PROMETHEUS_V4` (target 2/2, seri CPU 64). Cadangan volume: `C:\Research\ANFIS_backup\prom_v4_data_20261008.tgz` (776.635.534 byte, terbaca). Urutan aman setelah reboot: buka terminal WSL, tunggu Docker `Engine running`, baru hidupkan kontainer.
+- Jaringan: Jetson `10.44.31.215`, Mini PC `10.44.18.219` (alamat protokol lama `10.176.68.x` sudah usang; runner menerima `JETSON_HOST` dan `TARGET_URL` lewat variabel lingkungan, kode beku tidak disunting). `hanfis_jetson_known_hosts` (2026-09-15) sudah memuat alamat baru; sidik jari host Jetson dicocokkan 2026-10-08: sama. SSH memakai kata sandi interaktif (tanpa kunci; runner membuka ControlMaster sekali).
+- P0: manifest bersih `kubernetes/p0/p0-baseline-deployment.yaml` dari ekspor 2026-08-07; dipulihkan 2026-10-08, 2 pod di `desktop-worker`, `imageID` `docker.io/nginxinc/nginx-unprivileged@sha256:65e3e85dbaed8ba248841d9d58a899b6197106c23cb0ff1a132b7bfe0547e4c0` (sama dengan basis P0 di A-15); bukti `kubernetes/p0/restore_evidence_20261008.txt`.
+- Pemeriksa: `scripts/testbed_preflight.sh [idle|run]` -> `PASS_TESTBED_PREFLIGHT` (mode run, Jetson baru).
+- Utilisasi node (jumlah dua node): 229,64 mCPU OFF, 329,00 mCPU ON = 1,4% dan 2,1% dari 16 inti; masuk Limitations (komit fa23e24). Dengan definisi v4.2 (batas 1%), klasifikasi hampir pasti ABOVE_LOW_REGIME pada kedua kondisi (inferensi, bukan hasil run).
+- Run 17: `AUTHORIZATION_STATUS=NOT_GRANTED`; upaya 1 digugurkan (HOLD instrumentasi, 2026-09-11); upaya 2 satu-satunya kesempatan (`REPEAT_AUTHORIZED=NO` bila gagal); validasi live-dry v4.2.2 dilakukan di jaringan lama. Status: DIPARKIR; gerbang keputusan 1 November.
+- Belum terjelaskan: pembuat token akun layanan pengamat bertanda 2026-10-08 02:25 UTC (bukan dari skrip deploy; riwayat shell kosong).
+- Komit lokal (belum di-push): ca61aa1, aed954b, fa23e24, f99437a.

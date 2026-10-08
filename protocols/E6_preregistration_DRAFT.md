@@ -19,9 +19,14 @@ Karena itu bobot pembuktian terletak pada uji penghapusan (H6c) pada seluruh bar
 
 ## Data dan model (beku dari E4-bis; tanpa pelatihan ulang)
 
-- Tabel: `data/processed/asset_weeks_v2_120assets_e4bis.csv`. Model: `results_python/e4bis_120_models/` (5 fold x 5 seed).
-- Kode: `python_hanfis/hanfis_end2end.py` (`rule_trace`), `scripts/e4_pdp.py`. Skrip baru `scripts/e6_explain.py`
-  ditulis dan diuji pada data sintetis **sebelum** pembekuan dan tidak membaca label pasangan P0-IF.
+- Tabel: `data/processed/asset_weeks_v2_120assets_e4bis.csv`. Model: `results_python/e4bis_120_models/models/` (dihasilkan run 2026-10-05T08:34Z
+  dengan `--save-models`; hasil E4 yang dilaporkan berasal dari run 2026-10-02T10:39Z). **Syarat pembekuan TERPENUHI (2026-10-08):** prediksi kedua run
+  dibandingkan pada 1.080 baris dan `event_id` yang sama; `maks|selisih| = 0,000e+00` untuk HANFIS, CVSS, persistence, ridge, matched, dan flat. Model tersimpan
+  adalah model yang menghasilkan angka E4 di naskah. Format: 25 berkas `fold{k}_seed{seed}_hanfis.pt` (`torch.save(state_dict)`), daftar di `meta.saved_models`.
+- Kode: `python_hanfis/hanfis_end2end.py` (`rule_trace`), `scripts/e4_pdp.py`. Skrip `scripts/e6_explain.py` (sha256 awalan `bcb63a70b3ef32e9`)
+  memiliki dua mode: `--smoke` (replikasi prediksi E4 dan sifat fungsi pada baris **non-P0-IF**; jalur H6c hanya pada masukan sintetis, nilainya tidak dilaporkan) dan
+  `--run`, yang **menolak berjalan tanpa tag git `e6-prereg-*`**. Tahap 0b (replikasi): model tersimpan harus mereproduksi `y_hanfis` E4 dari masukan ternormalisasi
+  (`maks|selisih| <= 1e-3`, skala 0-100) sebelum penjelasan apa pun dihitung.
 - **H6c** (uji penghapusan) dihitung hanya pada **baris uji** tiap fold, dengan model fold itu (tidak pada baris latih).
 - **H6-0, H6-neg, H6a, H6b** adalah sifat **fungsi** model (identitas, determinisme, arah, struktur panel), bukan ukuran
   generalisasi. Karena itu diperiksa pada **semua 57 minggu** pasangan P0-IF dan **semua 25 model** (5 fold x 5 seed), dalam
@@ -52,11 +57,11 @@ Bila ada satu saja pasangan dengan ON < OFF pada masukan, E6 dihentikan dan dise
 
 | ID | Pernyataan | Kriteria lulus |
 |---|---|---|
-| H6-0 | **Identitas jejak.** Jumlah kontribusi jejak aturan sama dengan keluaran model (skala 0-1). | `abs(jumlah jejak - y_hat) <= 1e-5` pada **semua** baris uji dan model; 0 pelanggaran. |
+| H6-0 | **Kesetiaan jejak pada jalur inferensi.** `rule_trace` dan `forward` sama-sama memanggil `integration_input(x7)` dengan `clamp=True` sebagai bawaan, sehingga jejak seharusnya identik dengan jalur inferensi; H6-0 memverifikasinya, bukan menemukan sesuatu yang baru (**hampir pasti lulus**). Dibandingkan: `v`, `e`, dan firing panel integrasi pada jejak melawan nilai yang dipakai `forward`. | `abs(selisih) <= 1e-9` (float64; `<= 1e-6` bila konversi ke float64 tidak dapat dilakukan, ditetapkan sebelum pembekuan) pada **semua** baris uji dan 25 model; 0 pelanggaran. |
 | H6-neg | **Kontrol negatif.** Pada minggu S0 (semua masukan ON dan OFF identik) keluaran model dan jejak aturan identik. | `abs(y_hat(on) - y_hat(off)) <= 1e-9` dan `abs(delta firing) <= 1e-9` pada semua pasangan S0 (34 minggu x 25 model, float64); 0 pelanggaran. |
 | H6a | **Arah pada kontrol positif.** Keluaran ON tidak lebih rendah dari OFF (dijamin oleh konstrain monoton A-04; memeriksa implementasi pada data nyata). | `y_hat(on) - y_hat(off) >= -1e-9` pada semua pasangan S+ (23 minggu x 25 model, float64); 0 pelanggaran. |
 | H6b | **Struktur panel pada kontrol positif.** Karena x4, x5, x6, x7 identik, jejak aturan **panel E tidak berubah**; panel V berubah (x2 masuk di sini); perubahan merambat ke panel I lewat v. | Pada semua pasangan S+: `abs(delta firing panel E) <= 1e-9`; `delta firing panel V` tidak seluruhnya nol (maks > 1e-9). Tidak ada ambang persentase. |
-| H6c | **Uji penghapusan.** Menghapus (masking) k aturan dengan kontribusi mutlak terbesar menurut jejak mengubah keluaran lebih besar daripada menghapus k aturan acak. | k = 3 [PUTUSKAN]; 100 undian acak per baris (seed 20261007); (i) rerata `abs(delta top-k)` / rerata `abs(delta acak)` >= 2 [PUTUSKAN], dan (ii) `abs(delta top-k)` > median `abs(delta acak)` pada >= 90% [PUTUSKAN] baris uji. |
+| H6c | **Uji penghapusan.** Atribusi aturan panel V dan E (16 aturan) terhadap keluaran akhir = kontribusi aturan (firing ternormalisasi x konsekuen linear) dikali turunan keluaran akhir terhadap `v` (aturan V) atau `e` (aturan E), turunan dengan selisih terpusat h = 1e-4. Masking = membuang kontribusi aturan dari `v` atau `e` lalu menghitung ulang keluaran akhir (dengan jepitan dan panel integrasi). Menghapus k aturan teratas menurut `abs(atribusi)` harus mengubah keluaran lebih besar daripada menghapus k aturan acak. | k = 3 [PUTUSKAN]; 100 undian acak per baris (seed 20261007); (i) jumlah `abs(delta)` aturan teratas / jumlah rerata `abs(delta)` acak >= 2 [PUTUSKAN]; (ii) `abs(delta teratas)` > median `abs(delta acak)` pada >= 90% [PUTUSKAN] baris non-degenerat (baris degenerat, yaitu kedua delta <= 1e-12, dihitung dan dilaporkan). Identitas kontribusi (jumlah kontribusi = keluaran panel, toleransi 1e-6) adalah **syarat**: bila gagal, H6c dilaporkan tidak dapat dievaluasi. |
 
 Dilaporkan **tanpa kriteria** (tidak masuk keputusan): rerata `y_hat(on) - y_hat(off)` dibanding rerata `y(on) - y(off)`
 pada minggu uji; jumlah minggu dikecualikan; sebaran H6c per fold dan per periode (stabil vs setelah 2026-06-08).
