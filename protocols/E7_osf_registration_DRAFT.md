@@ -1,0 +1,39 @@
+# Draf teks pendaftaran OSF untuk E7 (bahasa Inggris; disalin ke formulir "OSF Preregistration")
+
+> **Jangan didaftarkan sebelum protokol E7 dibekukan.** Isi [KURUNG SIKU] diganti setelah tag pembekuan dibuat dan `verify_prereg_tag.py` LOLOS.
+> Daftarkan **sebelum** snapshot EPSS/KEV setelah 2026-09-21 ditarik dan sebelum label forward dihitung. Teks ini mengikuti protokol di repositori; bila berbeda, protokollah yang berlaku.
+
+## Study information
+**Title.** Prospective evaluation of a hierarchical ANFIS (HANFIS) for dynamic exploitability-exposure scoring of container images.
+
+**Description.** HANFIS is a three-panel hierarchical Sugeno ANFIS (34 rules, 176 parameters) that scores container images from seven inputs (CVSS, exploitability = EPSS x runtime reachability, patch risk, MFA risk, Kubernetes exposure, asset criticality, threat intelligence).
+Earlier confirmatory work (E4, protocol committed 2026-09-30, tag `e4-prereg-2026-09-29`) found that HANFIS beats a CVSS-only score, a linear model, and a parameter-matched flat ANFIS, but is not distinguishable from a 4-week persistence baseline.
+A post hoc analysis of that data suggested that HANFIS is reactive: it helps when the label moves and not when it is stable. This registration tests that suggestion prospectively on weeks whose labels have not been computed.
+
+**Hypotheses.**
+- **P7a (regime).** In forward weeks without a change of EPSS model version, HANFIS is not better than persistence: the upper bound of the 95% CI of its skill score (SS) against persistence is below 0.05.
+- **P7b (hybrid).** A fixed blend of HANFIS and persistence, `y_hat = 0.5109 * y_HANFIS + 0.5891 * y_lag4`, beats persistence: SS >= 0.05 and the lower 95% bound > 0.
+- **P7d (information beyond persistence; secondary).** The mean weekly Spearman correlation between predicted change (`y_HANFIS - y_lag4`) and realised change (`y - y_lag4`) has a lower 95% bound > 0.
+- P7c (precision at 20% on levels) is descriptive only: persistence already reaches 0.969 on earlier data, a ceiling effect that makes it uninformative.
+
+## Design plan
+Prospective, observational, no intervention. Models are frozen before the outcome is computed: five HANFIS models (fixed seeds) retrained on all labelled weeks up to 2026-07-27 (the first forward week, 2026-08-31, minus a 30-day embargo, as in the earlier cross-validation, so that no training label window overlaps the forward period); model file hashes [HASH LIST]; the blend weight is fixed in `protocols/E7_lambda_2026-10-08.json` (fitted on out-of-fold E4 predictions only).
+
+## Sampling plan
+**Existing data.** Registration prior to accessing the outcome data: the weekly EPSS/KEV snapshots after 2026-09-21 have not been downloaded and no label for weeks >= 2026-08-31 has been computed. Inputs for 2026-08-31 .. 2026-09-21 exist in the project dataset with null labels; inputs for later weeks do not exist.
+**Data collection.** Public EPSS and CISA KEV archives, sealed with a manifest of hashes; container images are digest-pinned (120 images, same inventory as E4) and rescanned with a vulnerability database frozen on the data date D2.
+**Sample.** 120 images x forward weeks t with t + 28 days <= D2. Primary D2 = 2026-11-02 (6 weeks: 2026-08-31 .. 2026-10-05); fallback D2 = 2026-11-09 only if fewer than 6 weeks are usable when the dataset is built, decided before any model is run on forward data. Fewer than 6 usable weeks: the study is postponed, not relaxed.
+
+## Variables
+**Outcome.** Realised exploitability exposure y(a,t) = (100/30) x the mean over weekly snapshots tau in {t+7, ..., t+28 days} of the maximum over active CVEs v of X_v(tau) x rho_v, with X_v = max(EPSS, KEV indicator) and rho_v the runtime-reachability factor (definition frozen in the E4 protocol, amendment A-13).
+**Predictors and comparators.** HANFIS (mean of five seeds), persistence (label of week t-4), hybrid (above), ridge on the seven inputs (descriptive).
+
+## Analysis plan
+Pooled mean squared error on the raw 0-100 scale; SS = 1 - MSE_model / MSE_persistence. Cluster bootstrap by image (2,000 resamples, seed 20261102, percentile CI). Holm correction over {P7a, P7b} at one-sided alpha 0.025 (thresholds 0.0125 and 0.025). Decision rules as stated in the hypotheses.
+**Reported without criteria.** SS per stratum of input change available at time t (4-week change of exploitability input or KEV status), per-fold blend weights, log1p scale, results without the image `wordpress`, precision at 20% and weekly Spearman on levels.
+**Exclusions.** Weeks without a complete snapshot sequence; weeks after a change of EPSS model version are analysed separately as a break regime.
+**Power.** Limited: on earlier out-of-fold data the hybrid's SS was 0.174 with a 95% CI of [0.011, 0.236] and a Holm p of 0.021 (above the 0.0125 threshold). Results that are not significant will be reported as not demonstrated, not as equivalence.
+
+## Other
+**Transparency.** Hypotheses P7a, P7b, and P7d derive from a post hoc analysis of E4 data and from a rehearsal of the analysis code on out-of-fold predictions (not on forward data). An earlier explanation-fidelity study (E6) was run under a protocol whose version-control freeze did not capture the final protocol text; that deviation is documented and does not affect E7.
+**Archive.** Protocol, scripts, models' hashes, and the blend-weight file at commit [COMMIT HASH], tag [TAG], created [DATE/TIME +0700].
