@@ -95,3 +95,15 @@ Latihan kode `e7_evaluate.py --rehearsal` pada 1.080 baris out-of-fold E4 (**buk
    hasil "tidak terbukti" bukan bukti kesetaraan.
 
 Perubahan nomor 1 dan 2 didasarkan pada data E4, bukan data forward; data forward belum disentuh.
+
+## Amendemen A-47 (2026-10-08): batas data latih model akhir (koreksi kebocoran temporal)
+
+Draf dan A-44 menyatakan model akhir dilatih pada semua minggu berlabel <= 2026-08-24. **Itu salah.** Label minggu 2026-08-24 memakai EPSS/KEV sampai 2026-09-21, sehingga jendela label baris latih
+menumpuk dengan waktu fitur minggu forward 2026-08-31 .. 2026-09-21 dan dengan jendela label forward. Prosedur E4 (`GroupTimeSplit`, `python_hanfis/splits.py`) menerapkan embargo 30 hari:
+latih hanya baris dengan `week_start_utc <= minggu uji pertama - 30 hari`.
+
+Untuk E7: minggu forward pertama 2026-08-31, sehingga cutoff = 2026-08-01 dan **model akhir dilatih pada minggu berlabel <= 2026-07-27** (jendela label terakhirnya berakhir 2026-08-24, sebelum
+2026-08-31). `scripts/e7_pipeline.py train` menegakkan aturan ini dan menolak embargo < 28 hari; `predict` menolak minggu sebelum minggu forward pertama model dan memverifikasi hash model terhadap manifest.
+Gerbang kecukupan data (>= 10 observasi per parameter, 176 parameter) dihitung ulang oleh skrip. Validasi: 15% baris latih acak dengan seed tetap 20260933; konfigurasi pelatihan identik dengan E4.
+Koreksi dibuat **sebelum** pembekuan dan tanpa menyentuh label forward. Lambda (dari prediksi out-of-fold E4, yang sudah memakai embargo) tidak terpengaruh. Semua teks lain yang menyebut 2026-08-24
+sebagai batas latih (A-44, draf pendaftaran OSF) digantikan oleh amendemen ini.

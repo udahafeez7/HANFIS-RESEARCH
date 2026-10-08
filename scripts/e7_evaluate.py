@@ -152,8 +152,10 @@ def main(argv=None, verifier=None):
                 "ss_semua_metode": {m: {"ss": bs_all[m]["ss"], "ci95": bs_all[m]["ci95"]} for m in methods}})
     strata = {}
     if {"dx2_4w", "dkev_4w"} <= set(df.columns):
+        known = df["dx2_4w"].notna() & df["dkev_4w"].notna()
         ch = (df["dx2_4w"].abs() > 1e-9) | (df["dkev_4w"].abs() > 0)
-        for name, sub in (("ada_perubahan_masukan", df[ch]), ("tanpa_perubahan_masukan", df[~ch])):
+        strata["baris_perubahan_tidak_diketahui_dikecualikan"] = int((~known).sum())
+        for name, sub in (("ada_perubahan_masukan", df[known & ch]), ("tanpa_perubahan_masukan", df[known & ~ch])):
             if len(sub) >= 20 and sub["grup"].nunique() >= 5:
                 b = boot_ss(sub, ["y_hanfis", "y_hibrida"], sorted(sub["grup"].unique()), rng, a.boot); strata[name] = {"baris": int(len(sub)), **{m: {"ss": b[m]["ss"], "ci95": b[m]["ci95"]} for m in b}}
             else: strata[name] = {"baris": int(len(sub)), "catatan": "terlalu sedikit untuk CI"}
