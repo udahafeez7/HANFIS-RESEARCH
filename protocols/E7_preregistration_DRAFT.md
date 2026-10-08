@@ -67,3 +67,10 @@ memilih minggu; menambah pembanding; mengubah definisi hibrida.
 ## Sumber
 
 `HANFIS_RESEARCH_MEMORY.md` (A-09, A-10, A-13, A-15, A-34, A-41, A-43); `results_python/e4_regime*`, `e4_influence*`, `e6`.
+
+## Nilai lambda (dihitung 2026-10-08)
+
+- lambda = 0,5109; CI95 bootstrap berkelompok [0,260; 0,778] (119 kelompok image, 1.080 baris); sensitivitas log1p 0,5053. Berkas: `protocols/E7_lambda_2026-10-08.json` (hash masukan di dalamnya). Tidak akan disetel ulang.
+- Per fold: 0,013 / 0,266 / 0,454 / 1,0 / 0,614 (heterogen); satu lambda adalah kompromi antar rezim.
+- MSE out-of-fold dalam sampel: HANFIS 0,4087; persistence 0,4147; hibrida 0,3425 (SS dalam sampel 0,174; optimis karena lambda dipasang pada baris yang sama; bukan hasil E7).
+- P7a dan P7b dapat sama-sama benar bila galat HANFIS dan persistence tidak sepenuhnya berkorelasi; P7b tidak otomatis gugur bila P7a terbukti.
