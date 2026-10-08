@@ -855,6 +855,8 @@ from any change in the thing being observed, which is the premise the environmen
 Kubernetes-exposure input relies on.
 
 \subsection{Limitations}
+Two limits of construct validity deserve emphasis before the usual caveats. First, the label and two of the inputs share ingredients: $x_2$ (EPSS $\times\,\rho$) and $x_7$ (the KEV indicator) are the values at $t$ of quantities that the label aggregates over $t{+}7,\dots,t{+}28$, and runtime reachability $\rho$ enters both. The task is therefore to forecast the near future of exploitability signals that the model can already see, not to predict independent compromise outcomes, for which no ground truth exists here; the persistence baseline, built in the same way, is the relevant bar, and the comparison with a single CVSS score should be read in that light. Second, the dynamic character of the score comes from the time-varying EPSS and KEV feeds and from runtime reachability; runtime telemetry (CPU, memory, latency) is used only to quantify observability overhead and is not a model input, so ``dynamic'' must not be read as telemetry-driven scoring. The rule-level attribution is faithful on average but not uniformly (Section~\ref{sec:e6}), and we do not claim validated explanations.
+
 \label{subsec5.1}
 
 The full inventory of 120 assets is now complete, and the confirmatory comparison
