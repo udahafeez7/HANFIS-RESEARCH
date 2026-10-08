@@ -74,3 +74,9 @@ memilih minggu; menambah pembanding; mengubah definisi hibrida.
 - Per fold: 0,013 / 0,266 / 0,454 / 1,0 / 0,614 (heterogen); satu lambda adalah kompromi antar rezim.
 - MSE out-of-fold dalam sampel: HANFIS 0,4087; persistence 0,4147; hibrida 0,3425 (SS dalam sampel 0,174; optimis karena lambda dipasang pada baris yang sama; bukan hasil E7).
 - P7a dan P7b dapat sama-sama benar bila galat HANFIS dan persistence tidak sepenuhnya berkorelasi; P7b tidak otomatis gugur bila P7a terbukti.
+
+## Keputusan D2 (2026-10-08, menggantikan baris D2 pada tabel keputusan di atas)
+
+- **D2 primer = 2026-11-02**: 6 minggu forward matang (t = 2026-08-31, 09-07, 09-14, 09-21, 09-28, 10-05), tepat di minimum.
+- **Cadangan = 2026-11-09 (7 minggu)**, hanya bila saat dataset versi 3 dibangun jumlah minggu matang < 6 (snapshot hilang, pergantian versi model EPSS), diputuskan **sebelum model apa pun dijalankan pada data forward**. Tidak ada pilihan D2 setelah melihat hasil.
+- Alasan: percepatan satu minggu; risiko ketiadaan cadangan dibatasi oleh aturan cadangan ini.
