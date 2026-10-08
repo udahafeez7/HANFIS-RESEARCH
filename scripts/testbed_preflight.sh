@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 # testbed_preflight.sh -- pemeriksaan BACA-SAJA testbed HANFIS (WSL, Docker Desktop, Kubernetes, Prometheus, image, repo).
 # Tidak mengubah apa pun di klaster, Docker, atau repo (hanya menulis satu berkas log). Hasil: PASS atau HOLD per butir; keluar 0 bila semua PASS, 2 bila ada HOLD.
-# Jalankan dari WSL:   bash scripts/testbed_preflight.sh
+# Jalankan dari WSL:   bash scripts/testbed_preflight.sh [idle|run]
+#   idle (bawaan): testbed menganggur; ketiadaan beban kerja, NodePort, dan Prometheus hanya INFO.
+#   run          : persiapan run telemetri; semuanya wajib (HOLD bila tidak ada).
 set -u
 set -o pipefail
 NS="${HANFIS_NS:-hanfis-research}"; CTX="${HANFIS_KUBE_CONTEXT:-docker-desktop}"; NODEPORT="${HANFIS_NODEPORT:-30080}"
@@ -10,13 +12,16 @@ P0IF_ID="${HANFIS_P0IF_ID:-sha256:4b3e7080b453f4549a3a8e31dea91d3d009c0de9fa61cb
 MIN_FREE_GB="${HANFIS_MIN_FREE_GB:-20}"; REPO="${HANFIS_REPO:-/mnt/c/Research/ANFIS}"
 STAMP="$(date -u +%Y%m%dT%H%M%SZ)"; LOGDIR="$REPO/results_python/testbed_preflight"; LOG="$LOGDIR/preflight_$STAMP.txt"
 HOLDS=0
+MODE="${1:-idle}"
+if [ "$MODE" != "idle" ] && [ "$MODE" != "run" ]; then echo "mode tidak dikenal: $MODE (pakai idle atau run)"; exit 64; fi
 pass(){ echo "PASS  $1"; }
 hold(){ echo "HOLD  $1"; HOLDS=$((HOLDS+1)); }
 info(){ echo "INFO  $1"; }
 have(){ command -v "$1" >/dev/null 2>&1; }
+need_run(){ if [ "$MODE" = "run" ]; then hold "$1"; else info "(idle) $1"; fi; }
 
 main() {
-  echo "== preflight testbed HANFIS  $STAMP  ns=$NS ctx=$CTX =="
+  echo "== preflight testbed HANFIS  $STAMP  mode=$MODE  ns=$NS ctx=$CTX =="
   if grep -qi microsoft /proc/version 2>/dev/null; then info "berjalan di WSL: $(uname -r)"; else info "tidak terdeteksi WSL (uname: $(uname -r))"; fi
 
   # 1. Docker
@@ -34,7 +39,7 @@ main() {
     if [ "$nn" -gt 0 ] && [ "$nr" -eq 0 ]; then pass "node: $nn, semua Ready"; else hold "node: $nn, tidak Ready: $nr (aktifkan Kubernetes di Docker Desktop)"; fi
     if [ -n "$(kubectl get ns "$NS" -o name 2>/dev/null || true)" ]; then pass "namespace $NS ada"; else hold "namespace $NS tidak ada"; fi
     deps="$(kubectl -n "$NS" get deploy -o jsonpath='{range .items[*]}{.metadata.name}{" "}{.spec.replicas}{" "}{.status.readyReplicas}{"\n"}{end}' 2>/dev/null || true)"
-    if [ -z "$deps" ]; then hold "tidak ada deployment di namespace $NS"; else
+    if [ -z "$deps" ]; then need_run "tidak ada deployment di namespace $NS"; else
       while read -r name want ready; do
         [ -n "${name:-}" ] || continue; ready="${ready:-0}"
         if [ "${want:-0}" -gt 0 ] && [ "$ready" = "$want" ]; then pass "deployment $name: $ready/$want siap"; else hold "deployment $name: ${ready}/${want:-?} siap"; fi
@@ -46,9 +51,13 @@ main() {
 
   # 3. Layanan
   code="$(curl -s -o /dev/null -m 5 -w '%{http_code}' "http://127.0.0.1:$NODEPORT/" 2>/dev/null || true)"
-  if [ "$code" = "200" ]; then pass "HTTP NodePort $NODEPORT = 200"; else hold "HTTP NodePort $NODEPORT = '${code:-tanpa jawaban}' (harus 200)"; fi
+  if [ "$code" = "200" ]; then pass "HTTP NodePort $NODEPORT = 200"; else need_run "HTTP NodePort $NODEPORT = '${code:-tanpa jawaban}' (harus 200 saat run)"; fi
   pr="$(curl -s -m 5 "$PROM/-/ready" 2>/dev/null || true)"
-  if printf '%s' "$pr" | grep -qi ready; then pass "Prometheus siap ($PROM)"; else hold "Prometheus tidak siap di $PROM"; fi
+  if printf '%s' "$pr" | grep -qi ready; then pass "Prometheus siap ($PROM)"; else need_run "Prometheus tidak siap di $PROM"; fi
+
+  if have docker; then
+    while IFS= read -r line; do [ -n "$line" ] && info "kontainer: $line"; done <<< "$(docker ps -a --filter name=hanfis --format '{{.Names}} | {{.Status}}' 2>/dev/null || true)"
+  fi
 
   # 4. Identitas image kontrol positif (pagar P13: tag unik, identitas dicatat)
   if have docker; then
@@ -57,6 +66,10 @@ main() {
     elif [ "$id" = "$P0IF_ID" ]; then pass "image $P0IF_IMAGE identik dengan A-15 ($id)"
     else hold "image $P0IF_IMAGE berbeda dari A-15: $id (harapan $P0IF_ID)"; fi
   fi
+
+  # 4b. Jetson (klien telemetri): hanya memeriksa port TCP terbuka, tanpa autentikasi
+  jh="${HANFIS_JETSON_HOST:-10.176.68.96}"; jp="${HANFIS_JETSON_PORT:-22}"
+  if timeout 4 bash -c "exec 3<>/dev/tcp/$jh/$jp" 2>/dev/null; then pass "Jetson $jh:$jp terjangkau"; else need_run "Jetson $jh:$jp tidak terjangkau (nyalakan Jetson, cek jaringan)"; fi
 
   # 5. Sumber daya dan repo
   free="$(df -BG --output=avail "$REPO" 2>/dev/null | tail -1 | tr -dc '0-9' || true)"
