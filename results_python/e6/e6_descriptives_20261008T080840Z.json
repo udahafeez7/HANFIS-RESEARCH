@@ -1,0 +1,104 @@
+{
+ "deskriptif": true,
+ "pooled": {
+  "baris": 5400,
+  "degenerat": 456,
+  "frac_teratas_menang": 0.834546925566343,
+  "rasio": 4.107700745501041
+ },
+ "strata": [
+  {
+   "strata": "fold",
+   "nilai": "0",
+   "baris": 1125,
+   "degenerat": 227,
+   "frac_teratas_menang": 0.8240534521158129,
+   "rasio": 3.009562801797994
+  },
+  {
+   "strata": "fold",
+   "nilai": "1",
+   "baris": 1080,
+   "degenerat": 16,
+   "frac_teratas_menang": 0.9031954887218046,
+   "rasio": 5.012017339711605
+  },
+  {
+   "strata": "fold",
+   "nilai": "2",
+   "baris": 1080,
+   "degenerat": 84,
+   "frac_teratas_menang": 0.893574297188755,
+   "rasio": 4.603893715345703
+  },
+  {
+   "strata": "fold",
+   "nilai": "3",
+   "baris": 1080,
+   "degenerat": 32,
+   "frac_teratas_menang": 0.6374045801526718,
+   "rasio": 2.926954227996339
+  },
+  {
+   "strata": "fold",
+   "nilai": "4",
+   "baris": 1035,
+   "degenerat": 97,
+   "frac_teratas_menang": 0.9243070362473348,
+   "rasio": 3.0749410616821193
+  },
+  {
+   "strata": "periode",
+   "nilai": "sebelum 2026-06-08",
+   "baris": 4005,
+   "degenerat": 348,
+   "frac_teratas_menang": 0.8301886792452831,
+   "rasio": 4.3914925037514765
+  },
+  {
+   "strata": "periode",
+   "nilai": "sejak 2026-06-08",
+   "baris": 1395,
+   "degenerat": 108,
+   "frac_teratas_menang": 0.846930846930847,
+   "rasio": 3.028973535056505
+  },
+  {
+   "strata": "kelompok",
+   "nilai": "P0 dan P0-IF",
+   "baris": 135,
+   "degenerat": 27,
+   "frac_teratas_menang": 0.6481481481481481,
+   "rasio": 1.7304233182253452
+  },
+  {
+   "strata": "kelompok",
+   "nilai": "image resmi",
+   "baris": 5265,
+   "degenerat": 429,
+   "frac_teratas_menang": 0.8387096774193549,
+   "rasio": 4.130215628984038
+  },
+  {
+   "strata": "tersaturasi",
+   "nilai": "keluaran terjepit (0 atau 1)",
+   "baris": 499,
+   "degenerat": 446,
+   "frac_teratas_menang": 1.0,
+   "rasio": 3.984648029861631
+  },
+  {
+   "strata": "tersaturasi",
+   "nilai": "tidak terjepit",
+   "baris": 4901,
+   "degenerat": 10,
+   "frac_teratas_menang": 0.8327540380290329,
+   "rasio": 4.108951707632072
+  }
+ ],
+ "h6a": {
+  "pasangan": 575,
+  "naik": 552,
+  "off_terjepit": 23
+ }
+}
