@@ -167,18 +167,18 @@ R_{\mathrm{HANFIS}}=2m^{3}+m_I^{2}\,m,
 where $m$ is the number of membership functions on each of the seven raw inputs and $m_I$ is the number of membership functions on the two intermediate variables $v$ and $e$ inside the integration tier (Section~\ref{subsec:hanfis-architecture}).
 With the frozen configuration $m=2$, $m_I=3$ (amendment A-02), the proposed structure requires 34 candidate rules rather than 128, a 73.4\% reduction; the corresponding parameter count falls from 1{,}052 to 176, an 83.3\% reduction (Table~\ref{tab:rules-params}). Hierarchical fuzzy systems have been shown to mitigate dimensionality-driven rule growth while retaining nonlinear approximation capability \cite{wang1998hierarchical,ojha2019heuristic}. Nevertheless, a lower theoretical rule count does not by itself establish superiority. Hierarchical compression may discard cross-subsystem interactions, and the sequential integration tier introduces an additional inference stage. The proposed architecture must therefore be compared against Fuzzyfortify, a flat grid-partitioned ANFIS, and a rule-reduced or clustering-based flat ANFIS using identical observations, data partitions, and evaluation conditions.
 
-Placing inference at the edge introduces a second research problem. Cloud-native security monitoring requires authentication, authorization, service visibility, and continuous observation across a large number of interacting components \cite{nist_microservices_2019}. Transferring all telemetry to a centralized decision service can add communication overhead, create dependence on network availability, and separate the decision point from the workload requiring protection. An edge-deployable HANFIS could reduce this separation, but only if its training and inference costs are demonstrably compatible with the available processor, memory, and energy budget. Accordingly, computational optimization is treated as a measurable research objective rather than an assumed benefit. The evaluation includes rule count, trainable parameters, training duration, peak memory, throughput, and median and tail inference latency on the target edge platform.
+Placing inference at the edge introduces a second research problem. Cloud-native security monitoring requires authentication, authorization, service visibility, and continuous observation across a large number of interacting components \cite{nist_microservices_2019}. Transferring all telemetry to a centralized decision service can add communication overhead, create dependence on network availability, and separate the decision point from the workload requiring protection. An edge-deployable HANFIS could reduce this separation, but only if its training and inference costs are demonstrably compatible with the available processor, memory, and energy budget. Accordingly, computational optimization is treated as a measurable research objective rather than an assumed benefit. The evaluation includes rule count, trainable parameters, training duration, peak memory, throughput, and median and tail inference latency, with edge-platform measurements left to future work.
 
-A dynamic score is operationally useful only when it can support a controlled security decision. The proposed framework therefore includes a policy-translation layer that maps validated risk states to predefined responses, such as generating an alert, restricting communication, pausing a container, or isolating a compromised workload. This layer is designed as an auditable policy enforcement mechanism rather than an unconstrained autonomous controller. Critical safeguards include monotonicity checks, explicit high-risk override rules, confidence thresholds, response logging, and a configurable requirement for human authorization for disruptive actions. In this way, the research connects adaptive assessment to measurable time-to-mitigation while preserving accountability and operational safety.
+A dynamic score is operationally useful only when it can support a controlled security decision. The proposed framework therefore specifies a policy-translation layer, designed but not evaluated in this paper, that maps validated risk states to predefined responses, such as generating an alert, restricting communication, pausing a container, or isolating a compromised workload. This layer is designed as an auditable policy enforcement mechanism rather than an unconstrained autonomous controller. Critical safeguards include monotonicity checks, explicit high-risk override rules, confidence thresholds, response logging, and a configurable requirement for human authorization for disruptive actions. In this way, the framework is designed to connect adaptive assessment to measurable time-to-mitigation in future work, while preserving accountability and operational safety.
 
-The aim of this study is to design, implement, and evaluate an interpretable and computationally efficient HANFIS for dynamic cybersecurity risk assessment and policy support in cloud-native environments. The study investigates whether domain-informed hierarchical decomposition can preserve or improve risk-estimation performance while substantially reducing the computational burden of flat ANFIS and enabling timely inference at the edge.
+The aim of this study is to design, implement, and evaluate a HANFIS with a reduced rule base and intermediate variables that are interpretable by construction, for dynamic cybersecurity risk assessment in cloud-native environments. The study investigates whether domain-informed hierarchical decomposition can preserve or improve risk-estimation performance while substantially reducing the rule base and parameter count of a flat ANFIS; policy support and edge execution are designed but left to future work.
 
 The principal contributions of this study are stated as follows:
 \begin{enumerate}
     \item[\textbf{C1.}] A domain-informed HANFIS architecture that separates vulnerability and environmental reasoning before integrating their outputs with dynamic threat intelligence to produce a continuously recalculated Dynamic Risk Score.
     \item[\textbf{C2.}] A computational optimization strategy that changes exhaustive rule growth from $m^{7}$ to $2m^{3}+m_I^{2}m$, accompanied by empirical measurements of parameter count, training cost, memory consumption, throughput, and inference latency.
     \item[\textbf{C3.}] An operational definition of dynamic cybersecurity risk that combines CVSS Base severity, patch condition, MFA weakness, Kubernetes exposure, asset criticality, and time-varying threat evidence without duplicating CVSS threat metrics.
-    \item[\textbf{C4.}] An auditable edge policy-translation mechanism that converts validated risk states into bounded response recommendations or enforcement actions with monotonicity constraints, critical-risk overrides, confidence controls, and an execution log.
+    \item[\textbf{C4.}] An auditable policy-translation mechanism (designed but not evaluated in this paper) that converts validated risk states into bounded response recommendations with monotonicity constraints, critical-risk overrides, confidence controls, and an execution log.
     \item[\textbf{C5.}] A reproducible evaluation against persistence, single-CVSS, ridge and flat ANFIS baselines (full and parameter-matched) using predictive and computational metrics under common grouped, embargoed temporal partitions; a Fuzzyfortify comparison is not claimed (Section~\ref{subssec4.3}).
 \end{enumerate}
 
@@ -194,7 +194,7 @@ The empirical analysis is guided by the following hypotheses:
 \textbf{H5 (edge execution)}, originally framed as a fifth hypothesis, is demoted to future work: the Jetson Orin Nano node in the present testbed is a telemetry client only, and HANFIS inference runs cluster-side, so no edge-execution timing evidence exists to test it against.
 H1a--H1c and H2--H3 are pre-registered against the frozen protocol, seed list, and data split described in Section~\ref{subssec4.2}; results are reported in Section~\ref{subssec4.3} (Table~\ref{tab:e4-results}).
 
-Together, these contributions position HANFIS as more than a higher-capacity replacement for static fuzzy assessment. The proposed model is intended to provide a traceable bridge from expert knowledge to data-adaptive inference, from high-dimensional risk factors to computationally tractable edge execution, and from risk estimation to bounded operational response.
+Together, these contributions position HANFIS as more than a higher-capacity replacement for static fuzzy assessment. The proposed model is intended to provide a traceable bridge from expert knowledge to data-adaptive inference, from high-dimensional risk factors to a computationally tractable rule base, and, as designed but not yet evaluated extensions, from risk estimation to bounded operational response and to edge execution.
 
 
 \section{Literature Review}\label{sec2}
@@ -805,6 +805,28 @@ Two further observations qualify H2. The first held-out fold, trained on 2.2 obs
 $91\%$ of the pooled gap to the matched model (squared error $869.6$ against $73.9$); without it the skill against
 FlatANFISMatched is $0.183$ and against the full flat model $0.084$, whereas the skill against the ridge model stays between
 $0.656$ and $0.793$ whichever fold is removed.
+
+\subsection{Explanation fidelity (E6)}\label{sec:e6}
+We tested whether the rule-level explanation that HANFIS exposes is faithful to its inference. The test uses the 25 saved models (five folds $\times$ five seeds), which reproduce the confirmatory predictions of Section~\ref{sec4} exactly (mean over the five seeds; maximum difference $1.4\times10^{-6}$ on the 0--100 scale in single precision). The hypotheses and thresholds were drafted and announced before execution; the version-control freeze, however, preceded the commit that contained the protocol text, so the protocol is not frozen in the strict sense and the run is reported as a documented deviation. Table~\ref{tab:e6} lists the outcome.
+
+\begin{table}[ht]
+\caption{Explanation-fidelity checks on the 25 saved models. Pairs are the positive-control images P0-IF with and without the active filter; $S^{+}$ denotes the 23 weeks in which exploitability differs between the two.}\label{tab:e6}
+\begin{tabular}{@{}p{0.25\linewidth}p{0.29\linewidth}p{0.20\linewidth}l@{}}
+\hline
+Check & Criterion & Result & Outcome\\
+\hline
+H6-0 trace vs.\ inference & $|\Delta|\le10^{-9}$, all test rows & 0 & pass\\
+H6-neg identical inputs & $|\Delta|\le10^{-9}$, 34 weeks $\times$ 25 models & 0 & pass\\
+H6a direction (monotone) & $\hat y_{\mathrm{on}}-\hat y_{\mathrm{off}}\ge-10^{-9}$ on $S^{+}$ & minimum 0 & pass\\
+H6b panel structure & panel E unchanged, panel V changes & $0$ and $2.9\times10^{-4}$ & pass\\
+H6c deletion test & ratio $\ge2$ and proportion $\ge0.90$ & 4.11 and 0.835 & fail\\
+\hline
+\end{tabular}
+\end{table}
+
+Removing the three rules ranked highest by attribution changed the output 4.1 times more than removing three random rules, but it exceeded the median random removal in only 83.5\% of non-degenerate rows (criterion: 90\%); 456 of 5{,}400 rows (8.4\%) were degenerate, 446 of them because the output was clamped. Of the 575 positive-control pairs, 552 increased strictly; the remaining 23 include 20 pairs whose output is clamped at zero in both conditions. Post hoc and without bearing on the decision, the proportion reached 0.90 in two of five folds and was lowest in fold~3 (0.637), and it was lowest on the P0 and P0-IF rows (0.648, ratio 1.73, 135 rows). On the nine paired test weeks the mean ON--OFF contrast was 0.037 for the model and 0.073 for the label (0--100 scale): the direction is right and the magnitude is about half.
+
+We therefore do not claim validated rule-level explanations. The rule trace matches the inference exactly and the direction of the response is verified, but the attribution of the output to individual rules is faithful on average rather than uniformly.
 
 \section{Discussion}\label{sec5}
 

@@ -1,0 +1,31 @@
+{
+ "tanggal": "2026-10-08",
+ "lambda": 0.5109245039223448,
+ "ci95_bootstrap_kelompok": [
+  0.260150016754807,
+  0.7776638809110722
+ ],
+ "lambda_per_fold": {
+  "0": 0.01294364503353335,
+  "1": 0.2663421113211355,
+  "2": 0.45404978675340807,
+  "3": 1.0,
+  "4": 0.6140393065965353
+ },
+ "lambda_log1p_sensitivitas": 0.5053179364675937,
+ "mse_oof_dalam_sampel_OPTIMIS": {
+  "mse_hanfis": 0.40866671703204027,
+  "mse_persistence": 0.4147083416684027,
+  "mse_hibrida": 0.3425252494777776
+ },
+ "ss_hibrida_vs_persistence_dalam_sampel_OPTIMIS": 0.17405748796907994,
+ "baris": 1080,
+ "baris_dibuang_NaN": 0,
+ "kelompok_image": 119,
+ "bootstrap": 2000,
+ "seed": 20261008,
+ "masukan": "results_python/e4bis_120_models/predictions_20261005T083407Z.csv",
+ "masukan_sha256": "f33cfa28967fb330776054161754a76daa30a14bd30ad1db74111be0a3cf6d0f",
+ "skrip_sha256": "8605f1f87af5fe00340df8fcedee135ceced2a0fa96821ef63c4496b415e0685",
+ "catatan": "lambda dipasang pada prediksi out-of-fold yang sama yang dilaporkan di E4; SS dalam sampel bersifat optimis dan BUKAN hasil E7."
+}
