@@ -2,7 +2,7 @@
 
 > Memori proyek HANFIS. Dibaca ulang pada awal setiap sesi kerja (manusia maupun asisten AI).
 > Diperbarui hanya melalui amendemen bernomor (A-xx) atau penutupan blocker (F-xx).
-> Versi: 2.26 · Tanggal: 2026-10-08 · Pemilik: tim HANFIS (Universitas Andalas)
+> Versi: 2.27 · Tanggal: 2026-10-09 · Pemilik: tim HANFIS (Universitas Andalas)
 
 ## 0. Identitas dan target akhir
 
@@ -91,6 +91,7 @@ Setiap usulan perubahan harus menyebut lapisan dan dokumen yang diubah. Usulan t
 | A-45 | 2026-10-08 | Eksperimen E7 | D2 primer = 2026-11-02 (6 minggu forward matang, t = 2026-08-31 .. 2026-10-05), menggantikan D2 pada A-44; cadangan = 2026-11-09 hanya bila saat dataset versi 3 dibangun minggu matang < 6, diputuskan sebelum model apa pun dijalankan pada data forward (komit f937355). Skrip evaluasi `scripts/e7_evaluate.py` (`--rehearsal` untuk uji jalur kode; `--run` menolak tanpa `verify_prereg_tag.py` LOLOS). Audit E4: protokol E4 masuk di komit 7b09a4b (2026-09-30 04:32 UTC), sebelum run E4-bis pertama (2026-10-02). |
 | A-46 | 2026-10-08 | Eksperimen E7 | Setelah latihan kode (rehearsal) pada prediksi OOF E4: P7c (presisi@20% pada level) diturunkan menjadi deskriptif karena efek langit-langit (persistence 0,969; hibrida -0,080) dan diganti P7d = rerata mingguan Spearman antara perubahan prediksi dan perubahan nyata terhadap y_lag4, kriteria batas bawah CI95 > 0; daya terbatas P7a dan P7b dinyatakan, aturan Holm tidak diubah karena rehearsal; `scripts/e7_evaluate.py` diperbarui. Audit E4: tag `e4-prereg-2026-09-29` dibuat 2026-09-30 11:35 +0700 (komit protokol 7b09a4b 11:32 +0700) dan `verify_prereg_tag.py` LOLOS; gerbang `e4bis-gate-training-authorized-20261002` 17:28 +0700, sekitar 10 menit sebelum run E4-bis pertama. |
 | A-47 | 2026-10-08 | Eksperimen E7 | Koreksi kebocoran temporal: batas latih model akhir E7 diganti dari minggu berlabel <= 2026-08-24 menjadi <= 2026-07-27 (minggu forward pertama 2026-08-31 dikurangi embargo 30 hari, aturan yang sama dengan `GroupTimeSplit` di E4); jendela label latih berakhir 2026-08-24 < 2026-08-31. `scripts/e7_pipeline.py` (`train` dan `predict`) menegakkan aturan, menolak embargo < 28 hari dan minggu sebelum minggu forward pertama, dan memverifikasi hash model. Supersede A-44 pada butir itu; ditemukan saat membaca `e4_run.py` dan `splits.py` sebelum pembekuan, label forward tidak disentuh. |
+| A-48 | 2026-10-09 | Naskah, E7 | Koreksi angka: 6.833 adalah total baris event_id (berkas status: non-NA 0,9303, positif 0,8882, 119 grup image), 6.357 berlabel; observasi per parameter pada sampel gabungan 6.357/176 = 36,1 (bukan 38,8). Naskah diperbaiki: semua kemunculan "6.833 labelled" (dua tempat) menjadi 6.357 labelled, dan gerbang kecukupan data di Limitations. Baris 'Model akhir' draf E7 diselaraskan dengan A-47 (latih <= 2026-07-27, sekitar 5.880 baris, sekitar 33 observasi/parameter) agar protokol yang dibekukan tidak memuat dua batas yang saling bertentangan. |
 ## 5. Blocker manuskrip F1–F9 (status 2026-10-02, diverifikasi dari commit log + manuskrip)
 
 - **F1 (target sintetis) → DITUTUP.** Snapshot EPSS/KEV bersegel 57 minggu; tabel aset-minggu kontrak v2 berjalan; gerbang §9 lolos 2026-09-28 (tag `m2-gate-training-authorized-20260928`). Lih. A-13 (patch 0024–0025).

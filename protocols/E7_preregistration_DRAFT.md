@@ -17,7 +17,7 @@ pernah dihitung. Data berakhir pada snapshot 2026-09-21, sehingga label minggu 2
 | Minimum minggu analisis | **6**; kurang dari itu E7 ditunda, tidak dilonggarkan | D2 memberi 7, cadangan satu minggu |
 | Bentuk hibrida | **satu parameter lambda**: `y_hat = lambda * y_hat_HANFIS + (1 - lambda) * y_lag4`, skala 0-100 | gerbang berbasis perubahan masukan adalah desain yang dipilih setelah melihat A-41 (derajat kebebasan peneliti); lambda tunggal murah, dapat dilaporkan, dan sulit disalahgunakan |
 | Sumber lambda | kuadrat terkecil **pada prediksi out-of-fold E4** (label <= 2026-08-24), dijepit ke [0,1], lewat `scripts/e7_fit_lambda.py`; dibekukan sekali di `protocols/E7_lambda_<tanggal>.json` | prediksi dalam sampel model akhir terlalu optimis dan membiaskan lambda ke HANFIS |
-| Model akhir | dilatih ulang pada **semua** minggu berlabel <= 2026-08-24, konfigurasi A-09 + A-10, lima seed yang sama; hash berkas dicatat sebelum tag | cek gerbang >= 10 observasi per parameter (sekitar 39) |
+| Model akhir | dilatih ulang pada minggu berlabel **<= 2026-07-27** (minggu forward pertama 2026-08-31 dikurangi embargo 30 hari; A-47), konfigurasi A-09 + A-10, lima seed yang sama; hash berkas dicatat sebelum tag | cek gerbang >= 10 observasi per parameter (sekitar 33: sekitar 5.880 baris latih / 176 parameter) |
 | P7c primer | **non-inferioritas** hibrida terhadap persistence pada presisi@20%: batas bawah CI95 selisih > **-0,05** | peringkat persistence sudah sangat kuat; yang diuji adalah bahwa hibrida tidak merusaknya |
 
 ## Hipotesis yang dinyatakan sebelum data (dari A-41)

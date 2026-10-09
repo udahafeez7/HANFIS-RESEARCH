@@ -12,13 +12,16 @@ EDITS = [
 ROWFIX = ("| Model akhir | dilatih ulang pada minggu berlabel **<= 2026-07-27** (minggu forward pertama 2026-08-31 dikurangi embargo 30 hari; A-47), konfigurasi A-09 + A-10, lima seed yang sama; "
           "hash berkas dicatat sebelum tag | cek gerbang >= 10 observasi per parameter (sekitar 33: sekitar 5.880 baris latih / 176 parameter) |")
 ROW = ("| A-48 | 2026-10-09 | Naskah, E7 | Koreksi angka: 6.833 adalah total baris event_id (berkas status: non-NA 0,9303, positif 0,8882, 119 grup image), 6.357 berlabel; observasi per parameter pada sampel gabungan "
-       "6.357/176 = 36,1 (bukan 38,8). Naskah diperbaiki di Limitations (gerbang kecukupan data) dan Conclusion (\"6.833 labelled\"); letaknya BUKAN di abstrak seperti tertulis di laporan harian 2026-10-08. "
+       "6.357/176 = 36,1 (bukan 38,8). Naskah diperbaiki: semua kemunculan \"6.833 labelled\" (dua tempat) menjadi 6.357 labelled, dan gerbang kecukupan data di Limitations. "
        "Baris 'Model akhir' draf E7 diselaraskan dengan A-47 (latih <= 2026-07-27, sekitar 5.880 baris, sekitar 33 observasi/parameter) agar protokol yang dibekukan tidak memuat dua batas yang saling bertentangan. |")
 ms, dr, me = (p.read_text(encoding="utf-8") for p in (MS, DR, ME))
 errors, todo = [], []
 for name, old, new in EDITS:
     n = ms.count(old)
-    if n == 1: todo.append((old, new)); print(f"akan diterapkan: {name}")
+    if "Conclusion" in name and n in (1, 2):
+        todo.append((old, new)); print(f"akan diterapkan: {name} ({n} kemunculan; semuanya diganti)")
+        for m in re.finditer(re.escape(old), ms): print("    konteks:", ms[max(0, m.start() - 70):m.end() + 40].replace("\n", " "))
+    elif n == 1: todo.append((old, new)); print(f"akan diterapkan: {name}")
     elif n == 0 and ms.count(new) >= 1: print(f"sudah: {name}")
     else: errors.append(f"{name}: jangkar ditemukan {n}x (harus 1)")
 rows = list(re.finditer(r"^\| Model akhir \|.*$", dr, re.M))
