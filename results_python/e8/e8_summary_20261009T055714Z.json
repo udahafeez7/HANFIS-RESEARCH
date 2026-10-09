@@ -1,0 +1,99 @@
+{
+ "deskriptif": true,
+ "model": 25,
+ "baris": 5400,
+ "latar_belakang_k": 12,
+ "bg_seed": 20261009,
+ "efisiensi_selisih_maks": 7.105427357601002e-15,
+ "porsi_global": {
+  "cvss": 0.09314952382270164,
+  "exploitability": 0.5432632155420704,
+  "patch_risk": 0.060154603978722215,
+  "mfa_risk": 0.013646134825515636,
+  "kubernetes_exposure": 0.016490109606324,
+  "asset_criticality": 0.011256211989228108,
+  "threat_intelligence": 0.26204020023543795
+ },
+ "rerata_abs_phi": {
+  "cvss": 0.3506823928376805,
+  "exploitability": 2.045236911029228,
+  "patch_risk": 0.2264655748923992,
+  "mfa_risk": 0.05137395251430318,
+  "kubernetes_exposure": 0.0620807370514114,
+  "asset_criticality": 0.04237654893635305,
+  "threat_intelligence": 0.9865094384501075
+ },
+ "porsi_bahan_label": 0.8053034157775083,
+ "kendall_w": 0.7923428571428571,
+ "arah_spearman": {
+  "cvss": 0.5781864385123613,
+  "exploitability": 0.8506329505985813,
+  "patch_risk": 0.314595703150538,
+  "mfa_risk": -0.024471437793819984,
+  "kubernetes_exposure": -0.4712660447306256,
+  "asset_criticality": 0.397005325836308,
+  "threat_intelligence": 0.9916779553903322
+ },
+ "irisan": {
+  "periode=sebelum 2026-06-08": {
+   "baris": 4005,
+   "cvss": 9.421960609687352,
+   "exploitability": 49.32134148454196,
+   "patch_risk": 5.982612173283053,
+   "mfa_risk": 1.7530858263553988,
+   "kubernetes_exposure": 2.1738359383199692,
+   "asset_criticality": 1.4487863296427066,
+   "threat_intelligence": 29.89837763816959
+  },
+  "periode=sejak 2026-06-08": {
+   "baris": 1395,
+   "cvss": 9.059180662977468,
+   "exploitability": 66.28925551117246,
+   "patch_risk": 6.093974425079965,
+   "mfa_risk": 0.4360845117371225,
+   "kubernetes_exposure": 0.3945710908123871,
+   "asset_criticality": 0.35318992803166493,
+   "threat_intelligence": 17.373743870188942
+  },
+  "kelompok=P0 dan P0-IF": {
+   "baris": 135,
+   "cvss": 4.704994657205855,
+   "exploitability": 64.09122471133144,
+   "patch_risk": 14.785400570884647,
+   "mfa_risk": 6.022032060433742,
+   "kubernetes_exposure": 8.30019553481091,
+   "asset_criticality": 2.0961524653334016,
+   "threat_intelligence": 0.0
+  },
+  "kelompok=image resmi": {
+   "baris": 5265,
+   "cvss": 9.38647080146972,
+   "exploitability": 54.17482983148745,
+   "patch_risk": 5.879404430539173,
+   "mfa_risk": 1.292358760468203,
+   "kubernetes_exposure": 1.5458251539680166,
+   "asset_criticality": 1.1105644747407246,
+   "threat_intelligence": 26.610546547326724
+  },
+  "label=label 20% teratas": {
+   "baris": 1080,
+   "cvss": 2.4686640683567194,
+   "exploitability": 32.99640253711462,
+   "patch_risk": 1.1613489196036266,
+   "mfa_risk": 0.4908048186205904,
+   "kubernetes_exposure": 0.5820830640106588,
+   "asset_criticality": 0.41989784569559113,
+   "threat_intelligence": 61.88079874659819
+  },
+  "label=lainnya": {
+   "baris": 4320,
+   "cvss": 14.343441009490752,
+   "exploitability": 69.99280392816851,
+   "patch_risk": 9.580727188364975,
+   "mfa_risk": 2.0064118888520976,
+   "kubernetes_exposure": 2.4326523365475037,
+   "asset_criticality": 1.6439636485761702,
+   "threat_intelligence": 0.0
+  }
+ }
+}
