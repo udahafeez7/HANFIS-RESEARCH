@@ -273,8 +273,7 @@ Flat ANFIS (reference) & 7 raw & 128 & 28 & 1{,}024 & 1{,}052 \\
 \end{table}
 
 Consequent slopes in every panel are constrained non-negative through a softplus reparameterisation
-(amendment A-04), so that $r$ is monotone non-decreasing in every input under the stated
-higher-is-riskier convention; intercepts stay free. Training is hybrid (amendment A-06): the
+(amendment A-04), so that each rule's consequent is non-decreasing in every input under the stated higher-is-riskier convention; intercepts stay free and rule weights are normalised, so $r$ itself is not guaranteed to be monotone, and monotonicity is therefore checked empirically (Section~\ref{subsec:e8}). Training is hybrid (amendment A-06): the
 integration panel's consequents are solved in closed form by ridge least squares every epoch,
 \begin{equation}
 \beta=(\Phi^\top\Phi+\lambda I)^{-1}\Phi^\top y,\qquad \lambda\ge 10^{-3},
@@ -829,6 +828,28 @@ Removing the three rules ranked highest by attribution changed the output 4.1 ti
 
 We therefore do not claim validated rule-level explanations. The rule trace matches the inference exactly and the direction of the response is verified, but the attribution of the output to individual rules is faithful on average rather than uniformly.
 
+\subsection{Attribution and monotonicity checks (E8)}\label{subsec:e8}
+We computed exact interventional Shapley values for the seven inputs of the 25 saved models (5{,}400 model--row pairs; a background of 60 random labelled rows, excluding P0 and P0-IF and identical for all models; the efficiency property holds to $2\times10^{-14}$). Exploitability ($x_2$) and the KEV indicator ($x_7$), both ingredients of the label, carry 78.9\% of the mean absolute attribution; the three environment inputs ($x_4$--$x_6$) carry 3.3\% (Table~\ref{tab:e8}). The ranking is stable across models (Kendall $W=0.79$; $x_2$ is the top input in 21 of 25 models), and in the 20\% of rows with the highest label $x_7$ alone carries 63.0\%. This quantifies the overlap between label and inputs discussed in Section~\ref{sec5}: the model largely forecasts exploitability signals it can already see, and the label contains no environment component by construction.
+
+\begin{table}[ht]
+\caption{Exact Shapley attribution and within-row monotonicity checks for the five-seed ensemble (E8; descriptive and post hoc). ``Falls'' is the share of steps, over the range observed in the data, in which the score drops by more than 0.05 points when one input is raised and the others are held fixed. Share: mean absolute attribution; Max drop and Range: largest fall and mean end-to-end change of the score in points.}\label{tab:e8}
+\begin{tabular}{@{}p{0.36\linewidth}rrrr@{}}
+\hline
+Input & Share (\%) & Falls (\%) & Max drop & Range\\
+\hline
+$x_1$ CVSS & 10.9 & 1.7 & 2.46 & 1.99\\
+$x_2$ Exploitability & 46.4 & 1.2 & 0.21 & 6.53\\
+$x_3$ Patch Risk & 6.8 & 24.8 & 2.28 & 1.11\\
+$x_4$ MFA Risk & 1.1 & 29.1 & 0.46 & 0.09\\
+$x_5$ Kubernetes Exposure & 1.3 & 34.8 & 0.60 & 0.14\\
+$x_6$ Asset Criticality & 0.9 & 10.5 & 0.40 & 0.13\\
+$x_7$ Threat Intelligence (KEV) & 32.5 & 1.2 & 0.33 & 6.45\\
+\hline
+\end{tabular}
+\end{table}
+
+Non-negative rule slopes do not guarantee a monotone score, because rule weights are normalised and intercepts are free. We therefore varied one input at a time over 11 points spanning the observed range (observed values for discrete inputs, quantiles from 1\% to 99\% otherwise) for the five-seed ensemble that is reported in Section~\ref{sec4}. For the dominant drivers the share of falling steps is small ($x_1$ 1.7\%, $x_2$ 1.2\%, $x_7$ 1.2\%), whereas for patch risk and the environment inputs it is 10--35\%, although the environment inputs move the score by less than 0.15 points on average (Table~\ref{tab:e8}). Individual seeds are less well behaved than the ensemble: the largest single drop (11.6 points, CVSS) occurs in one seed on two assets in the last held-out block, after the EPSS model change. We therefore present monotonicity as an empirical property of the dominant inputs, not as a guarantee of the architecture.
+
 \section{Discussion}\label{sec5}
 
 Three findings from the completed experiments (E1, E3, and the observability-overhead runs) shape how
@@ -843,8 +864,7 @@ evidence for the research gap C3 claims to address: severity and realised exploi
 quantities, and conflating them is a plausible source of alert fatigue in practice. Third, the E1
 ablation shows that a monotonicity constraint intended to keep the model auditable (higher risk factors
 must not lower the score) has a real, family-dependent accuracy cost on data containing thresholds; the
-choice of Gaussian membership functions with monotonicity active is therefore a deliberate trade of some
-accuracy for interpretability and auditability, not a default that happened to be convenient.
+choice of Gaussian membership functions with monotonicity active is therefore a deliberate trade of some accuracy for a response that, for the dominant risk factors, rarely falls as they rise (Section~\ref{subsec:e8}), not a default that happened to be convenient.
 
 The instrumentation-overhead results (Section~\ref{subsec4.1}) support a second, narrower claim:
 that Kubernetes observability telemetry can be treated as a fixed resource cost rather than folded into
@@ -856,7 +876,7 @@ from any change in the thing being observed, which is the premise the environmen
 Kubernetes-exposure input relies on.
 
 \subsection{Limitations}
-Two limits of construct validity deserve emphasis before the usual caveats. First, the label and two of the inputs share ingredients: $x_2$ (EPSS $\times\,\rho$) and $x_7$ (the KEV indicator) are the values at $t$ of quantities that the label aggregates over $t{+}7,\dots,t{+}28$, and runtime reachability $\rho$ enters both. The task is therefore to forecast the near future of exploitability signals that the model can already see, not to predict independent compromise outcomes, for which no ground truth exists here; the persistence baseline, built in the same way, is the relevant bar, and the comparison with a single CVSS score should be read in that light. Second, the dynamic character of the score comes from the time-varying EPSS and KEV feeds and from runtime reachability; runtime telemetry (CPU, memory, latency) is used only to quantify observability overhead and is not a model input, so ``dynamic'' must not be read as telemetry-driven scoring. The rule-level attribution is faithful on average but not uniformly (Section~\ref{sec:e6}), and we do not claim validated explanations.
+Two limits of construct validity deserve emphasis before the usual caveats. First, the label and two of the inputs share ingredients: $x_2$ (EPSS $\times\,\rho$) and $x_7$ (the KEV indicator) are the values at $t$ of quantities that the label aggregates over $t{+}7,\dots,t{+}28$, and runtime reachability $\rho$ enters both. The task is therefore to forecast the near future of exploitability signals that the model can already see, not to predict independent compromise outcomes, for which no ground truth exists here; the persistence baseline, built in the same way, is the relevant bar, and the comparison with a single CVSS score should be read in that light; exact Shapley attribution (Section~\ref{subsec:e8}) places 78.9\% of the model's attribution on these two inputs and 3.3\% on the environment inputs. Second, the dynamic character of the score comes from the time-varying EPSS and KEV feeds and from runtime reachability; runtime telemetry (CPU, memory, latency) is used only to quantify observability overhead and is not a model input, so ``dynamic'' must not be read as telemetry-driven scoring. The rule-level attribution is faithful on average but not uniformly (Section~\ref{sec:e6}), and we do not claim validated explanations.
 
 \label{subsec5.1}
 
@@ -896,7 +916,7 @@ training is thinnest, so it is read as suggestive of, not as evidence for, a str
 vulnerability/environmental/threat decomposition (Section~\ref{subssec4.5}). Two further contributions are established: the real-world data pipeline itself (sealed,
 hash-verified EPSS and CISA KEV evidence feeding a gated inventory of 120 assets and 6{,}357 labelled
 asset-weeks, Section~\ref{subsec:target-definition}), and a completed ablation showing that the
-monotonicity constraint required for an auditable, higher-is-riskier score has a real,
+monotonicity constraint intended to keep the score from falling as risk factors rise (met in practice only for the dominant drivers; Section~\ref{subsec:e8}) has a real,
 membership-family-dependent accuracy cost (Section~\ref{subssec4.5}).
 
 Confirming H1b against persistence is the main open question; the bottleneck-width sweep
