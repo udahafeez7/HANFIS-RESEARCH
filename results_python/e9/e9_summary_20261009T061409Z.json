@@ -1,0 +1,128 @@
+{
+ "post_hoc": true,
+ "smoke": true,
+ "mask": [
+  "exploitability",
+  "threat_intelligence"
+ ],
+ "seeds": [
+  20260928
+ ],
+ "n_restarts": 1,
+ "epochs": 40,
+ "baris": 1080,
+ "kecocokan_pembanding": {
+  "cvss": 8.881784197001252e-16,
+  "pers": 0.0,
+  "ridge7": 1.7763568394002505e-15
+ },
+ "skill_score": [
+  {
+   "pasangan": "HANFIS tanpa x2,x7 vs CVSS-saja",
+   "ss": -0.04161047724312428,
+   "ci95": [
+    -0.23242672510813442,
+    0.11970654841332362
+   ],
+   "mse_a": 13.057128806577508,
+   "mse_b": 12.535519843402861
+  },
+  {
+   "pasangan": "HANFIS tanpa x2,x7 vs ridge-5 (informasi sama)",
+   "ss": 0.018366350816889865,
+   "ci95": [
+    -0.16031479019023318,
+    0.17467476145007604
+   ],
+   "mse_a": 13.057128806577508,
+   "mse_b": 13.301427490228466
+  },
+  {
+   "pasangan": "HANFIS tanpa x2,x7 vs persistence",
+   "ss": -30.48508842153427,
+   "ci95": [
+    -72.3693371578384,
+    -16.6282109320906
+   ],
+   "mse_a": 13.057128806577508,
+   "mse_b": 0.41470834166840276
+  },
+  {
+   "pasangan": "HANFIS tanpa x2,x7 vs HANFIS penuh",
+   "ss": -30.950555947901677,
+   "ci95": [
+    -51.352457910276314,
+    -20.46132442440634
+   ],
+   "mse_a": 13.057128806577508,
+   "mse_b": 0.4086667170320403
+  },
+  {
+   "pasangan": "HANFIS penuh vs CVSS-saja (acuan H1a)",
+   "ss": 0.9673993003770712,
+   "ci95": [
+    0.9519196900952224,
+    0.9803433163661934
+   ],
+   "mse_a": 0.4086667170320403,
+   "mse_b": 12.535519843402861
+  },
+  {
+   "pasangan": "HANFIS penuh vs persistence (acuan H1b)",
+   "ss": 0.014568370175667478,
+   "ci95": [
+    -0.6203886760984096,
+    0.24257802556489197
+   ],
+   "mse_a": 0.4086667170320403,
+   "mse_b": 0.41470834166840276
+  },
+  {
+   "pasangan": "ridge-5 vs CVSS-saja",
+   "ss": -0.06109899361123694,
+   "ci95": [
+    -0.13009041493056422,
+    0.005963137779130932
+   ],
+   "mse_a": 13.301427490228466,
+   "mse_b": 12.535519843402861
+  }
+ ],
+ "per_fold": [
+  {
+   "fold": 0,
+   "baris": 225,
+   "ss_masked_vs_cvss": 0.049588128200292014,
+   "ss_masked_vs_ridge5": 0.23077729254107937,
+   "ss_masked_vs_pers": -526.2242763119237
+  },
+  {
+   "fold": 1,
+   "baris": 216,
+   "ss_masked_vs_cvss": 0.0006982710863264741,
+   "ss_masked_vs_ridge5": 0.11137542226984531,
+   "ss_masked_vs_pers": -44.72727643548506
+  },
+  {
+   "fold": 2,
+   "baris": 216,
+   "ss_masked_vs_cvss": -0.4009385023606584,
+   "ss_masked_vs_ridge5": -0.47005032567270244,
+   "ss_masked_vs_pers": -893.5368596650042
+  },
+  {
+   "fold": 3,
+   "baris": 216,
+   "ss_masked_vs_cvss": -0.03619527720607296,
+   "ss_masked_vs_ridge5": -0.04081331723173043,
+   "ss_masked_vs_pers": -5.756523308051601
+  },
+  {
+   "fold": 4,
+   "baris": 207,
+   "ss_masked_vs_cvss": 0.09827720520165373,
+   "ss_masked_vs_ridge5": 0.07149963452887331,
+   "ss_masked_vs_pers": -272.6293332907661
+  }
+ ]
+}
