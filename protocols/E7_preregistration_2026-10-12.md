@@ -1,8 +1,8 @@
-# Protokol E7 — Evaluasi prospektif HANFIS (KANDIDAT PEMBEKUAN, satu dokumen konsisten)
+# Protokol E7 — Evaluasi prospektif HANFIS (BEKU, satu dokumen konsisten)
 
-> **Status: KANDIDAT.** Menggabungkan draf dan amendemen A-44 sampai A-48 menjadi satu teks tanpa butir yang saling bertentangan. Dibekukan hanya lewat urutan di bagian 11
+> **Status: BEKU.** Menggabungkan draf dan amendemen A-44 sampai A-48 menjadi satu teks tanpa butir yang saling bertentangan. Dibekukan hanya lewat urutan di bagian 11
 > (komit, `make_prereg_tag.py`, `verify_prereg_tag.py` LOLOS). Setelah beku, perubahan hanya lewat amendemen bernomor. Isi [KURUNG SIKU] diisi saat pembekuan.
-> Tanggal pembekuan: [TANGGAL]. Komit: [HASH KOMIT]. Tag: [TAG].
+> Tanggal pembekuan: 2026-10-12. Komit dasar (induk komit pembekuan): 6c6b59e. Tag: e7-prereg-2026-10-12.
 
 ## 1. Tujuan dan dasar
 
@@ -26,15 +26,15 @@ Kode analisis diuji (latihan) hanya pada data lama, termasuk latihan pseudo-forw
 
 - **HANFIS:** lima model (seed 20260928, 20261005, 20261012, 20261019, 20261026) dilatih pada **minggu berlabel <= 2026-07-27** (minggu forward pertama 2026-08-31 dikurangi embargo 30 hari; jendela label latih terakhir berakhir 2026-08-24, sebelum 2026-08-31).
   Konfigurasi identik dengan E4 (A-09, A-10): `HANFIS(m_raw=2, m_intermediate=3, gauss, monotone)`, `fit_hybrid_lower_alternating`, 3 restart terbaik, patience 100, min_epochs 200, ridge=None, validasi acak 15% (seed 20260933).
-  5.880 baris latih, 33,4 observasi per parameter (176 parameter). Prediksi = rerata lima seed x 100. Manifes dan hash: `results_python/e7_final/final_models_manifest.json` [SHA256 MANIFES].
+  5.880 baris latih, 33,4 observasi per parameter (176 parameter). Prediksi = rerata lima seed x 100. Manifes dan hash: `results_python/e7_final/final_models_manifest.json` (SHA256 3f2d8cf31ac76318495e3f10b2c58d41b44c03928860419a1a86ead79e9871fb).
 - **Persistence:** `y_lag4` = label versi 3 pada minggu `t - 28 hari` untuk aset yang sama (pencocokan kalender).
-- **Hibrida:** `y_hibrida = lambda * y_HANFIS + (1 - lambda) * y_lag4`, **lambda = 0,5109** (CI95 bootstrap berkelompok [0,260; 0,778]) dari `protocols/E7_lambda_2026-10-08.json` [SHA256], dipasang pada prediksi out-of-fold E4 (label <= 2026-08-24; sudah ber-embargo). Tidak disetel ulang.
+- **Hibrida:** `y_hibrida = lambda * y_HANFIS + (1 - lambda) * y_lag4`, **lambda = 0,5109** (CI95 bootstrap berkelompok [0,260; 0,778]) dari `protocols/E7_lambda_2026-10-08.json` (SHA256 6b1854b1c811728b5ad3657418a211fc2e0a0b1d24aba9bb45937f3a6f3438dd), dipasang pada prediksi out-of-fold E4 (label <= 2026-08-24; sudah ber-embargo). Tidak disetel ulang.
 - **Ridge-7** (7 masukan, lambda ridge 1e-3, dilatih pada baris latih yang sama): pembanding deskriptif.
-- **Rumus bentuk-maks:** `y_rumus = a + b * max(x2, c * x7)`, x2 = `exploitability` dan x7 = `threat_intelligence` pada waktu t (nilai hilang = 0). `c` dipilih dari grid {0, 0,05, ..., 1,5}, `a` dan `b` dengan kuadrat terkecil biasa, pada baris latih yang SAMA dengan model akhir (berlabel, minggu <= 2026-07-27; 5.880 baris), oleh `scripts/e7_formula.py fit`. Koefisien dibekukan di `protocols/E7_formula_2026-10-12.json` [SHA256]. Tidak disetel ulang.
+- **Rumus bentuk-maks:** `y_rumus = a + b * max(x2, c * x7)`, x2 = `exploitability` dan x7 = `threat_intelligence` pada waktu t (nilai hilang = 0). `c` dipilih dari grid {0, 0,05, ..., 1,5}, `a` dan `b` dengan kuadrat terkecil biasa, pada baris latih yang SAMA dengan model akhir (berlabel, minggu <= 2026-07-27; 5.880 baris), oleh `scripts/e7_formula.py fit`. Koefisien dibekukan di `protocols/E7_formula_2026-10-12.json` (SHA256 510a531d4100f963c7ffcde76b80ddcc5b18b89a3a4527ece48c28b37575d75d). Tidak disetel ulang.
 
 ## 4. Prosedur data (urutan wajib; semua skrip ikut dibekukan)
 
-1. Pembekuan (bagian 11). **Sebelum itu tidak ada label minggu >= 2026-08-31 yang dihitung dan tidak ada snapshot EPSS setelah 2026-09-21 yang diunduh.** Keadaan data saat pembekuan: snapshot EPSS tersegel sampai 2026-09-21 (rentang diverifikasi dengan `fetch_snapshots.py status`); satu snapshot KEV bertanggal 2026-09-28 (1.728 entri, sha256 `164f2f10…`) sudah ada sebelum E7 dirancang (diambil untuk E4-bis) dan tidak dipakai menghitung label forward; `data/real/snapshots/manifest.json` [SHA256] dibekukan bersama protokol.
+1. Pembekuan (bagian 11). **Sebelum itu tidak ada label minggu >= 2026-08-31 yang dihitung dan tidak ada snapshot EPSS setelah 2026-09-21 yang diunduh.** Keadaan data saat pembekuan: snapshot EPSS tersegel sampai 2026-09-21 (rentang diverifikasi dengan `fetch_snapshots.py status`); satu snapshot KEV bertanggal 2026-09-28 (1.728 entri, sha256 `164f2f10…`) sudah ada sebelum E7 dirancang (diambil untuk E4-bis) dan tidak dipakai menghitung label forward; `data/real/snapshots/manifest.json` (SHA256 c2827ba1f3c6049219a0f1adc61ae0e76784708434a2c643781174317d849a3f, keadaan saat pembekuan; berkas ini berubah setelah snapshot baru ditarik) dibekukan bersama protokol.
 2. Setelah tag: `python scripts/fetch_snapshots.py fetch --start 2026-09-28 --end <D2>`, lalu `status` dan `verify` (kegagalan integritas = berhenti).
 3. Pada D2: `python scripts/e7_rescan.py --d2 <D2> --download-db` (DB Trivy diunduh satu kali dan dibekukan untuk seluruh run; DB harus segar; setiap bundel mencatat tanggal DB yang sama) menghasilkan `configs/assets_v3.csv` dan manifes.
 4. `python scripts/build_asset_weeks.py --assets configs/assets_v3.csv --snapshots data/real/snapshots --out-prefix data/processed/asset_weeks_v3 --start 2025-08-25 --end <minggu uji terakhir>` membangun tabel versi 3 (mencetak tiga angka wajib dan `STATUS=TRAINING_AUTHORIZED|HOLD`; `HOLD` menghentikan prosedur); checksum dicatat.
@@ -85,7 +85,7 @@ Juga tidak akan dilakukan: mengubah grid `c`, koefisien rumus, atau bentuk rumus
 
 ## 8. Artefak yang dibekukan (semuanya harus dikomit tanpa perubahan saat tag dibuat)
 
-`protocols/E7_preregistration_[TANGGAL].md` · `protocols/E7_lambda_2026-10-08.json` · `results_python/e7_final/final_models_manifest.json` dan `results_python/e7_final/models/final_seed*_hanfis.pt` ·
+`protocols/E7_preregistration_2026-10-12.md` · `protocols/E7_lambda_2026-10-08.json` · `results_python/e7_final/final_models_manifest.json` dan `results_python/e7_final/models/final_seed*_hanfis.pt` ·
 `scripts/e7_pipeline.py` · `scripts/e7_evaluate.py` · `scripts/e7_rescan.py` · `scripts/verify_prereg_tag.py` · `scripts/make_prereg_tag.py` · `scripts/fetch_snapshots.py` · `scripts/build_asset_weeks.py` · `scripts/e4_run.py` · `scripts/scan_image_evidence.sh` ·
 `python_hanfis/hanfis_end2end.py` · `python_hanfis/splits.py` · `configs/assets.csv`. [Skrip pelaksana D2 satu-langkah, bila ditambahkan, masuk daftar ini sebelum tag.]
 
@@ -102,7 +102,7 @@ E6 dijalankan dengan protokol yang tag pembekuannya mendahului komit yang memuat
 ## 11. Urutan pembekuan
 
 0. `python scripts/e7_formula.py fit` (harus mencetak `STATUS=E7_FORMULA_FIT_DONE` dengan 5.880 baris), lalu `git add -f protocols/E7_formula_2026-10-12.json`; berkas itu masuk komit pembekuan.
-1. Ganti nama berkas ini menjadi `protocols/E7_preregistration_[TANGGAL].md`, isi tanda kurung siku, `git add` seluruh artefak bagian 8 (`git add -f` untuk `results_python/e7_final`), `git commit`.
-2. `python scripts/make_prereg_tag.py e7-prereg-[TANGGAL] <seluruh artefak bagian 8>` harus mencetak LOLOS.
+1. Ganti nama berkas ini menjadi `protocols/E7_preregistration_2026-10-12.md`, isi tanda kurung siku, `git add` seluruh artefak bagian 8 (`git add -f` untuk `results_python/e7_final`), `git commit`.
+2. `python scripts/make_prereg_tag.py e7-prereg-2026-10-12 <seluruh artefak bagian 8>` harus mencetak LOLOS.
 3. (Opsional, disarankan) daftarkan di OSF Registries dengan teks `E7_osf_registration_DRAFT.md`, **sebelum** langkah 2 bagian 4.
 4. `git push` dan `git push origin --tags`.
