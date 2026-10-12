@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
-"""E7 -- rumus bentuk-maks sebagai pembanding terdaftar (tambahan protokol; hipotesis SEKUNDER P7e dan P7f, tanpa koreksi multiplisitas, dilaporkan dengan CI). Tidak menyentuh e7_pipeline.py maupun e7_evaluate.py.
+"""E7 -- rumus bentuk-maks sebagai pembanding terdaftar (tambahan protokol; keluarga KEDUA {P7e, P7f}, koreksi Holm di dalam keluarga itu, terpisah dari {P7a, P7b}). Tidak menyentuh e7_pipeline.py maupun e7_evaluate.py.
   fit      : memasang  y_hat = a + b * max(x2, c * x7)  pada baris latih yang SAMA dengan model akhir (berlabel, minggu <= cutoff), c dari grid 0..1,5 (langkah 0,05), a dan b dengan OLS; menulis JSON beku.
   evaluate : pada prediksi forward (kolom event_id, y_true, y_hanfis, y_lag4) dan tabel v3 (kolom event_id, exploitability, threat_intelligence), memakai populasi dan bootstrap berkelompok per image yang sama
-             dengan e7_evaluate.py (2.000 resampel, seed 20261102).  P7e: rumus lebih baik dari persistence (SS >= 0,05 dan batas bawah CI95 > 0 -> TERKONFIRMASI; batas atas < 0 -> LEBIH BURUK; selain itu TIDAK TERKONFIRMASI).
-             P7f: HANFIS tidak lebih baik dari rumus (batas atas CI95 SS_HANFIS-terhadap-rumus < 0,05 -> DIDUKUNG; SS >= 0,05 dan batas bawah > 0 -> DIBANTAH; selain itu TIDAK TERBUKTI).
+             dengan e7_evaluate.py (2.000 resampel, seed 20261102).  P7e: rumus lebih baik dari persistence (SS >= 0,05, batas bawah CI95 > 0 dan lolos Holm -> TERKONFIRMASI; batas atas < 0 -> LEBIH BURUK; selain itu TIDAK TERKONFIRMASI).
+             P7f: HANFIS tidak lebih baik dari rumus (batas atas CI95 SS_HANFIS-terhadap-rumus < 0,05 dan lolos Holm -> DIDUKUNG; SS >= 0,05 dan batas bawah > 0 -> DIBANTAH; selain itu TIDAK TERBUKTI).
+             Holm: p satu sisi dari bootstrap (+1), alpha satu sisi 0,025, ambang 0,0125 untuk p terkecil dan 0,025 untuk berikutnya. Sensitivitas tanpa kriteria: bootstrap per MINGGU (guncangan mingguan bersama).
              --run menolak berjalan kecuali verify_prereg_tag.py LOLOS dan menolak bila hasil resmi sudah ada (SEKALI); --rehearsal menguji jalur kode pada berkas mana saja (BUKAN hasil E7).
   python scripts/e7_formula.py fit [--table ... --cutoff 2026-07-27 --expect-rows 5880 --out protocols/E7_formula_2026-10-12.json]
   python scripts/e7_formula.py evaluate --run --pred P.csv --table asset_weeks_v3.csv --formula-json F.json --tag TAG --files ..."""
@@ -37,14 +38,14 @@ def do_fit(a):
     p.parent.mkdir(parents=True, exist_ok=True); p.write_text(json.dumps(out, indent=1)); print(json.dumps({k: out[k] for k in ("a", "b", "c", "n_train", "mse_train")})); print(f"STATUS=E7_FORMULA_FIT_DONE ({p})"); return 0
 
 
-def boot(df, pairs, B, seed):
-    groups = sorted(df["grup"].unique()); gi = {g: i for i, g in enumerate(groups)}; idx = df["grup"].map(gi).to_numpy(); G = len(groups); sse = {}
+def boot(df, pairs, B, seed, col="grup"):
+    groups = sorted(df[col].unique()); gi = {g: i for i, g in enumerate(groups)}; idx = df[col].map(gi).to_numpy(); G = len(groups); sse = {}
     for c in {c for p in pairs for c in p}:
         v = np.zeros(G); np.add.at(v, idx, (df[c].to_numpy() - df["y_true"].to_numpy()) ** 2); sse[c] = v
     cnt = np.random.default_rng(seed).multinomial(G, np.full(G, 1.0 / G), size=B); out = {}
     for m, base in pairs:
         bs = 1.0 - (cnt @ sse[m]) / (cnt @ sse[base]); out[(m, base)] = {"ss": float(1.0 - sse[m].sum() / sse[base].sum()), "ci95": [float(np.percentile(bs, 2.5)), float(np.percentile(bs, 97.5))],
-                                                                       "mse_m": float(sse[m].sum() / len(df)), "mse_base": float(sse[base].sum() / len(df))}
+                                                                       "mse_m": float(sse[m].sum() / len(df)), "mse_base": float(sse[base].sum() / len(df)), "boot": bs}
     return out
 
 
@@ -63,13 +64,19 @@ def do_eval(a, verifier=None):
     x2, x7 = feats(df); df["y_formula"] = predict(x2, x7, f); weeks = sorted(df["week"].unique())
     if len(weeks) < MIN_WEEKS: print(f"STATUS=HOLD_E7_TOO_FEW_WEEKS ({len(weeks)} < {MIN_WEEKS})"); return 3
     r = boot(df, [("y_formula", "y_lag4"), ("y_hanfis", "y_formula"), ("y_hanfis", "y_lag4")], a.boot, a.seed); e, h = r[("y_formula", "y_lag4")], r[("y_hanfis", "y_formula")]
-    v_e = "TERKONFIRMASI" if (e["ss"] >= SESOI and e["ci95"][0] > 0) else ("LEBIH BURUK" if e["ci95"][1] < 0 else "TIDAK TERKONFIRMASI")
-    v_f = "DIDUKUNG" if h["ci95"][1] < SESOI else ("DIBANTAH" if (h["ss"] >= SESOI and h["ci95"][0] > 0) else "TIDAK TERBUKTI")
+    n = a.boot + 1; pv = {"P7e": (1 + int((e["boot"] <= 0).sum())) / n, "P7f": (1 + int((h["boot"] >= SESOI).sum())) / n}; holm, stop = {}, False
+    for i, (k, p) in enumerate(sorted(pv.items(), key=lambda t: t[1])):
+        thr = 0.025 / (2 - i); ok = (not stop) and p <= thr; holm[k] = {"p_satu_sisi": p, "ambang_holm": thr, "lolos": bool(ok)}; stop = stop or not ok
+    v_e = "TERKONFIRMASI" if (e["ss"] >= SESOI and e["ci95"][0] > 0 and holm["P7e"]["lolos"]) else ("LEBIH BURUK" if e["ci95"][1] < 0 else "TIDAK TERKONFIRMASI")
+    v_f = "DIDUKUNG" if (h["ci95"][1] < SESOI and holm["P7f"]["lolos"]) else ("DIBANTAH" if (h["ss"] >= SESOI and h["ci95"][0] > 0) else "TIDAK TERBUKTI")
+    rw = boot(df, [("y_formula", "y_lag4"), ("y_hanfis", "y_formula")], a.boot, a.seed + 1, col="week"); clean = lambda d: {k: v for k, v in d.items() if k != "boot"}
     out = {"mode": "REHEARSAL (bukan hasil E7)" if a.rehearsal else "RUN", "formula": {k: f[k] for k in ("a", "b", "c", "n_train", "cutoff")}, "minggu": len(weeks), "baris": int(len(df)), "kelompok": int(df["grup"].nunique()),
-           "P7e_rumus_vs_persistence": {**e, "keputusan": v_e}, "P7f_hanfis_vs_rumus": {**h, "keputusan": v_f}, "deskriptif_hanfis_vs_persistence": r[("y_hanfis", "y_lag4")], "catatan": "sekunder; tanpa koreksi multiplisitas"}
+           "P7e_rumus_vs_persistence": {**clean(e), "keputusan": v_e, "holm": holm["P7e"]}, "P7f_hanfis_vs_rumus": {**clean(h), "keputusan": v_f, "holm": holm["P7f"]}, "deskriptif_hanfis_vs_persistence": clean(r[("y_hanfis", "y_lag4")]),
+           "sensitivitas_bootstrap_per_minggu": {"rumus_vs_persistence": clean(rw[("y_formula", "y_lag4")]), "hanfis_vs_rumus": clean(rw[("y_hanfis", "y_formula")]), "catatan": "tanpa kriteria; hanya %d kluster minggu" % len(weeks)}, "catatan": "keluarga kedua {P7e, P7f} dengan Holm sendiri; terpisah dari {P7a, P7b}"}
     od = Path(a.out_dir); od.mkdir(parents=True, exist_ok=True); stamp = dt.datetime.now(dt.timezone.utc).strftime("%Y%m%dT%H%M%SZ"); fp = od / f"e7_formula_{'rehearsal' if a.rehearsal else 'results'}_{stamp}.json"
     fp.write_text(json.dumps(out, indent=1)); print(f"{out['mode']}: {len(weeks)} minggu, {len(df)} baris")
-    print(f"P7e rumus vs persistence: SS {e['ss']:+.3f} [{e['ci95'][0]:+.3f}, {e['ci95'][1]:+.3f}] -> {v_e}"); print(f"P7f HANFIS vs rumus: SS {h['ss']:+.3f} [{h['ci95'][0]:+.3f}, {h['ci95'][1]:+.3f}] -> {v_f}"); print(f"STATUS=E7_FORMULA_DONE ({fp})"); return 0
+    print(f"P7e rumus vs persistence: SS {e['ss']:+.3f} [{e['ci95'][0]:+.3f}, {e['ci95'][1]:+.3f}] p={pv['P7e']:.4f} (ambang Holm {holm['P7e']['ambang_holm']:.4f}) -> {v_e}"); print(f"P7f HANFIS vs rumus: SS {h['ss']:+.3f} [{h['ci95'][0]:+.3f}, {h['ci95'][1]:+.3f}] p={pv['P7f']:.4f} (ambang Holm {holm['P7f']['ambang_holm']:.4f}) -> {v_f}")
+    ew, hw = rw[("y_formula", "y_lag4")], rw[("y_hanfis", "y_formula")]; print(f"   sensitivitas bootstrap per minggu ({len(weeks)} kluster; tanpa kriteria): P7e CI95 [{ew['ci95'][0]:+.3f}, {ew['ci95'][1]:+.3f}]; P7f CI95 [{hw['ci95'][0]:+.3f}, {hw['ci95'][1]:+.3f}]"); print(f"STATUS=E7_FORMULA_DONE ({fp})"); return 0
 
 
 def main(argv=None, verifier=None):

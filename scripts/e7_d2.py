@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """E7 -- pelaksana D2 satu-langkah (bagian 4 protokol E7). Hanya MENJALANKAN skrip beku dalam urutan wajib dan berhenti di kegagalan pertama; tidak menghitung apa pun sendiri.
 Tahap: fetch -> rescan -> build -> predict -> evaluate -> formula (rumus bentuk-maks, P7e dan P7f; atau --stage all). Sebelum tahap apa pun (kecuali --dry-run) verify_prereg_tag.py harus LOLOS untuk tag dan seluruh artefak beku.
+Tahap build menerapkan aturan protokol bagian 2 (INSUFFICIENT_EVIDENCE: --drop-insufficient hanya bila <= 2% baris minggu uji dan tidak ada aset kehilangan semua minggu ujinya).
 Pagar: D2 harus hari Senin dan menghasilkan >= 6 minggu uji matang (jika tidak: STATUS=HOLD_E7_TOO_FEW_WEEKS; D2 cadangan hanya dipilih SEBELUM model dijalankan, tidak diputuskan di sini);
 fetch dan rescan menolak berjalan sebelum D2; tiap tahap menolak berjalan bila tahap sebelumnya belum selesai; tahap evaluate dan formula menolak bila hasil resminya sudah ada (dijalankan SEKALI).
   python scripts/e7_d2.py --d2 2026-11-02 --tag e7-prereg-2026-10-20 --dry-run          (tanpa eksekusi; boleh sebelum pembekuan)
@@ -26,9 +27,10 @@ def plan(a, root):
     if not m: sys.exit("ABORT: --tag harus berbentuk e7-prereg-YYYY-MM-DD")
     frozen = [f"protocols/E7_preregistration_{m.group(1)}.md"] + STATIC + sorted(str(p.relative_to(root)) for p in (root / "results_python/e7_final/models").glob("final_seed*_hanfis.pt"))
     pred, diag = f"{OUT}/forward_predictions_{a.d2}.csv", f"{OUT}/forward_diagnostics_{a.d2}.csv"; py = a.py
+    bcmd = lambda prefix, extra=(): [py, "scripts/build_asset_weeks.py", "--assets", "configs/assets_v3.csv", "--snapshots", "data/real/snapshots", "--out-prefix", prefix, "--start", TABLE_START, "--end", str(last), *extra]
     cmds = {"fetch": [[py, "scripts/fetch_snapshots.py", "fetch", "--start", FIRST_SNAP, "--end", a.d2], [py, "scripts/fetch_snapshots.py", "status", "--start", STATUS_START, "--end", a.d2], [py, "scripts/fetch_snapshots.py", "verify"]],
             "rescan": [[py, "scripts/e7_rescan.py", "--d2", a.d2, "--download-db"]],
-            "build": [[py, "scripts/build_asset_weeks.py", "--assets", "configs/assets_v3.csv", "--snapshots", "data/real/snapshots", "--out-prefix", PREFIX, "--start", TABLE_START, "--end", str(last)]],
+            "build": [bcmd(PREFIX + "_nodrop"), bcmd(PREFIX, ["--drop-insufficient"])],
             "predict": [[py, "scripts/e7_pipeline.py", "predict", "--table", PREFIX + ".csv", "--models-dir", "results_python/e7_final", "--first-week", FFW, "--last-week", str(last), "--out", pred, "--diagnostics", diag]],
             "evaluate": [[py, "scripts/e7_evaluate.py", "--run", "--pred", pred, "--lambda-json", LAMBDA, "--tag", a.tag, "--files", *frozen]],
             "formula": [[py, "scripts/e7_formula.py", "evaluate", "--run", "--pred", pred, "--table", PREFIX + ".csv", "--formula-json", FORMULA, "--tag", a.tag, "--files", *frozen]]}
@@ -39,6 +41,19 @@ def run(cmd, root, log):
     print("$ " + " ".join(cmd[:12]) + (" ..." if len(cmd) > 12 else "")); p = subprocess.Popen(cmd, cwd=root, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True); out = []
     for line in p.stdout: print(line, end=""); log.write(line); out.append(line)
     return p.wait(), "".join(out)
+
+
+def insufficient_rule(table, last):
+    """Regra do protocolo (bagian 2): --drop-insufficient so bila linhas descartadas <= 2% das linhas das semanas de teste E nenhum aset perde todas as semanas de teste. Devolve None se OK, senao a mensagem de HOLD."""
+    import pandas as pd
+    d = pd.read_csv(table, usecols=["event_id", "week_start_utc", "version_range_status"]); d["w"] = d["week_start_utc"].astype(str).str[:10]; d["asset"] = d["event_id"].str.rsplit("__", n=1).str[0]
+    ins = d["version_range_status"] == "INSUFFICIENT_EVIDENCE"; test = (d["w"] >= FFW) & (d["w"] <= str(last)); n_test = int(test.sum()); n_ins_test = int((ins & test).sum())
+    print(f"INSUFFICIENT_EVIDENCE: total {int(ins.sum())} linha(s), {n_ins_test} nas semanas de teste ({n_test} linhas de teste); por asset: {d[ins].groupby('asset').size().to_dict()}")
+    if n_ins_test == 0: return None
+    per_asset_test = d[test].groupby("asset").size(); lost = [a_ for a_, k in d[ins & test].groupby("asset").size().items() if k >= per_asset_test.get(a_, 0)]
+    if n_ins_test > 0.02 * n_test: return f"{n_ins_test} de {n_test} linhas de teste ({100 * n_ins_test / n_test:.1f}% > 2%)"
+    if lost: return f"aset sem nenhuma semana de teste restante: {lost}"
+    return None
 
 
 def matured_weeks(table):
@@ -72,10 +87,13 @@ def main(argv=None):
         if s == "formula" and list((root / OUT).glob("e7_formula_results_*.json")): print("STATUS=HOLD_E7_FORMULA_ALREADY_RUN (dijalankan SEKALI; hasil sudah ada)"); return 2
         logd = root / OUT / "d2_logs"; logd.mkdir(parents=True, exist_ok=True); stamp = dt.datetime.now(dt.timezone.utc).strftime("%Y%m%dT%H%M%SZ")
         with open(logd / f"{s}_{stamp}.log", "w", encoding="utf-8") as lg:
-            for c in cmds[s]:
+            for k, c in enumerate(cmds[s]):
                 rc, text = run(c, root, lg)
                 if rc != 0: print(f"STATUS=HOLD_E7_D2_STAGE_FAILED ({s}, kode {rc}); tahap berikutnya tidak dijalankan"); return 2
-                if s == "build" and "STATUS=TRAINING_AUTHORIZED" not in text: print("STATUS=HOLD_E7_D2_BUILD_GATE (gerbang data tidak TRAINING_AUTHORIZED)"); return 2
+                if s == "build" and k == 0:
+                    msg = insufficient_rule(root / (PREFIX + "_nodrop.csv"), last)
+                    if msg: print(f"STATUS=HOLD_E7_D2_INSUFFICIENT ({msg}); E7 tidak dijalankan sampai dikaji (protokol bagian 2)"); return 2
+                elif s == "build" and "STATUS=TRAINING_AUTHORIZED" not in text: print("STATUS=HOLD_E7_D2_BUILD_GATE (gerbang data tidak TRAINING_AUTHORIZED)"); return 2
         if s == "build":
             w = matured_weeks(root / (PREFIX + ".csv")); print(f"minggu uji matang pada tabel v3: {len(w)} ({', '.join(w)})")
             if len(w) < MIN_WEEKS: print(f"STATUS=HOLD_E7_TOO_FEW_WEEKS ({len(w)} < {MIN_WEEKS})"); return 3

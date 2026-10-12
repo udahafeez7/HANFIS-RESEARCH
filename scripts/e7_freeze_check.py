@@ -49,6 +49,17 @@ for p in frozen:
         except SyntaxError as e: bad.append(f"{p}: {e}")
 print(f"== 4. sintaks skrip beku: {'OK' if not bad else bad} ==")
 problems += bad
+# 5) faixas de configs/assets.csv (contrato: criticality 1..5, mfa/exposure/rho 0..1); build_asset_weeks.py gagal-tertutup (FAIL_CONTRACT) bila ada pelanggaran
+try:
+    import pandas as pd
+    A = pd.read_csv(root / "configs" / "assets.csv"); viol = []
+    for col, lo, hi in (("asset_criticality", 1, 5), ("mfa_risk", 0, 1), ("kubernetes_exposure", 0, 1), ("default_rho", 0, 1)):
+        bad_ = A[(A[col] < lo) | (A[col] > hi) | A[col].isna()]
+        viol += [f"{r.asset_id}: {col} = {getattr(r, col)} di luar [{lo},{hi}]" for r in bad_.itertuples()]
+    print(f"== 5. faixa nilai configs/assets.csv ({len(A)} aset): {'OK' if not viol else str(len(viol)) + ' pelanggaran'} ==")
+    for v in viol[:12]: print("   !!", v)
+    if viol: problems.append(f"configs/assets.csv: {len(viol)} nilai di luar kontrak (build D2 akan FAIL_CONTRACT); contoh: {viol[0]}")
+except Exception as ex: print(f"== 5. configs/assets.csv tidak dapat diperiksa: {ex} =="); problems.append(f"configs/assets.csv tidak dapat diperiksa: {ex}")
 head = sh("log", "--oneline", "-1").stdout.strip(); dirty = [l for l in sh("status", "--porcelain").stdout.split("\n") if l and not l.startswith("??")]
 print(f"== HEAD: {head}; berkas terlacak yang berubah di pohon kerja: {len(dirty)} ==")
 if problems:
