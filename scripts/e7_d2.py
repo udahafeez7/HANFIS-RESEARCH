@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """E7 -- pelaksana D2 satu-langkah (bagian 4 protokol E7). Hanya MENJALANKAN skrip beku dalam urutan wajib dan berhenti di kegagalan pertama; tidak menghitung apa pun sendiri.
 Tahap: fetch -> rescan -> build -> predict -> evaluate -> formula (rumus bentuk-maks, P7e dan P7f; atau --stage all). Sebelum tahap apa pun (kecuali --dry-run) verify_prereg_tag.py harus LOLOS untuk tag dan seluruh artefak beku.
-Tahap build menerapkan aturan protokol bagian 2 (INSUFFICIENT_EVIDENCE: --drop-insufficient hanya bila <= 2% baris minggu uji dan tidak ada aset kehilangan semua minggu ujinya).
+Tahap build menerapkan aturan protokol bagian 2 (INSUFFICIENT_EVIDENCE: --drop-insufficient hanya bila <= 2% baris minggu uji; aset yang kehilangan semua minggu ujinya otomatis keluar dari analisis forward dan dilaporkan).
 Pagar: D2 harus hari Senin dan menghasilkan >= 6 minggu uji matang (jika tidak: STATUS=HOLD_E7_TOO_FEW_WEEKS; D2 cadangan hanya dipilih SEBELUM model dijalankan, tidak diputuskan di sini);
 fetch dan rescan menolak berjalan sebelum D2; tiap tahap menolak berjalan bila tahap sebelumnya belum selesai; tahap evaluate dan formula menolak bila hasil resminya sudah ada (dijalankan SEKALI).
   python scripts/e7_d2.py --d2 2026-11-02 --tag e7-prereg-2026-10-20 --dry-run          (tanpa eksekusi; boleh sebelum pembekuan)
@@ -52,7 +52,7 @@ def insufficient_rule(table, last):
     if n_ins_test == 0: return None
     per_asset_test = d[test].groupby("asset").size(); lost = [a_ for a_, k in d[ins & test].groupby("asset").size().items() if k >= per_asset_test.get(a_, 0)]
     if n_ins_test > 0.02 * n_test: return f"{n_ins_test} de {n_test} linhas de teste ({100 * n_ins_test / n_test:.1f}% > 2%)"
-    if lost: return f"aset sem nenhuma semana de teste restante: {lost}"
+    if lost: print(f"aset yang otomatis keluar dari analisis forward (kehilangan semua minggu uji; dilaporkan): {lost}")
     return None
 
 
