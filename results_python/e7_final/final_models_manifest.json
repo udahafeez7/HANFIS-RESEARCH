@@ -1,0 +1,77 @@
+{
+ "kind": "E7 final models",
+ "created_utc": "2026-10-09T04:22:02+00:00",
+ "first_forward_week": "2026-08-31",
+ "embargo_days": 30,
+ "cutoff": "2026-08-01",
+ "train_weeks": [
+  "2025-08-25",
+  "2026-07-27"
+ ],
+ "n_train_rows": 5880,
+ "n_fit_rows": 4998,
+ "n_val_rows": 882,
+ "obs_per_parameter": 33.40909090909091,
+ "val_seed": 20260933,
+ "models": [
+  {
+   "seed": 20260928,
+   "file": "final_seed20260928_hanfis.pt",
+   "sha256": "2db5133ffa01c0d48823a183680afc6fa6e766c59efb8f8b21f61329004fdbde",
+   "best_val_mse": 3.2154537620954216e-05
+  },
+  {
+   "seed": 20261005,
+   "file": "final_seed20261005_hanfis.pt",
+   "sha256": "be9904b3daca50302acc8506d0e813305a513a894013e4f35e0cae0dca0e4a35",
+   "best_val_mse": 0.0006588937249034643
+  },
+  {
+   "seed": 20261012,
+   "file": "final_seed20261012_hanfis.pt",
+   "sha256": "e4391a3b7b79aa047cf02b5c3246f144c90421377cd138a3405f37ccbcc146b1",
+   "best_val_mse": 3.4410149964969605e-05
+  },
+  {
+   "seed": 20261019,
+   "file": "final_seed20261019_hanfis.pt",
+   "sha256": "af1799221d9fe123ac3626bdd82563f5909d4dabe2eddef33ef78e8ccc4d2e46",
+   "best_val_mse": 0.0006445128819905221
+  },
+  {
+   "seed": 20261026,
+   "file": "final_seed20261026_hanfis.pt",
+   "sha256": "b59f0087172e830024beb5788ec3c4e274f2510022902f46344729c81e249aee",
+   "best_val_mse": 3.302895856904797e-05
+  }
+ ],
+ "ridge7_beta": [
+  -0.0639224288923413,
+  0.8283903531878528,
+  81.27343219416129,
+  0.027977347772390925,
+  -0.11481238135187377,
+  -0.27946909760762956,
+  0.30936503604252963,
+  3.935779709633398
+ ],
+ "table": "/mnt/c/Research/ANFIS/data/processed/asset_weeks_v2_120assets_e4bis.csv",
+ "table_sha256": "db7eeaf8957da22af22e11141b25c8c018e300cc48285f939f52b0f9e6d40d42",
+ "e4_run_sha256": "5700d47d7aca370c89059d6098ce3a0e9d356053c39f4df1f5bebec2493ac3b1",
+ "pipeline_sha256": "f06c530dca8a6c2ee92257172a1f4ca334255c31a2331b8651acdf05a81f3c50",
+ "python": "3.12.3",
+ "numpy": "2.5.1",
+ "pandas": "2.3.3",
+ "torch": "2.13.0+cu130",
+ "training": {
+  "m_raw": 2,
+  "m_intermediate": 3,
+  "mf_family": "gauss",
+  "monotone": true,
+  "n_restarts": 3,
+  "epochs": 600,
+  "patience": 100,
+  "min_epochs": 200,
+  "ridge": null
+ }
+}
