@@ -2,7 +2,7 @@
 
 > Memori proyek HANFIS. Dibaca ulang pada awal setiap sesi kerja (manusia maupun asisten AI).
 > Diperbarui hanya melalui amendemen bernomor (A-xx) atau penutupan blocker (F-xx).
-> Versi: 2.28 · Tanggal: 2026-10-12 · Pemilik: tim HANFIS (Universitas Andalas)
+> Versi: 2.29 · Tanggal: 2026-10-12 · Pemilik: tim HANFIS (Universitas Andalas)
 
 ## 0. Identitas dan target akhir
 
@@ -98,6 +98,7 @@ Setiap usulan perubahan harus menyebut lapisan dan dokumen yang diubah. Usulan t
 | A-52 | 2026-10-12 | Eksperimen E7, protokol | Protokol E7 dikonsolidasi: rumus bentuk-maks sebagai pembanding terdaftar (koefisien beku `protocols/E7_formula_2026-10-12.json`: a=0,1193, b=98,851, c=0,1; 5.880 baris latih); dua keluarga Holm terpisah {P7a,P7b} dan {P7e,P7f}; sensitivitas bootstrap per minggu; aturan INSUFFICIENT_EVIDENCE: hanya batas 2% atas baris minggu uji, aset yang kehilangan semua minggu uji otomatis keluar dan dilaporkan (cockroachdb diperkirakan; penyebab: status Trivy under_investigation pada CVE Red Hat baru); runner D2 `scripts/e7_d2.py`, `e7_formula.py`, `e7_freeze_check.py`, `e7_freeze_fill.py` |
 | A-53 | 2026-10-12 | Eksperimen E12 sampai E14 (post hoc), naskah | E12 campuran lintas-fold (rumus dengan persistence bobot 1,0; dengan HANFIS 0,91 sampai 0,98 pada 4 minggu); E13 karakteristik operasi pada jendela 6 minggu (P7e terkonfirmasi pada sekitar 35% jendela); E14 sapuan horizon 4, 8, 12 minggu: SS HANFIS terhadap rumus -0,534, -0,048, +0,039; kontrol minggu-sama (408 baris): perubahan +0,862 [0,309; 2,973]; ablasi pada 8 dan 12 minggu: masukan lain tetap tanpa informasi; naskah subbagian E14 (komit 6c6b59e) |
 | A-54 | 2026-10-12 | Eksperimen E7, pembekuan | E7 DIBEKUKAN: tag `e7-prereg-2026-10-12` pada komit dbed812 (2026-10-12 15:04:42 +0700; komit dasar 6c6b59e), verifikasi LOLOS untuk 23 berkas, protokol `protocols/E7_preregistration_2026-10-12.md`, teks OSF terisi dari tag (komit f5efe35); tidak ada snapshot setelah 2026-09-21 yang ditarik dan tidak ada label forward yang dihitung sebelum tag; rehearsal pindai ulang 10 target selesai dalam 11,6 detik (cache hangat; batas bawah); D2 = 2026-11-02 lewat `scripts/e7_d2.py --stage all` |
+| A-55 | 2026-10-12 | Naskah | Sesudah pembekuan E7: sub-bagian Methods `Prospective evaluation (E7): pre-registered design` (label subsec:e7; merujuk tag e7-prereg-2026-10-12; hasil menunggu D2); kalimat Discussion dinyatakan pre-registered; kalimat Limitations tentang mekanisme INSUFFICIENT_EVIDENCE (status under_investigation pada CVE Red Hat baru); pernyataan penggunaan AI dipindah dari awal Results ke akhir Methods (`\subsection*{Use of AI tools}`); kontribusi penulis dirinci: D.D. (komponen jaringan saraf tiruan) dan B.R. (arsitektur jaringan) (komit ed0bf06 dan berikutnya) |
 ## 5. Blocker manuskrip F1–F9 (status 2026-10-02, diverifikasi dari commit log + manuskrip)
 
 - **F1 (target sintetis) → DITUTUP.** Snapshot EPSS/KEV bersegel 57 minggu; tabel aset-minggu kontrak v2 berjalan; gerbang §9 lolos 2026-09-28 (tag `m2-gate-training-authorized-20260928`). Lih. A-13 (patch 0024–0025).
