@@ -62,6 +62,10 @@ try:
 except Exception as ex: print(f"== 5. configs/assets.csv tidak dapat diperiksa: {ex} =="); problems.append(f"configs/assets.csv tidak dapat diperiksa: {ex}")
 head = sh("log", "--oneline", "-1").stdout.strip(); dirty = [l for l in sh("status", "--porcelain").stdout.split("\n") if l and not l.startswith("??")]
 print(f"== HEAD: {head}; berkas terlacak yang berubah di pohon kerja: {len(dirty)} ==")
+other = [p for p in problems if "placeholder belum diisi" not in p]
+if problems and not other:
+    print(f"\nSTATUS=E7_FREEZE_READY_TO_FILL (satu-satunya alasan: placeholder; semua artefak ada, terlacak, bersih, dan disebut di bagian 8)")
+    print("  Berikutnya (D = tanggal pembekuan, misalnya D=$(date +%F)):\n    python scripts/e7_freeze_fill.py --stage protocol --date $D --dry-run\n    python scripts/e7_freeze_fill.py --stage protocol --date $D\n    git add protocols/E7_preregistration_$D.md && git commit -m \"E7: protokol beku $D\"\n    python scripts/e7_freeze_check.py --protocol protocols/E7_preregistration_$D.md --date $D     # harus READY"); sys.exit(0)
 if problems:
     print("\nSTATUS=HOLD_E7_FREEZE_NOT_READY"); [print("  -", p) for p in problems]; sys.exit(1)
 if a.date:
