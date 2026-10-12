@@ -37,12 +37,13 @@ def shapley_exact(f, X, B):
     return phi, float(v[0].mean()), v[nmask - 1]
 
 
-def ice_monotone(f, X, j, grid, tol=1e-9):
+def ice_monotone(f, X, j, grid, tol=1e-9, detail=False):
     """Uji monotonisitas DALAM-BARIS: ubah x_j pada grid, semua masukan lain tetap. Mengembalikan (fraksi langkah yang turun > tol, penurunan terbesar, rerata |f(ujung) - f(awal)|)."""
     G, N = len(grid), len(X)
     Z = np.repeat(X[None, :, :], G, axis=0).copy(); Z[:, :, j] = grid[:, None]
     y = f(Z.reshape(G * N, -1)).reshape(G, N); d = np.diff(y, axis=0)
-    return float((d < -tol).mean()), float(max(0.0, -d.min())), float(np.abs(y[-1] - y[0]).mean())
+    out = (float((d < -tol).mean()), float(max(0.0, -d.min())), float(np.abs(y[-1] - y[0]).mean()))
+    return out + (np.maximum(0.0, -d).max(0),) if detail else out
 
 
 def support_grid(col, n=11):
@@ -63,7 +64,7 @@ def share_table(df, cols):
 
 
 def main(argv=None, adapters64=None):
-    ap = argparse.ArgumentParser(); ap.add_argument("--root", default="."); ap.add_argument("--background-k", type=int, default=12); ap.add_argument("--bg-seed", type=int, default=20261009); ap.add_argument("--ice-grid", type=int, default=11); ap.add_argument("--material-tol", type=float, default=0.05)
+    ap = argparse.ArgumentParser(); ap.add_argument("--root", default="."); ap.add_argument("--background-k", type=int, default=12); ap.add_argument("--bg-seed", type=int, default=20261009); ap.add_argument("--ice-grid", type=int, default=11); ap.add_argument("--material-tol", type=float, default=0.05); ap.add_argument("--detail-min", type=float, default=1.0)
     a = ap.parse_args(argv); root = Path(a.root).resolve()
     meta = json.load(open(root / e6.MODELS_DIR / e6.META_FILE)); table = pd.read_csv(root / e6.TABLE); preds = pd.read_csv(root / e6.MODELS_DIR / e6.PRED_FILE)
     df, X = e6.build_inputs(table, meta); order = meta["inputs_order"]; d = len(order)
@@ -74,7 +75,8 @@ def main(argv=None, adapters64=None):
     ok = df["y"].notna().to_numpy() & ~df["asset"].str.startswith("p0").to_numpy() & ~np.isnan(X).any(1)
     rng = np.random.default_rng(a.bg_seed); B = X[rng.choice(np.where(ok)[0], size=a.background_k, replace=False)]
     sup_grids = [support_grid(X[ok][:, j]) for j in range(d)]
-    recs = []; ice_rows = []; t0 = time.time(); worst_eff = 0.0
+    (root / "results_python" / "e8").mkdir(parents=True, exist_ok=True)
+    recs = []; ice_rows = []; viol_rows = []; t0 = time.time(); worst_eff = 0.0
     for key, ad in sorted(ads.items()):
         sub = preds[preds["fold"] == key[0]]; rows = np.array([idx[e] for e in sub["event_id"]]); Xt = X[rows]; keep = ~np.isnan(Xt).any(1); rows, Xt, sub = rows[keep], Xt[keep], sub[keep]
         f = lambda Z: 100.0 * ad.forward(Z)
@@ -85,7 +87,9 @@ def main(argv=None, adapters64=None):
         for j, c in enumerate(order): r[f"x_{c}"] = Xt[:, j]
         recs.append(r)
         for j, c in enumerate(order):
-            vr, md, ef = ice_monotone(f, Xt, j, np.linspace(0.0, 1.0, a.ice_grid)); vs, ms_, es = ice_monotone(f, Xt, j, sup_grids[j]); vm, _, _ = ice_monotone(f, Xt, j, sup_grids[j], tol=a.material_tol)
+            vr, md, ef = ice_monotone(f, Xt, j, np.linspace(0.0, 1.0, a.ice_grid)); vs, ms_, es, rd = ice_monotone(f, Xt, j, sup_grids[j], detail=True); hit = np.where(rd > a.detail_min)[0]
+            if len(hit): viol_rows.append(pd.DataFrame({"fold": key[0], "seed": key[1], "input": c, "event_id": df["event_id"].to_numpy()[rows][hit], "asset": df["asset"].to_numpy()[rows][hit], "week": wk[rows][hit], "x_atual": Xt[hit, j], "max_turun": rd[hit], "pred": fx[hit]}))
+            vm, _, _ = ice_monotone(f, Xt, j, sup_grids[j], tol=a.material_tol)
             ice_rows.append({"fold": key[0], "seed": key[1], "input": c, "pelanggaran": vr, "turun_maks": md, "efek_rentang": ef, "pel_dukungan": vs, "turun_dukungan": ms_, "efek_dukungan": es, "pel_material": vm})
     R = pd.concat(recs, ignore_index=True); pc = [f"phi_{c}" for c in order]
     print(f"== E8: Shapley eksak ({len(ads)} model, {len(R)} baris, latar belakang K={a.background_k}, {time.time() - t0:.0f} dtk) ==")
@@ -111,6 +115,29 @@ def main(argv=None, adapters64=None):
     print(f"== 3. monotonisitas dalam-baris (ICE; x_j pada grid {a.ice_grid} titik 0..1, masukan lain tetap; pelanggaran = langkah turun > 1e-9) ==")
     print(f"  (a) rentang penuh 0..1 | (b) DALAM-DUKUNGAN data (nilai teramati bila diskret, selain itu kuantil 1%..99%) | (c) seperti (b) tetapi hanya penurunan > {a.material_tol} poin")
     for c in order: print(f"  {NAMES_ID.get(c, c):42} (a) {100 * icg.loc[c, 'pel']:6.2f}% | (b) {100 * icg.loc[c, 'pel_d']:6.2f}% (terburuk {100 * icg.loc[c, 'pel_d_maks']:6.2f}%) | (c) {100 * icg.loc[c, 'pel_m']:6.2f}% | turun terbesar (b) {icg.loc[c, 'turun_d']:.3f} poin | efek rentang (b) {icg.loc[c, 'efek_d']:.3f} poin")
+    # --- ENSEMBEL: rata-rata seed dalam tiap fold (prediktor yang dilaporkan di E4)
+    ens = {c: {"b": [], "c": [], "drop": [], "eff": []} for c in order}
+    for fold in sorted({k[0] for k in ads}):
+        members = [ad for (fo, se), ad in sorted(ads.items()) if fo == fold]
+        sub = preds[preds["fold"] == fold]; rws = np.array([idx[e] for e in sub["event_id"]]); Xf = X[rws]; Xf = Xf[~np.isnan(Xf).any(1)]
+        fe = lambda Z, m=members: 100.0 * np.mean([ad.forward(Z) for ad in m], axis=0)
+        for j, c in enumerate(order):
+            vs, ms_, es = ice_monotone(fe, Xf, j, sup_grids[j]); vm, _, _ = ice_monotone(fe, Xf, j, sup_grids[j], tol=a.material_tol)
+            ens[c]["b"].append(vs); ens[c]["c"].append(vm); ens[c]["drop"].append(ms_); ens[c]["eff"].append(es)
+    print(f"== 3c. ENSEMBEL (rata-rata 5 seed per fold = prediktor yang dilaporkan), dalam-dukungan: (b) semua penurunan, (c) hanya > {a.material_tol} poin ==")
+    for c in order:
+        e = ens[c]; print(f"  {NAMES_ID.get(c, c):42} (b) {100 * np.mean(e['b']):6.2f}% | (c) {100 * np.mean(e['c']):6.2f}% | fold terburuk (c) {100 * np.max(e['c']):6.2f}% | turun terbesar {np.max(e['drop']):.3f} poin | efek rentang {np.mean(e['eff']):.3f} poin")
+    ens_summary = {c: {"b": float(np.mean(ens[c]["b"])), "c": float(np.mean(ens[c]["c"])), "c_terburuk": float(np.max(ens[c]["c"])), "turun_maks": float(np.max(ens[c]["drop"])), "efek": float(np.mean(ens[c]["eff"]))} for c in order}
+    if viol_rows:
+        V = pd.concat(viol_rows, ignore_index=True); V["week"] = V["week"].astype(str)
+        print(f"== 3a. penurunan besar dalam-dukungan (> {a.detail_min} poin): pasangan model-baris per masukan, baris unik, dan konsentrasi per aset ==")
+        for c in order:
+            g = V[V["input"] == c]
+            if g.empty: print(f"  {NAMES_ID.get(c, c):42} tidak ada"); continue
+            top = g.groupby("asset").size().sort_values(ascending=False)
+            print(f"  {NAMES_ID.get(c, c):42} {len(g):5d} pasangan, {g['event_id'].nunique():4d} baris unik, {g['asset'].nunique():3d} aset; 3 aset teratas: " + ", ".join(f"{k}({v})" for k, v in top.head(3).items()) + f"; turun terbesar {g['max_turun'].max():.2f}")
+        print("  12 kasus terbesar:"); print(V.sort_values("max_turun", ascending=False).head(12)[["input", "event_id", "x_atual", "max_turun", "pred", "fold", "seed"]].round(3).to_string(index=False))
+        V.to_csv(root / "results_python" / "e8" / f"e8_ice_violations_{time.strftime('%Y%m%dT%H%M%SZ', time.gmtime())}.csv", index=False)
     print("== 3b. asosiasi lintas baris Spearman(phi_j, x_j) -- BUKAN uji monotonisitas: tercampur perbedaan antar-aset dan korelasi antar-masukan ==")
     for c in order: print(f"  {NAMES_ID.get(c, c):42} {dirs[c]:+.3f}")
     # sebaran
@@ -129,7 +156,7 @@ def main(argv=None, adapters64=None):
     stamp = time.strftime("%Y%m%dT%H%M%SZ", time.gmtime()); od = root / "results_python" / "e8"; od.mkdir(parents=True, exist_ok=True)
     R.drop(columns=["week"]).assign(week=R["week"].astype(str)).to_csv(od / f"e8_shapley_rows_{stamp}.csv", index=False)
     (od / f"e8_summary_{stamp}.json").write_text(json.dumps({"deskriptif": True, "model": len(ads), "baris": int(len(R)), "latar_belakang_k": a.background_k, "bg_seed": a.bg_seed, "efisiensi_selisih_maks": worst_eff,
-        "porsi_global": dict(zip(order, map(float, sh))), "rerata_abs_phi": dict(zip(order, map(float, ab))), "porsi_bahan_label": float(ov), "kendall_w": W, "arah_spearman_lintas_baris": dirs, "ice_monotonisitas": {c: {k: float(v) for k, v in icg.loc[c].items()} for c in order}, "irisan": sl}, indent=1, ensure_ascii=False), encoding="utf-8")
+        "porsi_global": dict(zip(order, map(float, sh))), "rerata_abs_phi": dict(zip(order, map(float, ab))), "porsi_bahan_label": float(ov), "kendall_w": W, "arah_spearman_lintas_baris": dirs, "ice_ensembel_dalam_dukungan": ens_summary, "ice_monotonisitas": {c: {k: float(v) for k, v in icg.loc[c].items()} for c in order}, "irisan": sl}, indent=1, ensure_ascii=False), encoding="utf-8")
     print(f"STATUS=E8_SHAPLEY_DONE ({od}/e8_summary_{stamp}.json)")
     return 0
 
