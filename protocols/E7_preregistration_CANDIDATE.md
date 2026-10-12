@@ -10,6 +10,8 @@ Analisis post hoc E4 (A-41) menunjukkan bahwa HANFIS **reaktif**: ia unggul atas
 Hipotesis itu lahir dari data yang sudah terlihat, sehingga uji ulang pada data yang sama tidak konfirmatori. E7 mengujinya **prospektif** pada minggu yang labelnya belum pernah dihitung (snapshot EPSS tersegel berakhir 2026-09-21; label minggu >= 2026-08-31 belum dihitung).
 Kode analisis diuji (latihan) hanya pada data lama, termasuk latihan pseudo-forward; angka latihan bukan bukti E7.
 
+**Peran rumus bentuk-maks.** Analisis post hoc E11 dan E12 (out-of-fold, bukan konfirmatori) menunjukkan bahwa rumus empat parameter dari x2 dan x7 memiliki kesalahan lebih kecil daripada HANFIS dan daripada persistence, dan bahwa campuran lintas-fold antara rumus dan persistence atau HANFIS tidak memperbaikinya. E7 karena itu juga menguji rumus itu secara prospektif (P7e dan P7f, bagian 5), di samping hipotesis reaktivitas HANFIS di atas.
+
 ## 2. Unit, data, dan minggu uji
 
 - **Aset:** 120 aset pada `configs/assets.csv` (117 image resmi berpatok digest, `p0-baseline`, `p0if-on`, `p0if-off`); unit analisis: asset-minggu; kelompok bootstrap: image (`p0if-on` dan `p0if-off` satu kelompok).
@@ -71,6 +73,8 @@ Kode analisis diuji (latihan) hanya pada data lama, termasuk latihan pseudo-forw
 - **Rumus ditemukan post hoc.** Bentuk rumus dan hipotesis P7e dan P7f lahir dari analisis out-of-fold E11, setelah hasil E4 dan E8 sampai E10 terlihat. Dukungan out-of-fold (SS HANFIS terhadap rumus -0,534, CI95 [-1,438; -0,208]; SS rumus terhadap persistence +0,357, CI95 [+0,279; +0,407]) **tidak** dihitung sebagai konfirmasi; hanya data forward yang dihitung.
 - **Target tidak bergantung pada masukan lingkungan** (x4 sampai x6 konstan per aset dan tidak masuk label), sehingga E7 tidak dapat menguji manfaat masukan lingkungan. Analisis E8 sampai E10 menunjukkan bahwa kemampuan HANFIS bertumpu pada x2 dan x7.
 - Dalam E11 `c` terpilih 0,10 pada kelima fold; bila minggu forward menunjukkan nilai yang sangat berbeda, itu dilaporkan sebagai temuan, bukan disetel.
+- **E12 (post hoc, deskriptif).** Campuran rumus dengan persistence (bobot rumus 1,0 pada kelima fold) dan dengan HANFIS (bobot rumus 0,91 sampai 0,98), dengan bobot dipasang pada fold lain, tidak menurunkan kesalahan rumus (SS campuran rumus+HANFIS terhadap rumus -0,001, CI95 [-0,010; +0,003]); pada data out-of-fold persistence dan HANFIS tidak menambah informasi di luar rumus. Ini bukan hipotesis E7 dan tidak dihitung sebagai konfirmasi.
+- **Daya P7e dan P7f.** Keduanya mewarisi keterbatasan daya enam minggu dan ekor berat yang sama; hasil TIDAK TERBUKTI atau TIDAK TERKONFIRMASI tidak boleh dibaca sebagai kesetaraan.
 
 ## 7. Yang tidak akan dilakukan
 
