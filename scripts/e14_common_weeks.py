@@ -2,17 +2,20 @@
 """E14c -- kontrol pengacau 'horizon x periode' (POST HOC, deskriptif; tidak melatih apa pun). Horizon yang lebih panjang hanya memiliki baris berlabel pada minggu yang lebih lama (h30 sampai 2026-08-24, h58 sampai 07-27, h86 sampai 06-29),
 sehingga tren SS terhadap horizon bercampur dengan periode (model EPSS berganti 2026-06-15). Skrip ini memakai HANYA baris aset-minggu yang ada pada ketiga berkas prediksi E11 (irisan event_id), lalu menghitung ulang SS per horizon dan selisihnya
 (h86 dikurangi h30) dengan bootstrap per image yang sama (sampel resampel bersama, jadi selisih berpasangan).  python scripts/e14_common_weeks.py [--h30 GLOB --h58 GLOB --h86 GLOB]"""
-import argparse, glob, sys
+import argparse, datetime as dt, glob, sys
 import numpy as np, pandas as pd
 
 ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
 ap.add_argument("--h30", default="results_python/e11/e11_predictions_*.csv"); ap.add_argument("--h58", default="results_python/e14_h58_e11/e11_predictions_*.csv"); ap.add_argument("--h86", default="results_python/e14_h86_e11/e11_predictions_*.csv")
-ap.add_argument("--boot", type=int, default=2000); ap.add_argument("--seed", type=int, default=20261012); a = ap.parse_args()
+ap.add_argument("--boot", type=int, default=2000); ap.add_argument("--seed", type=int, default=20261012); ap.add_argument("--before", default=None, help="hanya minggu < tanggal ini (YYYY-MM-DD)"); a = ap.parse_args()
 D = {}
 for k, g in (("h30", a.h30), ("h58", a.h58), ("h86", a.h86)):
     fs = sorted(glob.glob(g))
     if not fs: sys.exit(f"ABORT: tidak ada berkas untuk {k}: {g}")
-    D[k] = pd.read_csv(fs[-1]); print(f"{k}: {fs[-1]} | {len(D[k])} baris")
+    D[k] = pd.read_csv(fs[-1])
+    if a.before:                                                         # opsi: hanya baris dengan minggu < --before (mis. 2026-03-23 = bersih dari pergantian model EPSS pada ketiga horizon)
+        wk = D[k]["event_id"].str.rsplit("__", n=1).str[1]; dts = wk.apply(lambda w: dt.date.fromisocalendar(int(w[:4]), int(w.split("W")[1]), 1)); D[k] = D[k][dts < dt.date.fromisoformat(a.before)]
+    print(f"{k}: {fs[-1]} | {len(D[k])} baris" + (f" (minggu < {a.before})" if a.before else ""))
 common = set.intersection(*[set(d["event_id"]) for d in D.values()]); print(f"irisan event_id: {len(common)} baris aset-minggu pada ketiga horizon")
 if len(common) < 100: sys.exit("ABORT: irisan terlalu kecil")
 order = sorted(common); S = {}
