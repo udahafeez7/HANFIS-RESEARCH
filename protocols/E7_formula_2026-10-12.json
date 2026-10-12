@@ -1,0 +1,12 @@
+{
+ "formula": "a + b * max(x2, c * x7); x2 = exploitability, x7 = threat_intelligence (nilai hilang = 0)",
+ "a": 0.11932038996203077,
+ "b": 98.85069980245115,
+ "c": 0.1,
+ "n_train": 5880,
+ "cutoff": "2026-07-27",
+ "mse_train": 0.38879317427080884,
+ "table": "data/processed/asset_weeks_v2_120assets_e4bis.csv",
+ "table_sha256": "db7eeaf8957da22af22e11141b25c8c018e300cc48285f939f52b0f9e6d40d42",
+ "created_utc": "2026-10-12T04:31:00+00:00"
+}
