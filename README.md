@@ -32,7 +32,7 @@ Three first-order Sugeno panels are trained end to end: V(x1, x2, x3) gives v, E
 - Trivy scans of 120 digest-pinned container images; the unit of observation is the image-week.
 - Label y(a, t) on a 0 to 100 scale: the mean, over the weekly snapshots in the four weeks after t, of the maximum over active CVEs of X_v times rho_v, where X_v = max(EPSS, KEV indicator) and rho_v is a runtime-reachability factor.
 
-`data/` and `results_python/` are git-ignored. They are rebuilt with the scripts in `scripts/` (snapshot fetching, image scanning, asset-week table).
+`data/` and `results_python/` are git-ignored by default. Selected evidence bundles, manifests and result files are force-added, so the tracked part is a subset. Everything else is rebuilt with the scripts in `scripts/` (snapshot fetching, image scanning, asset-week table).
 
 ## Evaluation design
 
@@ -52,8 +52,6 @@ Do not run `scripts/e7_d2.py` before D2. Do not edit any frozen file; changes go
 
 ## Repository layout
 
-<!-- TODO: check this table against `git ls-files | cut -d/ -f1 | sort | uniq -c` and correct it -->
-
 | Path | Contents |
 |---|---|
 | `python_hanfis/` | Model, training, splits |
@@ -61,21 +59,30 @@ Do not run `scripts/e7_d2.py` before D2. Do not edit any frozen file; changes go
 | `protocols/` | Frozen protocols, fitted constants, freeze records |
 | `configs/` | Asset inventory and run configurations |
 | `manuscript/` | LaTeX sources (Springer Nature template), bibliography, figures |
-| `kubernetes/` | Deployment manifests of the testbed |
-| `Jetson Orin/Telemetry/` | Telemetry collector for the testbed |
+| `kubernetes/` | Testbed deployment manifests |
+| `Jetson Orin/` | Telemetry protocol and collector code for the testbed |
 | `test/`, `tests/` | Test suites |
+| `data/`, `results_python/` | Ignored by default; selected evidence, manifests and results are tracked |
+| `HANFIS_RESEARCH_MEMORY.md` | Frozen decisions, amendments (A-xx) and blockers (F-x) |
+| `reference/`, `experiments/`, `schemas/`, `telemetry/`, `docs/` | <!-- TODO: one line each --> |
 
 ## Setup and tests
 
 Developed on Windows 11 with WSL2 (Ubuntu), Python 3.12 in a virtual environment.
 
-<!-- TODO: add the dependency file name and the install command -->
+```bash
+python3 -m venv ~/.venvs/anfis
+source ~/.venvs/anfis/bin/activate
+pip install -r requirements.txt
+```
+
+`requirements-lock.txt` holds the pinned versions used for the reported runs. Then, from the repository root:
 
 ```bash
 python -m pytest -q test tests
 ```
 
-Run the tests with exactly these arguments from the repository root. A bare `pytest` also collects duplicate modules under `Jetson Orin/` and reports collection errors that are not code failures.
+Use exactly these arguments. A bare `pytest` also collects duplicate modules under `Jetson Orin/` and reports collection errors that are not code failures.
 
 ## Working rules
 
