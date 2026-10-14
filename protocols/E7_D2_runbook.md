@@ -41,13 +41,15 @@ Setiap tahap: jalankan, lalu baca `STATUS=` yang tercetak dan `exit=`.
 |---|---|---|---|---|
 | 1 | `python scripts/e7_d2.py --d2 $D --tag $T --stage fetch 2>&1 \| tee $LOG/1_fetch.txt; echo "exit=${PIPESTATUS[0]}"` | menit | `verify` snapshot OK; total 63 minggu tersegel (2025-08-25 sampai 2026-11-02) | STATUS bukan sukses; jumlah minggu tidak 63 |
 | 1b | Cek manual versi model EPSS (kolom `epss_model_version` pada keluaran `status` atau manifest snapshot) | 10 mnt | tetap `v2026.06.15` sejak 2026-08-03 | Versi berganti: **berhenti**, baca aturan rezim patah di protokol sebelum melanjutkan |
-| 2 | `... --stage rescan` (memakai `--download-db`) | 0,5 sampai 2 jam | selesai tanpa target gagal; komputer tidak tidur | Kegagalan teknis: `--redo rescan`; jangan ganti DB di tengah jalan |
+| 2 | `... --stage rescan` (memakai `--download-db`) | 0,5 sampai 2 jam | selesai tanpa target gagal; komputer tidak tidur | Kegagalan teknis: lihat catatan ulangan di bawah tabel (state dihapus dulu) |
 | 3 | `... --stage build` (berjalan dua kali: tabel tanpa penjatuhan, lalu resmi dengan `--drop-insufficient`) | menit | baris dijatuhkan ≤ 2% baris minggu uji (14 dari 720); aset yang kehilangan semua minggu uji keluar dan dilaporkan; cockroachdb diperkirakan keluar | `HOLD_E7_TOO_FEW_WEEKS` atau penjatuhan > 2%: **berhenti**; jangan melonggarkan aturan |
 | 4 | `... --stage predict` | menit | lima model (seed 20260928, 20261005, 20261012, 20261019, 20261026); jumlah baris sekitar 720 (sekitar 714 bila cockroachdb keluar) | Galat teknis: `--redo predict` |
 | 5 | `... --stage evaluate` | menit | **sekali saja** | Tidak ada pengulangan |
 | 6 | `... --stage formula` | menit | **sekali saja** | Tidak ada pengulangan |
 
 Catatan tahap 2: `rescan` **menulis** `configs/assets_v3.csv` dan manifesnya (berkas ini sengaja belum ada sebelum D2, sesuai protokol). Sesudahnya berkas harus ada dan jumlah barisnya (sekitar 121 dengan header, sama dengan `configs/assets.csv`) dicocokkan; selisih dijelaskan sebelum menjalankan `build`.
+
+Catatan ulangan `rescan` (dibaca dari kode pada 14 Okt; belum diuji): `e7_d2.py --redo` hanya menghapus catatan tahap di runner dan tidak meneruskan `--resume` ke `e7_rescan.py`. Bila rescan berhenti di tengah dan `data/evidence/e7_rescan_<tag>.json` sudah ada, ulangan langsung ditolak ("sudah ada"). Prosedur: (1) baca pesan dan perbaiki penyebabnya (disk, Docker, jaringan); (2) hapus berkas state itu dengan sengaja; (3) jalankan `--stage rescan --redo rescan`, yang mulai dari awal dan mengunduh DB Trivy lagi; (4) catat ulangan dan kedua tanggal DB di log D2 dan di amendemen. Jangan menjalankan `e7_rescan.py --resume` langsung: runner tidak akan menganggap tahap itu selesai. Selama rescan berjalan, jangan menjalankan Trivy lain atau `docker system prune`: skrip berhenti bila DB berubah di tengah pemindaian atau ID image tidak cocok.
 
 Contoh lengkap satu tahap:
 
