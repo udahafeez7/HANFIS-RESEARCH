@@ -1,0 +1,6 @@
+OSF registration of E7 (OSF Preregistration, OSF Registries), public
+URL: https://osf.io/ahcvs/
+DOI: 10.17605/OSF.IO/AHCVS
+Registered: 2026-10-13 13:46 (+0700), after tag e7-prereg-2026-10-12 (2026-10-12 15:04:42 +0700) and before D2 (2026-11-02)
+Associated project: https://osf.io/62vq4
+First attempt (not completed): initiated 2026-10-12 16:59 (+0700), project https://osf.io/9ezg4, draft 6acca8dcad5cbbc6a330cf43
