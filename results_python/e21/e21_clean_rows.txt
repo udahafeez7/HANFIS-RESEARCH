@@ -1,0 +1,15 @@
+prediksi: results_python/e11/e11_predictions_20261012T033947Z.csv | 890 baris (hanya baris bersih dari pergantian model)
+
+== persistence ==
+   ME (prediksi - label): -0.015 [-0.079, +0.025] | kemiringan kalibrasi beta: 0.997 [0.993, 1.001] | intersep alfa: +0.026 [-0.017, +0.091]
+   desil prediksi (rerata prediksi -> rerata label): 0.0->0.0 | 0.0->0.0 | 0.3->0.3 | 0.6->0.7 | 1.9->1.9 | 3.4->3.4 | 5.2->5.3 | 8.2->8.2 | 10.0->10.0 | 10.0->10.0
+
+== rumus ==
+   ME (prediksi - label): +0.012 [-0.029, +0.040] | kemiringan kalibrasi beta: 1.000 [0.997, 1.002] | intersep alfa: -0.012 [-0.044, +0.035]
+   desil prediksi (rerata prediksi -> rerata label): 0.0->0.0 | 0.1->0.0 | 0.3->0.3 | 0.7->0.7 | 1.9->1.9 | 3.4->3.4 | 5.3->5.3 | 8.3->8.3 | 10.0->10.0 | 10.0->10.0
+
+== HANFIS ==
+   ME (prediksi - label): +0.068 [-0.029, +0.157] | kemiringan kalibrasi beta: 1.031 [1.014, 1.053] | intersep alfa: -0.193 [-0.300, -0.085]
+   desil prediksi (rerata prediksi -> rerata label): 0.1->0.0 | 0.2->0.1 | 0.6->0.5 | 1.1->0.5 | 2.2->1.9 | 3.3->3.4 | 5.0->5.2 | 8.0->8.3 | 9.9->10.0 | 10.1->10.0
+
+STATUS=E21_DONE (deskriptif, post hoc)
