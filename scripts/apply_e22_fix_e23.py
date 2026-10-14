@@ -1,0 +1,22 @@
+#!/usr/bin/env python3
+r"""Memperbaiki kalimat E22 pada subbagian E21 di manuscript/sn-article.tex (kemiringan dan intersep positif pada KEDUA pengelompokan; ME hanya pada pengelompokan per minggu) dan menambahkan paragraf E23 (rekalibrasi linear; post hoc) sebelum tabel E21.
+Gagal-tertutup: segmen E22 lama harus ada tepat sekali (bila belum diperbaiki) dan jangkar tabel E21 tepat sekali (bila E23 belum ada); tidak ada yang ditulis bila salah satunya gagal. Idempoten. Cadangan .pre-e23.bak.   python scripts/apply_e22_fix_e23.py [--tex manuscript/sn-article.tex]"""
+import argparse, shutil, sys
+from pathlib import Path
+OLD_SEG = 'The excess in the intercept and in the mean error includes zero on all rows ($0.068$, $-0.072$ to $0.179$, and $-0.024$, $-0.061$ to $0.061$; week-clustered) but is positive on unaffected rows ($0.182$, $0.131$ to $0.230$, and $0.055$, $0.034$ to $0.068$). Against persistence the picture on unaffected rows is the same (slope $0.028$, intercept $0.167$, mean error $0.053$; all intervals above zero). We read the miscalibration of HANFIS as small but consistent where the model change does not interfere, and as descriptive.'
+NEW_SEG = 'On all rows the excess in the intercept and in the mean error includes zero ($0.068$, $-0.072$ to $0.179$, and $-0.024$, $-0.061$ to $0.061$; week-clustered). On unaffected rows the excess in the slope and in the intercept is positive under both kinds of clustering (slope $0.031$: week $0.018$ to $0.042$, image $0.013$ to $0.051$; intercept $0.182$: week $0.131$ to $0.230$, image $0.063$ to $0.278$), whereas the excess in the mean error ($0.055$) is positive only with the week-clustered interval ($0.034$ to $0.068$; image: $-0.016$ to $0.133$). Against persistence the pattern on unaffected rows is the same: slope $0.028$ (week $0.015$ to $0.040$, image $0.011$ to $0.050$) and intercept $0.167$ (week $0.111$ to $0.219$, image $0.021$ to $0.286$) are positive under both, the mean error $0.053$ (week $0.005$ to $0.088$, image $-0.053$ to $0.146$) only with week clustering. We read the miscalibration of HANFIS as small but consistent in slope and intercept where the model change does not interfere, and as descriptive.'
+E23 = '\\emph{Recalibration (E23).} Could a linear correction close the gap between HANFIS and the formula? We refitted label $=a+b\\times$ prediction for each predictor, once on the rows of the other folds (cross-fitted) and once on all rows (in-sample, an optimistic ceiling), and recomputed the skill of HANFIS against the formula (post hoc; intervals clustered by image). Cross-fitting uses rows from later folds, so this is a diagnostic and not a forecasting procedure. On all rows the skill is $-0.534$ ($-1.383$ to $-0.204$) before, $-0.535$ ($-1.287$ to $-0.232$) after the cross-fitted and $-0.509$ ($-1.223$ to $-0.213$) after the in-sample recalibration; the change from the cross-fitted recalibration is $-0.001$ ($-0.047$ to $0.116$). On unaffected rows the values are $-2.418$ ($-13.204$ to $-0.709$), $-2.315$ ($-12.609$ to $-0.702$) and $-2.175$ ($-12.388$ to $-0.647$); the change of $0.103$ ($-0.152$ to $1.060$) includes zero and is about 4\\% of the deficit (10\\% for the in-sample ceiling). The deficit of HANFIS is therefore not explained by a linear miscalibration: it remains after the correction, in line with the noise HANFIS adds in rows where no input changed (Table~\\ref{tab:e16}).'
+ANCH = "\\begin{table}[ht]\n\\caption{Calibration of the four-week out-of-fold predictions (E21, post hoc)"
+ap = argparse.ArgumentParser(); ap.add_argument("--tex", default="manuscript/sn-article.tex"); a = ap.parse_args()
+P = Path(a.tex); s = P.read_text(encoding="utf-8"); fixed = NEW_SEG in s; has23 = "\\emph{Recalibration (E23).}" in s
+if fixed and has23: print("Tidak ada perubahan (sudah sama)."); sys.exit(0)
+new = s
+if not fixed:
+    n = new.count(OLD_SEG)
+    if n != 1: sys.exit(f"ABORT, tidak ada yang ditulis: segmen E22 lama ditemukan {n}x (harus 1)")
+    new = new.replace(OLD_SEG, NEW_SEG, 1)
+if not has23:
+    n = new.count(ANCH)
+    if n != 1: sys.exit(f"ABORT, tidak ada yang ditulis: jangkar tabel E21 ditemukan {n}x (harus 1)")
+    new = new.replace(ANCH, E23 + "\n\n" + ANCH, 1)
+shutil.copy(P, str(P) + ".pre-e23.bak"); P.write_text(new, encoding="utf-8"); print("OK: E22 diperbaiki" * (not fixed) + ("; " if (not fixed and not has23) else "") + "paragraf E23 ditambahkan" * (not has23))

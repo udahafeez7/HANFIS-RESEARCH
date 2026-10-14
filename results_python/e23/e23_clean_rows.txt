@@ -1,0 +1,22 @@
+prediksi: results_python/e11/e11_predictions_20261012T033947Z.csv | 890 baris (hanya baris bersih dari pergantian model) | lipatan: [0, 1, 2, 3, 4]
+
+MSE gabungan (skala label 0-100):
+   mentah        persistence: 0.1137 | rumus: 0.0742 | HANFIS: 0.2534
+   silang        persistence: 0.1168 | rumus: 0.0758 | HANFIS: 0.2511
+   dalam-sampel  persistence: 0.1134 | rumus: 0.0740 | HANFIS: 0.2349
+
+Skill (CI95 per image) -- positif berarti model pertama lebih baik:
+   [mentah      ] HANFIS vs rumus: -2.418 [-13.204, -0.709]
+   [mentah      ] HANFIS vs persistence: -1.228 [-12.804, -0.015]
+   [mentah      ] rumus vs persistence: +0.348 [-0.060, +0.422]
+   [silang      ] HANFIS vs rumus: -2.315 [-12.609, -0.702]
+   [silang      ] HANFIS vs persistence: -1.150 [-10.920, -0.012]
+   [silang      ] rumus vs persistence: +0.351 [+0.003, +0.421]
+   [dalam-sampel] HANFIS vs rumus: -2.175 [-12.388, -0.647]
+   [dalam-sampel] HANFIS vs persistence: -1.072 [-10.869, +0.020]
+   [dalam-sampel] rumus vs persistence: +0.347 [-0.017, +0.418]
+
+Perubahan skill HANFIS vs rumus akibat rekalibrasi (silang minus mentah):
+   +0.103 [-0.152, +1.060]
+
+STATUS=E23_DONE (deskriptif, post hoc)
