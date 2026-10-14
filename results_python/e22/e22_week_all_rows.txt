@@ -1,0 +1,23 @@
+prediksi: results_python/e11/e11_predictions_20261012T033947Z.csv | 1080 baris | bootstrap per week
+jumlah kelompok (week): 45
+
+== persistence ==
+   ME (prediksi - label): -0.097 [-0.165, -0.037] | kemiringan kalibrasi beta: 0.997 [0.991, 1.003] | intersep alfa: +0.109 [+0.041, +0.183]
+
+== rumus ==
+   ME (prediksi - label): -0.040 [-0.096, +0.008] | kemiringan kalibrasi beta: 0.998 [0.994, 1.001] | intersep alfa: +0.048 [-0.009, +0.117]
+
+== HANFIS ==
+   ME (prediksi - label): +0.016 [-0.045, +0.068] | kemiringan kalibrasi beta: 1.025 [1.015, 1.035] | intersep alfa: -0.115 [-0.189, -0.037]
+
+== penyimpangan dari ideal: HANFIS minus rumus (positif = HANFIS menyimpang lebih jauh) ==
+   |ME|: -0.024 [-0.061, +0.061]
+   |beta - 1|: +0.023 [+0.011, +0.033]
+   |alfa|: +0.068 [-0.072, +0.179]
+
+== penyimpangan dari ideal: HANFIS minus persistence (positif = HANFIS menyimpang lebih jauh) ==
+   |ME|: -0.081 [-0.141, +0.029]
+   |beta - 1|: +0.022 [+0.009, +0.032]
+   |alfa|: +0.007 [-0.140, +0.137]
+
+STATUS=E22_DONE (deskriptif, post hoc)
