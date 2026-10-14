@@ -18,7 +18,7 @@ Tag: `e7-prereg-2026-10-12` (komit dbed812). D2 = 2026-11-02. Minggu uji: 2026-0
 - Jeda Windows Update dari 30 Oktober sampai 3 November (restart paksa dapat mematikan WSL di tengah pemindaian). Atur daya agar tidak tidur; sambungkan listrik.
 - Docker Desktop berjalan; `docker info` berhasil; ruang disk lega (14 Okt: 631 GB bebas dari 930 GB).
 - Minggu 1 November (sehari sebelumnya): `git status` bersih, `verify_prereg_tag.py` lolos, `python -m pytest -q test tests` lulus (baseline 126 + 11 subtes), `e7_d2.py ... --dry-run` tanpa galat.
-- Folder keluaran: tidak boleh ada `forward_predictions_*.csv`, `e7_results_*.json`, atau `e7_formula_results_*.json` sebelum D2.
+- Folder keluaran: tidak boleh ada `forward_predictions_*.csv`, `e7_results_*.json`, `e7_formula_results_*.json`, atau `d2_state.json` (catatan tahap milik runner; bila ada, tahap yang tercatat dilewati) sebelum D2.
 
 ## 2. Hari-H: urutan
 
@@ -49,7 +49,9 @@ Setiap tahap: jalankan, lalu baca `STATUS=` yang tercetak dan `exit=`.
 
 Catatan tahap 2: `rescan` **menulis** `configs/assets_v3.csv` dan manifesnya (berkas ini sengaja belum ada sebelum D2, sesuai protokol). Sesudahnya berkas harus ada dan jumlah barisnya (sekitar 121 dengan header, sama dengan `configs/assets.csv`) dicocokkan; selisih dijelaskan sebelum menjalankan `build`.
 
-Catatan ulangan `rescan` (dibaca dari kode pada 14 Okt; belum diuji): `e7_d2.py --redo` hanya menghapus catatan tahap di runner dan tidak meneruskan `--resume` ke `e7_rescan.py`. Bila rescan berhenti di tengah dan `data/evidence/e7_rescan_<tag>.json` sudah ada, ulangan langsung ditolak ("sudah ada"). Prosedur: (1) baca pesan dan perbaiki penyebabnya (disk, Docker, jaringan); (2) hapus berkas state itu dengan sengaja; (3) jalankan `--stage rescan --redo rescan`, yang mulai dari awal dan mengunduh DB Trivy lagi; (4) catat ulangan dan kedua tanggal DB di log D2 dan di amendemen. Jangan menjalankan `e7_rescan.py --resume` langsung: runner tidak akan menganggap tahap itu selesai. Selama rescan berjalan, jangan menjalankan Trivy lain atau `docker system prune`: skrip berhenti bila DB berubah di tengah pemindaian atau ID image tidak cocok.
+Catatan ulangan `rescan` (dibaca dari kode pada 14 Okt; belum diuji): `e7_d2.py --redo` hanya menghapus catatan tahap di runner dan tidak meneruskan `--resume` ke `e7_rescan.py`. Bila rescan berhenti di tengah dan `data/evidence/e7_rescan_2026-11-02.json` sudah ada, ulangan langsung ditolak ("sudah ada"). Prosedur: (1) baca pesan dan perbaiki penyebabnya (disk, Docker, jaringan); (2) hapus berkas state itu dengan sengaja; (3) jalankan ulang `--stage rescan` (tahap yang gagal tidak tercatat selesai di `d2_state.json`, jadi `--redo` tidak perlu), yang mulai dari awal dan mengunduh DB Trivy lagi; (4) catat ulangan dan kedua tanggal DB di log D2 dan di amendemen. Jangan menjalankan `e7_rescan.py --resume` langsung: runner tidak akan menganggap tahap itu selesai. Selama rescan berjalan, jangan menjalankan Trivy lain atau `docker system prune`: skrip berhenti bila DB berubah di tengah pemindaian atau ID image tidak cocok.
+
+Catatan waktu: `e7_d2.py` membandingkan tanggal **UTC** dengan D2. Mulai paling cepat **07.00 WIB** pada 2 November (00.00 UTC); sebelum itu `fetch` dan `rescan` ditolak dengan `HOLD_E7_D2_NOT_YET`. Jangan memakai `--today` untuk menyiasatinya.
 
 Contoh lengkap satu tahap:
 
@@ -80,3 +82,19 @@ Bila minggu matang kurang dari enam (`HOLD_E7_TOO_FEW_WEEKS`), D2 cadangan Senin
 - `--today`; mengubah salah satu dari 23 artefak beku; mengunduh snapshot EPSS/KEV lewat jalur lain.
 - Mengulang `evaluate` atau `formula`; memilih ulang tanggal D2 setelah model berjalan.
 - Mengubah ambang, SESOI, atau daftar hipotesis setelah melihat hasil.
+
+## 6. Kamus status runner
+
+Dibaca dari `scripts/e7_d2.py` (14 Okt). Runner berhenti pada kegagalan pertama dan tidak mencatat tahap yang gagal.
+
+| STATUS | Arti | Tindakan |
+|---|---|---|
+| `HOLD_E7_D2_NOT_YET` | Tanggal UTC hari ini lebih awal dari D2 (hanya `fetch` dan `rescan`) | Tunggu sampai 07.00 WIB |
+| `HOLD_E7_PREREG_NOT_VERIFIED` | Verifikasi tag gagal | Berhenti; baca berkas mana yang berbeda; jangan lanjut |
+| `HOLD_E7_D2_ORDER` | Tahap menunggu tahap sebelumnya di `d2_state.json` | Jalankan tahap sebelumnya dahulu |
+| `HOLD_E7_D2_STAGE_FAILED` | Salah satu perintah tahap gagal | Baca log di `d2_logs/`; perbaiki penyebab teknis; ulangi tahap itu (untuk `rescan`, hapus state dahulu) |
+| `HOLD_E7_D2_INSUFFICIENT` | Aturan penjatuhan 2% dilanggar | Berhenti; tidak ada pelonggaran |
+| `HOLD_E7_D2_BUILD_GATE` | `build` tidak mencetak `STATUS=TRAINING_AUTHORIZED` | Berhenti; baca keluaran build |
+| `HOLD_E7_TOO_FEW_WEEKS` | Kurang dari 6 minggu uji matang pada tabel v3 | Berhenti; D2 cadangan hanya dipilih sebelum model dijalankan |
+| `HOLD_E7_ALREADY_RUN`, `HOLD_E7_FORMULA_ALREADY_RUN` | Hasil resmi sudah ada | Tidak diulang |
+| `E7_D2_STAGES_DONE` | Tahap yang diminta selesai | Lanjut ke tahap berikutnya |
