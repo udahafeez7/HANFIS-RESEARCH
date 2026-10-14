@@ -16,7 +16,7 @@ Tag: `e7-prereg-2026-10-12` (komit dbed812). D2 = 2026-11-02. Minggu uji: 2026-0
 ## 1. Persiapan (jangan menunggu sampai 2 November)
 
 - Jeda Windows Update dari 30 Oktober sampai 3 November (restart paksa dapat mematikan WSL di tengah pemindaian). Atur daya agar tidak tidur; sambungkan listrik.
-- Docker Desktop berjalan; `docker info` berhasil; ruang disk lega (terakhir 300 GB bebas).
+- Docker Desktop berjalan; `docker info` berhasil; ruang disk lega (14 Okt: 631 GB bebas dari 930 GB).
 - Minggu 1 November (sehari sebelumnya): `git status` bersih, `verify_prereg_tag.py` lolos, `python -m pytest -q test tests` lulus (baseline 126 + 11 subtes), `e7_d2.py ... --dry-run` tanpa galat.
 - Folder keluaran: tidak boleh ada `forward_predictions_*.csv`, `e7_results_*.json`, atau `e7_formula_results_*.json` sebelum D2.
 
@@ -46,6 +46,8 @@ Setiap tahap: jalankan, lalu baca `STATUS=` yang tercetak dan `exit=`.
 | 4 | `... --stage predict` | menit | lima model (seed 20260928, 20261005, 20261012, 20261019, 20261026); jumlah baris sekitar 720 (sekitar 714 bila cockroachdb keluar) | Galat teknis: `--redo predict` |
 | 5 | `... --stage evaluate` | menit | **sekali saja** | Tidak ada pengulangan |
 | 6 | `... --stage formula` | menit | **sekali saja** | Tidak ada pengulangan |
+
+Catatan tahap 2: `rescan` **menulis** `configs/assets_v3.csv` dan manifesnya (berkas ini sengaja belum ada sebelum D2, sesuai protokol). Sesudahnya berkas harus ada dan jumlah barisnya (sekitar 121 dengan header, sama dengan `configs/assets.csv`) dicocokkan; selisih dijelaskan sebelum menjalankan `build`.
 
 Contoh lengkap satu tahap:
 
