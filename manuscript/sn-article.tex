@@ -364,7 +364,7 @@ when $T$ extends beyond the last sealed evidence snapshot.
 Evidence is sealed weekly: one EPSS bulk file per Monday and one CISA KEV catalogue download, each
 stored byte-for-byte and hashed (SHA-256) into a manifest that a verification step re-checks before any
 build; 57 weekly snapshots (2025-08-25 to 2026-09-21) and a KEV catalogue of 1{,}728 entries were sealed
-this way. Each image contributes one frozen, digest-pinned Trivy vulnerability scan; CVEs lacking a
+this way. Each image contributes one frozen, digest-pinned Trivy~\cite{aqua_trivy} vulnerability scan; CVEs lacking a
 publication date (a known Debian/Ubuntu-tracker gap) are dated by the first sealed weekly snapshot in
 which they are scored, and a CVE that never appears in any sealed snapshot is excluded from the active
 set rather than assumed absent. A positive control, P0-IF, isolates one asset with the image-filter
@@ -834,7 +834,7 @@ Removing the three rules ranked highest by attribution changed the output 4.1 ti
 We therefore do not claim validated rule-level explanations. The rule trace matches the inference exactly and the direction of the response is verified, but the attribution of the output to individual rules is faithful on average rather than uniformly.
 
 \subsection{Attribution and monotonicity checks (E8)}\label{subsec:e8}
-We computed exact interventional Shapley values for the seven inputs of the 25 saved models (5{,}400 model--row pairs; a background of 60 random labelled rows, excluding P0 and P0-IF and identical for all models; the efficiency property holds to $2\times10^{-14}$). Exploitability ($x_2$) and the KEV indicator ($x_7$), both ingredients of the label, carry 78.9\% of the mean absolute attribution; the three environment inputs ($x_4$--$x_6$) carry 3.3\% (Table~\ref{tab:e8}). The ranking is stable across models (Kendall $W=0.79$; $x_2$ is the top input in 21 of 25 models), and in the 20\% of rows with the highest label $x_7$ alone carries 63.0\%. This quantifies the overlap between label and inputs discussed in Section~\ref{sec5}: the model largely forecasts exploitability signals it can already see, and the label contains no environment component by construction.
+We computed exact interventional Shapley values~\cite{shapley1953value} for the seven inputs of the 25 saved models (5{,}400 model--row pairs; a background of 60 random labelled rows, excluding P0 and P0-IF and identical for all models; the efficiency property holds to $2\times10^{-14}$). Exploitability ($x_2$) and the KEV indicator ($x_7$), both ingredients of the label, carry 78.9\% of the mean absolute attribution; the three environment inputs ($x_4$--$x_6$) carry 3.3\% (Table~\ref{tab:e8}). The ranking is stable across models (Kendall $W=0.79$; $x_2$ is the top input in 21 of 25 models), and in the 20\% of rows with the highest label $x_7$ alone carries 63.0\%. This quantifies the overlap between label and inputs discussed in Section~\ref{sec5}: the model largely forecasts exploitability signals it can already see, and the label contains no environment component by construction.
 
 \begin{table}[ht]
 \caption{Exact Shapley attribution and within-row monotonicity checks for the five-seed ensemble (E8; descriptive and post hoc). ``Falls'' is the share of steps, over the range observed in the data, in which the score drops by more than 0.05 points when one input is raised and the others are held fixed. Share: mean absolute attribution; Max drop and Range: largest fall and mean end-to-end change of the score in points.}\label{tab:e8}
