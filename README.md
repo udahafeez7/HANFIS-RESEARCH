@@ -46,7 +46,7 @@ Three first-order Sugeno panels are trained end to end: V(x1, x2, x3) gives v, E
 - Protocol: `protocols/E7_preregistration_2026-10-12.md`; git tag `e7-prereg-2026-10-12` (commit `dbed812`).
 - `protocols/E7_freeze_record_2026-10-12.txt` lists the SHA-256 hashes of the 23 frozen files as stored in the tag.
 - Data date D2 = 2026-11-02. The pipeline `scripts/e7_d2.py` runs once and refuses reruns.
-- OSF registration: <!-- TODO: add the registration URL and DOI once the status is Registered -->
+- OSF registration: https://osf.io/ahcvs/ (DOI [10.17605/OSF.IO/AHCVS](https://doi.org/10.17605/OSF.IO/AHCVS)), public, registered 2026-10-13.
 
 Do not run `scripts/e7_d2.py` before D2. Do not edit any frozen file; changes go through numbered amendments.
 
