@@ -2,7 +2,7 @@
 
 Hierarchical adaptive neuro-fuzzy (HANFIS) risk scoring for Kubernetes container deployments. This repository holds the research code, the frozen evaluation protocols, the data-building pipeline and the manuscript sources.
 
-**Status:** research code under active development; private repository; no reuse license yet (see [License](#license-and-citation)).
+**Status:** research code under active development; private during review; archived at Zenodo (DOI 10.5281/zenodo.23357118). Licenses: see [License](#license-and-citation).
 
 ## What this is
 
@@ -97,6 +97,6 @@ Mohammad Hafiz Hersyah, Dr. Derisma M.T., Dr. Eng Budi Rahmadya, Universitas And
 
 ## License and citation
 
-<!-- TODO: choose a code license and decide what applies to data and derived artifacts before the repository is made public -->
+Code: Apache License 2.0 (see `LICENSE`). Documentation, protocols, derived data tables and manuscript text: Creative Commons Attribution 4.0 International (https://creativecommons.org/licenses/by/4.0/). The underlying EPSS scores and CISA KEV catalog follow the terms of their providers, and third-party files (for example the kube-prometheus-stack default values) keep their own licenses.
 
-An archived copy with a DOI is planned. Until it exists, please do not cite this repository; cite the manuscript once it is available.
+Archived copy: https://doi.org/10.5281/zenodo.23357118 (open access). Please cite the manuscript once it is available.

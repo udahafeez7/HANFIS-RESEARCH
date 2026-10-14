@@ -1,0 +1,25 @@
+cff-version: 1.2.0
+message: "If you use this repository, please cite it as below, and cite the manuscript once it is available."
+title: "HANFIS-RESEARCH: code, frozen evaluation protocol and derived data for hierarchical neuro-fuzzy risk scoring of Kubernetes deployments"
+version: "v1.0"
+date-released: "2026-10-14"
+doi: "10.5281/zenodo.23357118"
+authors:
+  - family-names: "Hersyah"
+    given-names: "Mohammad Hafiz"
+    affiliation: "Universitas Andalas"
+    orcid: "https://orcid.org/0000-0001-5985-6821"
+  - family-names: "Derisma"
+    given-names: "Derisma"
+    affiliation: "Universitas Andalas"
+  - family-names: "Rahmadya"
+    given-names: "Budi"
+    affiliation: "Universitas Andalas"
+repository-code: "https://github.com/udahafeez7/HANFIS-RESEARCH"
+license:
+  - "Apache-2.0"
+  - "CC-BY-4.0"
+identifiers:
+  - type: doi
+    value: "10.17605/OSF.IO/AHCVS"
+    description: "OSF registration of the forward-evaluation protocol (E7)"
