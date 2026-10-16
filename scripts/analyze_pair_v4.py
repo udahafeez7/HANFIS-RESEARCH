@@ -117,9 +117,11 @@ def boot_ci(a, reps, seed):
 
 # ------------------------------------------------------------- loaders
 def load_http(dirpath: Path):
-    p = dirpath / "http.csv"
-    if not p.exists():
-        raise SystemExit(f"ERROR: {p} not found")
+    cands = [dirpath / "http.csv", dirpath / "client" / "http.csv"]
+    found = [c for c in cands if c.exists()]
+    if len(found) != 1:
+        raise SystemExit(f"ERROR: expected exactly one http.csv among {[str(c) for c in cands]}; found {len(found)}")
+    p = found[0]
     cols, rows = read_csv(p)
     missing = [c for c in HTTP_COLS if c not in cols]
     if missing:
@@ -159,9 +161,9 @@ def server_summary(dirpath: Path):
     column, the statistics are computed per group (e.g. p0 vs monitoring). Column names are
     not assumed; 'seq' is skipped."""
     out = {}
-    for p in sorted(dirpath.glob("*.csv")):
-        if p.name == "http.csv":
-            continue
+    scan = [dirpath] + ([dirpath / "server"] if (dirpath / "server").is_dir() else [])
+    files = sorted(p for d in scan for p in d.glob("*.csv") if p.name != "http.csv")
+    for p in files:
         cols, rows = read_csv(p)
         info = {"n_rows": len(rows), "columns": {}, "by_group": {}}
         if "group" in cols:
@@ -256,15 +258,13 @@ def note_committed(repo: Path) -> bool:
 
 
 def find_condition_dirs(pair_dir: Path):
-    dirs = sorted({p.parent for p in pair_dir.rglob("http.csv")})
-    on = [d for d in dirs if d.name.lower().startswith("on")]
-    off = [d for d in dirs if d.name.lower().startswith("off")]
-    if len(on) != 1 or len(off) != 1:
-        raise SystemExit(
-            "ERROR: could not identify exactly one ON and one OFF directory (names starting with "
-            f"'on'/'off') under {pair_dir}; found on={on}, off={off}. Pass --on-dir and --off-dir."
-        )
-    return on[0], off[0]
+    on, off = pair_dir / "on", pair_dir / "off"
+    if on.is_dir() and off.is_dir():
+        return on, off
+    raise SystemExit(
+        f"ERROR: expected subfolders 'on' and 'off' under {pair_dir}. "
+        "Pass --on-dir and --off-dir explicitly."
+    )
 
 
 def fmt(x, nd=2):
