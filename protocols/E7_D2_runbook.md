@@ -53,6 +53,8 @@ Catatan ulangan `rescan` (dibaca dari kode pada 14 Okt; belum diuji): `e7_d2.py 
 
 Catatan waktu: `e7_d2.py` membandingkan tanggal **UTC** dengan D2. Mulai paling cepat **07.00 WIB** pada 2 November (00.00 UTC); sebelum itu `fetch` dan `rescan` ditolak dengan `HOLD_E7_D2_NOT_YET`. Jangan memakai `--today` untuk menyiasatinya.
 
+**Rev 4 (A-71): mulai tahap 1 sekitar 20.00 WIB (13.00 UTC), bukan 07.00 WIB.** Alasan: berkas EPSS bertanggal 2026-11-02 dibuat sekitar 12.00 UTC (stempel `score_date` pada delapan berkas tersegel 2026-08-03 sampai 2026-09-21 berkisar 12:00:16Z sampai 12:03:47Z), jadi pada 00.00 UTC kemungkinan besar belum ada dan `fetch` gagal. Penjaga hanya memeriksa batas bawah tanggal UTC (`scripts/e7_d2.py` baris 85; tidak ada batas atas), sehingga tahap yang melewati 07.00 WIB 3 November tidak terhenti; kesegaran DB Trivy dihitung terhadap D2 plus minus satu hari (`scripts/e7_rescan.py` baris 107 sampai 110), bukan terhadap jam. Sebelum tahap 1, ketersediaan berkas boleh diperiksa dengan permintaan header saja (`curl -sI https://epss.cyentia.com/epss_scores-2026-11-02.csv.gz | head -1`; hanya kode HTTP, tanpa mengunduh isi): 200 berarti ada, 404 berarti tunggu lalu cek lagi. Bila server tidak menjawab permintaan header, langsung jalankan tahap 1: berkas yang belum ada menggagalkan tahap tanpa mencatatnya, dan `--redo fetch` (butir 6 prinsip) hanya mengambil berkas yang belum tersegel; catat pengulangan itu beserta alasannya. Perkiraan jadwal: tahap 1 dan 1b sekitar setengah jam, rescan 0,5 sampai 2 jam, tahap 3 sampai 6 sekitar satu jam; selesai sekitar tengah malam WIB; cadangan keluaran (bagian 3) malam itu juga ke C:, WSL, dan D:. Bukti waktu terbit bersifat tidak langsung (stempel dalam berkas, bukan pengamatan server); jam 20.00 dipilih sebagai margin.
+
 Contoh lengkap satu tahap:
 
 ```bash
@@ -89,7 +91,7 @@ Dibaca dari `scripts/e7_d2.py` (14 Okt). Runner berhenti pada kegagalan pertama 
 
 | STATUS | Arti | Tindakan |
 |---|---|---|
-| `HOLD_E7_D2_NOT_YET` | Tanggal UTC hari ini lebih awal dari D2 (hanya `fetch` dan `rescan`) | Tunggu sampai 07.00 WIB |
+| `HOLD_E7_D2_NOT_YET` | Tanggal UTC hari ini lebih awal dari D2 (hanya `fetch` dan `rescan`) | Tunggu sampai 07.00 WIB (batas terendah; mulai praktis sekitar 20.00 WIB, lihat catatan waktu rev 4) |
 | `HOLD_E7_PREREG_NOT_VERIFIED` | Verifikasi tag gagal | Berhenti; baca berkas mana yang berbeda; jangan lanjut |
 | `HOLD_E7_D2_ORDER` | Tahap menunggu tahap sebelumnya di `d2_state.json` | Jalankan tahap sebelumnya dahulu |
 | `HOLD_E7_D2_STAGE_FAILED` | Salah satu perintah tahap gagal | Baca log di `d2_logs/`; perbaiki penyebab teknis; ulangi tahap itu (untuk `rescan`, hapus state dahulu) |
