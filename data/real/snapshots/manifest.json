@@ -512,6 +512,60 @@
       "n_rows": 377333,
       "sha256": "d092050f0ac111c2a2dbd2eddd8c7e3d4d1be1bdea1d8f3b33d91b42a96b066a",
       "url": "https://epss.cyentia.com/epss_scores-2026-09-21.csv.gz"
+    },
+    "2026-09-28": {
+      "bytes": 2672841,
+      "fetched_at": "2026-11-02T13:31:19+00:00",
+      "file": "epss/epss_scores-2026-09-28.csv.gz",
+      "model_version": "v2026.06.15",
+      "n_rows": 380224,
+      "sha256": "a6618aa83ebe48ac7501e8c93fb09fc5b57e3641f80dc942ef7ce9cd1eac2903",
+      "url": "https://epss.cyentia.com/epss_scores-2026-09-28.csv.gz"
+    },
+    "2026-10-05": {
+      "bytes": 2690287,
+      "fetched_at": "2026-11-02T13:31:23+00:00",
+      "file": "epss/epss_scores-2026-10-05.csv.gz",
+      "model_version": "v2026.06.15",
+      "n_rows": 382795,
+      "sha256": "b7ec1b37d0a80c9acb003f99339705928feae7a90bd54687df5d0ce4a9a26855",
+      "url": "https://epss.cyentia.com/epss_scores-2026-10-05.csv.gz"
+    },
+    "2026-10-12": {
+      "bytes": 2710075,
+      "fetched_at": "2026-11-02T13:31:27+00:00",
+      "file": "epss/epss_scores-2026-10-12.csv.gz",
+      "model_version": "v2026.06.15",
+      "n_rows": 385987,
+      "sha256": "89dc7059fc3fb2e2f5fceb2e91fa94383673c53d07d9209d62bbb40423e2b26a",
+      "url": "https://epss.cyentia.com/epss_scores-2026-10-12.csv.gz"
+    },
+    "2026-10-19": {
+      "bytes": 2743807,
+      "fetched_at": "2026-11-02T13:31:30+00:00",
+      "file": "epss/epss_scores-2026-10-19.csv.gz",
+      "model_version": "v2026.06.15",
+      "n_rows": 391411,
+      "sha256": "80819f94057089bcd2e3c4d0377de3b7948e41b07062c4237618973e828ef96f",
+      "url": "https://epss.cyentia.com/epss_scores-2026-10-19.csv.gz"
+    },
+    "2026-10-26": {
+      "bytes": 2775639,
+      "fetched_at": "2026-11-02T13:31:34+00:00",
+      "file": "epss/epss_scores-2026-10-26.csv.gz",
+      "model_version": "v2026.06.15",
+      "n_rows": 395492,
+      "sha256": "321ba69d752fe4e807c12a53d3459e5589499901709f5317ae87361ee16e60a8",
+      "url": "https://epss.cyentia.com/epss_scores-2026-10-26.csv.gz"
+    },
+    "2026-11-02": {
+      "bytes": 2796673,
+      "fetched_at": "2026-11-02T13:31:38+00:00",
+      "file": "epss/epss_scores-2026-11-02.csv.gz",
+      "model_version": "v2026.06.15",
+      "n_rows": 398815,
+      "sha256": "86885067d459c6f3ca888bfeb6219d536b428afda9a776c14b48c82bb6a85635",
+      "url": "https://epss.cyentia.com/epss_scores-2026-11-02.csv.gz"
     }
   },
   "kev": {
@@ -531,6 +585,15 @@
       "file": "kev/kev-20260928T045111Z.json",
       "n_entries": 1728,
       "sha256": "164f2f100c3a2a810745500f49a8dd9041d59f9542c0ac1316d71578f25cb80b",
+      "url": "https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json"
+    },
+    "20261102T133139Z": {
+      "bytes": 1826755,
+      "catalog_version": "2026.10.30",
+      "fetched_at": "2026-11-02T13:31:39+00:00",
+      "file": "kev/kev-20261102T133139Z.json",
+      "n_entries": 1766,
+      "sha256": "3aa9cf3c01f116362a29d111702979175453c425e3733bde80fc4f6f8e2294e5",
       "url": "https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json"
     }
   },
