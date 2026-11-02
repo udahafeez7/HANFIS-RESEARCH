@@ -1,0 +1,6 @@
+D2=2026-11-02; minggu uji 2026-08-31 .. 2026-10-05 = 6 minggu (minimum 6); artefak beku: 23; tag: e7-prereg-2026-10-12
+LOLOS: e7-prereg-2026-10-12 -> dbed812 memuat 23 berkas dengan isi identik dengan berkas kerja
+$ /home/hafiz/.venvs/anfis/bin/python scripts/e7_pipeline.py predict --table data/processed/asset_weeks_v3.csv --models-dir results_python/e7_final --first-week 2026-08-31 --last-week 2026-10-05 --out ...
+720 baris, 6 minggu (2026-08-31 .. 2026-10-05), 120 aset -> results_python/e7/forward_predictions_2026-11-02.csv
+STATUS=E7_PREDICT_DONE
+STATUS=E7_D2_STAGES_DONE: predict

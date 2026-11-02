@@ -1,0 +1,5 @@
+RUN: 6 minggu, 720 baris
+P7e rumus vs persistence: SS +0.340 [+0.060, +0.628] p=0.0005 (ambang Holm 0.0125) -> TERKONFIRMASI
+P7f HANFIS vs rumus: SS -6.208 [-13.677, -3.188] p=0.0005 (ambang Holm 0.0250) -> DIDUKUNG
+   sensitivitas bootstrap per minggu (6 kluster; tanpa kriteria): P7e CI95 [+0.100, +0.758]; P7f CI95 [-23.111, -2.777]
+STATUS=E7_FORMULA_DONE (results_python/e7/e7_formula_results_20261102T135420Z.json)

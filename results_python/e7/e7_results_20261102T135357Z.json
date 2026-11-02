@@ -1,0 +1,141 @@
+{
+ "mode": "RUN",
+ "lambda": 0.5109245039223448,
+ "minggu": 6,
+ "baris": 720,
+ "kelompok": 119,
+ "P7a": {
+  "ss_hanfis_stabil": -3.7567889401759906,
+  "ci95": [
+   -9.176784722905754,
+   -1.5935127939526774
+  ],
+  "keputusan": "DIDUKUNG",
+  "holm": {
+   "p_satu_sisi": 0.0004997501249375312,
+   "ambang_holm": 0.0125,
+   "lolos": true
+  }
+ },
+ "P7b": {
+  "ss_hibrida": -0.8072568705617942,
+  "ci95": [
+   -2.5074210657657012,
+   -0.1601480820841064
+  ],
+  "keputusan": "LEBIH BURUK",
+  "holm": {
+   "p_satu_sisi": 0.9975012493753124,
+   "ambang_holm": 0.025,
+   "lolos": false
+  }
+ },
+ "P7d": {
+  "spearman_perubahan_mingguan": {
+   "y_hanfis": 0.06613934787079116,
+   "y_ridge7": -0.00144379451903269
+  },
+  "ci95": {
+   "y_hanfis": [
+    -0.07351011247879413,
+    0.2007344391079216
+   ],
+   "y_ridge7": [
+    -0.12290076073623163,
+    0.12793154174267876
+   ]
+  },
+  "keputusan": "TIDAK TERBUKTI",
+  "catatan": "informasi tambahan di atas persistence; hibrida identik dengan HANFIS (lambda > 0), sekunder tanpa koreksi"
+ },
+ "P7c_deskriptif": {
+  "presisi_pada_20persen": {
+   "y_hanfis": 0.9583333333333334,
+   "y_lag4": 0.951388888888889,
+   "y_hibrida": 0.9513888888888888,
+   "y_ridge7": 0.9513888888888888
+  },
+  "selisih_hibrida_minus_persistence": -1.1102230246251565e-16,
+  "ci95_selisih": [
+   -0.19336111111111112,
+   0.04179166666666673
+  ],
+  "keputusan": "TIDAK TERBUKTI NON-INFERIOR",
+  "spearman_mingguan": {
+   "y_hanfis": 0.9829667026076366,
+   "y_lag4": 0.9822209873574802,
+   "y_hibrida": 0.9824872454844961,
+   "y_ridge7": 0.9723345045558189
+  }
+ },
+ "ss_semua_metode": {
+  "y_hanfis": {
+   "ss": -3.7567889401759906,
+   "ci95": [
+    -9.495732269769347,
+    -1.6396610063310597
+   ]
+  },
+  "y_hibrida": {
+   "ss": -0.8072568705617942,
+   "ci95": [
+    -2.5074210657657012,
+    -0.1601480820841064
+   ]
+  },
+  "y_ridge7": {
+   "ss": -2.6869991728056553,
+   "ci95": [
+    -6.088443547363862,
+    -1.4612528752653369
+   ]
+  }
+ },
+ "strata_deskriptif": {
+  "baris_perubahan_tidak_diketahui_dikecualikan": 0,
+  "ada_perubahan_masukan": {
+   "baris": 408,
+   "y_hanfis": {
+    "ss": -1.6673802981191854,
+    "ci95": [
+     -5.530176804323859,
+     -0.2997885158396662
+    ]
+   },
+   "y_hibrida": {
+    "ss": -0.2149270616153074,
+    "ci95": [
+     -1.4501600477637806,
+     0.2551586086985423
+    ]
+   }
+  },
+  "tanpa_perubahan_masukan": {
+   "baris": 312,
+   "y_hanfis": {
+    "ss": -9.696622827720157,
+    "ci95": [
+     -42.12012682628026,
+     -4.096599370602427
+    ]
+   },
+   "y_hibrida": {
+    "ss": -2.4911499113790585,
+    "ci95": [
+     -11.47601653877753,
+     -0.9666956907223136
+    ]
+   }
+  }
+ },
+ "sensitivitas_deskriptif": {
+  "ss_hibrida_lambda_fold_0": 0.008237857756780542,
+  "ss_hibrida_lambda_fold_1": -0.1308793239954582,
+  "ss_hibrida_lambda_fold_2": -0.6024569782279845,
+  "ss_hibrida_lambda_fold_3": -3.7567889401759915,
+  "ss_hibrida_lambda_fold_4": -1.2519892395148582,
+  "ss_hanfis_log1p": -3.6170970990835887,
+  "ss_hibrida_log1p": -0.7620997133085654,
+  "ss_hibrida_tanpa_wordpress": -0.8256781862952693
+ }
+}

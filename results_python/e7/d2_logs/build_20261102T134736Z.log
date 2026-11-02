@@ -1,0 +1,18 @@
+wrote data/processed/asset_weeks_v3_nodrop.csv/.jsonl/_diagnostics.csv/_status.json
+TIGA ANGKA WAJIB: baris event_id=7080  non-NA=1.000  positif=0.900  asset_id=120  grup_image=119  INSUFFICIENT=0
+{
+  "rows>=1320": true,
+  "non_na>=0.25": true,
+  "positive>=0.25": true,
+  "no_INSUFFICIENT_EVIDENCE": true
+}
+STATUS=TRAINING_AUTHORIZED
+wrote data/processed/asset_weeks_v3.csv/.jsonl/_diagnostics.csv/_status.json
+TIGA ANGKA WAJIB: baris event_id=7080  non-NA=1.000  positif=0.900  asset_id=120  grup_image=119  INSUFFICIENT=0
+{
+  "rows>=1320": true,
+  "non_na>=0.25": true,
+  "positive>=0.25": true,
+  "no_INSUFFICIENT_EVIDENCE": true
+}
+STATUS=TRAINING_AUTHORIZED

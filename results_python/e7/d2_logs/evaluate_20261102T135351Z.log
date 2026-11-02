@@ -1,0 +1,9 @@
+== RUN | lambda=0.5109 | minggu=6 baris=720 kelompok=119 ==
+P7a SS_HANFIS(stabil)=-3.757 CI95 [-9.177, -1.594]  -> DIDUKUNG (Holm p=0.0005, lolos=True)
+P7b SS_hibrida      =-0.807 CI95 [-2.507, -0.160]  -> LEBIH BURUK (Holm p=0.9975, lolos=False)
+P7c (deskriptif) presisi@20%: y_hanfis=0.958, y_lag4=0.951, y_hibrida=0.951, y_ridge7=0.951 | selisih hibrida-persistence=-0.000 CI95 [-0.193, +0.042] -> TIDAK TERBUKTI NON-INFERIOR
+P7d Spearman(perubahan prediksi, perubahan nyata): y_hanfis=+0.066 CI95 [-0.074, +0.201], y_ridge7=-0.001 CI95 [-0.123, +0.128] -> TIDAK TERBUKTI
+strata baris_perubahan_tidak_diketahui_dikecualikan: 0
+strata ada_perubahan_masukan: {'baris': 408, 'y_hanfis': {'ss': -1.6673802981191854, 'ci95': [-5.530176804323859, -0.2997885158396662]}, 'y_hibrida': {'ss': -0.2149270616153074, 'ci95': [-1.4501600477637806, 0.2551586086985423]}}
+strata tanpa_perubahan_masukan: {'baris': 312, 'y_hanfis': {'ss': -9.696622827720157, 'ci95': [-42.12012682628026, -4.096599370602427]}, 'y_hibrida': {'ss': -2.4911499113790585, 'ci95': [-11.47601653877753, -0.9666956907223136]}}
+STATUS=E7_RUN_DONE (results_python/e7/e7_results_20261102T135357Z.json)

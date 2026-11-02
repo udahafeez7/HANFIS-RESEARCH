@@ -1,0 +1,74 @@
+{
+ "mode": "RUN",
+ "formula": {
+  "a": 0.11932038996203077,
+  "b": 98.85069980245115,
+  "c": 0.1,
+  "n_train": 5880,
+  "cutoff": "2026-07-27"
+ },
+ "minggu": 6,
+ "baris": 720,
+ "kelompok": 119,
+ "P7e_rumus_vs_persistence": {
+  "ss": 0.34004462685738357,
+  "ci95": [
+   0.059652427438833026,
+   0.627956614287607
+  ],
+  "mse_m": 0.26142201546695387,
+  "mse_base": 0.39612074710763895,
+  "keputusan": "TERKONFIRMASI",
+  "holm": {
+   "p_satu_sisi": 0.0004997501249375312,
+   "ambang_holm": 0.0125,
+   "lolos": true
+  }
+ },
+ "P7f_hanfis_vs_rumus": {
+  "ss": -6.207743331984432,
+  "ci95": [
+   -13.676857053436164,
+   -3.188057574510591
+  ],
+  "mse_m": 1.8842627888158676,
+  "mse_base": 0.26142201546695387,
+  "keputusan": "DIDUKUNG",
+  "holm": {
+   "p_satu_sisi": 0.0004997501249375312,
+   "ambang_holm": 0.025,
+   "lolos": true
+  }
+ },
+ "deskriptif_hanfis_vs_persistence": {
+  "ss": -3.7567889401759906,
+  "ci95": [
+   -9.495732269769347,
+   -1.6396610063310597
+  ],
+  "mse_m": 1.8842627888158676,
+  "mse_base": 0.39612074710763895
+ },
+ "sensitivitas_bootstrap_per_minggu": {
+  "rumus_vs_persistence": {
+   "ss": 0.34004462685738335,
+   "ci95": [
+    0.10047610705750898,
+    0.7578176594500448
+   ],
+   "mse_m": 0.26142201546695387,
+   "mse_base": 0.3961207471076389
+  },
+  "hanfis_vs_rumus": {
+   "ss": -6.20774333198443,
+   "ci95": [
+    -23.110596228633387,
+    -2.7772780409313658
+   ],
+   "mse_m": 1.8842627888158676,
+   "mse_base": 0.26142201546695387
+  },
+  "catatan": "tanpa kriteria; hanya 6 kluster minggu"
+ },
+ "catatan": "keluarga kedua {P7e, P7f} dengan Holm sendiri; terpisah dari {P7a, P7b}"
+}

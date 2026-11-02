@@ -1,0 +1,25 @@
+D2=2026-11-02; minggu uji 2026-08-31 .. 2026-10-05 = 6 minggu (minimum 6); artefak beku: 23; tag: e7-prereg-2026-10-12
+LOLOS: e7-prereg-2026-10-12 -> dbed812 memuat 23 berkas dengan isi identik dengan berkas kerja
+$ /home/hafiz/.venvs/anfis/bin/python scripts/build_asset_weeks.py --assets configs/assets_v3.csv --snapshots data/real/snapshots --out-prefix data/processed/asset_weeks_v3_nodrop --start 2025-08-25 --end 2026-10-05
+wrote data/processed/asset_weeks_v3_nodrop.csv/.jsonl/_diagnostics.csv/_status.json
+TIGA ANGKA WAJIB: baris event_id=7080  non-NA=1.000  positif=0.900  asset_id=120  grup_image=119  INSUFFICIENT=0
+{
+  "rows>=1320": true,
+  "non_na>=0.25": true,
+  "positive>=0.25": true,
+  "no_INSUFFICIENT_EVIDENCE": true
+}
+STATUS=TRAINING_AUTHORIZED
+INSUFFICIENT_EVIDENCE: total 0 linha(s), 0 nas semanas de teste (720 linhas de teste); por asset: {}
+$ /home/hafiz/.venvs/anfis/bin/python scripts/build_asset_weeks.py --assets configs/assets_v3.csv --snapshots data/real/snapshots --out-prefix data/processed/asset_weeks_v3 --start 2025-08-25 --end 2026-10-05 ...
+wrote data/processed/asset_weeks_v3.csv/.jsonl/_diagnostics.csv/_status.json
+TIGA ANGKA WAJIB: baris event_id=7080  non-NA=1.000  positif=0.900  asset_id=120  grup_image=119  INSUFFICIENT=0
+{
+  "rows>=1320": true,
+  "non_na>=0.25": true,
+  "positive>=0.25": true,
+  "no_INSUFFICIENT_EVIDENCE": true
+}
+STATUS=TRAINING_AUTHORIZED
+minggu uji matang pada tabel v3: 6 (2026-08-31, 2026-09-07, 2026-09-14, 2026-09-21, 2026-09-28, 2026-10-05)
+STATUS=E7_D2_STAGES_DONE: build

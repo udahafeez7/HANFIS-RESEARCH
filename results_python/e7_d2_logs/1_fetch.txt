@@ -1,0 +1,52 @@
+D2=2026-11-02; minggu uji 2026-08-31 .. 2026-10-05 = 6 minggu (minimum 6); artefak beku: 23; tag: e7-prereg-2026-10-12
+LOLOS: e7-prereg-2026-10-12 -> dbed812 memuat 23 berkas dengan isi identik dengan berkas kerja
+$ /home/hafiz/.venvs/anfis/bin/python scripts/fetch_snapshots.py fetch --start 2026-09-28 --end 2026-11-02
+grid: 6 Mondays 2026-09-28..2026-11-02; to fetch: 6
+[1/6] EPSS 2026-09-28  rows=380224  model=v2026.06.15  sha256=a6618aa83ebe
+[2/6] EPSS 2026-10-05  rows=382795  model=v2026.06.15  sha256=b7ec1b37d0a8
+[3/6] EPSS 2026-10-12  rows=385987  model=v2026.06.15  sha256=89dc7059fc3f
+[4/6] EPSS 2026-10-19  rows=391411  model=v2026.06.15  sha256=80819f940570
+[5/6] EPSS 2026-10-26  rows=395492  model=v2026.06.15  sha256=321ba69d752f
+[6/6] EPSS 2026-11-02  rows=398815  model=v2026.06.15  sha256=86885067d459
+KEV catalog 2026.10.30  entries=1766  sha256=3aa9cf3c01f1
+{
+  "weeks_expected": 6,
+  "weeks_present": 6,
+  "weeks_missing": [],
+  "coverage": 1.0,
+  "kev_downloads": 3,
+  "kev_latest": {
+    "bytes": 1826755,
+    "catalog_version": "2026.10.30",
+    "fetched_at": "2026-11-02T13:31:39+00:00",
+    "file": "kev/kev-20261102T133139Z.json",
+    "n_entries": 1766,
+    "sha256": "3aa9cf3c01f116362a29d111702979175453c425e3733bde80fc4f6f8e2294e5",
+    "url": "https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json"
+  },
+  "sealed": true
+}
+STATUS=PASS_SNAPSHOTS
+$ /home/hafiz/.venvs/anfis/bin/python scripts/fetch_snapshots.py status --start 2025-08-25 --end 2026-11-02
+{
+  "weeks_expected": 63,
+  "weeks_present": 63,
+  "weeks_missing": [],
+  "coverage": 1.0,
+  "kev_downloads": 3,
+  "kev_latest": {
+    "bytes": 1826755,
+    "catalog_version": "2026.10.30",
+    "fetched_at": "2026-11-02T13:31:39+00:00",
+    "file": "kev/kev-20261102T133139Z.json",
+    "n_entries": 1766,
+    "sha256": "3aa9cf3c01f116362a29d111702979175453c425e3733bde80fc4f6f8e2294e5",
+    "url": "https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json"
+  },
+  "sealed": true
+}
+STATUS=SEALED
+$ /home/hafiz/.venvs/anfis/bin/python scripts/fetch_snapshots.py verify
+manifest OK: 63 EPSS files, 3 KEV files, all hashes match
+STATUS=VERIFIED
+STATUS=E7_D2_STAGES_DONE: fetch
