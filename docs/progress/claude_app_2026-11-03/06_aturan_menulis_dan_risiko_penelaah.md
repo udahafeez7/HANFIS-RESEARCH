@@ -30,7 +30,6 @@
 | Input lingkungan (x4 sampai x6) tidak terbukti membantu | Diakui di Discussion: label tidak bergantung pada masukan itu, jadi inventaris ini tidak dirancang untuk menunjukkan manfaatnya | Memerlukan luaran yang bergantung pada lingkungan, di luar naskah ini |
 | Testbed dua node WSL 2 | Limitations menyatakan validitas eksternal belum diuji | Tidak ada klaster produksi |
 | Nama HANFIS sudah dipakai | Literature Review menyatakan Soozanchi dkk. (2010) | Judul tetap memakai "HANFIS"; risiko penolakan kebaruan nama, bukan kebaruan metode |
-| Persetujuan ko-penulis | Lisan | Tidak tertulis |
 
 ## Cara memberi usulan perubahan naskah ke repositori
 

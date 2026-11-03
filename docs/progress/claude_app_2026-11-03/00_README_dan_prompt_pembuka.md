@@ -13,7 +13,7 @@ Paket ini berdiri sendiri. Aplikasi Claude tidak punya akses ke mesin atau repos
 | `05_tugas_terbuka_dan_jadwal.md` | Daftar kerja sampai kirim, urutan, tenggat |
 | `06_aturan_menulis_dan_risiko_penelaah.md` | Aturan gaya, aturan perubahan naskah, pertanyaan yang mungkin diajukan penelaah |
 
-Unggah juga `manuscript/sn-article.pdf` dan `manuscript/additional_file_1.pdf` bila ingin Claude membaca naskah utuh. Berkas `.tex` boleh diunggah, tetapi jangan minta Claude menyunting `.tex` langsung: perubahan naskah di repositori memakai skrip teks-persis (lihat berkas 06).
+Folder ini sudah memuat `sn-article_2026-11-03.pdf` dan `additional_file_1_2026-11-03.pdf` (salinan PDF naskah saat ini); unggah keduanya bila ingin Claude membaca naskah utuh. Berkas `.tex` boleh diunggah, tetapi jangan minta Claude menyunting `.tex` langsung: perubahan naskah di repositori memakai skrip teks-persis (lihat berkas 06).
 
 ## Prompt pembuka (tempel sebagai pesan pertama)
 
@@ -23,7 +23,7 @@ Kamu membantu saya menyiapkan naskah Q1 untuk Springer Journal of Cloud Computin
 
 ## Posisi satu paragraf
 
-Evaluasi maju E7 sudah dijalankan sekali pada 2 November 2026 dan hasilnya terkunci (tag `e7-results-2026-11-02`). Hasilnya: HANFIS tidak lebih baik daripada persistence (P7a didukung) maupun rumus empat parameter (P7f didukung); rumus mengalahkan persistence (P7e terkonfirmasi). Naskah sudah memuat hasil itu (skenario A dari templat 14 Oktober), diperpendek dari 58 ke 48 halaman format referee, dan memiliki satu berkas tambahan (Additional file 1). Persetujuan ko-penulis (Dr. Derisma dan Dr. Budi Rahmadya) diberikan secara lisan; belum ada catatan tertulis.
+Evaluasi maju E7 sudah dijalankan sekali pada 2 November 2026 dan hasilnya terkunci (tag `e7-results-2026-11-02`). Hasilnya: HANFIS tidak lebih baik daripada persistence (P7a didukung) maupun rumus empat parameter (P7f didukung); rumus mengalahkan persistence (P7e terkonfirmasi). Naskah sudah memuat hasil itu (skenario A dari templat 14 Oktober), diperpendek dari 58 ke 48 halaman format referee, dan memiliki satu berkas tambahan (Additional file 1).
 
 
 ---

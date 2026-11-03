@@ -17,8 +17,7 @@ Tenggat kerja: kirim paling lambat 5 Desember 2026 (32 hari dari 3 November). Pe
 | 4 | Audit bibliografi | `scripts/audit_bib_dois.py` dan `scripts/bib_deep_audit.py`; jangan menulis sitasi dari ingatan |
 | 5 | Periksa setiap angka abstrak terhadap tabel badan | Sembilan tabel sumber masih di badan; periksa ulang setelah suntingan akhir |
 | 6 | Peringatan Overfull baris 407 | Belum diperiksa asalnya |
-| 7 | Persetujuan ko-penulis tertulis | Saat ini hanya lisan; satu pesan singkat dari Dr. Derisma dan Dr. Budi cukup sebagai catatan |
-| 8 | Siapkan paket submit: naskah `.tex` tunggal, gambar, Additional file 1 terpisah, cover letter | Cover letter ditulis setelah naskah final |
+| 7 | Siapkan paket submit: naskah `.tex` tunggal, gambar, Additional file 1 terpisah, cover letter | Cover letter ditulis setelah naskah final |
 
 ## Pekerjaan non-naskah yang masih terbuka
 
