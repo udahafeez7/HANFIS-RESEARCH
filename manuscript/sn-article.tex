@@ -223,7 +223,44 @@ The observability experiment comprises ten paired runs (Runs~7--16). Conditions 
 
 HANFIS composes three first-order Sugeno ANFIS panels. The vulnerability panel $V(x_1,x_2,x_3)\to v$ takes CVSS, Exploitability, and Patch Risk. The environmental panel $E(x_4,x_5,x_6)\to e$ takes MFA Risk, Kubernetes Exposure, and Asset Criticality. The integration panel $I(v,e,x_7)\to \tilde r$ takes the two intermediate indices and Threat Intelligence, and the final score is $r=\mathrm{clip}(\tilde r,0,1)$.
 No panel is given an intermediate target: $v$ and $e$ are latent, and gradients flow end-to-end from the
-loss on $r$ back through both tiers.
+loss on $r$ back through both tiers. Figure~\ref{fig:hanfis-structure} shows the structure.
+
+\begin{figure}[t]
+\centering
+\resizebox{\linewidth}{!}{%
+\begin{tikzpicture}[
+  inp/.style={draw, rounded corners=2pt, fill=gray!12, minimum width=3.1cm, minimum height=0.62cm, font=\scriptsize, align=center},
+  pan/.style={draw, thick, rounded corners=3pt, font=\scriptsize, align=center},
+  mid/.style={draw, circle, fill=gray!8, minimum size=0.85cm, font=\small, inner sep=0pt},
+  outb/.style={draw, thick, rounded corners=2pt, fill=gray!12, minimum width=3.0cm, minimum height=1.0cm, font=\scriptsize, align=center},
+  arr/.style={-latex, thick}]
+\node[inp] (x1) at (0, 2.1) {$x_1$ CVSS Base};
+\node[inp] (x2) at (0, 1.35) {$x_2$ Exploitability};
+\node[inp] (x3) at (0, 0.6) {$x_3$ Patch Risk};
+\node[inp] (x4) at (0,-0.6) {$x_4$ MFA Risk};
+\node[inp] (x5) at (0,-1.35) {$x_5$ Kubernetes Exposure};
+\node[inp] (x6) at (0,-2.1) {$x_6$ Asset Criticality};
+\node[pan, minimum width=3.4cm, minimum height=2.3cm] (V) at (4.9, 1.35) {\textbf{Vulnerability panel $V$}\\8 rules, 44 parameters\\$m=2$ per input};
+\node[pan, minimum width=3.4cm, minimum height=2.3cm] (E) at (4.9,-1.35) {\textbf{Environmental panel $E$}\\8 rules, 44 parameters\\$m=2$ per input};
+\node[mid] (v) at (7.8, 1.35) {$v$};
+\node[mid] (e) at (7.8,-1.35) {$e$};
+\node[pan, minimum width=3.6cm, minimum height=3.1cm] (I) at (10.8, 0) {\textbf{Integration panel $I$}\\18 rules, 88 parameters\\$m_I=3$ on $v,e$\\$m=2$ on $x_7$};
+\node[inp, minimum width=3.4cm] (x7) at (10.8,-3.0) {$x_7$ Threat Intelligence};
+\node[outb] (r) at (14.6, 0) {$r=\mathrm{clip}(\tilde r,0,1)$\\Dynamic Risk Score};
+\foreach \i in {x1,x2,x3} \draw[arr] (\i.east) -- (\i.east -| V.west);
+\foreach \i in {x4,x5,x6} \draw[arr] (\i.east) -- (\i.east -| E.west);
+\draw[arr] (V.east) -- (v.west);
+\draw[arr] (E.east) -- (e.west);
+\draw[arr] (v.east) -- (v.east -| I.west);
+\draw[arr] (e.east) -- (e.east -| I.west);
+\draw[arr] (x7.north) -- (I.south);
+\draw[arr] (I.east) -- (r.west);
+\node[font=\scriptsize\itshape, text=gray!70!black] at (4.9, 3.0) {Tier 1: two parallel panels};
+\node[font=\scriptsize\itshape, text=gray!70!black] at (10.8, 2.1) {Tier 2: integration};
+\node[font=\scriptsize, text width=11cm, align=center] at (6.4,-3.9) {Total: 34 rules, 176 parameters (full flat ANFIS: 128 rules, 1052 parameters). $v$ and $e$ have no target of their own; gradients flow from the loss on $r$ through both tiers.};
+\end{tikzpicture}}
+\caption{Structure of HANFIS. Two first-tier Sugeno panels, vulnerability $V$ and environmental $E$, produce the latent indices $v$ and $e$. An integration panel $I$ combines them with Threat Intelligence $x_7$ into the Dynamic Risk Score $r$. Rule and parameter counts per panel are those of Table~\ref{tab:rules-params}.}\label{fig:hanfis-structure}
+\end{figure}
 
 Each panel uses Gaussian membership functions,
 \begin{equation}
