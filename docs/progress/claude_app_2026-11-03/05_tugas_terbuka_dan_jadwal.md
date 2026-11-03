@@ -11,7 +11,6 @@ Tenggat kerja: kirim paling lambat 5 Desember 2026 (32 hari dari 3 November). Pe
 
 | Urutan | Tugas | Catatan |
 |---|---|---|
-| 0 | Putuskan pertentangan telemetri (4.1, 3.6, Limitations), lihat berkas 01 | Hanya peneliti yang tahu apakah telemetri masuk model; asisten tidak boleh menebak |
 | 1 | Baca ulang naskah, terutama ringkasan Results hasil pemangkasan | Pemindaian mesin sudah dilakukan; pembacaan manusia belum |
 | 2 | Cocokkan kebijakan AI Springer Nature | Pernyataan ada di Methods ("Use of AI tools") dan Declarations |
 | 3 | Zenodo versi baru (Additional file 1, keluaran D2, tabel v3, bundel Trivy) | DITUNDA atas keputusan peneliti (3 November). Setelah terbit, ganti kalimat Availability dan kalimat DOI di subbagian hasil E7 |
