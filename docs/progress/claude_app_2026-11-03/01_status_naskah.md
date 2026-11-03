@@ -1,6 +1,6 @@
 # Status naskah (3 November 2026)
 
-HEAD repositori `2886cb1`, cabang `research/amend-a02-a06`, memori proyek v2.57 (amendemen A-77). Tag penting: `e7-prereg-2026-10-12` (komit `dbed812`, 23 berkas beku), `e7-results-2026-11-02`, `progress-seal-2026-11-03`, `progress-seal-2026-11-03b`.
+HEAD repositori `8b1f181`, cabang `research/amend-a02-a06`, memori proyek v2.57 (amendemen A-77). Tag penting: `e7-prereg-2026-10-12` (komit `dbed812`, 23 berkas beku), `e7-results-2026-11-02`, `progress-seal-2026-11-03`, `progress-seal-2026-11-03b`.
 
 ## Ukuran
 
@@ -24,6 +24,7 @@ Kata badan dihitung dengan penghitung kasar yang sama sebelum dan sesudah; bukan
 5. Suntingan gaya tahap 2 (18): tanda pisah, judul subbagian huruf kecil kalimat, empat kata, satu klausa kontras.
 6. Pemangkasan: 8 tabel dan 3 gambar dipindah ke Additional file 1; tujuh bagian diringkas dengan teks asli di Supplementary note S1 sampai S7; Introduction, integrasi telemetri, dan Conclusion dipadatkan.
 7. Diagram struktur HANFIS (Figure 1, TikZ) disisipkan di subbagian arsitektur.
+8. Baca ulang dengan aturan humanizer dan avoid-ai-writing (3 November siang): pemindaian mekanis tidak menemukan kata Tier 1A atau Tier 2, transisi klise, atau tanda pisah. Delapan suntingan diterapkan: "not yet" pada H1b menjadi "not" (tiga tempat, karena P7a juga tidak mendukung H1b), dua penegas "real," dihapus, kalimat E14 tentang evaluasi maju yang "planned" diperbarui ke hasil E7, "cockroachdb is expected to" diperbarui (tidak ada aset yang gugur), dan "evidence for the mechanism" di 4.3 dilunakkan menjadi "suggestive of" agar sejalan dengan Conclusion.
 
 Setiap perubahan lewat skrip teks-persis gagal-tertutup yang diuji di salinan; invarian angka dan sitasi diperiksa. Dari gabungan naskah dan Additional file 1 tidak ada angka data asli yang hilang. Satu `\cite` dan satu `\ref` hilang bersama narasi yang sengaja dihapus (rinciannya di A-77).
 
@@ -31,10 +32,10 @@ Setiap perubahan lewat skrip teks-persis gagal-tertutup yang diuji di salinan; i
 
 | Berkas | sha256 |
 |---|---|
-| `manuscript/sn-article.tex` | `3a1da3e1244cdc284d065a5c1b5bb5b6bb326f9ae523492806aa17b287da2b1b` |
-| `manuscript/sn-article.pdf` | `54561f463c881fe0eb49a03e750b92d0466eefc978903ecadca8552cee24f329` |
+| `manuscript/sn-article.tex` | `eb0cf68aa50c1c83425acd29f0f7b9684dfd9f54e4d82bea7239236cd195f81d` |
+| `manuscript/sn-article.pdf` | `77ab9d58bb53f1ffd1a46dc44abfe84653c9b67e237bd02877039853f085c9c0` |
 | `manuscript/additional_file_1.tex` | `b6cb31c14cece62742e8e02d5f69e77d30dd1292ca156147fd48d96f03297f89` |
-| `manuscript/additional_file_1.pdf` | `85580c3bebee9c743b279a3db9391f72b35f3a217d7d8108fa9f94163376ae24` |
+| `manuscript/additional_file_1.pdf` | `bec1f1c253ab72725fe87de434380bbab6e9de3c5c8a6e2605b1577b242b30a6` |
 
 ## Struktur bagian naskah (badan)
 
@@ -74,7 +75,9 @@ Setiap perubahan lewat skrip teks-persis gagal-tertutup yang diuji di salinan; i
 - Naskah belum dibaca ulang utuh oleh peneliti setelah pemangkasan. Ringkasan di Results dibuat otomatis dari teks asli dan hanya diperiksa lewat invarian angka.
 - Satu peringatan Overfull 6,05 pt di baris 407; belum diperiksa apakah ada sebelum suntingan.
 - Kebijakan AI Springer Nature belum dicocokkan dengan pernyataan di Methods dan Declarations.
-- Zenodo versi baru belum terbit; kalimat Availability dan kalimat tentang DOI di subbagian hasil E7 masih menunggu DOI.
+- Ada pertentangan isi yang belum diputuskan: subbagian 4.1 menulis bahwa hasil overhead "justify using the collected telemetry as HANFIS features", sedangkan Limitations menulis bahwa telemetri runtime (CPU, memori, latensi) hanya dipakai mengukur overhead dan bukan masukan model. Subbagian 3.6 juga memakai kalimat berjangka depan ("will be cleaned, aligned..."). Peneliti harus menentukan mana yang benar sebelum kalimatnya diubah.
+- Kalimat di abstrak dan 4.3 yang memakai "significantly" pada hipotesis terdaftar tidak boleh diubah.
+- Zenodo versi baru ditunda atas keputusan peneliti; kalimat Availability dan kalimat tentang DOI di subbagian hasil E7 masih menunggu DOI.
 - Additional file 1 memakai `xr-hyper`: untuk dikompilasi, naskah harus dikompilasi dulu agar `sn-article.aux` ada. Nomor kutipan di Additional file 1 berbeda dari naskah.
 
 

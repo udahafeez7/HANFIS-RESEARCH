@@ -5,15 +5,16 @@ Tenggat kerja: kirim paling lambat 5 Desember 2026 (32 hari dari 3 November). Pe
 ## Sebelum menulis ulang apa pun
 
 1. **Baca ulang naskah utuh** (`sn-article.pdf`, 48 halaman). Suntingan hari ini otomatis; hanya angka dan sitasi yang diperiksa mesin. Catat kalimat yang janggal, lalu kirim sebagai pasangan teks lama dan baru.
-2. **Perintah sudo Prometheus** (menunggu Anda): timer pemeriksa kesehatan belum dipasang. Tidak memengaruhi naskah.
+2. Prometheus: pemeriksa kesehatan sudah terpasang sebagai timer systemd tingkat pengguna (tanpa sudo) dan melapor `PROM_OK targets=2`. Tidak memengaruhi naskah.
 
 ## Pekerjaan naskah
 
 | Urutan | Tugas | Catatan |
 |---|---|---|
-| 1 | Baca ulang naskah, terutama ringkasan Results hasil pemangkasan | Satu sesi penuh; tandai kalimat |
+| 0 | Putuskan pertentangan telemetri (4.1, 3.6, Limitations), lihat berkas 01 | Hanya peneliti yang tahu apakah telemetri masuk model; asisten tidak boleh menebak |
+| 1 | Baca ulang naskah, terutama ringkasan Results hasil pemangkasan | Pemindaian mesin sudah dilakukan; pembacaan manusia belum |
 | 2 | Cocokkan kebijakan AI Springer Nature | Pernyataan ada di Methods ("Use of AI tools") dan Declarations |
-| 3 | Zenodo versi baru (Additional file 1, keluaran D2, tabel v3, bundel Trivy) | Setelah terbit, ganti kalimat Availability dan kalimat DOI di subbagian hasil E7 |
+| 3 | Zenodo versi baru (Additional file 1, keluaran D2, tabel v3, bundel Trivy) | DITUNDA atas keputusan peneliti (3 November). Setelah terbit, ganti kalimat Availability dan kalimat DOI di subbagian hasil E7 |
 | 4 | Audit bibliografi | `scripts/audit_bib_dois.py` dan `scripts/bib_deep_audit.py`; jangan menulis sitasi dari ingatan |
 | 5 | Periksa setiap angka abstrak terhadap tabel badan | Sembilan tabel sumber masih di badan; periksa ulang setelah suntingan akhir |
 | 6 | Peringatan Overfull baris 407 | Belum diperiksa asalnya |
