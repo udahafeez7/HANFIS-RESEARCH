@@ -285,35 +285,15 @@ The experimental workflow was implemented in Ubuntu 24.04 under Windows Subsyste
 
 The Kubernetes testbed comprised two Ready nodes and a baseline application, denoted P0, deployed with two ready replicas in the \texttt{hanfis-research} namespace. A load-generator pod accessed P0 through an internal Kubernetes service. Service availability was verified using an HTTP request from inside the cluster; status code 200 was required at each critical gate. The observability stack was deployed in a separate \texttt{monitoring} namespace and consisted of Prometheus~\cite{prometheus_overview}, Prometheus Operator, kube-state-metrics, and node-exporter components. In its validated ON state, the stack contained five fully ready and running monitoring pods, including node-level exporters. In the OFF condition, the deployments and stateful workload were scaled to zero and the exporter DaemonSet was made unschedulable through a controlled node-selector patch. The original replica counts and Kubernetes object definitions were saved before the transition so that the monitoring state could be restored deterministically.
 
-System preparation was organised as a sequence of auditable gates. The gates cover the baseline workload, cluster health, the observability deployment, the measurement procedure, protocol freezing and the generation of SHA-256 manifests; the criterion applied at each gate is listed in Table~\ref{tab1}. The first gates of the protocol-development phase (O5--B4.10 to O5--B4.11B) are kept in the repository as scripts and describe the procedure only; since one of their gate reports could not be reconstructed after the fact, they are not cited as evidence of passing. The evidence that the gates were satisfied is the set of run archives and manifests for Runs~7--16 (Section~\ref{subsec:overhead-protocol}), in each of which both conditions were admitted only after the gate criteria held. Because P0 stayed at two of two ready replicas with HTTP status 200 across every admitted transition, the change in observability state did not itself interrupt the target service.
+System preparation was organised as a sequence of auditable gates. The gates cover the baseline workload, cluster health, the observability deployment, the measurement procedure, protocol freezing and the generation of SHA-256 manifests; the criterion applied at each gate is listed in Table~S1 of Additional file~1. The first gates of the protocol-development phase (O5--B4.10 to O5--B4.11B) are kept in the repository as scripts and describe the procedure only; since one of their gate reports could not be reconstructed after the fact, they are not cited as evidence of passing. The evidence that the gates were satisfied is the set of run archives and manifests for Runs~7--16 (Section~\ref{subsec:overhead-protocol}), in each of which both conditions were admitted only after the gate criteria held. Because P0 stayed at two of two ready replicas with HTTP status 200 across every admitted transition, the change in observability state did not itself interrupt the target service.
 
-\begin{table*}[t]
-\caption{Experimental preparation, acceptance criteria, and methodological purpose.}
-\label{tab1}
-\centering
-\small
-\begin{tabularx}{\textwidth}{@{}p{2.6cm}p{3.4cm}X p{2.4cm}@{}}
-\toprule
-\textbf{Preparation element} & \textbf{Acceptance criterion} & \textbf{Methodological purpose} & \textbf{Evidence (Runs~7--16)} \\
-\midrule
-Cluster health & Two Kubernetes nodes in Ready state & Excludes measurements obtained during node degradation or loss of schedulability & Gate passed in all ten pairs \\
-Baseline workload P0 & Two of two replicas Ready & Holds application capacity constant across monitoring conditions & Gate passed in all ten pairs \\
-Service health & Internal HTTP response code 200 & Confirms that the measurement target remains operational before and after state transitions & Gate passed in all ten pairs \\
-Monitoring ON state & Five of five pods Running and fully Ready; Prometheus 1/1 Ready & Defines a complete observability treatment rather than a partially deployed stack & Gate passed in all ten pairs \\
-Monitoring OFF state & Zero monitoring pods remaining & Defines a valid control condition without residual collector workloads & Gate passed in all ten pairs \\
-Protocol freeze & Scripts, controller definitions, services, system fingerprint, and replication plan present & Prevents unrecorded procedural drift between runs & Applied to Runs~7--16; two aborted attempts logged as incidents \\
-Integrity control & SHA-256 manifests validate without mismatch & Detects post hoc alteration or corruption of experimental artefacts & SHA-256 manifest retained for each of the ten run archives \\
-Counterbalancing & Prespecified ON--OFF or OFF--ON order & Reduces order, warm-up, cache, and time-dependent bias & Five ON--OFF and five OFF--ON pairs \\
-\bottomrule
-\end{tabularx}
-\end{table*}
 
 \subsection{Observability-Overhead Protocol (external-v3.0)}
 \label{subsec:overhead-protocol}
 
-The gates and integrity controls of Table~\ref{tab1} were developed during the first runs and were carried forward unchanged into protocol \texttt{external-v3.0}, which produced all observability-overhead results reported in Section~\ref{subsec4.1}. The protocol comprises ten complete counterbalanced ON--OFF pairs (Runs~7--16): Runs~8, 10, 12, 14 and~16 were executed OFF--ON, and Runs~7, 9, 11, 13 and~15 ON--OFF. The earlier Runs~1--6 belong to the protocol-development phase and are not pooled with the ten pairs. One aborted attempt of Run~7 and one aborted attempt of Run~17 failed the integrity gate and are recorded as incidents rather than observations.
+The gates and integrity controls of Table~S1 of Additional file~1 were developed during the first runs and were carried forward unchanged into protocol \texttt{external-v3.0}, which produced all observability-overhead results reported in Section~\ref{subsec4.1}. The protocol comprises ten complete counterbalanced ON--OFF pairs (Runs~7--16): Runs~8, 10, 12, 14 and~16 were executed OFF--ON, and Runs~7, 9, 11, 13 and~15 ON--OFF. The earlier Runs~1--6 belong to the protocol-development phase and are not pooled with the ten pairs. One aborted attempt of Run~7 and one aborted attempt of Run~17 failed the integrity gate and are recorded as incidents rather than observations.
 
-The protocol follows a fail-closed rule. A condition is admitted to measurement only when the nodes, the P0 workload (two of two replicas), the HTTP service (status~200) and the required monitoring state satisfy the acceptance criteria of Table~\ref{tab1}. A failed gate yields a \texttt{HOLD} decision, not an observation. Each run is archived with a SHA-256 manifest, so that the ten run archives and the cumulative analysis can be re-verified without reconstructing the original command sequence.
+The protocol follows a fail-closed rule. A condition is admitted to measurement only when the nodes, the P0 workload (two of two replicas), the HTTP service (status~200) and the required monitoring state satisfy the acceptance criteria of Table~S1 of Additional file~1. A failed gate yields a \texttt{HOLD} decision, not an observation. Each run is archived with a SHA-256 manifest, so that the ten run archives and the cumulative analysis can be re-verified without reconstructing the original command sequence.
 
 Telemetry preserves the link between each value and its Kubernetes object, node, container, condition and run. The measurements are node-, pod- and container-level CPU and memory, pod readiness, HTTP outcome and response latency; identical request-generation and sampling procedures are applied in the ON and OFF conditions. Configuration files, event logs, gate reports and manifests document how each observation was produced and are not treated as HANFIS training features.
 
@@ -365,50 +345,8 @@ The proposed risk model contains seven conceptual inputs arranged hierarchically
 
 Following data-quality and overhead assessment, eligible telemetry variables will be cleaned, temporally aligned, normalised, and mapped to interpretable runtime indicators. Candidate indicators include resource pressure, workload instability, pod or node availability, service degradation, and exposure-related deployment context. Feature selection must preserve semantic relevance to cyber risk: a metric is not included merely because it is available. The mapping from raw telemetry to an environmental risk input will be specified before final model evaluation to reduce post hoc feature selection.
 
-Figure~\ref{fig:methodology-mindmap} summarises the relationship among infrastructure preparation, controlled telemetry acquisition, validation, and HANFIS. The figure is supplied as native \LaTeX/TikZ so that it remains editable in the Springer manuscript.
+Figure~S1 of Additional file~1 summarises the relationship among infrastructure preparation, controlled telemetry acquisition, validation, and HANFIS. The figure is supplied as native \LaTeX/TikZ so that it remains editable in the Springer manuscript.
 
-\begin{figure*}[t]
-\centering
-\resizebox{\textwidth}{!}{%
-\begin{tikzpicture}[
-  mindmap,
-  grow cyclic,
-  every node/.style={concept, font=\footnotesize, align=center},
-  root concept/.append style={concept color=black!80, text=white, minimum size=2.8cm},
-  level 1/.append style={level distance=4.3cm, sibling angle=72},
-  level 2/.append style={level distance=2.7cm, sibling angle=34},
-  infrastructure/.style={concept color=blue!65},
-  measurement/.style={concept color=teal!65},
-  validation/.style={concept color=orange!80},
-  model/.style={concept color=violet!65},
-  evidence/.style={concept color=green!55!black}
-]
-\node[root concept]{Telemetry-aware HANFIS methodology}
- child[infrastructure]{node{Controlled infrastructure}
-   child{node{WSL 2 and Docker}}
-   child{node{Two-node Kubernetes}}
-   child{node{P0 baseline workload}}}
- child[measurement]{node{Telemetry acquisition}
-   child{node{CPU and memory}}
-   child{node{Pod/node state}}
-   child{node{HTTP and latency}}}
- child[validation]{node{Overhead control}
-   child{node{Monitoring ON}}
-   child{node{Monitoring OFF}}
-   child{node{Ten paired runs}}}
- child[evidence]{node{Research integrity}
-   child{node{Protocol freeze}}
-   child{node{Gate reports}}
-   child{node{SHA-256 manifests}}}
- child[model]{node{HANFIS integration}
-   child{node{Kubernetes exposure}}
-   child{node[font=\fontsize{6.2}{7}\selectfont]{Environmental subsystem}}
-   child{node{Dynamic Risk Score}}};
-\end{tikzpicture}}
-
-\caption{Methodological mind map linking the cloud-native testbed, telemetry acquisition, monitoring-overhead controls, reproducibility evidence, and HANFIS integration.}
-\label{fig:methodology-mindmap}
-\end{figure*}
 
 \subsection{Validity safeguards and methodological boundary}
 \label{subsec:validity}
@@ -526,13 +464,6 @@ Ridge regression, all 7 inputs & 1.169 & 0.915 & $-2.293$ \\
 \end{tabular}
 \end{table}
 
-\begin{figure}[h]
-\centering
-\includegraphics[width=0.75\linewidth]{fig_e3_baselines.pdf}
-\caption{Mandatory baselines' skill against climatology, pooled over 5 folds. A single CVSS score
-now adds modest skill over climatology (22\%, up from essentially nothing on the earlier 27-image
-pilot); persistence and ridge separately recover over 90\% of the climatology-relative skill each, though not of each other; see Table~\ref{tab:e3-baselines} for the reversal in their relative standing.}\label{fig:e3-baselines}
-\end{figure}
 
 A single CVSS score explains a modest fraction of the realised label's variance ($\mathrm{SS}_{\mathrm{clim}}=0.222$). That is markedly more than on the earlier 27-image pilot ($\mathrm{SS}_{\mathrm{clim}}\approx0$), though still far below persistence or ridge. Static severity alone therefore remains a poor descriptor of which vulnerabilities become exploitable in practice, even as the larger inventory gives it some traction. A naive persistence forecast, in contrast, recovers
 97\% of the climatology-relative skill: the label is strongly autocorrelated because the set of active
@@ -575,13 +506,6 @@ H2's margin is large for two models holding an identical 176-parameter budget, b
 
 FlatANFISMatched's held-out predictions nonetheless range well outside the plausible label interval (down to $-6.679$ and up to $11.059$, against HANFIS's $0.000$--$10.401$). This is consistent with poor extrapolation from unsupervised cluster centres that have no access to the label's own generative grouping, which is the vulnerability/environmental/threat decomposition that HANFIS's architecture encodes by construction (Section~\ref{subsec:hanfis-architecture}). We read this as evidence for the mechanism claimed in C1/H2, not as a methodological artefact: the random 15\% validation carve-out used only to select the best of three restarts is identical for both models, while the reported skill score itself comes from the temporally and group-disjoint held-out block that the carve-out never touches.
 
-\begin{figure}[h]
-\centering
-\includegraphics[width=0.78\linewidth]{fig_e4_skill_scores.pdf}
-\caption{E4 confirmatory results: HANFIS skill score against each comparator with 95\% group-clustered
-bootstrap confidence intervals. Green bars exclude zero (confirmed); the red bar (H1b, vs.\ persistence)
-does not.}\label{fig:e4-skill-scores}
-\end{figure}
 
 \subsection{Accuracy-complexity curve}
 \label{subssec4.4}
@@ -635,26 +559,9 @@ This is the strongest statement the present inventory supports. It is a mechanis
 
 \subsection{Ablation and robustness analysis}\label{subssec4.5}
 
-Table~\ref{tab:e1-ablation} reports the completed membership-family$\times$monotonicity ablation (E1) on
+Table~S2 of Additional file~1 reports the completed membership-family$\times$monotonicity ablation (E1) on
 two synthetic scenarios designed to stress-test the training scheme before it is committed to real data. S1 is a smooth response with no thresholds and S2 a response containing a hard threshold; each is fit with five seeds at the 176-parameter (Gaussian) or 147-parameter (Ruspini) configuration.
 
-\begin{table}[h]
-\caption{E1 ablation: membership family $\times$ monotonicity, 5 seeds per cell.}\label{tab:e1-ablation}
-\begin{tabular}{@{}llcccc@{}}
-\toprule
-Scenario & MF family & Monotone & Params. & RMSE (mean $\pm$ SD) & $R^2$ (mean) \\
-\midrule
-S1 (smooth)     & Gauss   & no  & 176 & $0.093\pm0.021$ & 1.000 \\
-S1 (smooth)     & Gauss   & yes & 176 & $0.411\pm0.246$ & 0.999 \\
-S1 (smooth)     & Ruspini & no  & 147 & $0.043\pm0.052$ & 1.000 \\
-S1 (smooth)     & Ruspini & yes & 147 & $0.073\pm0.066$ & 1.000 \\
-S2 (threshold)  & Gauss   & no  & 176 & $0.117\pm0.034$ & 1.000 \\
-S2 (threshold)  & Gauss   & yes & 176 & $6.067\pm1.524$ & 0.879 \\
-S2 (threshold)  & Ruspini & no  & 147 & $0.646\pm0.051$ & 0.999 \\
-S2 (threshold)  & Ruspini & yes & 147 & $2.126\pm0.906$ & 0.983 \\
-\botrule
-\end{tabular}
-\end{table}
 
 The monotonicity constraint costs little on the smooth scenario but is expensive on the threshold scenario for the Gaussian family specifically (RMSE $0.117\to6.067$). A hard threshold is locally non-monotone, and softplus-constrained slopes cannot represent the local reversal. The connected Ruspini family degrades far less under the same constraint ($0.646\to2.126$), because its partition of unity concentrates the approximation error near the threshold instead of distributing a large penalty across every rule. Because the real target in Section~\ref{subsec:target-definition} is not known in
 advance to be smooth or threshold-like, amendment A-10 retains the Gaussian family with monotonicity
@@ -671,25 +578,10 @@ computed under the newer version: one block straddles the change and one lies wh
 was not pre-registered, so it is reported as a post hoc sensitivity analysis. The confirmatory pipeline was
 re-run with the same code, seeds and frozen configuration on the 4{,}560 asset-weeks whose labels all
 pre-date the change (weeks up to 2026-05-11; 720 held-out rows), with the results in
-Table~\ref{tab:e4-epss}. H1a, H1c and H2 remain confirmed, and H1b remains unconfirmed, with a much wider
+Table~S3 of Additional file~1. H1a, H1c and H2 remain confirmed, and H1b remains unconfirmed, with a much wider
 interval. Because both the training and the held-out windows change, skill scores are not directly comparable across the two columns. The larger margin over the matched flat model (H2: $0.665$ to $0.913$) comes from the matched
 model, whose mean squared error per held-out row rises from $1.22$ to $3.77$ while that of HANFIS stays at $0.41$ and $0.33$.
 
-\begin{table}[h]
-\caption{Post hoc sensitivity of the confirmatory comparison to the EPSS model change: full run versus weeks
-whose labels all pre-date 2026-06-15 (skill score, 95\% group-clustered bootstrap CI).}\label{tab:e4-epss}
-\begin{tabular}{@{}llcc@{}}
-\toprule
-Hypothesis & Comparator & Full run & Pre-change weeks \\
-\midrule
-H1a & Single CVSS score & 0.967 [0.951, 0.980] & 0.973 [0.939, 0.991] \\
-H1b & Persistence (4-week) & 0.015 [$-$0.607, 0.246] & $-$0.055 [$-$2.731, 0.201] \\
-H1c & Ridge, 7 inputs & 0.696 [0.527, 0.816] & 0.728 [0.484, 0.901] \\
-H2 & FlatANFISMatched & 0.665 [0.269, 0.844] & 0.913 [0.753, 0.974] \\
-H2$'$ & Flat ANFIS (full) & 0.253 & 0.441 \\
-\botrule
-\end{tabular}
-\end{table}
 
 \emph{Where HANFIS and persistence differ.} The pooled skill against persistence ($0.015$) hides two regimes, and
 this exploratory, post hoc analysis (not part of the Holm-corrected family) separates them. Dropping one held-out
@@ -712,22 +604,8 @@ FlatANFISMatched is $0.183$ and against the full flat model $0.084$, whereas the
 $0.656$ and $0.793$ whichever fold is removed.
 
 \subsection{Explanation fidelity (E6)}\label{sec:e6}
-We tested whether the rule-level explanation that HANFIS exposes is faithful to its inference. The test uses the 25 saved models (five folds $\times$ five seeds), which reproduce the confirmatory predictions of Section~\ref{sec4} exactly (mean over the five seeds; maximum difference $1.4\times10^{-6}$ on the 0--100 scale in single precision). The hypotheses and thresholds were drafted and announced before execution; the version-control freeze, however, preceded the commit that contained the protocol text, so the protocol is not frozen in the strict sense and the run is reported as a documented deviation. Table~\ref{tab:e6} lists the outcome.
+We tested whether the rule-level explanation that HANFIS exposes is faithful to its inference. The test uses the 25 saved models (five folds $\times$ five seeds), which reproduce the confirmatory predictions of Section~\ref{sec4} exactly (mean over the five seeds; maximum difference $1.4\times10^{-6}$ on the 0--100 scale in single precision). The hypotheses and thresholds were drafted and announced before execution; the version-control freeze, however, preceded the commit that contained the protocol text, so the protocol is not frozen in the strict sense and the run is reported as a documented deviation. Table~S4 of Additional file~1 lists the outcome.
 
-\begin{table}[ht]
-\caption{Explanation-fidelity checks on the 25 saved models. Pairs are the positive-control images P0-IF with and without the active filter; $S^{+}$ denotes the 23 weeks in which exploitability differs between the two.}\label{tab:e6}
-\begin{tabular}{@{}p{0.25\linewidth}p{0.29\linewidth}p{0.20\linewidth}l@{}}
-\hline
-Check & Criterion & Result & Outcome\\
-\hline
-H6-0 trace vs.\ inference & $|\Delta|\le10^{-9}$, all test rows & 0 & pass\\
-H6-neg identical inputs & $|\Delta|\le10^{-9}$, 34 weeks $\times$ 25 models & 0 & pass\\
-H6a direction (monotone) & $\hat y_{\mathrm{on}}-\hat y_{\mathrm{off}}\ge-10^{-9}$ on $S^{+}$ & minimum 0 & pass\\
-H6b panel structure & panel E unchanged, panel V changes & $0$ and $2.9\times10^{-4}$ & pass\\
-H6c deletion test & ratio $\ge2$ and proportion $\ge0.90$ & 4.11 and 0.835 & fail\\
-\hline
-\end{tabular}
-\end{table}
 
 Removing the three rules ranked highest by attribution changed the output 4.1 times more than removing three random rules, but it exceeded the median random removal in only 83.5\% of non-degenerate rows (criterion: 90\%); 456 of 5{,}400 rows (8.4\%) were degenerate, 446 of them because the output was clamped. Of the 575 positive-control pairs, 552 increased strictly; the remaining 23 include 20 pairs whose output is clamped at zero in both conditions. Post hoc and without bearing on the decision, the proportion reached 0.90 in two of five folds and was lowest in fold~3 (0.637), and it was lowest on the P0 and P0-IF rows (0.648, ratio 1.73, 135 rows). On the nine paired test weeks the mean ON--OFF contrast was 0.037 for the model and 0.073 for the label (0--100 scale): the direction is right and the magnitude is about half.
 
@@ -831,49 +709,14 @@ Change 12 minus 4 weeks: formula vs.\ persistence & $-0.016$ & $[-0.096,\,0.141]
 \subsection{Prioritisation utility (E15)}\label{subsec:e15}
 Risk scores are used to rank assets, so we also compared the predictors on ranking within each week rather than on squared error. For every week with at least 15 assets we computed the Spearman correlation between the predicted score and the realised label and the precision at the top 20\% (the share of the 20\% of assets with the highest predicted score that are also among the 20\% with the highest realised label), and averaged over weeks. Differences between predictors are paired by week, with 95\% intervals from a bootstrap that resamples weeks, a more conservative unit than images. This analysis is post hoc and uses the out-of-fold predictions at the three horizons.
 
-All predictors rank assets almost identically (Table~\ref{tab:e15}). At four weeks the weekly Spearman correlation is $0.99$ for the formula and for persistence and $0.97$ for HANFIS, and the precision at the top 20\% is $0.97$ for all three, so the lower squared error of the formula does not translate into a practical gain in prioritisation (Table~\ref{tab:e15d}: Spearman $+0.002$ and precision $0.000$ against persistence). At eight and twelve weeks persistence ranks somewhat worse (precision $0.94$ and $0.88$) and both HANFIS and the formula improve on it in precision ($+0.016$ and $+0.041$ for the formula, $+0.016$ and $+0.069$ for HANFIS). At twelve weeks HANFIS identifies the top 20\% better than the formula ($+0.028$, interval $[0.007,\,0.055]$) although its Spearman correlation is lower ($-0.024$). Differences in Spearman correlation never exceed $0.03$ and the precision is close to its ceiling, so all these differences should be read as small; with eighteen paired comparisons and no correction for multiplicity, the intervals are descriptive.
+All predictors rank assets almost identically (Table~S5 of Additional file~1). At four weeks the weekly Spearman correlation is $0.99$ for the formula and for persistence and $0.97$ for HANFIS, and the precision at the top 20\% is $0.97$ for all three, so the lower squared error of the formula does not translate into a practical gain in prioritisation (Table~S6 of Additional file~1: Spearman $+0.002$ and precision $0.000$ against persistence). At eight and twelve weeks persistence ranks somewhat worse (precision $0.94$ and $0.88$) and both HANFIS and the formula improve on it in precision ($+0.016$ and $+0.041$ for the formula, $+0.016$ and $+0.069$ for HANFIS). At twelve weeks HANFIS identifies the top 20\% better than the formula ($+0.028$, interval $[0.007,\,0.055]$) although its Spearman correlation is lower ($-0.024$). Differences in Spearman correlation never exceed $0.03$ and the precision is close to its ceiling, so all these differences should be read as small; with eighteen paired comparisons and no correction for multiplicity, the intervals are descriptive.
 
-\begin{table}[ht]
-\caption{Weekly ranking utility (E15, post hoc): mean over weeks of the Spearman correlation between predicted score and realised label, and precision at the top 20\%.}\label{tab:e15}
-\small
-\begin{tabular}{@{}p{0.40\linewidth}rrr@{}}
-\hline
-Horizon and metric & Formula & HANFIS & Persistence\\
-\hline
-4 weeks (45 weeks): Spearman & 0.994 & 0.969 & 0.992\\
-4 weeks: precision at top 20\% & 0.969 & 0.973 & 0.969\\
-8 weeks (37 weeks): Spearman & 0.989 & 0.963 & 0.982\\
-8 weeks: precision at top 20\% & 0.957 & 0.957 & 0.941\\
-12 weeks (29 weeks): Spearman & 0.974 & 0.951 & 0.964\\
-12 weeks: precision at top 20\% & 0.924 & 0.952 & 0.883\\
-\hline
-\end{tabular}
-\end{table}
 
-\begin{table}[ht]
-\caption{Paired weekly differences in ranking utility (E15, post hoc); 95\% week-bootstrap intervals in brackets.}\label{tab:e15d}
-\footnotesize
-\begin{tabular}{@{}p{0.30\linewidth}rr@{}}
-\hline
-Comparison & $\Delta$ Spearman & $\Delta$ precision at top 20\%\\
-\hline
-4 w: formula $-$ persistence & $+0.002$ $[0.001,\,0.004]$ & $0.000$ $[-0.013,\,0.013]$\\
-4 w: HANFIS $-$ persistence & $-0.023$ $[-0.027,\,-0.018]$ & $+0.004$ $[-0.009,\,0.018]$\\
-4 w: formula $-$ HANFIS & $+0.025$ $[0.021,\,0.029]$ & $-0.004$ $[-0.013,\,0.000]$\\
-8 w: formula $-$ persistence & $+0.007$ $[0.004,\,0.012]$ & $+0.016$ $[0.000,\,0.032]$\\
-8 w: HANFIS $-$ persistence & $-0.018$ $[-0.026,\,-0.011]$ & $+0.016$ $[0.000,\,0.032]$\\
-8 w: formula $-$ HANFIS & $+0.026$ $[0.020,\,0.031]$ & $0.000$ $[0.000,\,0.000]$\\
-12 w: formula $-$ persistence & $+0.010$ $[0.005,\,0.017]$ & $+0.041$ $[0.014,\,0.076]$\\
-12 w: HANFIS $-$ persistence & $-0.013$ $[-0.025,\,-0.002]$ & $+0.069$ $[0.034,\,0.103]$\\
-12 w: formula $-$ HANFIS & $+0.024$ $[0.017,\,0.032]$ & $-0.028$ $[-0.055,\,-0.007]$\\
-\hline
-\end{tabular}
-\end{table}
 
 \subsection{Error anatomy and the EPSS model change (E16--E19)}\label{subsec:e16}
 The preceding sections compare pooled errors. To see where the differences come from, we analysed the four-week out-of-fold predictions by stratum, by time block and by distance to the change of the EPSS model on 2026-06-15 (post hoc, with a bootstrap clustered by image).
 
-\emph{Reactivity.} The advantage of the formula over persistence is concentrated in rows in which an input changed during the previous four weeks (EPSS exploitability or KEV status; 628 of 1{,}080 rows). Its skill is $0.400$ (interval $0.308$ to $0.487$) in these rows and $0.002$ ($-0.069$ to $0.037$) where nothing changed, so it behaves like persistence when nothing happens (Table~\ref{tab:e16}); a gate that returns persistence in unchanged rows leaves it unchanged. HANFIS has skill $0.125$ in changed rows and $-0.900$ ($-4.171$ to $-0.206$) in unchanged rows: it adds noise where persistence is already adequate. A gate removes this deficit (improvement $0.098$, interval $0.033$ to $0.204$) but leaves HANFIS no better than persistence ($0.111$, $-0.367$ to $0.292$) and worse than the formula ($-0.383$, $-0.998$ to $-0.131$). Since the flag counts any change of the score, most flagged changes are small.
+\emph{Reactivity.} The advantage of the formula over persistence is concentrated in rows in which an input changed during the previous four weeks (EPSS exploitability or KEV status; 628 of 1{,}080 rows). Its skill is $0.400$ (interval $0.308$ to $0.487$) in these rows and $0.002$ ($-0.069$ to $0.037$) where nothing changed, so it behaves like persistence when nothing happens (Table~S7 of Additional file~1); a gate that returns persistence in unchanged rows leaves it unchanged. HANFIS has skill $0.125$ in changed rows and $-0.900$ ($-4.171$ to $-0.206$) in unchanged rows: it adds noise where persistence is already adequate. A gate removes this deficit (improvement $0.098$, interval $0.033$ to $0.204$) but leaves HANFIS no better than persistence ($0.111$, $-0.367$ to $0.292$) and worse than the formula ($-0.383$, $-0.998$ to $-0.131$). Since the flag counts any change of the score, most flagged changes are small.
 
 Squared error is extremely concentrated: the worst 5\% of rows hold 91\% (persistence), 95\% (formula) and 67\% (HANFIS) of the total, and the five worst images 68\%, 63\% and 39\%. Leaving out each of the five time blocks in turn leaves the skill of the formula against persistence between $0.34$ and $0.43$, with intervals above zero, although one block (April to June 2026) carries 73\% of the absolute reduction in error; HANFIS is worse than the formula in every such estimate.
 
@@ -881,19 +724,6 @@ Squared error is extremely concentrated: the worst 5\% of rows hold 91\% (persis
 
 \emph{Horizon, revisited.} The narrowing of the gap between HANFIS and the formula at eight and twelve weeks (Section~\ref{subsec:e14}) must be read in this light. Excluding the affected rows, HANFIS stays behind the formula at eight and twelve weeks ($-0.324$ and $-0.362$, intervals including zero). On the 169 asset-weeks that are common to the three horizons and unaffected at all of them, the skill of HANFIS against the formula still rises with the horizon ($-15.4$, $-1.1$ and $-0.5$; change between four and twelve weeks $+14.9$, interval $6.1$ to $53.7$). It stays significantly negative at every horizon ($-0.515$, interval $-2.117$ to $-0.092$, at twelve weeks). The horizon sweep therefore shows a shrinking deficit, not parity; the sample of unaffected rows is small and the intervals are wide.
 
-\begin{table}[ht]
-\caption{Input-change strata at four weeks (E16, post hoc): rows, mean squared error (persistence / formula / HANFIS), and skill against persistence with 95\% intervals.}\label{tab:e16}
-\footnotesize
-\setlength{\tabcolsep}{3pt}
-\begin{tabular}{@{}p{0.17\linewidth}rp{0.19\linewidth}p{0.22\linewidth}p{0.23\linewidth}@{}}
-\hline
-Stratum & Rows & MSE & Skill, formula & Skill, HANFIS\\
-\hline
-Input changed & 628 & 0.637 / 0.382 / 0.557 & $0.400$ $[0.308,\,0.487]$ & $0.125$ $[-0.402,\,0.333]$\\
-No input change & 452 & 0.107 / 0.106 / 0.202 & $0.002$ $[-0.069,\,0.037]$ & $-0.900$ $[-4.171,\,-0.206]$\\
-\hline
-\end{tabular}
-\end{table}
 
 \begin{table}[ht]
 \caption{Skill on all out-of-fold rows and on rows unaffected by the EPSS model change (E19, post hoc), with 95\% image-bootstrap intervals from a separate run (they differ slightly from Table~\ref{tab:e14}). Unaffected rows: 890 of 1{,}080 (four weeks), 536 of 889 (eight) and 342 of 697 (twelve).}\label{tab:e19}
@@ -917,33 +747,14 @@ Comparison & All rows & Unaffected rows\\
 \end{table}
 
 \subsection{Calibration (E21)}\label{subsec:e21}
-We checked calibration after the registration of the forward evaluation had become public (post hoc, descriptive, no training). For the four-week out-of-fold predictions of persistence, the formula and HANFIS we report the mean error (prediction minus label), the slope $\beta$ and intercept $\alpha$ of the regression of the label on the prediction (a calibrated predictor has $\beta=1$ and $\alpha=0$), and the mean label by decile of the prediction. Intervals come from the bootstrap clustered by image used above. The coefficients of the formula were fitted inside each training fold, on the same folds as HANFIS, so its calibration is also out-of-fold. Table~\ref{tab:e21} covers all 1{,}080 rows and the 890 rows whose label window does not straddle the change of the EPSS model (Section~\ref{subsec:e16}).
+We checked calibration after the registration of the forward evaluation had become public (post hoc, descriptive, no training). For the four-week out-of-fold predictions of persistence, the formula and HANFIS we report the mean error (prediction minus label), the slope $\beta$ and intercept $\alpha$ of the regression of the label on the prediction (a calibrated predictor has $\beta=1$ and $\alpha=0$), and the mean label by decile of the prediction. Intervals come from the bootstrap clustered by image used above. The coefficients of the formula were fitted inside each training fold, on the same folds as HANFIS, so its calibration is also out-of-fold. Table~S8 of Additional file~1 covers all 1{,}080 rows and the 890 rows whose label window does not straddle the change of the EPSS model (Section~\ref{subsec:e16}).
 
 All three predictors lie close to the identity line. Persistence runs low on all rows (mean error $-0.097$, interval $-0.196$ to $-0.013$), and almost all of this bias comes from the weeks around the model change: on unaffected rows it is $-0.015$ ($-0.079$ to $0.025$). The interval of the formula's mean error includes zero in both samples. HANFIS departs most: its slope is $1.025$ ($1.008$ to $1.044$) on all rows and $1.031$ ($1.014$ to $1.053$) on unaffected rows, where its intercept is $-0.193$ ($-0.300$ to $-0.085$). In the fourth decile of its predictions the mean prediction is $1.0$ and the mean label $0.5$ (unaffected rows: $1.1$ and $0.5$); the mean label does not rise between the third and fourth decile ($0.5$ in both) although the mean prediction doubles. In the upper deciles predictions and labels agree ($7.9$ and $8.1$ in the eighth decile, $9.8$ and $9.9$ in the ninth). These departures are small next to the label scale. The intervals above resample images and treat the weekly shocks shared by all images as fixed. A bootstrap clustered by week (E22, post hoc; 45 weeks, 37 of them unaffected by the model change) gives narrower intervals for these statistics, not wider ones: for HANFIS the slope is $1.025$ ($1.015$ to $1.035$) on all rows and $1.031$ ($1.020$ to $1.042$) on unaffected rows, and the intercept $-0.115$ ($-0.189$ to $-0.037$) and $-0.193$ ($-0.242$ to $-0.147$). To compare predictors we took the distance from the ideal value ($\beta=1$, $\alpha=0$, mean error $0$) and subtracted that of the formula from that of HANFIS, so that a positive number means HANFIS is further away. For the slope the excess is $0.023$ ($0.011$ to $0.033$) on all rows and $0.031$ ($0.018$ to $0.042$) on unaffected rows; with intervals clustered by image the first is $0.023$ ($0.001$ to $0.041$), a borderline result. On all rows the excess in the intercept and in the mean error includes zero ($0.068$, $-0.072$ to $0.179$, and $-0.024$, $-0.061$ to $0.061$; week-clustered). On unaffected rows the excess in the slope and in the intercept is positive under both kinds of clustering (slope $0.031$: week $0.018$ to $0.042$, image $0.013$ to $0.051$; intercept $0.182$: week $0.131$ to $0.230$, image $0.063$ to $0.278$). The excess in the mean error ($0.055$), by contrast, is positive only with the week-clustered interval ($0.034$ to $0.068$; image: $-0.016$ to $0.133$). Against persistence the pattern on unaffected rows is the same: slope $0.028$ (week $0.015$ to $0.040$, image $0.011$ to $0.050$) and intercept $0.167$ (week $0.111$ to $0.219$, image $0.021$ to $0.286$) are positive under both, the mean error $0.053$ (week $0.005$ to $0.088$, image $-0.053$ to $0.146$) only with week clustering. We read the miscalibration of HANFIS as small but consistent in slope and intercept where the model change does not interfere, and as descriptive.
 
-\emph{Recalibration (E23).} We asked whether a linear correction could close the gap between HANFIS and the formula. For this we refitted label $=a+b\times$ prediction for each predictor, once on the rows of the other folds (cross-fitted) and once on all rows (in-sample, an optimistic ceiling), and recomputed the skill of HANFIS against the formula (post hoc; intervals clustered by image). Cross-fitting uses rows from later folds, so this is a diagnostic and not a forecasting procedure. On all rows the skill is $-0.534$ ($-1.383$ to $-0.204$) before, $-0.535$ ($-1.287$ to $-0.232$) after the cross-fitted and $-0.509$ ($-1.223$ to $-0.213$) after the in-sample recalibration; the change from the cross-fitted recalibration is $-0.001$ ($-0.047$ to $0.116$). On unaffected rows the values are $-2.418$ ($-13.204$ to $-0.709$), $-2.315$ ($-12.609$ to $-0.702$) and $-2.175$ ($-12.388$ to $-0.647$); the change of $0.103$ ($-0.152$ to $1.060$) includes zero and is about 4\% of the deficit (10\% for the in-sample ceiling). The deficit of HANFIS is therefore not explained by a linear miscalibration: it remains after the correction, in line with the noise HANFIS adds in rows where no input changed (Table~\ref{tab:e16}).
+\emph{Recalibration (E23).} We asked whether a linear correction could close the gap between HANFIS and the formula. For this we refitted label $=a+b\times$ prediction for each predictor, once on the rows of the other folds (cross-fitted) and once on all rows (in-sample, an optimistic ceiling), and recomputed the skill of HANFIS against the formula (post hoc; intervals clustered by image). Cross-fitting uses rows from later folds, so this is a diagnostic and not a forecasting procedure. On all rows the skill is $-0.534$ ($-1.383$ to $-0.204$) before, $-0.535$ ($-1.287$ to $-0.232$) after the cross-fitted and $-0.509$ ($-1.223$ to $-0.213$) after the in-sample recalibration; the change from the cross-fitted recalibration is $-0.001$ ($-0.047$ to $0.116$). On unaffected rows the values are $-2.418$ ($-13.204$ to $-0.709$), $-2.315$ ($-12.609$ to $-0.702$) and $-2.175$ ($-12.388$ to $-0.647$); the change of $0.103$ ($-0.152$ to $1.060$) includes zero and is about 4\% of the deficit (10\% for the in-sample ceiling). The deficit of HANFIS is therefore not explained by a linear miscalibration: it remains after the correction, in line with the noise HANFIS adds in rows where no input changed (Table~S7 of Additional file~1).
 
 \emph{Stacking (E24).} We asked whether HANFIS carries information that the formula lacks. For this we fitted label $=a+b_1\times$ formula $+\,b_2\times$ HANFIS on the rows of the other folds, applied it to each fold in turn (cross-fitted), and compared it with the formula recalibrated in the same way (post hoc; intervals clustered by image). On all rows the skill of the combination against the recalibrated formula is $-0.001$ ($-0.006$ to $0.004$); the best case, with coefficients fitted on all rows, is $0.0005$ ($-0.002$ to $0.003$), and the weight of HANFIS is $0.030$ (between folds $0.015$ to $0.052$). Persistence as the second predictor instead of HANFIS gives $0.001$ ($-0.022$ to $0.021$). On unaffected rows the values are $-0.002$ ($-0.028$ to $0.017$) for HANFIS and $-0.169$ ($-0.224$ to $-0.005$) for persistence; the second reflects unstable coefficients, since the weights of formula and persistence vary widely between folds when both are included. A linear combination of the two predictors therefore does not beat the formula: HANFIS adds no information that a straight line can use.
 
-\begin{table}[ht]
-\caption{Calibration of four-week out-of-fold predictions (E21, post hoc). Mean error (prediction minus label), and slope $\beta$ and intercept $\alpha$ of the regression of the label on the prediction, with 95\% image-bootstrap intervals. Unaffected rows are those whose label window does not straddle the change of the EPSS model.}\label{tab:e21}
-\footnotesize
-\setlength{\tabcolsep}{3pt}
-\begin{tabular}{@{}p{0.17\linewidth}p{0.26\linewidth}p{0.26\linewidth}p{0.26\linewidth}@{}}
-\hline
-Predictor & Mean error & Slope $\beta$ & Intercept $\alpha$\\
-\hline
-\multicolumn{4}{@{}l}{\emph{All rows (1080)}}\\
-Persistence & $-0.097$ $[-0.196,\,-0.013]$ & $0.997$ $[0.986,\,1.007]$ & $0.109$ $[0.012,\,0.228]$\\
-Formula & $-0.040$ $[-0.106,\,0.017]$ & $0.998$ $[0.990,\,1.005]$ & $0.048$ $[-0.021,\,0.132]$\\
-HANFIS & $0.016$ $[-0.080,\,0.104]$ & $1.025$ $[1.008,\,1.044]$ & $-0.115$ $[-0.228,\,0.007]$\\
-\multicolumn{4}{@{}l}{\emph{Unaffected rows (890)}}\\
-Persistence & $-0.015$ $[-0.079,\,0.025]$ & $0.997$ $[0.993,\,1.001]$ & $0.026$ $[-0.017,\,0.091]$\\
-Formula & $0.012$ $[-0.029,\,0.040]$ & $1.000$ $[0.997,\,1.002]$ & $-0.012$ $[-0.044,\,0.035]$\\
-HANFIS & $0.068$ $[-0.029,\,0.157]$ & $1.031$ $[1.014,\,1.053]$ & $-0.193$ $[-0.300,\,-0.085]$\\
-\hline
-\end{tabular}
-\end{table}
 
 \subsection{Prospective evaluation (E7): forward results}\label{subsec:e7-results}
 The design of Section~\ref{subsec:e7} was executed once on 2026-11-02, and no stage was repeated. The evaluation covers 6 forward weeks (2026-08-31 to 2026-10-05) and 720 asset-weeks from 120 images (119 image groups). No row was dropped under the pre-registered insufficient-evidence rule, so every asset stayed in the analysis, including \texttt{cockroachdb}. The EPSS model version stayed at v2026.06.15 throughout.
