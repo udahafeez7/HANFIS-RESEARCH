@@ -11,6 +11,7 @@ Tenggat kerja: kirim paling lambat 5 Desember 2026 (32 hari dari 3 November). Pe
 
 | Urutan | Tugas | Catatan |
 |---|---|---|
+| 0 | Putuskan klaim komputasi (opsi B atau C, berkas 08) lalu terapkan perbaikan konsistensi naskah dari berkas 08 | C2 dan H2 menjanjikan pengukuran yang belum ada; H2/H3, H4, angka 981 |
 | 1 | Baca ulang naskah, terutama ringkasan Results hasil pemangkasan | Pemindaian mesin sudah dilakukan; pembacaan manusia belum |
 | 2 | Cocokkan kebijakan AI Springer Nature | Pernyataan ada di Methods ("Use of AI tools") dan Declarations |
 | 3 | Zenodo versi baru (Additional file 1, keluaran D2, tabel v3, bundel Trivy) | DITUNDA atas keputusan peneliti (3 November). Setelah terbit, ganti kalimat Availability dan kalimat DOI di subbagian hasil E7 |
