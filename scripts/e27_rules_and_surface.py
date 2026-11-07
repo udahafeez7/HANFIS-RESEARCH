@@ -44,7 +44,9 @@ def panel_reconstruct(panel, x):
 
 
 def mf_label(level, m, name):
-    return {2: ["low", "high"], 3: ["low", "medium", "high"]}[m][level] if m in (2, 3) else str(level)
+    # Index labels only. Gaussian centres are free parameters and are NOT constrained to keep the order of their index, so a name
+    # such as "low" or "high" would assert a meaning the trained model need not have (see the ordering check in the output).
+    return f"MF{level + 1}"
 
 
 def main() -> int:
@@ -62,7 +64,7 @@ def main() -> int:
     lines = ["# Trained HANFIS rules: fold 0, seed 20260928 (E4-bis, 120 assets)", "",
              "Descriptive documentation of one pre-specified saved model (`results_python/e4bis_120_models/models/fold0_seed20260928_hanfis.pt`). "
              f"Reconstruction checked against the model's forward pass on 1,000 fixed rows (max abs difference: V {diffs['V']:.1e}, E {diffs['E']:.1e}, I {diffs['I']:.1e}). "
-             "Gaussian membership functions mu(z) = exp(-0.5 ((z - c) / s)^2), normalised Sugeno firing, consequent f = b0 + sum b_i z_i with softplus slopes (A-04). "
+             "Membership functions are named by index (MF1, MF2, MF3), not by linguistic labels, because the centres are free parameters. Gaussian membership functions mu(z) = exp(-0.5 ((z - c) / s)^2), normalised Sugeno firing, consequent f = b0 + sum b_i z_i with softplus slopes (A-04). "
              "Inputs z are in normalised units; for the raw inputs raw = shift + scale * z (x1 CVSS: 0 to 10; x3 Patch Risk: 0 to 2; x6 Asset Criticality: 1 to 5). v and e are the clipped panel outputs.", ""]
     inputs_V, inputs_E = ["cvss", "exploitability", "patch_risk"], ["mfa_risk", "kubernetes_exposure", "asset_criticality"]
     panels = [("V", model.vulnerability, [NAMES[n] for n in inputs_V], inputs_V), ("E", model.environment, [NAMES[n] for n in inputs_E], inputs_E),
@@ -79,7 +81,12 @@ def main() -> int:
                     sh, sc = ss[raw_names[i]]; raw = f" [raw {sh + sc * c:.3g}]"
                 parts.append(f"{mf_label(j, panel.m_per_input[i], lab)}: c={c:.3f}, s={s:.3f}{raw}")
             lines.append(f"- {lab}: " + "; ".join(parts))
-        lines += ["", "| Rule | IF | b0 | " + " | ".join(f"b({l.split()[0]})" for l in labels) + " |", "|---|---|---|" + "---|" * len(labels)]
+        order = []
+        for i, lab in enumerate(labels):
+            cs = [float(panel.centers[i][j]) for j in range(panel.m_per_input[i])]
+            order.append(f"{lab.split()[0]}: centres in index order {[round(c, 3) for c in cs]} -> " + ("increasing" if all(a < b for a, b in zip(cs, cs[1:])) else "NOT increasing"))
+        lines += ["", "Ordering check (do the centres keep the order of the membership-function index?): " + "; ".join(order) + ".",
+                  "", "| Rule | IF | b0 | " + " | ".join(f"b({l.split()[0]})" for l in labels) + " |", "|---|---|---|" + "---|" * len(labels)]
         B = panel.effective_consequents().detach()
         for r in range(panel.rule_count):
             cond = " AND ".join(f"{labels[i].split()[0]} is {mf_label(int(panel.rule_indices[r, i]), panel.m_per_input[i], labels[i])}" for i in range(panel.n_inputs))

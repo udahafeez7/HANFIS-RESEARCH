@@ -1,0 +1,34 @@
+{
+  "tag": "E4-bis, 120 assets, fold 0 (E26 documentation)",
+  "fold": 0,
+  "seeds_used": [
+    20260928,
+    20261005,
+    20261012,
+    20261019,
+    20261026
+  ],
+  "model_files": [
+    "results_python/e4bis_120_models/models/fold0_seed20260928_hanfis.pt",
+    "results_python/e4bis_120_models/models/fold0_seed20261005_hanfis.pt",
+    "results_python/e4bis_120_models/models/fold0_seed20261012_hanfis.pt",
+    "results_python/e4bis_120_models/models/fold0_seed20261019_hanfis.pt",
+    "results_python/e4bis_120_models/models/fold0_seed20261026_hanfis.pt"
+  ],
+  "meta": "results_python/e4bis_120_models/meta_20261005T083407Z.json",
+  "table": "data/processed/asset_weeks_v2_120assets_e4bis.csv",
+  "pair": [
+    "exploitability",
+    "threat_intelligence"
+  ],
+  "sample_medians": {
+    "cvss": 9.8,
+    "exploitability": 0.030296,
+    "patch_risk": 2.0,
+    "mfa_risk": 0.5,
+    "kubernetes_exposure": 0.5,
+    "asset_criticality": 3.0,
+    "threat_intelligence": 0.0
+  },
+  "note": "all curves/surface are the real model's forward pass (hanfis_predict); no premise or consequent arithmetic was reconstructed by hand."
+}
