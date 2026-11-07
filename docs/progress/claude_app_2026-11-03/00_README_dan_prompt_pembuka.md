@@ -14,14 +14,15 @@ Paket ini berdiri sendiri. Aplikasi Claude tidak punya akses ke mesin atau repos
 | `06_aturan_menulis_dan_risiko_penelaah.md` | Aturan gaya, aturan perubahan naskah, pertanyaan yang mungkin diajukan penelaah |
 | `07_benchmark_review_2026-11-07.md` | Pembacaan empat paper pembanding dan penilaian ulang naskah (ditulis di aplikasi Claude; disimpan apa adanya) |
 | `08_pencocokan_benchmark_dengan_progres_2026-11-07.md` | Verifikasi tiap butir berkas 07 terhadap repositori, koreksi, dan penyesuaian per lapisan |
-| `HANFIS_RESEARCH_MEMORY_v2.63.md` | Salinan memori proyek v2.63 (A-1 sampai A-83); unggah ke Project dan hapus versi lama |
+| `09_hasil_E25_biaya_komputasi_2026-11-07.md` | Hasil pengukuran biaya komputasi E25 (deskriptif, tidak terdaftar): waktu latih, memori, latensi, throughput |
+| `HANFIS_RESEARCH_MEMORY_v2.64.md` | Salinan memori proyek v2.64 (A-1 sampai A-84); unggah ke Project dan hapus versi lama |
 
 Folder ini sudah memuat `sn-article_2026-11-03.pdf` dan `additional_file_1_2026-11-03.pdf` (salinan PDF naskah saat ini); unggah keduanya bila ingin Claude membaca naskah utuh. Berkas `.tex` boleh diunggah, tetapi jangan minta Claude menyunting `.tex` langsung: perubahan naskah di repositori memakai skrip teks-persis (lihat berkas 06).
 
 ## Prompt pembuka (tempel sebagai pesan pertama)
 
 ```text
-Kamu membantu saya menyiapkan naskah Q1 untuk Springer Journal of Cloud Computing (kirim paling lambat 5 Desember 2026). Baca semua berkas markdown yang saya unggah, mulai dari 00 sampai 08. Kamu tidak punya akses ke mesin atau repositori saya; bantu hanya dari berkas dan teks yang saya tempel. Aturan keras: hasil negatif dilaporkan apa adanya; jangan menyarankan analisis tambahan atau penyetelan setelah hasil E7 terlihat; jangan melonggarkan ambang; analisis post hoc harus ditandai post hoc; jangan menulis sitasi dari ingatan (metadata referensi saya ambil dari doi.org). Jawab dalam bahasa Indonesia, istilah teknis tetap bahasa Inggris, teks naskah dalam bahasa Inggris. Kalimat pertama menjawab pertanyaan; tanpa pembuka dan penutup basa-basi.
+Kamu membantu saya menyiapkan naskah Q1 untuk Springer Journal of Cloud Computing (kirim paling lambat 5 Desember 2026). Baca semua berkas markdown yang saya unggah, mulai dari 00 sampai 09. Kamu tidak punya akses ke mesin atau repositori saya; bantu hanya dari berkas dan teks yang saya tempel. Aturan keras: hasil negatif dilaporkan apa adanya; jangan menyarankan analisis tambahan atau penyetelan setelah hasil E7 terlihat; jangan melonggarkan ambang; analisis post hoc harus ditandai post hoc; jangan menulis sitasi dari ingatan (metadata referensi saya ambil dari doi.org). Jawab dalam bahasa Indonesia, istilah teknis tetap bahasa Inggris, teks naskah dalam bahasa Inggris. Kalimat pertama menjawab pertanyaan; tanpa pembuka dan penutup basa-basi.
 ```
 
 ## Posisi satu paragraf

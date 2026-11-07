@@ -1,6 +1,6 @@
 # Status naskah (3 November 2026)
 
-HEAD repositori `fa53867`, cabang `research/amend-a02-a06`, memori proyek v2.63 (amendemen A-83). Tag penting: `e7-prereg-2026-10-12` (komit `dbed812`, 23 berkas beku), `e7-results-2026-11-02`, `progress-seal-2026-11-03` sampai `progress-seal-2026-11-03e` (lima segel hari itu).
+HEAD repositori `0e4a117`, cabang `research/amend-a02-a06`, memori proyek v2.64 (amendemen A-84). Tag penting: `e7-prereg-2026-10-12` (komit `dbed812`, 23 berkas beku), `e7-results-2026-11-02`, `progress-seal-2026-11-03` sampai `progress-seal-2026-11-03e` (lima segel hari itu).
 
 ## Ukuran
 
