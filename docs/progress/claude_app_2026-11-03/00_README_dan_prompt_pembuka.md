@@ -12,6 +12,7 @@ Paket ini berdiri sendiri. Aplikasi Claude tidak punya akses ke mesin atau repos
 | `04_additional_file_1_indeks.md` | Isi Additional file 1 (tabel, gambar, catatan suplemen) dan peta pemindahan |
 | `05_tugas_terbuka_dan_jadwal.md` | Daftar kerja sampai kirim, urutan, tenggat |
 | `06_aturan_menulis_dan_risiko_penelaah.md` | Aturan gaya, aturan perubahan naskah, pertanyaan yang mungkin diajukan penelaah |
+| `HANFIS_RESEARCH_MEMORY_v2.62.md` | Salinan memori proyek v2.62 (A-1 sampai A-82); unggah ke Project dan hapus versi lama |
 
 Folder ini sudah memuat `sn-article_2026-11-03.pdf` dan `additional_file_1_2026-11-03.pdf` (salinan PDF naskah saat ini); unggah keduanya bila ingin Claude membaca naskah utuh. Berkas `.tex` boleh diunggah, tetapi jangan minta Claude menyunting `.tex` langsung: perubahan naskah di repositori memakai skrip teks-persis (lihat berkas 06).
 
@@ -24,6 +25,10 @@ Kamu membantu saya menyiapkan naskah Q1 untuk Springer Journal of Cloud Computin
 ## Posisi satu paragraf
 
 Evaluasi maju E7 sudah dijalankan sekali pada 2 November 2026 dan hasilnya terkunci (tag `e7-results-2026-11-02`). Hasilnya: HANFIS tidak lebih baik daripada persistence (P7a didukung) maupun rumus empat parameter (P7f didukung); rumus mengalahkan persistence (P7e terkonfirmasi). Naskah sudah memuat hasil itu (skenario A dari templat 14 Oktober), diperpendek dari 58 ke 48 halaman format referee, dan memiliki satu berkas tambahan (Additional file 1).
+
+## Status eksperimen
+
+Semua eksperimen yang diperlukan naskah sudah selesai: E0 sampai E7 dan analisis post hoc E8 sampai E24. E7 (evaluasi maju) dijalankan sekali pada 2 November dan terkunci. Tidak ada Run 18 (keputusan 20 Oktober). Eksperimen tambahan hanya opsional dan bukan syarat submit: menguji dugaan bahwa pergantian model EPSS menjelaskan kegagalan transfer HANFIS (post hoc), dan hipotesis H6 (x5 dari telemetri; harus dipraregistrasi terpisah). Keduanya tidak boleh mengubah keputusan terdaftar. Prometheus merekam sejak 3 November dan tidak dipakai naskah.
 
 
 ---

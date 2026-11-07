@@ -14,7 +14,7 @@ Tenggat kerja: kirim paling lambat 5 Desember 2026 (32 hari dari 3 November). Pe
 | 1 | Baca ulang naskah, terutama ringkasan Results hasil pemangkasan | Pemindaian mesin sudah dilakukan; pembacaan manusia belum |
 | 2 | Cocokkan kebijakan AI Springer Nature | Pernyataan ada di Methods ("Use of AI tools") dan Declarations |
 | 3 | Zenodo versi baru (Additional file 1, keluaran D2, tabel v3, bundel Trivy) | DITUNDA atas keputusan peneliti (3 November). Setelah terbit, ganti kalimat Availability dan kalimat DOI di subbagian hasil E7 |
-| 4 | Audit bibliografi | `scripts/audit_bib_dois.py` dan `scripts/bib_deep_audit.py`; jangan menulis sitasi dari ingatan |
+| 4 | Audit bibliografi | SELESAI 4 November (`scripts/audit_bib_dois.py`, `scripts/bib_deep_audit.py`, Consensus untuk Holm): 20 entri, 14 ber-DOI diperiksa, 13 lengkap. Satu selisih, `soozanchi2010hanfis` (judul prosiding di `booktitle` dan seri IFIP di `series`), bukan galat. Enam entri tanpa DOI: lima web atau perangkat lunak dan satu makalah (Holm 1979). Sisa: volume 6(2) dan halaman 65 sampai 70 Holm belum terverifikasi lewat alat yang tersedia. CSV: `results_python/bib_audit/bib_audit_20261104T163136.csv` |
 | 5 | Periksa setiap angka abstrak terhadap tabel badan | Sembilan tabel sumber masih di badan; periksa ulang setelah suntingan akhir |
 | 6 | Peringatan Overfull baris 407 | Belum diperiksa asalnya |
 | 7 | Siapkan paket submit: naskah `.tex` tunggal, gambar, Additional file 1 terpisah, cover letter | Cover letter ditulis setelah naskah final |
