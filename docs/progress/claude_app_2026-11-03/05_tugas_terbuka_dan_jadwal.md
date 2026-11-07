@@ -4,7 +4,7 @@ Tenggat kerja: kirim paling lambat 5 Desember 2026 (32 hari dari 3 November). Pe
 
 ## Sebelum menulis ulang apa pun
 
-1. **Baca ulang naskah utuh** (`sn-article.pdf`, 48 halaman). Suntingan hari ini otomatis; hanya angka dan sitasi yang diperiksa mesin. Catat kalimat yang janggal, lalu kirim sebagai pasangan teks lama dan baru.
+1. **Baca ulang naskah utuh** (`sn-article.pdf`, 53 halaman). Suntingan hari ini otomatis; hanya angka dan sitasi yang diperiksa mesin. Catat kalimat yang janggal, lalu kirim sebagai pasangan teks lama dan baru.
 2. Prometheus: pemeriksa kesehatan sudah terpasang sebagai timer systemd tingkat pengguna (tanpa sudo) dan melapor `PROM_OK targets=2`. Tidak memengaruhi naskah.
 
 ## Pekerjaan naskah

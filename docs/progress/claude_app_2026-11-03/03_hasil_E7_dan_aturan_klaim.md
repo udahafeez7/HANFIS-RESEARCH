@@ -22,7 +22,7 @@ Pembanding deskriptif (E11, out-of-fold, sudah ada di naskah): MSE rumus 0,27, p
 \subsection{Prospective evaluation (E7): forward results}\label{subsec:e7-results}
 The design of Section~\ref{subsec:e7} was executed once on 2026-11-02, and no stage was repeated. The evaluation covers 6 forward weeks (2026-08-31 to 2026-10-05) and 720 asset-weeks from 120 images (119 image groups). No row was dropped under the pre-registered insufficient-evidence rule, so every asset stayed in the analysis, including \texttt{cockroachdb}. The EPSS model version stayed at v2026.06.15 throughout.
 
-Table~\ref{tab:e7-results} lists the registered decisions. In weeks without an EPSS model change, HANFIS was not better than persistence: the skill score was $-3.757$ (95\% CI $-9.177$ to $-1.594$), and the upper bound lies below the margin of $0.05$ (P7a supported). The fixed blend was worse than persistence (SS $-0.807$, 95\% CI $-2.507$ to $-0.160$). The max-form formula beat persistence (SS $0.340$, 95\% CI $0.060$ to $0.628$; MSE $0.261$ against $0.396$; one-sided $p=0.0005$, Holm threshold $0.0125$). P7e is confirmed. HANFIS was not better than the formula (SS $-6.208$, 95\% CI $-13.677$ to $-3.188$; MSE $1.884$ for HANFIS against $0.261$ for the formula). The upper bound lies below $0.05$, so P7f is supported. The mean weekly Spearman correlation between predicted and realised change was $0.066$ (lower 95\% bound $-0.074$); the lower bound does not exceed zero, so P7d is not demonstrated. A bootstrap clustered by week (6 weeks) gives the same decision for P7e and P7f (SS $0.340$, 95\% CI $0.100$ to $0.758$ for P7e). The reported $p$ values equal $1/2001$, the smallest value that a bootstrap of 2{,}000 resamples can give.
+Table~\ref{tab:e7-results} lists the registered decisions. In weeks without an EPSS model change, HANFIS was not better than persistence: the skill score was $-3.757$ (95\% CI $-9.177$ to $-1.594$), and the upper bound lies below the margin of $0.05$ (P7a supported: HANFIS not better). The fixed blend was worse than persistence (SS $-0.807$, 95\% CI $-2.507$ to $-0.160$). The max-form formula beat persistence (SS $0.340$, 95\% CI $0.060$ to $0.628$; MSE $0.261$ against $0.396$; one-sided $p=0.0005$, Holm threshold $0.0125$). P7e is confirmed. HANFIS was not better than the formula (SS $-6.208$, 95\% CI $-13.677$ to $-3.188$; MSE $1.884$ for HANFIS against $0.261$ for the formula). The upper bound lies below $0.05$, so P7f is supported. The mean weekly Spearman correlation between predicted and realised change was $0.066$ (lower 95\% bound $-0.074$); the lower bound does not exceed zero, so P7d is not demonstrated. A bootstrap clustered by week (6 weeks) gives the same decision for P7e and P7f (SS $0.340$, 95\% CI $0.100$ to $0.758$ for P7e). The reported $p$ values equal $1/2001$, the smallest value that a bootstrap of 2{,}000 resamples can give.
 
 \begin{table}[h]
 \caption{E7 forward results: skill score (pooled mean squared error, bootstrap clustered by image, 2{,}000 resamples) with 95\% CI. P7a and P7b form one Holm family, P7e and P7f another; P7e and P7f are post hoc in origin.}\label{tab:e7-results}
@@ -30,10 +30,10 @@ Table~\ref{tab:e7-results} lists the registered decisions. In weeks without an E
 \toprule
 Hypothesis & Comparison & SS & 95\% CI & Decision \\
 \midrule
-P7a & HANFIS against persistence & $-3.757$ & [$-$9.177, $-$1.594] & Supported \\
+P7a & HANFIS against persistence & $-3.757$ & [$-$9.177, $-$1.594] & Supported (not better) \\
 P7b & Blend against persistence & $-0.807$ & [$-$2.507, $-$0.160] & Worse \\
 P7e & Formula against persistence & 0.340 & [0.060, 0.628] & Confirmed \\
-P7f & HANFIS against formula & $-6.208$ & [$-$13.677, $-$3.188] & Supported \\
+P7f & HANFIS against formula & $-6.208$ & [$-$13.677, $-$3.188] & Supported (not better) \\
 \botrule
 \end{tabular}
 \end{table}

@@ -1,6 +1,6 @@
 # Additional file 1: indeks
 
-Berkas `manuscript/additional_file_1.tex` (13 halaman) memuat apa yang dipindah dari naskah utama. Isi tabel dan gambar identik dengan aslinya. Catatan suplemen memuat teks asli bagian yang diringkas di naskah, kata per kata.
+Berkas `manuscript/additional_file_1.tex` (15 halaman) memuat apa yang dipindah dari naskah utama. Isi tabel dan gambar identik dengan aslinya. Catatan suplemen memuat teks asli bagian yang diringkas di naskah, kata per kata.
 
 ## Peta pemindahan tabel dan gambar
 
@@ -29,9 +29,15 @@ Berkas `manuscript/additional_file_1.tex` (13 halaman) memuat apa yang dipindah 
 | tab:e15d | Paired weekly differences in ranking utility (E15, post hoc); 95\% week-bootstrap intervals in brackets. |
 | tab:e16 | Input-change strata at four weeks (E16, post hoc): rows, mean squared error (persistence / formula / HANFIS), and skill against persistence with 95\%  |
 | tab:e21 | Calibration of four-week out-of-fold predictions (E21, post hoc). Mean error (prediction minus label), and slope $\beta$ and intercept $\alpha$ of the |
+| (tanpa label; Table S9 sampai S13, Figure S4 dibuat 7 Nov) | E25 per fold: median over three repetitions of the training time, the peak memory increase and the single-row latency of the full flat ANFIS (F), Flat |
+| (tanpa label; Table S9 sampai S13, Figure S4 dibuat 7 Nov) | Frozen training configuration of the confirmatory comparison (amendments A-09 and A-16). |
+| (tanpa label; Table S9 sampai S13, Figure S4 dibuat 7 Nov) | Membership functions of the documented HANFIS (fold 0, first frozen seed), in normalised input units. The last column states whether the centres keep  |
+| (tanpa label; Table S9 sampai S13, Figure S4 dibuat 7 Nov) | Rules of panels $V$ and $E$ of the documented HANFIS (fold 0, first frozen seed): membership-function index per input (inputs in the order $x_1,x_2,x_ |
+| (tanpa label; Table S9 sampai S13, Figure S4 dibuat 7 Nov) | Rules of the integration panel $I$ of the documented HANFIS (fold 0, first frozen seed): membership-function index for $(v,e,x_7)$ and the consequent  |
 | fig:methodology-mindmap | Methodological mind map linking the cloud-native testbed, telemetry acquisition, monitoring-overhead controls, reproducibility evidence, and HANFIS in |
 | fig:e3-baselines | Mandatory baselines' skill against climatology, pooled over 5 folds. A single CVSS score now adds modest skill over climatology (22\%, up from essenti |
 | fig:e4-skill-scores | E4 confirmatory results: HANFIS skill score against each comparator with 95\% group-clustered bootstrap confidence intervals. Green bars exclude zero  |
+| fig:e27-surface | Response of the five-seed ensemble of fold 0 over exploitability ($x_2$) and threat intelligence ($x_7$), the other inputs held at their sample median |
 
 ## Catatan suplemen
 

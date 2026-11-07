@@ -19,9 +19,9 @@ Paket ini berdiri sendiri. Aplikasi Claude tidak punya akses ke mesin atau repos
 | `11_hasil_E26_E27_dan_verifikasi_audit_2026-11-07.md` | Hasil E26 (ablasi x7), E27 (aturan dan permukaan respons), dan verifikasi tiap butir audit |
 | `12_E27_aturan_fold0_seed20260928.md` | Tabel 34 aturan satu model HANFIS (fold 0, seed 20260928) dengan pemeriksaan keurutan fungsi keanggotaan |
 | `13_perbandingan_flat_vs_hanfis_2026-11-07.md` | Perbandingan flat ANFIS penuh, FlatANFISMatched, dan HANFIS dalam bahasa sederhana, dengan kesimpulan yang boleh dan tidak boleh ditarik |
-| `HANFIS_RESEARCH_MEMORY_v2.65.md` | Salinan memori proyek v2.65 (A-1 sampai A-85); unggah ke Project dan hapus versi lama |
+| `HANFIS_RESEARCH_MEMORY_v2.66.md` | Salinan memori proyek v2.66 (A-1 sampai A-86); unggah ke Project dan hapus versi lama |
 
-Folder ini sudah memuat `sn-article_2026-11-03.pdf` dan `additional_file_1_2026-11-03.pdf` (salinan PDF naskah saat ini); unggah keduanya bila ingin Claude membaca naskah utuh. Berkas `.tex` boleh diunggah, tetapi jangan minta Claude menyunting `.tex` langsung: perubahan naskah di repositori memakai skrip teks-persis (lihat berkas 06).
+Folder ini sudah memuat `sn-article_2026-11-07.pdf` dan `additional_file_1_2026-11-07.pdf` (salinan PDF naskah saat ini); unggah keduanya bila ingin Claude membaca naskah utuh. Berkas `.tex` boleh diunggah, tetapi jangan minta Claude menyunting `.tex` langsung: perubahan naskah di repositori memakai skrip teks-persis (lihat berkas 06).
 
 ## Prompt pembuka (tempel sebagai pesan pertama)
 
