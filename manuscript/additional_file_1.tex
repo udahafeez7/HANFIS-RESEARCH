@@ -712,5 +712,12 @@ A-16 & frozen setting & grouped, embargoed temporal split (Section~\ref{subssec4
 \end{tabular}
 \end{table}
 
+\subsection*{Supplementary note S12: Design of the observability-overhead experiment (original text of Section~\ref{subsec3.1})}
+This study adopts a controlled, repeated-measures experimental design to develop and validate an evidence-based Hierarchical Adaptive Neuro-Fuzzy Inference System (HANFIS) for dynamic risk scoring in a cloud-native environment. The methodological premise is that runtime telemetry cannot be incorporated into a cybersecurity risk model without first establishing its provenance, measurement cost, stability, and reproducibility. Otherwise, resource consumption or latency introduced by the observability stack itself could be misinterpreted as a change in workload exposure and, consequently, as a change in cyber risk.
+
+The study therefore separates two related but analytically distinct objectives. The first objective is to quantify the overhead of Kubernetes observability. The second is to establish which validated runtime measurements are stable enough to be considered as inputs for the environmental subsystem in future work; in the present study the environmental inputs are static per-asset values (Section~\ref{subsec:target-definition}). The overhead experiment compares the same baseline workload under two conditions: monitoring enabled (ON) and monitoring disabled (OFF). The workload, service configuration, request path, cluster topology, sampling procedure, and validation gates are held constant. Monitoring state is the principal experimental factor. This design provides a control condition against which the incremental cost of telemetry collection can be estimated.
+
+The observability experiment comprises ten paired runs (Runs~7--16). Conditions are counterbalanced across runs using ON--OFF and OFF--ON sequences. Counterbalancing reduces systematic error from execution order, cache warming, temporal load variation, and cluster stabilisation. Each transition is guarded by a preflight or post-transition validation step. A condition is admitted to measurement only when the Kubernetes nodes, baseline workload, HTTP service, and required monitoring state satisfy predetermined acceptance criteria. Failed gates produce a \texttt{HOLD} decision rather than an experimental observation. This prevents measurements obtained from a degraded or incorrectly configured system from entering the analytical dataset.
+
 \bibliography{sn-bibliography}
 \end{document}
