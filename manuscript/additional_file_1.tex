@@ -541,5 +541,176 @@ and consistent effects, still provide limited power for null-hypothesis testing 
 specifically, which is why the reported confidence intervals rather than a significance threshold carry
 the interpretive weight in Section~\ref{subsec4.1}.
 
+\section*{Supplementary material moved from the main text on 11 November 2026}
+The following material stood in the main text until 11 November 2026 and was moved here so that the main text reports only the headline numbers. Nothing was re-run; the numbers are those of the original sections.
+
+\begin{table}[htbp]
+\caption{Paired monitoring overhead over ten counterbalanced runs (protocol external-v3.0).
+CI: 10{,}000-resample bootstrap; $p$: exact two-sided sign-flip test (floor $2/2^{10}=0.002$).}
+\label{tab:overhead}
+\begin{tabularx}{\textwidth}{@{}Xrrrr@{}}
+\toprule
+Measure & Mean $\Delta$ & 95\% CI & Relative & $p$ \\
+\midrule
+\multicolumn{5}{@{}l}{\emph{Resource cost of the observability stack}}\\
+Node CPU (mCPU)            & $+99.36$  & $[96.29,\ 103.35]$ & $+43.3\%$ & $0.002$ \\
+Monitoring namespace CPU (mCPU) & $+39.79$ & $[33.00,\ 52.77]$ & --- & $0.002$ \\
+Node memory (MiB)          & $+280.76$ & $[250.99,\ 303.54]$ & $+18.7\%$ & $0.002$ \\
+Monitoring namespace memory (MiB) & $+204.19$ & $[191.38,\ 218.82]$ & --- & $0.002$ \\
+\multicolumn{5}{@{}l}{\emph{Effect on the observed workload}}\\
+Latency median (ms)        & $-0.005$  & $[-0.055,\ +0.044]$ & $-0.06\%$ & $0.859$ \\
+Latency P95 (ms)           & $+0.059$  & $[-0.126,\ +0.265]$ & $+0.67\%$ & $0.607$ \\
+Latency P99 (ms)           & $+0.188$  & $[-0.127,\ +0.448]$ & $+1.94\%$ & $0.268$ \\
+P0 container CPU (mCPU)    & $-0.059$  & $[-0.156,\ +0.041]$ & $-3.9\%$  & $0.305$ \\
+P0 container memory (MiB)  & $-0.334$  & $[-0.522,\ -0.147]$ & $-1.19\%$ & $0.016$ \\
+\botrule
+\end{tabularx}
+\end{table}
+
+\subsection*{Supplementary note S8: Observability-overhead protocol (external-v3.0) and validity safeguards (text removed from Section~\ref{subsec3.2} on 11 November 2026)}
+The gates and integrity controls of Table~S1 of Additional file~1 were developed during the first runs and were carried forward unchanged into protocol \texttt{external-v3.0}, which produced all observability-overhead results reported in Section~\ref{subsec4.1}. The protocol comprises ten complete counterbalanced ON--OFF pairs (Runs~7--16): Runs~8, 10, 12, 14 and~16 were executed OFF--ON, and Runs~7, 9, 11, 13 and~15 ON--OFF. The earlier Runs~1--6 belong to the protocol-development phase and are not pooled with the ten pairs. One aborted attempt of Run~7 and one aborted attempt of Run~17 failed the integrity gate and are recorded as incidents rather than observations.
+
+The protocol follows a fail-closed rule. A condition is admitted to measurement only when the nodes, the P0 workload (two of two replicas), the HTTP service (status~200) and the required monitoring state satisfy the acceptance criteria of Table~S1 of Additional file~1. A failed gate yields a \texttt{HOLD} decision, not an observation. Each run is archived with a SHA-256 manifest, so that the ten run archives and the cumulative analysis can be re-verified without reconstructing the original command sequence.
+
+Telemetry preserves the link between each value and its Kubernetes object, node, container, condition and run. The measurements are node-, pod- and container-level CPU and memory, pod readiness, HTTP outcome and response latency; identical request-generation and sampling procedures are applied in the ON and OFF conditions. Configuration files, event logs, gate reports and manifests document how each observation was produced and are not treated as HANFIS training features.
+
+Let $Y_{r,c,k}$ denote observation $k$ of run $r$ under condition $c\in\{\mathrm{ON},\mathrm{OFF}\}$, where $Y$ may be CPU, memory or latency. The run mean is
+\begin{equation}
+ \bar{Y}_{r,c}=\frac{1}{n_{r,c}}\sum_{k=1}^{n_{r,c}}Y_{r,c,k},
+\end{equation}
+the paired absolute overhead is $\Delta Y_r=\bar{Y}_{r,\mathrm{ON}}-\bar{Y}_{r,\mathrm{OFF}}$, and the relative overhead, when the OFF denominator is non-zero, is
+\begin{equation}
+ \Delta Y^{(\%)}_r=\frac{\bar{Y}_{r,\mathrm{ON}}-\bar{Y}_{r,\mathrm{OFF}}}{\bar{Y}_{r,\mathrm{OFF}}}\times100\%.
+\end{equation}
+The run, not the individual sample, is the independent replication unit, which avoids pseudoreplication from temporally adjacent samples. Inference over the ten paired differences uses an exact two-sided sign-flip test, whose smallest attainable $p$ with ten pairs is $2/2^{10}=0.002$, together with a 10{,}000-resample bootstrap~\cite{efron1979bootstrap} confidence interval (fixed seed) for the mean difference. Effect sizes, confidence intervals and the consistency of direction carry more interpretive weight than a binary significance decision. The estimated increment is an instrumentation cost; it must not be read as a change in application exposure.
+
+\paragraph{Validity safeguards and methodological boundary.}
+Internal validity rests on paired comparisons, a stable workload, condition gates, health checks, counterbalanced order, and the rejection of measurements taken under invalid states. Construct validity is protected by separating observability overhead from cybersecurity exposure and by requiring a semantic mapping before any telemetry variable is used as a HANFIS feature. Reliability is supported by script-based execution, frozen configuration and cryptographic integrity checks, and traceability runs from raw samples through summaries to model-ready features.
+
+Several limits remain. WSL~2 with Docker Desktop is reproducible but does not represent every production Kubernetes deployment, and the two-node topology and P0 workload constrain external validity. Across the ten pairs of Runs~7--16 (external-v3.0), the two nodes together used on average about 230~mCPU without and 329~mCPU with the monitoring stack (node-level CPU summed over both nodes). That is 1.4\% and 2.1\% of the host's 16 logical cores; the capacity was taken from the v4.2 collector metadata and \texttt{docker info} because it was not logged during these runs. The absence of a latency effect was therefore observed at these utilisation levels and need not extend to saturated nodes. Ten pairs make an effect-size reading appropriate, but they bound the smallest attainable sign-flip $p$ at $0.002$ and give limited power for small latency effects. The protocol was frozen before the ten pairs were analysed, yet its version is entangled with the platform on which the earlier runs were taken, so cross-platform comparisons are descriptive. Finally, successful telemetry collection does not by itself show predictive value for cyber risk; that claim rests on the held-out HANFIS evaluation against the baselines of Section~\ref{sec4}.
+
+\subsection*{Supplementary note S9: Horizon sweep and feature impact by horizon (full text of Section~\ref{subsec:e14})}
+All preceding analyses use the four-week label window of the confirmatory protocol. To check whether the conclusions depend on that horizon, we rebuilt the dataset with label windows of 58 and 86 days (eight and twelve weekly snapshots after $t$). To avoid leakage we set the persistence lag and the embargo to the window length (8 and 12 weeks; 58 and 86 days). We then repeated the out-of-fold comparison of HANFIS, the max-form formula and persistence with the same folds, seeds and hyperparameters. Longer windows leave fewer labelled weeks (the last labelled week is 2026-07-27 and 2026-06-29), so the out-of-fold samples shrink to 889 and 697 rows, and mean squared errors at different horizons are not comparable because the labels average different numbers of snapshots; only skill scores are compared. This analysis is post hoc.
+
+The formula's advantage over persistence is stable (skill $0.36$, $0.49$ and $0.44$ at four, eight and twelve weeks), whereas the gap between HANFIS and the formula closes: $-0.534$ (interval $[-1.438,\,-0.208]$) at four weeks, $-0.048$ ($[-0.205,\,0.032]$) at eight and $0.039$ ($[-0.031,\,0.110]$) at twelve. HANFIS beats persistence from eight weeks on ($0.467$ and $0.462$, intervals above zero). Because the longer horizons only contain older weeks (the EPSS model changed on 2026-06-15), horizon and period are confounded. Restricting all three horizons to the 408 asset-weeks present in each, the pattern remains: the skill of HANFIS against the formula changes by $+0.862$ ($[+0.309,\,+2.973]$) between four and twelve weeks, while the skill of the formula against persistence does not change ($-0.016$, $[-0.096,\,+0.141]$).
+
+Removing exploitability and the KEV indicator again removes all skill at eight and twelve weeks (skill against CVSS alone $-0.099$ and $-0.179$, intervals including or touching zero; against HANFIS with all inputs $-24.0$ and $-14.6$). A ridge model on the remaining five inputs is not better than CVSS alone ($-0.069$ and $-0.071$). The relative gain of HANFIS at longer horizons does not come from the other inputs; Section~\ref{subsec:e16} shows that it is largely due to weeks around the EPSS model change and that on unaffected rows HANFIS remains behind the formula. The evidence is suggestive, not conclusive: at twelve weeks HANFIS and the formula are not distinguishable, cross-fitted blends of the two do not improve on either alone, and the forward evaluation of Section~\ref{subsec:e7-results} covers only the four-week horizon.
+
+\begin{table}[ht]
+\caption{Horizon sweep (E14, post hoc). Skill score with 95\% image-clustered bootstrap interval. Panel A: all out-of-fold rows; B: the 408 asset-weeks present at all three horizons; C: HANFIS retrained without $x_2$ and $x_7$ against CVSS only.}\label{tab:e14}
+\small
+\begin{tabular}{@{}p{0.47\linewidth}rrr@{}}
+\hline
+Comparison & Skill & 95\% interval & Rows\\
+\hline
+\multicolumn{4}{@{}l}{\emph{A. All out-of-fold rows}}\\
+4 weeks: formula vs.\ persistence & $0.357$ & $[0.279,\,0.407]$ & 1080\\
+4 weeks: HANFIS vs.\ persistence & $0.015$ & $[-0.620,\,0.243]$ & 1080\\
+4 weeks: HANFIS vs.\ formula & $-0.534$ & $[-1.438,\,-0.208]$ & 1080\\
+8 weeks: formula vs.\ persistence & $0.492$ & $[0.269,\,0.696]$ & 889\\
+8 weeks: HANFIS vs.\ persistence & $0.467$ & $[0.236,\,0.651]$ & 889\\
+8 weeks: HANFIS vs.\ formula & $-0.048$ & $[-0.205,\,0.032]$ & 889\\
+12 weeks: formula vs.\ persistence & $0.440$ & $[0.245,\,0.597]$ & 697\\
+12 weeks: HANFIS vs.\ persistence & $0.462$ & $[0.277,\,0.610]$ & 697\\
+12 weeks: HANFIS vs.\ formula & $0.039$ & $[-0.031,\,0.110]$ & 697\\
+\multicolumn{4}{@{}l}{\emph{B. Same 408 asset-weeks at every horizon}}\\
+4 weeks: HANFIS vs.\ formula & $-0.812$ & $[-2.952,\,-0.264]$ & 408\\
+8 weeks: HANFIS vs.\ formula & $-0.045$ & $[-0.218,\,0.038]$ & 408\\
+12 weeks: HANFIS vs.\ formula & $0.050$ & $[-0.060,\,0.158]$ & 408\\
+Change 12 minus 4 weeks: HANFIS vs.\ formula & $0.862$ & $[0.309,\,2.973]$ & 408\\
+Change 12 minus 4 weeks: formula vs.\ persistence & $-0.016$ & $[-0.096,\,0.141]$ & 408\\
+\multicolumn{4}{@{}l}{\emph{C. HANFIS without $x_2$, $x_7$ vs.\ CVSS only}}\\
+4 weeks & $-0.135$ & $[-0.336,\,0.046]$ & 1080\\
+8 weeks & $-0.099$ & $[-0.289,\,0.069]$ & 889\\
+12 weeks & $-0.179$ & $[-0.406,\,0.007]$ & 697\\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection*{Supplementary note S10: Error anatomy and the EPSS model change (full text of Section~\ref{subsec:e16})}
+The preceding sections compare pooled errors. To see where the differences come from, we analysed the four-week out-of-fold predictions by stratum, by time block and by distance to the change of the EPSS model on 2026-06-15 (post hoc, with a bootstrap clustered by image).
+
+\emph{Reactivity.} The advantage of the formula over persistence is concentrated in rows in which an input changed during the previous four weeks (628 of 1{,}080 rows): its skill is $0.400$ (interval $0.308$ to $0.487$) there and $0.002$ ($-0.069$ to $0.037$) where nothing changed (Table~S7 of Additional file~1). HANFIS has skill $0.125$ in changed rows and $-0.900$ ($-4.171$ to $-0.206$) in unchanged rows: it adds noise where persistence is already adequate. A gate that returns persistence in unchanged rows removes this deficit but leaves HANFIS no better than persistence ($0.111$, $-0.367$ to $0.292$) and worse than the formula ($-0.383$, $-0.998$ to $-0.131$).
+
+\emph{The model change.} The largest errors are small shifts of the score in the weeks 2026-W21 to W24, whose four-week label windows straddle the EPSS model change: $x_2$ is computed with the old model while the label, and the label of the persistence forecast, use the new one. Rows within the label window of the change (190 of 1{,}080 at four weeks) hold 77\% of the squared error of persistence and of the formula and 49\% of that of HANFIS. On the remaining rows (Table~\ref{tab:e19}) the formula keeps its point estimate of skill against persistence ($0.348$ against $0.357$) but the interval now includes zero ($-0.060$ to $0.422$); HANFIS is significantly worse than persistence ($-1.228$) and than the formula ($-2.418$). The forward evaluation (Section~\ref{subsec:e7-results}) is free of this change. At eight and twelve weeks the gap between HANFIS and the formula narrows (Section~\ref{subsec:e14}), but on rows unaffected by the change HANFIS stays behind the formula ($-0.324$ and $-0.362$, intervals including zero): the horizon sweep shows a shrinking deficit, not parity. The concentration of error, the leave-one-block-out estimates and the common-weeks analysis are in Supplementary note S5 of Additional file~1.
+
+\begin{table}[ht]
+\caption{Skill on all out-of-fold rows and on rows unaffected by the EPSS model change (E19, post hoc), with 95\% image-bootstrap intervals from a separate run (they differ slightly from Table~\ref{tab:e14}). Unaffected rows: 890 of 1{,}080 (four weeks), 536 of 889 (eight) and 342 of 697 (twelve).}\label{tab:e19}
+\footnotesize
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{@{}p{0.32\linewidth}p{0.29\linewidth}p{0.29\linewidth}@{}}
+\hline
+Comparison & All rows & Unaffected rows\\
+\hline
+4 w: formula vs.\ persistence & $0.357$ $[0.279,\,0.407]$ & $0.348$ $[-0.060,\,0.422]$\\
+4 w: HANFIS vs.\ persistence & $0.015$ $[-0.627,\,0.252]$ & $-1.228$ $[-12.804,\,-0.015]$\\
+4 w: HANFIS vs.\ formula & $-0.534$ $[-1.383,\,-0.204]$ & $-2.418$ $[-13.204,\,-0.709]$\\
+8 w: formula vs.\ persistence & $0.492$ $[0.269,\,0.696]$ & $0.623$ $[-0.009,\,0.699]$\\
+8 w: HANFIS vs.\ persistence & $0.467$ $[0.241,\,0.670]$ & $0.501$ $[-1.631,\,0.702]$\\
+8 w: HANFIS vs.\ formula & $-0.048$ $[-0.200,\,0.036]$ & $-0.324$ $[-2.153,\,0.052]$\\
+12 w: formula vs.\ persistence & $0.440$ $[0.245,\,0.597]$ & $0.824$ $[0.270,\,0.913]$\\
+12 w: HANFIS vs.\ persistence & $0.462$ $[0.269,\,0.614]$ & $0.761$ $[-0.220,\,0.888]$\\
+12 w: HANFIS vs.\ formula & $0.039$ $[-0.034,\,0.106]$ & $-0.362$ $[-1.342,\,0.018]$\\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection*{Supplementary note S11: Accuracy-complexity curve (full text of Section~\ref{subssec4.4})}
+The scalar inter-tier bottleneck between the lower panels and the integration panel is a candidate explanation for any residual gap between HANFIS and a full-capacity flat ANFIS: compressing $v$ and $e$ to a single number may discard cross-subsystem interaction that the flat model can still represent. A sweep over the bottleneck width $k$, widening $v$ and $e$ from scalars to $k$-dimensional vectors passed into the integration panel, traces this trade-off directly. Grid-partitioning the integration tier, however, makes its rule count grow as $m_I^{2k}\cdot m$. At the frozen $m_I=3$, $k=1$ reproduces HANFIS exactly (34 rules, 176 parameters), $k=2$ already costs 178 rules and 1{,}152 parameters (6.5x), and $k\ge3$ exceeds 1{,}400 rules (Figure~\ref{fig:e5-rule-growth}), which is more parameters than the present inventory has rows. The sweep script refuses these settings by default rather than attempting an underdetermined fit. We ran $k\in\{1,2\}$; $k=4$, originally planned, was dropped on these grounds. This combinatorial explosion is itself read as evidence for why a scalar bottleneck was the design choice in the first place, independent of what $k=1$ vs.\ $k=2$ shows empirically.
+
+At $k{=}1$ the sweep uses exactly A-09's training scheme: the alternating closed-form least squares
+for both lower panels, the intercept refit after the monotone projection, and the same hard clamp on
+$v,e$ that HANFIS's own forward pass applies. It is implemented separately in
+\texttt{hanfis\_bottleneck.py} under a multi-head representation that generalises cleanly to $k>1$. A per-row comparison with the confirmatory predictions on the earlier 109-asset inventory confirmed this reproduction directly (Pearson $r=0.9984$ on point predictions, identical fold assignment for all 981 held-out rows); the comparison was not repeated on the 120-asset inventory. An earlier version of this sweep used a simpler
+training scheme (the Integration-only closed form rather than the alternating scheme) and omitted the
+intercept refit after the monotone projection; both have since been corrected, and the numbers below
+supersede that earlier, confounded comparison.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.75\linewidth]{fig_e5_bottleneck_curve.pdf}
+\caption{E5: pooled skill against persistence for $k\in\{1,2\}$ with 95\% image-clustered bootstrap
+confidence intervals. $k{=}1$'s interval now crosses zero; $k{=}2$'s is entirely
+negative.}\label{fig:e5-bottleneck-curve}
+\end{figure}
+
+$k{=}1$ recovers skill broadly consistent with HANFIS's own H1b result (Table~\ref{tab:e4-results}: $\mathrm{SS}_{\mathrm{pers}}=0.015$, $[-0.607,0.246]$). Both confidence intervals cross zero and overlap substantially, as the per-row parity above predicts, though the point estimates ($0.169$ vs.\ $0.015$) agree less closely than on the smaller inventory. $k{=}2$'s interval now excludes zero entirely on the negative side. On the completed 120-asset inventory, widening the bottleneck is significantly worse than persistence. On the smaller inventory it had been unsupported by the evidence but not shown to be worse. The paired comparison on matched resampled images (the same resample is used for both arms, so sampling noise is shared) gives $\mathrm{SS}_{\mathrm{pers}}(k{=}1)-\mathrm{SS}_{\mathrm{pers}}(k{=}2)=0.791$, 95\% CI $[0.354,2.037]$, which excludes zero (100\% of resamples favour $k{=}1$). $k{=}1$ is also pooled-RMSE-better on all five folds (two-sided sign test $p=0.0625$, the floor attainable with five folds). This is the same margin of evidence as on the smaller inventory, even though each arm's marginal significance against persistence flipped in opposite directions.
+
+This is the strongest statement the present inventory supports. It is a mechanism claim, not a claim that wider bottlenecks are intrinsically worse: every $k{=}2$ fold falls under ten observations per parameter (range 0.3--2.9), the same ten-per-parameter threshold applied elsewhere in this study (Section~\ref{subsec:target-definition}), while $k{=}1$ clears it in three of five folds. A secondary diagnostic separates part of this gap from pure data scarcity. Disabling the hard clamp on $v,e$ (an ablation, not the model HANFIS reports) costs $k{=}1$ 0.161 of skill but costs $k{=}2$ 0.813. Both were re-run on the completed 120-asset inventory; the costs were 0.019 and 0.394 respectively on the 27-image pilot. This is consistent with $v,e$ being estimated less reliably from the same training rows once six times as many consequent parameters compete for them, so that excursions outside $[0,1]$ are both more frequent and more consequential once clamped. Separating an intrinsic cost of wider bottlenecks from this data-scale effect requires an inventory substantially larger than the 120 assets collected here, which is left for future work. The architecture's own combinatorial growth in $k$ (Figure~\ref{fig:e5-rule-growth}) means that this separation gets harder, not easier, as $k$ increases.
+
+\begin{table}[ht]
+\caption{Map from the experiment and amendment codes used in the project repository to the sections of the main text and of this file.}\label{tab:code-map}
+\small
+\begin{tabular}{@{}llp{0.52\linewidth}@{}}
+\toprule
+Code & Status & Where reported \\
+\midrule
+E1 & pre-registered, synthetic & Membership family and monotonicity ablation: Section~\ref{subssec4.5}, Table~S2 \\
+E3 & pre-registered & Mandatory baselines: Section~\ref{subssec4.3}, Table~\ref{tab:e3-baselines} \\
+E4, E4-bis & pre-registered (tag e4-prereg-2026-09-29); E4-bis is the same protocol on the completed 120-asset inventory & Section~\ref{subssec4.3}, Table~\ref{tab:e4-results} \\
+E5 & pre-registered sweep & Section~\ref{subssec4.4}, Supplementary note S11 \\
+E6 & documented deviation & Section~\ref{sec:e6}, Table~S4, note S3 \\
+E7 & pre-registered, OSF-registered forward evaluation & Sections~\ref{subsec:e7} and~\ref{subsec:e7-results}, Tables S9 and S10 \\
+E8 & post hoc & Section~\ref{subsec:e8} \\
+E9 to E11 & post hoc & Section~\ref{subsec:e9} \\
+E14 & post hoc & Section~\ref{subsec:e14}, Table S15, note S9 \\
+E15 & post hoc & Section~\ref{subsec:e15}, Tables S5 and S6, note S4 \\
+E16 to E19 & post hoc & Section~\ref{subsec:e16}, Tables S7 and S16, note S10 \\
+E21 to E24 & post hoc & Section~\ref{subsec:e21}, Table S8, note S6 \\
+E25 & unregistered, descriptive & Section~\ref{subsec:e25} \\
+E26 & post hoc & Section~\ref{subsec:e26} \\
+E27 & descriptive documentation & Section~\ref{subsec:e27}, Tables S11 to S13 \\
+Runs 7--16 & protocol external-v3.0 & Section~\ref{subsec4.1}, Table S14, note S8 \\
+A-02 & frozen setting & $m_I=3$ for the intermediate variables (Section~\ref{subsec:hanfis-architecture}) \\
+A-04 & frozen setting & non-negative consequent slopes through softplus (Section~\ref{subsec:hanfis-architecture}) \\
+A-06 & frozen setting & hybrid closed-form/Adam training (Section~\ref{subsec:hanfis-architecture}) \\
+A-09 & frozen setting & training configuration: learning rate, ridge, restarts, patience, alternating lower-panel closed form (Section~\ref{subssec4.2}) \\
+A-10 & frozen setting & Gaussian family with monotonicity active as default (Section~\ref{subssec4.5}) \\
+A-13 & frozen setting & label aggregation, scale and Patch Risk definition (Section~\ref{subsec:target-definition}) \\
+A-16 & frozen setting & grouped, embargoed temporal split (Section~\ref{subssec4.2}) \\
+\botrule
+\end{tabular}
+\end{table}
+
 \bibliography{sn-bibliography}
 \end{document}
