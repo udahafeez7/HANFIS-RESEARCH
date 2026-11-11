@@ -1,0 +1,43 @@
+key,type,doi,status,title_ratio,year_bib,year_ref,author_bib,author_ref,container_ref,title_bib,note
+aqua_trivy,misc,,TANPA_DOI,,2026,,security,,,trivy,"periksa manual (buku, standar, situs, atau DOI belum ditulis)"
+nist_microservices_2019,techreport,10.6028/NIST.SP.800-204,OK,1.00,2019,2019,chandramouli,chandramouli,,security strategies for microservices based application syst,
+nist_zta_cloudnative_2023,techreport,10.6028/NIST.SP.800-207A,OK,1.00,2023,2023,chandramouli,chandramouli,,a zero trust architecture model for access control in cloud ,
+cisa_kev,misc,,TANPA_DOI,,2026,,cybersecurity,,,known exploited vulnerabilities catalog,"periksa manual (buku, standar, situs, atau DOI belum ditulis)"
+efron1979bootstrap,article,10.1214/aos/1176344552,OK,1.00,1979,1979,efron,efron,The Annals of Statistics,bootstrap methods another look at the jackknife,
+first_cvss40,misc,,TANPA_DOI,,2023,,first org,,,common vulnerability scoring system version 4 0 specificatio,"periksa manual (buku, standar, situs, atau DOI belum ditulis)"
+bib1,article,10.3389/fcomp.2025.1557918,OK,1.00,2025,2025,hafiz hersyah,hafiz hersyah,Frontiers in Computer Science,fuzzyfortify a multi attribute risk assessment for multi fac,
+holm1979simple,article,,TANPA_DOI,,1979,,holm,,,a simple sequentially rejective multiple test procedure,"periksa manual (buku, standar, situs, atau DOI belum ditulis)"
+first_epss,article,10.1145/3436242,OK,1.00,2021,2021,jacobs,jacobs,Digital Threats: Research and Practice,exploit prediction scoring system epss,
+jang1993anfis,article,10.1109/21.256541,OK,1.00,1993,1993,jang,jang,"IEEE Transactions on Systems, Man, and Cybernetics",anfis adaptive network based fuzzy inference system,
+nist_risk_2012,techreport,10.6028/NIST.SP.800-30r1,OK,1.00,2012,2012,initiative,,,guide for conducting risk assessments,
+lee2003hierarchical,article,10.1016/S0165-0114(02)00517-1,OK,1.00,2003,2003,lee,lee,Fuzzy Sets and Systems,modeling of hierarchical fuzzy systems,
+ojha2019heuristic,article,10.1016/j.engappai.2019.08.010,OK,1.00,2019,2019,ojha,ojha,Engineering Applications of Artificial Intelligence,heuristic design of fuzzy inference systems a review of thre,
+raju1991,article,10.1080/00207179108934205,OK,1.00,1991,1991,raju,raju,International Journal of Control,hierarchical fuzzy control,
+nist_zta_2020,techreport,10.6028/NIST.SP.800-207,OK,1.00,2020,2020,rose,rose,,zero trust architecture,
+shapley1953value,incollection,10.1515/9781400881970-018,OK,0.95,1953,1953,shapley,shapley,"Contributions to the Theory of Games (AM-28), Volume II",a value for n person games,
+soozanchi2010hanfis,incollection,10.1007/978-3-642-15286-3_23,OK,1.00,2010,2010,soozanchi k,soozanchi k,IFIP Advances in Information and Communication Technology,speaker verification system using a hierarchical adaptive ne,
+kubernetes_pod_lifecycle_2026,misc,,TANPA_DOI,,2026,,authors,,,pod lifecycle,"periksa manual (buku, standar, situs, atau DOI belum ditulis)"
+prometheus_overview,misc,,TANPA_DOI,,2026,,authors,,,prometheus overview,"periksa manual (buku, standar, situs, atau DOI belum ditulis)"
+wang1998hierarchical,article,10.1016/S0165-0114(96)00197-2,OK,1.00,1998,1998,wang,li xin wang,Fuzzy Sets and Systems,universal approximation by hierarchical fuzzy systems,
+zeng2005approximation,article,10.1109/TFUZZ.2005.856559,OK,1.00,2005,2005,zeng,zeng,IEEE Transactions on Fuzzy Systems,approximation capabilities of hierarchical fuzzy systems,
+chiu1994subtractive,article,10.3233/IFS-1994-2306,OK,1.00,1994,1994,chiu,chiu,Journal of Intelligent &amp; Fuzzy Systems,fuzzy model identification based on cluster estimation,
+torra2002review,article,10.1002/int.10036,OK,1.00,2002,2002,torra,torra,International Journal of Intelligent Systems,a review of the construction of hierarchical fuzzy systems,
+brown1995curse,inproceedings,10.1109/FUZZY.1995.409976,PERIKSA,1.00,1995,2002,brown,brown,Proceedings of 1995 IEEE International Conference on Fuzzy S,high dimensional neurofuzzy systems overcoming the curse of ,tahun 1995 lawan 2002
+zhang2024tsk,article,10.1016/j.inffus.2023.101977,OK,1.00,2024,2024,zhang,zhang,Information Fusion,takagi sugeno kang fuzzy system fusion a survey at hierarchi,
+juston2024hrbr,article,10.1109/TFUZZ.2024.3449147,OK,1.00,2024,2024,juston,juston,IEEE Transactions on Fuzzy Systems,hierarchical rule base reduction based anfis with online opt,
+parthiban2026anfis,article,10.1109/ACCESS.2026.3692296,OK,1.00,2026,2026,parthiban,parthiban,IEEE Access,hierarchical anfis smc framework for eco driving based energ,
+wu2025hffc,article,10.1016/j.robot.2025.105124,OK,1.00,2025,2025,wu,wu,Robotics and Autonomous Systems,enhanced hierarchical fuzzy formation control with fuzzy col,
+jabeen2023anfis,article,10.1016/j.asoc.2023.110958,OK,1.00,2023,2023,jabeen,jabeen,Applied Soft Computing,anfis learning using expectation maximization based gaussian,
+allodi2014severity,article,10.1145/2630069,OK,1.00,2014,2014,allodi,allodi,ACM Transactions on Information and System Security,comparing vulnerability severity and exploits using case con,
+jacobs2020remediation,article,10.1093/cybsec/tyaa015,OK,1.00,2020,2020,jacobs,jacobs,Journal of Cybersecurity,improving vulnerability remediation through better exploit p,
+jacobs2023epss3,inproceedings,10.1109/EuroSPW59978.2023.00027,OK,1.00,2023,2023,jacobs,jacobs,2023 IEEE European Symposium on Security and Privacy Worksho,enhancing vulnerability prioritization data driven exploit p,
+spring2021cvss,article,10.1109/MSEC.2020.3044475,OK,1.00,2021,2021,spring,spring,IEEE Security &amp; Privacy,time to change the cvss,
+koscinski2025scores,inproceedings,10.1145/3719027.3765210,OK,1.00,2025,2025,koscinski,koscinski,Proceedings of the 2025 ACM SIGSAC Conference on Computer an,conflicting scores confusing signals an empirical study of v,
+shimizu2026chaining,article,10.1109/ACCESS.2026.3665768,OK,1.00,2026,2026,shimizu,shimizu,IEEE Access,vulnerability management chaining an integrated framework fo,
+nist_sp800190,techreport,10.6028/NIST.SP.800-190,OK,1.00,2017,2017,souppaya,souppaya,,application container security guide,
+shu2017dockerhub,inproceedings,10.1145/3029806.3029832,OK,1.00,2017,2017,shu,shu,Proceedings of the Seventh ACM on Conference on Data and App,a study of security vulnerabilities on docker hub,
+zerouali2019outdated,inproceedings,10.1109/SANER.2019.8668013,OK,1.00,2019,2019,zerouali,zerouali,2019 IEEE 26th International Conference on Software Analysis,on the relation between outdated docker containers severity ,
+mills2023longitudinal,article,10.1016/j.cose.2023.103478,OK,1.00,2023,2023,mills,mills,Computers &amp; Security,longitudinal risk based security assessment of docker softwa,
+rahman2023misconfig,article,10.1145/3579639,OK,1.00,2023,2023,rahman,rahman,ACM Transactions on Software Engineering and Methodology,security misconfigurations in open source kubernetes manifes,
+minna2021k8snet,article,10.1109/MSEC.2021.3094726,OK,1.00,2021,2021,minna,minna,IEEE Security &amp; Privacy,understanding the security implications of kubernetes networ,
+kim2025container,article,10.1109/ACCESS.2025.3545124,OK,1.00,2025,2025,kim,kim,IEEE Access,a robust framework for comprehensive container image vulnera,

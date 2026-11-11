@@ -71,5 +71,12 @@ Ke-20 referensi baru benar ada (DOI terselesaikan). Tetapi `sn-bibliography.bib`
 
 Urutan yang saya sarankan: (1) unduh zip Overleaf dan satukan dengan repositori; (2) terapkan 3.1 sampai 3.3; (3) perbaiki pernyataan AI setelah versi dan tanggal diberikan; (4) padatkan abstrak; (5) bib baru lewat `bib_from_doi.py` dan audit; (6) gambar 2; (7) Holm lewat JSTOR di browser; (8) baca ulang utuh; (9) Zenodo versi baru dengan Additional file 1 dan hasil E25 sampai E27.
 
+## 5. Status sore 11 November (setelah zip Overleaf diterima)
+
+- Zip `2026_11_07_HIBAH_KEPAKARAN_HAFIZ___ANFIS.zip` disatukan ke repositori (`Patch/apply_overleaf_merge_2026-11-11.py`). Mulai sekarang `manuscript/sn-article.tex` dan `sn-bibliography.bib` di repositori adalah satu-satunya sumber; Overleaf diperbarui dengan mengunggah kedua berkas itu dari repositori.
+- Koreksi 3.1 sampai 3.3 sudah ada di repositori di atas teks Overleaf. 3.4 (abstrak 248 kata), 3.5 (pernyataan AI dengan versi model), dan kalimat H3 tentang plateau sudah diterapkan (`Patch/apply_abstract_conclusion_ai_2026-11-11.py`). 3.7 selesai: 42 entri diaudit, 35 OK, 6 tanpa DOI, 1 PERIKSA hanya karena tanggal rekaman IEEE Xplore. Holm (1979) 6(2):65-70 diverifikasi dari JSTOR.
+- Masih terbuka: 3.6 (Figure 2, skrip pembuat tidak ada), periode penggunaan AI ("during 2026") perlu dikonfirmasi penulis, pembacaan utuh oleh penulis.
+- PDF hasil: `docs/progress/sn-article_2026-11-11.pdf` (61 halaman). Audit bib: `docs/progress/bib_audit_overleaf_2026-11-11.csv`.
+
 ---
 Dokumen ini disusun dengan bantuan asisten AI (Claude, Anthropic) dari pemeriksaan repositori dan PDF pada 11 November 2026.

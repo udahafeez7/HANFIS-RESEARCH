@@ -78,7 +78,8 @@ def fetch_csl(doi, mailto=None, tries=3):
 def csl_year(c):
     for k in ("issued", "published-print", "published-online", "created"):
         try:
-            return str(c[k]["date-parts"][0][0])
+            y = c[k]["date-parts"][0][0]
+            if y is not None: return str(y)
         except Exception: pass
     return ""
 
