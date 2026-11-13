@@ -1,9 +1,9 @@
 cff-version: 1.2.0
 message: "If you use this repository, please cite it as below, and cite the manuscript once it is available."
-title: "HANFIS-RESEARCH: code, frozen evaluation protocol and derived data for hierarchical neuro-fuzzy risk scoring of Kubernetes deployments"
-version: "v1.0"
-date-released: "2026-10-14"
-doi: "10.5281/zenodo.23357118"
+title: "HANFIS-RESEARCH: code, frozen evaluation protocols, saved models and results for hierarchical neuro-fuzzy risk scoring of Kubernetes deployments"
+version: "v2.0"
+date-released: "2026-11-11"
+doi: "10.5281/zenodo.24133609"
 authors:
   - family-names: "Hersyah"
     given-names: "Mohammad Hafiz"
