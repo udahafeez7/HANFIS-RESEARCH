@@ -10,7 +10,7 @@ import os, sys
 MEM = "HANFIS_RESEARCH_MEMORY.md"
 if not (os.path.isfile(MEM) and os.path.isdir(".git")):
     sys.exit("ABORT: jalankan dari root repo")
-OLD_HEAD = "> Versi: 2.71 · Tanggal: 2026-11-13 ·"
+OLD_HEAD = "> Versi: 2.71 · Tanggal: 2026-11-11 ·"
 NEW_HEAD = "> Versi: 2.72 · Tanggal: 2026-11-13 ·"
 A89 = (
 "| A-92 | 2026-11-13 | Zenodo v2: unggah via API, metadata, pernyataan Availability (lanjutan A-91) | "
