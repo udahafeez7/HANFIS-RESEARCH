@@ -33,7 +33,7 @@ def main() -> int:
     ax.plot(ks, params, "s--", color="#e4701e", lw=2, ms=8, label="Total parameters")
     if refused:
         ax.axvspan(min(refused) - 0.5, max(refused) + 0.3, color="#c0392b", alpha=0.08)
-        ax.text(sum(refused) / len(refused), 3e4, f"refused\n(>{MAX_PARAMS:,}-param\nbudget)", ha="center", va="center", color="#c0392b", fontsize=9)
+        ax.text(3.45, 2.5e2, f"refused\n(>{MAX_PARAMS:,}-param\nbudget)", ha="center", va="center", color="#c0392b", fontsize=9)
     ax.set_yscale("log"); ax.set_xticks(ks); ax.set_xlabel("Bottleneck width $k$"); ax.set_ylabel("Count (log scale)")
     ax.set_title("Rule and parameter growth under grid-partitioned integration", fontsize=11)
     ax.legend(loc="upper left", frameon=False); ax.set_xlim(0.8, 4.3)
